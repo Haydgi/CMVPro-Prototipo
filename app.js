@@ -5,6 +5,8 @@ function adicionarProduto() {
     document.getElementById("container-produtos").style.display = "grid";
 
     let container = document.getElementById("container-produtos");
+    
+    //gera um item aleatorio, no caso um icone aleatorio
 
     const produtos = [
         { icone: "bi-egg", nome: "Comida1" },
@@ -13,6 +15,8 @@ function adicionarProduto() {
     ];
 
     let produtoAleatorio = produtos[Math.floor(Math.random() * produtos.length)]; //pega um icone aleatorio
+
+    // usa o icone aleatorio no card gerado
 
     let produto = document.createElement("div");
     produto.classList.add("card-produto");
