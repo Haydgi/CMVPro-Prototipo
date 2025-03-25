@@ -1,0 +1,242 @@
+:root {
+    --fundo: #FFF8ED;
+    --cor-texto: #1D1D1D;
+    --cor-navbar: #67477A;
+    --cor-link: #FCD18A;
+    --cor-link-hover: #fff;
+    --cor-botao: #FCD18A;
+    --cor-botao-hover: #e6b874;
+}
+
+body {
+    background-color: var(--fundo);
+    color: var(--cor-texto);
+    font-size: 120%;
+}
+
+.navbar {
+    background-color: var(--cor-navbar);
+    padding: 18px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.370);
+}
+
+.navbar .nav-link, .navbar-brand {
+    color: var(--cor-link);
+    font-weight: bold;
+    font-size: 120%;
+}
+
+.logo {
+    width: 50px; 
+    margin-right: 10px;
+}
+
+.navbar .nav-link:hover {
+    color: var(--cor-link-hover);
+    transform: translateY(-2px);
+}
+
+.navbar .nav-link {
+    color: var(--cor-link);
+    font-weight: bold;
+    font-size: 120%;
+    transition: color 0.2s ease-in-out; 
+}
+
+.navbar .nav-link:hover {
+    color: black; 
+}
+
+.search-bar {
+    max-width: 500px;
+}
+
+.add-btn {
+    background-color: var(--cor-botao);
+    color: var(--cor-texto);
+    border: none;
+    font-size: 24px;
+    padding: 6px 18px;
+    border-radius: 50%;
+}
+
+.add-btn:hover {
+    background-color: var(--cor-botao-hover);
+}
+
+.card-produto {
+    background: var(--cor-botao);
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card-produto:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+#container-produtos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.esqueci-senha {
+    color: var(--cor-botao);
+    text-decoration: underline;
+}
+
+.esqueci-senha:hover {
+    color: var(--cor-botao-hover);
+}
+
+.search-bar:focus { /*muda o padrão do bootstrap de azul para a cor padrão do site*/
+    outline: none; 
+    box-shadow: 0 0 5px var(--cor-botao);
+    border: 2px solid var(--cor-botao);
+}
+
+/*caixa de login*/
+
+
+.modal-content {
+    background-color: var(--cor-navbar);
+    color: var(--cor-link-hover);
+    border-radius: 12px;
+}
+
+
+.modal-header {
+    background-color: var(--cor-botao);
+    color: var(--cor-texto);
+    border-bottom: 2px solid var(--cor-botao-hover);
+}
+
+.modal-body .form-control {
+    background-color: var(--cor-texto);
+    color: var(--fundo);
+    border: 1px solid var(--cor-botao);
+}
+
+
+.modal-body .form-control::placeholder {
+    color: var(--fundo);
+}
+
+
+.modal-body .form-control:focus {
+    background-color: var(--cor-texto);
+    color: var(--fundo);
+    border-color: var(--cor-botao-hover);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+
+.modal-body .btn-login {
+    background-color: var(--cor-botao);
+    color: var(--cor-texto);
+    border: none;
+    font-weight: bold;
+}
+
+.modal-body .btn-login:hover {
+    background-color: var(--cor-botao-hover);
+}
+
+.btn-login {
+    background-color: var(--cor-botao);
+    color: var(--cor-texto);
+    border: none;
+    padding: 8px 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px; 
+}
+
+.btn-login:hover {
+    background-color: var(--cor-botao-hover);
+    color: var(--cor-texto);
+}
+
+
+/*receitas*/
+
+.card-receita {
+    background: var(--cor-botao);
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    width: 250px;  /* Tamanho maior para os cards */
+    height: 350px; /* Tamanho maior para acomodar a imagem */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-receita img.card-img {
+    width: 100%;
+    height: 180px; /* Tamanho fixo para as imagens */
+    object-fit: cover; /* Faz a imagem cobrir o espaço sem distorcer */
+    border-radius: 8px;
+}
+
+.card-receita:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+#container-receitas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Mais colunas para acomodar cards maiores */
+    gap: 20px;
+}
+
+
+.card-receita h5 {
+    font-size: 1.5rem;
+    color: var(--cor-texto);
+    margin-bottom: 10px;
+}
+
+.card-receita p {
+    font-size: 1.2rem;
+    color: var(--cor-texto);
+    margin-bottom: 15px;
+}
+
+.card-receita .btn-ver-receita {
+    background-color: var(--cor-botao-hover);
+    color: var(--cor-texto);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+
+.card-receita .btn-ver-receita:hover {
+    background-color: var(--cor-botao);
+}
+
+#sem-receitas p {
+    font-size: 1.rem;
+    color: var(--cor-texto);
+}
+
+#sem-receitas button {
+    font-size: 1rem;
+    background-color: var(--cor-botao);
+    color: var(--cor-texto);
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+
+#sem-receitas button:hover {
+    background-color: var(--cor-botao-hover);
+}
