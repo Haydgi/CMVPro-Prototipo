@@ -6,7 +6,7 @@ function Navbar({ onLogout }) {
   return (
     <nav className="navbar navbar-expand-lg">
       <div className="container">
-        <img src="/CMVPro-Mockup/midia/logoCMV.png" alt="Logo" className="logo" />
+        <img src={`${import.meta.env.BASE_URL}midia/logoCMV.png`} alt="Logo" className="logo" />
         <Link className="nav-link" to="/">CMVPro</Link>
 
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">

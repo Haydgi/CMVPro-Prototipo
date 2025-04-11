@@ -266,7 +266,7 @@ body {
     position: absolute;
     inset: 0;
     backdrop-filter: blur(4px);
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.2);
     z-index: 1;
   }
   
@@ -280,7 +280,7 @@ body {
   }
   
   .logo-topo img {
-    width: 150px;
+    width: 200px;
     animation: float 0.6s ease-in-out;
   }
   
@@ -291,7 +291,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: calc(100vh - 200px); /* espaço para a logo, tem de arrumar de acordo com o tamanho */
+    min-height: calc(100vh - 360px); /* espaço para a logo, tem de arrumar de acordo com o tamanho */
     padding-bottom: 60px;
   }
   
@@ -304,7 +304,7 @@ body {
     max-width: 500px;
     width: 90%;
     text-align: center;
-    color: white;
+    color: var(--fundo);
   }
   
 
@@ -314,7 +314,7 @@ body {
   
 
   .sobre-card p {
-    color: white;
+    color: var(--fundo);
   }
   
 
