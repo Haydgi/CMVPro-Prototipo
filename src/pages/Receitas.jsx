@@ -4,9 +4,9 @@ function Receitas() {
   const [receitas, setReceitas] = useState([]);
 
   const listaReceitas = [
-    { imagem: "/midia/receita1.jpg" },
-    { imagem: "/midia/receita2.png" },
-    { imagem: "/midia/receita3.webp" }
+    { imagem: "/CMVPro-Mockup/midia/receita1.jpg" },
+    { imagem: "/CMVPro-Mockup/midia/receita2.png" },
+    { imagem: "/CMVPro-Mockup/midia/receita3.webp" }
   ];
 
   function adicionarReceita() {

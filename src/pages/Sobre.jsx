@@ -8,7 +8,7 @@ function Sobre({ onLogin }) {
     <div className="sobre-wrapper">
       
       <div className="logo-topo">
-        <img src="/midia/logoCMV.png" alt="CMVPro" />
+        <img src="/CMVPro-Mockup/midia/logoCMV.png" alt="CMVPro" />
       </div>
 
       

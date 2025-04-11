@@ -10,7 +10,7 @@ import './assets/style.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/CMVPro-Mockup/">
       <App />
     </BrowserRouter>
   </React.StrictMode>
