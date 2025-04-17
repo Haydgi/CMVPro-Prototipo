@@ -1,0 +1,67 @@
+/* Variáveis de tema */
+:root {
+    --fundo: #FFF8ED;
+    --cor-texto: #1D1D1D;
+    --cor-navbar: #67477A;
+    --cor-link: #FCD18A;
+    --cor-link-hover: #fff;
+    --cor-botao: #FCD18A;
+    --cor-botao-hover: #e6b874;
+}
+
+/* Estilos globais */
+body {
+    background-color: var(--fundo);
+    color: var(--cor-texto);
+    font-size: 120%;
+}
+
+/* Barra de pesquisa */
+.search-bar {
+    border-radius: 8px;
+    padding: 8px;
+    transition: box-shadow 1.7s ease-in-out, border-color 1.7s ease-in-out;
+}
+
+/* Destaque ao selecionar a barra de pesquisa */
+.search-bar:focus {
+    outline: none;
+    box-shadow: 0 0 5px var(--cor-botao) !important; /* Destaque com sombra */
+    border-color: var(--cor-botao-hover) !important; /* Cor da borda ao focar */
+}
+
+/* Botão de login padrão */
+.btn-login {
+    background-color: var(--cor-botao);
+    color: var(--cor-texto);
+    border: none;
+    padding: 8px 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-login:hover {
+    background-color: var(--cor-botao-hover);
+    color: var(--cor-texto);
+}
+
+button.custom-btn {
+    background-color: var(--cor-botao) !important;
+    color: var(--cor-texto) !important;
+    border: none !important;
+    padding: 8px 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease-in-out;
+}
+
+button.custom-btn:hover {
+    background-color: var(--cor-botao-hover) !important;
+    color: var(--cor-texto) !important;
+}

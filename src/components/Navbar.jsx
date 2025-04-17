@@ -1,4 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
+import '../assets/Navbar.css'
+import '../assets/global.css'
 
 function Navbar({ onLogout }) {
   const location = useLocation();
@@ -26,7 +28,7 @@ function Navbar({ onLogout }) {
             </li>
           </ul>
 
-          <button className="btn btn-outline-light btn-login ms-3" onClick={onLogout}>
+          <button className="btn btn-outline-light btn-login ms-3 custom-btn" onClick={onLogout}>
             <i className="bi bi-box-arrow-right"></i> Sair
           </button>
         </div>

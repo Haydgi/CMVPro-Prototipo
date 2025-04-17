@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import '../assets/global.css'
+import '../assets/Itens.css'
 
 function Produtos() {
   const [produtos, setProdutos] = useState([]);

@@ -1,0 +1,82 @@
+/* Grid de receitas */
+#container-receitas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  
+  /* Card de receita */
+  .card-receita {
+    background: var(--cor-botao);
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    width: 250px;
+    height: 350px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  /* Imagem da receita */
+  .card-receita img.card-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  /* Hover */
+  .card-receita:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Título e texto */
+  .card-receita h5 {
+    font-size: 1.5rem;
+    color: var(--cor-texto);
+    margin-bottom: 10px;
+  }
+  
+  .card-receita p {
+    font-size: 1.2rem;
+    color: var(--cor-texto);
+    margin-bottom: 15px;
+  }
+  
+  /* Botão (se tiver) */
+  .card-receita .btn-ver-receita {
+    background-color: var(--cor-botao-hover);
+    color: var(--cor-texto);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+  }
+  
+  .card-receita .btn-ver-receita:hover {
+    background-color: var(--cor-botao);
+  }
+  
+  /* Bloco "sem receitas" */
+  #sem-receitas p {
+    font-size: 1.2rem;
+    color: var(--cor-texto);
+  }
+  
+  #sem-receitas button {
+    font-size: 1rem;
+    background-color: var(--cor-botao);
+    color: var(--cor-texto);
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+  }
+  
+  #sem-receitas button:hover {
+    background-color: var(--cor-botao-hover);
+  }
+  

@@ -1,0 +1,123 @@
+.login-wrapper {
+  position: relative;
+  min-height: 100vh;
+  background: url('/midia/fundo-sobre.jpg') no-repeat center center / cover;
+  overflow: hidden;
+}
+
+.login-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(4px);
+  background-color: rgba(255, 255, 255, 0.2);
+  z-index: 1;
+}
+
+/* logo fixo no topo */
+.logo-topo {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  text-align: center;
+  padding: 30px 0 10px;
+}
+
+.logo-topo img {
+  width: 200px;
+  animation: float 0.6s ease-in-out;
+}
+
+.conteudo-central {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 360px); /* espaço para a logo, tem de arrumar de acordo com o tamanho */
+  padding-bottom: 60px;
+}
+
+.login-card {
+  background: var(--cor-navbar);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  color: var(--fundo);
+}
+
+/* Estilo para o formulário */
+.login-card form .form-control {
+  color: var(--cor-texto);
+  border: 1px solid var(--cor-botao);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.login-card form .form-control:focus {
+  outline: none;
+  box-shadow: 0 0 5px var(--cor-botao);
+  border-color: var(--cor-botao-hover);
+}
+
+/* Botão de link */
+.login-card .btn-link {
+  color: var(--cor-link);
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.login-card .btn-link:hover {
+  color: var(--cor-link-hover);
+  text-decoration: underline;
+}
+
+/* Estilo para os rótulos */
+.login-card .form-label {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Ajuste para os ícones */
+.login-card .form-label i {
+  color: var(--cor-botao);
+}
+
+.login-card h1 {
+  color: var(--cor-link);
+}
+
+.login-card p {
+  color: var(--fundo);
+}
+
+.custom-btn {
+  border: 2px solid var(--cor-botao);
+  color: var(--cor-botao);
+  font-weight: bold;
+  padding: 8px 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+.custom-btn:hover {
+  background-color: var(--cor-botao-hover);
+  color: var(--cor-texto);
+  border-color: var(--cor-botao-hover);
+}
+
+/* animação do logo */
+@keyframes float {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

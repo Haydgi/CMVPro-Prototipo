@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import '../assets/global.css'
+import '../assets/Itens.css'
 
 function Receitas() {
   const [receitas, setReceitas] = useState([]);
@@ -30,8 +32,8 @@ function Receitas() {
         <h2>Receitas cadastradas</h2>
         <div className="d-flex">
           <input type="text" className="form-control search-bar me-2" placeholder="Pesquise uma Receita" />
-          <button className="btn add-btn" onClick={adicionarReceita}>
-            <i className="bi bi-plus-circle"></i>
+          <button className="add-btn" onClick={adicionarReceita}>
+            <i className="bi bi-plus-circle"></i> 
           </button>
         </div>
       </div>
