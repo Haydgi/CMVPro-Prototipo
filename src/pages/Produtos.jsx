@@ -1,37 +1,40 @@
 import { useState } from 'react';
-import '../assets/global.css'
-import '../assets/Itens.css'
+import '../assets/global.css';
+import '../assets/Itens.css';
+import ModalCadastroProduto from '../components/ModalCadastroProduto';
 
 function Produtos() {
   const [produtos, setProdutos] = useState([]);
+  const [mostrarModal, setMostrarModal] = useState(false);
 
-  const modelos = [
-    { icone: "bi-egg", nome: "Comida1" },
-    { icone: "bi-apple", nome: "Comida2" },
-    { icone: "bi-lightning-charge", nome: "Energia" }
-  ];
+  const abrirModal = () => setMostrarModal(true);
+  const fecharModal = () => setMostrarModal(false);
 
-  function adicionarProduto() {
-    const aleatorio = modelos[Math.floor(Math.random() * modelos.length)];
-
+  const salvarProduto = (produto) => {
     setProdutos((prev) => [
       ...prev,
       {
+        ...produto,
         id: prev.length + 1,
-        nome: `Produto ${prev.length + 1}`,
-        preco: "9,99",
-        icone: aleatorio.icone
+        icone: "bi bi-box", // Ícone padrão — ajuste se quiser usar categorias diferentes
       }
     ]);
-  }
+  };
 
   return (
     <div className="container mt-4">
+      {mostrarModal && (
+        <ModalCadastroProduto
+          onClose={fecharModal}
+          onSave={salvarProduto}
+        />
+      )}
+
       <div className="d-flex justify-content-between align-items-center">
         <h2>Produtos cadastrados</h2>
         <div className="d-flex">
           <input type="text" className="form-control search-bar me-2" placeholder="Pesquise um Produto" />
-          <button className="add-btn" onClick={adicionarProduto}>
+          <button className="add-btn" onClick={abrirModal}>
             <i className="bi bi-plus-circle"></i>
           </button>
         </div>
@@ -40,7 +43,7 @@ function Produtos() {
       {produtos.length === 0 ? (
         <div id="sem-produtos" className="text-center mt-5">
           <p>Não há produtos cadastrados</p>
-          <button className="btn btn-warning" onClick={adicionarProduto}>
+          <button className="btn btn-warning" onClick={abrirModal}>
             <i className="bi bi-plus-circle"></i> Criar meu Primeiro Produto
           </button>
         </div>
@@ -48,8 +51,8 @@ function Produtos() {
         <div id="container-produtos" className="mt-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px' }}>
           {produtos.map((p) => (
             <div className="card-produto" key={p.id}>
-              <h5><i className={`bi ${p.icone}`}></i> {p.nome}</h5>
-              <p className="text-muted">{p.preco} R$/Kg</p>
+              <h5><i className={`${p.icone}`}></i> {p.nome}</h5>
+              <p className="text-muted">{p.preco || p.custo} R$/Kg</p>
             </div>
           ))}
         </div>
