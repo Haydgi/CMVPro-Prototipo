@@ -2,6 +2,8 @@ import { useState } from 'react';
 import '../assets/global.css';
 import '../assets/Itens.css';
 import ModalCadastroProduto from '../components/ModalCadastroProduto';
+import ProdutoOptionsMenu from '../components/ProdutoOptionsMenu';
+
 
 function Produtos() {
   const [produtos, setProdutos] = useState([]);
@@ -21,6 +23,17 @@ function Produtos() {
     ]);
   };
 
+  const editarProduto = (produto) => {
+    console.log("Editar produto:", produto);
+    // Você pode abrir o ModalCadastroProduto aqui no modo edição, por exemplo
+  };
+  
+  const excluirProduto = (produto) => {
+    if (window.confirm(`Deseja realmente excluir o produto "${produto.nome}"?`)) {
+      setProdutos((prev) => prev.filter((p) => p.id !== produto.id));
+    }
+  };
+  
   return (
     <div className="container mt-4">
       {mostrarModal && (
@@ -50,11 +63,15 @@ function Produtos() {
       ) : (
         <div id="container-produtos" className="mt-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px' }}>
           {produtos.map((p) => (
-            <div className="card-produto" key={p.id}>
-              <h5><i className={`${p.icone}`}></i> {p.nome}</h5>
-              <p className="text-muted">{p.preco || p.custo} R$/Kg</p>
-            </div>
-          ))}
+          <div className="card-produto position-relative p-3" key={p.id}>
+          <ProdutoOptionsMenu
+            onEditar={() => editarProduto(p)}
+            onExcluir={() => excluirProduto(p)}
+          />
+          <h5><i className={`${p.icone}`}></i> {p.nome}</h5>
+          <p className="text-muted">{p.preco || p.custo} R$/Kg</p>
+          </div>
+        ))}
         </div>
       )}
     </div>

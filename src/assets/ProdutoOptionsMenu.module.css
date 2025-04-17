@@ -1,0 +1,43 @@
+.menu-opcoes-produto {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+  }
+  
+  .botao-opcoes {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: #555;
+    cursor: pointer;
+  }
+  
+  .menu-dropdown {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+    min-width: 120px;
+    z-index: 999;
+  }
+  
+  .menu-dropdown button {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 0.9rem;
+    color: #333;
+    cursor: pointer;
+  }
+  
+  .menu-dropdown button:hover {
+    background-color: #f6f6f6;
+  }
+  
