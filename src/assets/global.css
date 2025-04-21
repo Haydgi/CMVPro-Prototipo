@@ -14,6 +14,7 @@ body {
     background-color: var(--fundo);
     color: var(--cor-texto);
     font-size: 120%;
+    font-family: 'Inter', sans-serif;
 }
 
 /* Barra de pesquisa */
@@ -41,11 +42,32 @@ body {
     display: flex;
     align-items: center;
     gap: 6px;
+    transition: all 0.3s ease-in-out;
 }
 
 .btn-login:hover {
     background-color: var(--cor-botao-hover);
     color: var(--cor-texto);
+}
+
+/* Botão alternativo */
+.btn-alt {
+    background-color: var(--fundo); /* Fundo claro */
+    color: var(--cor-texto); /* Texto com a cor do botão */
+    border: 2px solid var(--cor-botao); /* Borda com a cor do botão */
+    padding: 8px 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-alt:hover {
+    background-color: var(--cor-botao); /* Fundo muda para a cor do botão */
+    
+    border-color: var(--cor-botao-hover); /* Borda muda para a cor de hover */
 }
 
 button.custom-btn {
@@ -64,4 +86,20 @@ button.custom-btn {
 button.custom-btn:hover {
     background-color: var(--cor-botao-hover) !important;
     color: var(--cor-texto) !important;
+}
+
+/* Estilo padrão para todos os campos de formulário */
+.form-control {
+    color: var(--cor-texto);
+    border: 1px solid var(--cor-botao) !important;
+    border-radius: 8px !important;
+    padding: 10px;
+    background-color: var(--fundo) ;
+    transition: box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out !important;
+}
+
+.form-control:focus {
+    outline: none !important;
+    box-shadow: 0 0 5px var(--cor-botao) !important;
+    border-color: var(--cor-botao-hover) !important;
 }

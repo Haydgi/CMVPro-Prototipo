@@ -1,5 +1,24 @@
 import { useState, useEffect } from "react";
-import styles from "../assets/ModalCadastroProduto.module.css";
+import "../assets/ModalCadastro.css";
+import "../assets/global.css";
+
+// Mapeamento de categorias para ícones
+const categoriaIcones = {
+  Carnes: "bi bi-basket-fill",
+  Doces: "bi bi-cupcake",
+  "Enlatados e Conservas": "bi bi-can-fill",
+  Farináceos: "bi bi-bag-fill",
+  Frutas: "bi bi-apple",
+  Laticínios: "bi bi-carton",
+  Legumes: "bi bi-carrot",
+  Líquidos: "bi bi-droplet-fill",
+  Oleaginosas: "bi bi-nut-fill",
+  "Óleos e Gorduras": "bi bi-oil-can",
+  Panificados: "bi bi-bread-slice",
+  "Produtos Orgânicos": "bi bi-leaf",
+  "Temperos e Condimentos": "bi bi-pepper-hot",
+  Verduras: "bi bi-leaf-fill",
+};
 
 function ModalCadastroProduto({ onClose, onSave }) {
   const [form, setForm] = useState({
@@ -9,7 +28,6 @@ function ModalCadastroProduto({ onClose, onSave }) {
     custo: "",
     data: "",
     categoria: "",
-    imagem: null,
   });
 
   const [isClosing, setIsClosing] = useState(false);
@@ -28,12 +46,7 @@ function ModalCadastroProduto({ onClose, onSave }) {
   }, [isClosing, onClose]);
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-
-    if (name === "imagem") {
-      setForm((prev) => ({ ...prev, imagem: files[0] }));
-      return;
-    }
+    const { name, value } = e.target;
 
     let newValue = value;
     if (name === "custo") {
@@ -53,9 +66,15 @@ function ModalCadastroProduto({ onClose, onSave }) {
     const produtoFormatado = {
       ...form,
       data: dataFormatada,
+      icone: categoriaIcones[form.categoria] || "bi bi-box", // Define o ícone com base na categoria
     };
 
-    onSave(produtoFormatado);
+    console.log("Produto formatado:", produtoFormatado); // Depuração
+
+    if (onSave) {
+      onSave(produtoFormatado);
+    }
+
     handleClose();
   };
 
@@ -66,50 +85,46 @@ function ModalCadastroProduto({ onClose, onSave }) {
   ];
 
   return (
-    <div className={`${styles['modal-overlay']} ${isClosing ? styles['modal-exit'] : styles['modal-enter']}`}>
-      <div className={`${styles['modal-container']} ${styles['shadow']} ${styles['modal-cadastro-produto']} ${isClosing ? styles['modal-exit'] : styles['modal-enter']}`}>
-        <div className={styles["modal-header"]}>
+    <div className={`modal-overlay ${isClosing ? "modal-exit" : "modal-enter"}`}>
+      <div className={`modal-container shadow modal-cadastro-produto ${isClosing ? "modal-exit" : "modal-enter"}`}>
+        <div className="modal-header">
           <h5>Cadastrar Produto</h5>
-          <button onClick={handleClose} className={styles["btn-close"]}>&times;</button>
+          <button onClick={handleClose} className="btn-login">&times;</button>
         </div>
 
-        <div className={`${styles["modal-body"]} ${styles["horizontal-layout"]}`}>
-          {/* Upload da imagem */}
-          <div className={styles["image-upload-area"]}>
-            <label htmlFor="imagem" className={styles["upload-box"]}>
-              <span><img src="./acima.png" alt="" /></span>
-              <p>Anexar Imagem</p>
-              <input
-                type="file"
-                id="imagem"
-                name="imagem"
-                accept="image/*"
-                onChange={handleChange}
-                hidden
-              />
-            </label>
-          </div>
-
+        <div className="modal-body horizontal-layout">
           {/* Coluna 1 */}
-          <div className={styles["form-section"]}>
-            <div className={styles["form-group"]}>
+          <div className="form-section">
+            <div className="form-group">
               <label>Nome</label>
-              <input name="nome" className="form-control" value={form.nome} onChange={handleChange} />
+              <input
+                name="nome"
+                className="form-control"
+                value={form.nome}
+                onChange={handleChange}
+              />
             </div>
 
-            <div className={styles["form-group"]}>
+            <div className="form-group">
               <label>Categoria</label>
-              <select name="categoria" className="form-select" value={form.categoria} onChange={handleChange}>
+              <select
+                name="categoria"
+                className="form-control"
+                value={form.categoria}
+                onChange={handleChange}
+              >
                 <option value="">Selecione...</option>
                 {categorias.map((cat) => (
-                  <option key={cat} value={cat}>{cat}</option>
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
                 ))}
               </select>
             </div>
 
-            <div className={styles["form-group"]}>
+            <div className="form-group">
               <label>Unidade de Medida</label>
-              <select name="unidade" className="form-select" value={form.unidade} onChange={handleChange}>
+              <select name="unidade" className="form-select form-control" value={form.unidade} onChange={handleChange}>
                 <option value="kg">Quilo (kg)</option>
                 <option value="g">Grama (g)</option>
                 <option value="mg">Miligrama (mg)</option>
@@ -121,8 +136,8 @@ function ModalCadastroProduto({ onClose, onSave }) {
           </div>
 
           {/* Coluna 2 */}
-          <div className={styles["form-section"]}>
-            <div className={styles["form-group"]}>
+          <div className="form-section">
+            <div className="form-group">
               <label>Custo de Compra (R$)</label>
               <input
                 name="custo"
@@ -134,13 +149,12 @@ function ModalCadastroProduto({ onClose, onSave }) {
               />
             </div>
 
-            <div className={styles["form-group"]}>
+            <div className="form-group">
               <label>Descrição</label>
               <textarea
                 name="descricao"
                 rows="3"
                 className="form-control"
-                style={{ resize: "vertical" }}
                 value={form.descricao}
                 onChange={handleChange}
               />
@@ -148,9 +162,9 @@ function ModalCadastroProduto({ onClose, onSave }) {
           </div>
         </div>
 
-        <div className={styles["modal-footer"]}>
-          <button className={styles["cancelar-produto"]} onClick={handleClose}>Cancelar</button>
-          <button className={styles["salvar-produto"]} onClick={handleSubmit}>Salvar</button>
+        <div className="modal-footer">
+          <button className="btn-alt" onClick={handleClose}>Cancelar</button>
+          <button className="btn-login" onClick={handleSubmit}>Salvar</button>
         </div>
       </div>
     </div>

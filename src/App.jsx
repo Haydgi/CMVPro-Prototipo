@@ -4,14 +4,15 @@ import Navbar from './components/Navbar';
 import Produtos from './pages/Produtos';
 import Receitas from './pages/Receitas';
 import Sobre from './pages/Login';
+import Cadastro from './pages/Cadastro'; // Importa o componente Cadastro
 
 function App() {
   const [logado, setLogado] = useState(false);
-  const navigate = useNavigate(); // ✅ IMPORTANTE
+  const navigate = useNavigate(); 
 
   const logout = () => {
     setLogado(false);
-    navigate('/'); // ✅ Redireciona para a página inicial (Sobre)
+    navigate('/'); // Redireciona para a página inicial (Sobre)
   };
 
   return (
@@ -29,6 +30,10 @@ function App() {
         <Route
           path="/receitas"
           element={logado ? <Receitas /> : <Navigate to="/" />}
+        />
+        <Route 
+          path="/cadastro" 
+          element={<Cadastro />} // Rota para o componente Cadastro
         />
       </Routes>
     </>

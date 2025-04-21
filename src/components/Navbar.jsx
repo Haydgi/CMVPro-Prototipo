@@ -24,7 +24,7 @@ function Navbar({ onLogout }) {
               <Link className={`nav-link ${location.pathname === '/receitas' ? 'active' : ''}`} to="/receitas">Receitas</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">Relatórios</a>
+              <a className="nav-link" href="#">Relatórios <i class="bi bi-printer"></i></a>
             </li>
           </ul>
 

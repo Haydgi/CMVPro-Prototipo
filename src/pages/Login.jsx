@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import CadastroModal from '../components/CadastroModal';
-import '../assets/Login.css';
+import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
+import '../assets/LoginCadastro.css';
 import '../assets/global.css';
+
 
 function Login({ onLogin }) { // Renomeado de Sobre para Login
   const [mostrarCadastro, setMostrarCadastro] = useState(false);
+  const navigate = useNavigate(); // Inicializa o hook useNavigate
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -14,6 +16,10 @@ function Login({ onLogin }) { // Renomeado de Sobre para Login
 
   const handleEsqueciSenha = () => {
     console.log('Redirecionar para recuperação de senha');
+  };
+
+  const handleIrParaCadastro = () => {
+    navigate('/cadastro'); // Redireciona para a rota de Cadastro
   };
 
   return (
@@ -66,17 +72,13 @@ function Login({ onLogin }) { // Renomeado de Sobre para Login
           <div className="mt-3 text-center">
             <button
               className="btn btn-link text-decoration-none"
-              onClick={() => setMostrarCadastro(true)}
+              onClick={handleIrParaCadastro} // Redireciona para a tela de Cadastro
             >
               Ainda não tem uma conta?
             </button>
           </div>
         </div>
       </div>
-
-      {mostrarCadastro && (
-        <CadastroModal onClose={() => setMostrarCadastro(false)} />
-      )}
     </div>
   );
 }

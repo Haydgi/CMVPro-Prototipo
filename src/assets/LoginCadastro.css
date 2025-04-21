@@ -1,0 +1,295 @@
+.login-wrapper {
+  position: relative;
+  min-height: 100vh;
+  background: url('/midia/fundo-sobre.jpg') no-repeat center center / cover;
+  overflow: hidden;
+}
+
+.login-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(4px);
+  background-color: rgba(255, 255, 255, 0.2);
+  z-index: 1;
+}
+
+/* logo fixo no topo */
+.logo-topo {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  text-align: center;
+  padding: 30px 0 10px;
+}
+
+.logo-topo img {
+  width: 200px;
+  animation: float 0.6s ease-in-out;
+}
+
+.conteudo-central {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 360px); /* espaço para a logo, tem de arrumar de acordo com o tamanho */
+  padding-bottom: 60px;
+}
+
+.login-card {
+  background: var(--cor-navbar);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  color: var(--fundo);
+}
+
+/* Estilo para o formulário */
+.login-card form .form-control {
+  border-radius: 8px;
+  padding: 10px;
+}
+
+/* Botão de link */
+.login-card .btn-link {
+  color: var(--cor-link);
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.login-card .btn-link:hover {
+  color: var(--cor-link-hover);
+  text-decoration: underline;
+}
+
+/* Estilo para os rótulos */
+.login-card .form-label {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Ajuste para os ícones */
+.login-card .form-label i {
+  color: var(--cor-botao);
+}
+
+/* Estilo para ícones nos formulários */
+.form-label i {
+  color: var(--cor-botao);
+}
+
+.login-card h1 {
+  color: var(--cor-link);
+}
+
+.login-card p {
+  color: var(--fundo);
+}
+
+.custom-btn {
+  border: 2px solid var(--cor-botao);
+  color: var(--cor-botao);
+  font-weight: bold;
+  padding: 8px 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+.custom-btn:hover {
+  background-color: var(--cor-botao-hover);
+  color: var(--cor-texto);
+  border-color: var(--cor-botao-hover);
+}
+
+/* animação do logo */
+@keyframes float {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.custom-btn {
+  background-color: var(--cor-botao);
+  color: var(--cor-texto);
+  border: none;
+  padding: 8px 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+}
+
+.custom-btn:hover {
+  background-color: var(--cor-botao-hover);
+  color: var(--cor-texto);
+}
+
+/* Layout principal */
+.cadastro-wrapper {
+  display: flex;
+  height: 100vh;
+}
+
+
+.text-danger {
+  color: #ff0004; /* Vermelho vibrante */
+  font-weight: bold;
+  border: 1px solid #ff0004; /* Borda vermelha */
+  background-color: var(--fundo); /* Fundo claro */
+  padding: 5px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.text-danger i {
+  font-size: 1.2rem;
+}
+
+
+.text-success {
+  color: #00ff3c;
+  font-weight: bold;
+  border: 1px solid #00ff3c; 
+  background-color: var(--fundo); 
+  padding: 5px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.text-success i {
+  font-size: 1.2rem;
+}
+
+/* Sobreposição branca na imagem de fundo */
+.cadastro-logo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(4px); /* Efeito de desfoque */
+  background-color: rgba(255, 255, 255, 0.2); /* Sobreposição translúcida */
+  z-index: 1;
+}
+
+/* Lado esquerdo (logo com imagem de fundo) */
+.cadastro-logo {
+  position: relative;
+  flex: 1;
+  background: url('/midia/fundo-sobre.jpg') no-repeat center center / cover; /* Caminho da imagem */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: var(--fundo); /* Texto branco */
+  padding: 20px;
+  z-index: 2; /* Para garantir que o conteúdo fique acima da sobreposição */
+}
+
+.cadastro-logo img {
+  max-width: 200px;
+  margin-bottom: 20px;
+  position: relative; /* Para ficar acima da sobreposição */
+  z-index: 2;
+}
+
+.cadastro-logo h1,
+.cadastro-logo p {
+  position: relative; /* Para ficar acima da sobreposição */
+  z-index: 2;
+}
+
+.cadastro-logo h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.cadastro-logo p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Lado direito (formulário com cores do card do Login.jsx) */
+.cadastro-formulario {
+  flex: 1;
+  background-color: var(--cor-navbar); /* Cor do card do Login.jsx */
+  color: var(--fundo); /* Texto branco */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cadastro-formulario form {
+  background: var(--cor-navbar); /* Cor do card */
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+}
+
+.cadastro-formulario h2 {
+  color: var(--cor-link); /* Cor do título */
+  margin-bottom: 20px;
+}
+
+.cadastro-formulario .form-label {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.cadastro-formulario .form-control {
+  color: var(--cor-texto);
+  border: 1px solid var(--cor-botao);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.cadastro-formulario .form-control:focus {
+  outline: none;
+  box-shadow: 0 0 5px var(--cor-botao);
+  border-color: var(--cor-botao-hover);
+}
+
+.cadastro-formulario .custom-btn {
+  background-color: var(--cor-botao);
+  color: var(--cor-texto);
+  border: none;
+  padding: 8px 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+}
+
+.cadastro-formulario .custom-btn:hover {
+  background-color: var(--cor-botao-hover);
+  color: var(--cor-texto);
+}
+
+.cadastro-formulario .btn-link {
+  color: var(--cor-link);
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.cadastro-formulario .btn-link:hover {
+  color: var(--cor-link-hover);
+  text-decoration: underline;
+}

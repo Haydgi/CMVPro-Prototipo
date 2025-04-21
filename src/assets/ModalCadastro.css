@@ -12,11 +12,11 @@
   }
   
   .modal-container {
-    background-color: #fff5e5;
+    background-color: var(--fundo);
     width: 1000px;
     border-radius: 16px;
     padding: 40px 30px; /* Aumenta o padding para "descer" os campos */
-    border: 6px solid #5e2a84;
+    border: 6px solid var(--cor-navbar);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
@@ -30,7 +30,7 @@
   }
   
   .modal-header h5 {
-    color: #5e2a84;
+    color: var(--cor-navbar);
     font-size: 1.8rem;
     margin: 0 auto;
   }
@@ -38,7 +38,7 @@
   .btn-close {
     all: unset;
     font-size: 24px;
-    color: #5e2a84;
+    color: var(--cor-navbar);
     cursor: pointer;
     line-height: 1;
     padding: 4px 8px;
@@ -76,7 +76,7 @@
   
   .form-group label {
     font-weight: bold;
-    color: #5e2a84;
+    color: var(--cor-navbar);
     margin-bottom: 5px;
     display: block;
   }
@@ -89,47 +89,12 @@
     margin-top: 30px;
   }
   
-  button.salvar-produto {
-    background-color: #009719;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 12px;
-    font-weight: bold;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  button.salvar-produto:hover {
-    background-color: #1eb700;
-  }  
-  
-  button.cancelar-produto {
-    background-color: #b30000;
-    color: #fff;
-    border: none;
-    padding: 6px 16px;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
-  }
-  
-  button.cancelar-produto:hover {
-    background-color: #ff1a1a;
-  }
-  
   input[type="date"] {
     cursor: text;
   }
   
   input[type="date"]::-webkit-calendar-picker-indicator {
     cursor: pointer;
-  }
-  
-  .modal-container input.form-control,
-  .modal-container textarea.form-control,
-  .modal-container select.form-select {
-    background-color: #fff;
-    color: #000;
   }
   
   .horizontal-layout {
@@ -209,4 +174,96 @@
     row-gap: 16px;
     flex: 1;
   }
-  
+
+  /* Preço final destacado */
+  .preco-final {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--cor-navbar);
+      text-decoration: underline;
+      text-decoration-color: var(--cor-navbar);
+      text-decoration-thickness: 2px;
+      margin-top: 10px;
+  }
+
+  /* Tabela de ingredientes destacados */
+  .tabela-ingredientes {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 20px;
+      border: 2px solid var(--cor-navbar); /* Destaque com a cor da navbar */
+      border-radius: 10px; /* Bordas arredondadas */
+      overflow: hidden;
+      background-color: var(--cor-navbar); /* Fundo roxo */
+      color: white; /* Texto branco */
+  }
+
+  .tabela-ingredientes th {
+      background-color: var(--cor-navbar); /* Fundo roxo */
+      color: white;
+      padding: 10px;
+      text-align: left;
+  }
+
+  .tabela-ingredientes td {
+      padding: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Linha de separação mais clara */
+  }
+
+  .tabela-ingredientes tr:hover {
+      background-color: rgba(255, 255, 255, 0.1); /* Efeito de hover */
+  }
+
+  .tabela-ingredientes td input,
+  .tabela-ingredientes td select {
+      width: 100%;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: white;
+      color: black;
+  }
+
+  /* Lista de sugestões dentro da barra de pesquisa */
+  .autocomplete-list {
+      position: absolute;
+      top: 100%; /* Posiciona logo abaixo da barra de pesquisa */
+      left: 0;
+      right: 0;
+      z-index: 10;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      border: 1px solid var(--cor-navbar);
+      border-radius: 10px; /* Bordas arredondadas */
+      background-color: var(--cor-botao); /* Fundo roxo */
+      color: var(--cor-texto); /* Texto branco */
+      max-height: 150px;
+      overflow-y: auto;
+  }
+
+  .autocomplete-item {
+      padding: 10px;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+  }
+
+  .autocomplete-item:hover {
+      background-color: rgba(255, 255, 255, 0.2); /* Efeito de hover */
+  }
+
+/* Botão de remoção discreto */
+.btn-remove-ingrediente {
+  background: none;
+  border: none;
+  color: var(--cor-botao); /* Cor padrão de erro do sistema */
+  font-size: 1rem;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.btn-remove-ingrediente:hover {
+  color: var(--cor-botao-hover); /* Cor mais escura ao passar o mouse */
+}
