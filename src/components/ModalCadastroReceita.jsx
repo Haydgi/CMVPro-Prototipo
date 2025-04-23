@@ -22,6 +22,7 @@ function ModalCadastroReceita({ onClose, onSave }) {
     "Açúcar",
     "Leite",
     "Fermento",
+    "café",
   ];
 
   const sugestoes = pesquisa
