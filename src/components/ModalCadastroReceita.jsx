@@ -15,6 +15,11 @@ function ModalCadastroReceita({ onClose, onSave }) {
   const [pesquisa, setPesquisa] = useState("");
   const [isClosing, setIsClosing] = useState(false);
 
+  const [erros, setErros] = useState({
+    nome: false, 
+    categoria: false,
+  });
+
   const todosProdutos = [
     "Chocolate",
     "Trigo",
@@ -27,8 +32,8 @@ function ModalCadastroReceita({ onClose, onSave }) {
 
   const sugestoes = pesquisa
     ? todosProdutos.filter((nome) =>
-        nome.toLowerCase().includes(pesquisa.toLowerCase())
-      )
+      nome.toLowerCase().includes(pesquisa.toLowerCase())
+    )
     : [];
 
   const handleClose = () => {
@@ -54,6 +59,16 @@ function ModalCadastroReceita({ onClose, onSave }) {
   };
 
   const handleSubmit = () => {
+    const nomeInvalido = !form.nome.trim();
+    const categoriaInvalida = !form.categoria;
+
+    setErros({
+      nome: nomeInvalido,
+      categoria: categoriaInvalida,
+    });
+
+    if (nomeInvalido || categoriaInvalida) return;
+
     onSave(form);
     handleClose();
   };
@@ -109,7 +124,7 @@ function ModalCadastroReceita({ onClose, onSave }) {
               <label>Nome da Receita</label>
               <input
                 name="nome"
-                className="form-control"
+                className={`form-control ${erros.nome ? "is-invalid" : ""}`}
                 value={form.nome}
                 onChange={handleChange}
               />
@@ -119,7 +134,7 @@ function ModalCadastroReceita({ onClose, onSave }) {
               <label>Selecionar Categoria</label>
               <select
                 name="categoria"
-                className="form-control"
+                className={`form-control ${erros.categoria ? "is-invalid" : ""}`}
                 value={form.categoria}
                 onChange={handleChange}
               >
@@ -132,29 +147,24 @@ function ModalCadastroReceita({ onClose, onSave }) {
             </div>
 
             <div className="linha-cmv">
-              <div className="form-group">
-                <label>CMV</label>
-                <input
-                  name="cmv"
-                  value={form.cmv}
-                  readOnly
-                  className="form-control"
-                />
-              </div>
 
               <div className="form-group">
                 <label>Margem de Lucro (%)</label>
                 <input
+                  type="number"
                   name="margemLucro"
                   value={form.margemLucro}
                   onChange={handleChange}
                   className="form-control"
+                  min="0"
+                  max="100"
+                  step="0.01"
                 />
               </div>
             </div>
 
             <div className="preco-final">
-              Preço Final: R$ 00,00
+              Preço Final: R$ 0,00
             </div>
           </div>
 

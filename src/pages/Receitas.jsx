@@ -11,21 +11,6 @@ function Receitas() {
     { imagem: `${import.meta.env.BASE_URL}midia/receita3.webp` }
   ];
 
-  function adicionarReceita() {
-    const aleatoria = listaReceitas[Math.floor(Math.random() * listaReceitas.length)];
-    setReceitas((prev) => [
-      ...prev,
-      {
-        id: prev.length + 1,
-        imagem: aleatoria.imagem,
-        nome: `Receita ${prev.length + 1}`,
-        categoria: "Sobremesa",
-        margemLucro: "40",
-        preco: "32,02"
-      }
-    ]);
-  }
-
   function salvarNovaReceita(novaReceita) {
     const nova = {
       ...novaReceita,
@@ -65,9 +50,9 @@ function Receitas() {
             <div className="card-receita" key={r.id}>
               <img src={r.imagem} alt="Imagem da Receita" className="card-img" />
               <h5>{r.nome}</h5>
-              <p className="text-muted">Categoria: {r.categoria}</p>
-              <p className="text-muted">Margem de Lucro: {r.margemLucro}%</p>
-              <p className="text-muted">R$ {r.preco}</p>
+              <p className="text-muted"><strong>Categoria:</strong> {r.categoria}</p>
+              <p className="text-muted"><strong>Lucro:</strong> {r.margemLucro ? `${r.margemLucro}%` : "--%"}</p>
+              <p className="text-muted"><strong>Preço Final:</strong> R$ -,-- {r.preco}</p>
             </div>
           ))}
         </div>
