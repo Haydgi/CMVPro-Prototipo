@@ -1,3 +1,7 @@
+input[type="password"]::-ms-reveal {
+  display: none !important;
+}
+
 .cadastroContainer {
   position: relative;
   width: 100%;
@@ -76,7 +80,15 @@
 .inputsRow {
   display: flex;
   gap: 1rem;
-  margin-bottom: 1rem;
+}
+
+.inputsRow > .formGroup {
+  flex: 1;
+}
+
+.formGroup label {
+  margin-bottom: 0.75rem; /* Ou entre 0.5rem a 1rem */
+  font-weight: bold;
 }
 
 .inputField {
@@ -94,8 +106,8 @@
 
 .toggleSenha {
   position: absolute;
-  top: 50%;
-  right: 1rem;
+  top: 40%;
+  right: 0.48rem;
   transform: translateY(-50%);
   background: none;
   border: none;

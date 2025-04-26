@@ -21,6 +21,18 @@ export default function Cadastro() {
   const [erro, setErro] = useState('');
   const [sucesso, setSucesso] = useState('');
 
+  const formatTelefone = (value) => {
+    value = value.replace(/\D/g, '');
+
+    if (value.length <= 2) {
+      return value;
+    }
+    if (value.length <= 6) {
+      return `(${value.slice(0, 2)}) ${value.slice(2)}`;
+    }
+    return `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7, 15)}`;
+  };
+
   const handleCadastro = (e) => {
     e.preventDefault();
 
@@ -38,6 +50,13 @@ export default function Cadastro() {
 
     if (senha !== confirmarSenha) {
       setErro('As senhas não coincidem.');
+      setSucesso('');
+      return;
+    }
+
+    const telefoneLimpo = telefone.replace(/\D/g, ''); // Remover tudo que não for número
+    if (telefoneLimpo.length < 11 || telefoneLimpo.length > 15) {
+      setErro('O telefone deve ter entre 11 e 15 dígitos.');
       setSucesso('');
       return;
     }
@@ -67,16 +86,16 @@ export default function Cadastro() {
     <div className={styles.cadastroContainer}>
       <div className={`${styles.ladoEsquerdo} ${styles.bgSilhueta}`}>
         <div className={styles.logoContainer}>
-          <img 
+          <img
             src={logoManuscrito}
-            alt="Logotipo manuscrito: Caderno do Chef" 
-            className={styles.logoManuscrito} 
+            alt="Logotipo manuscrito: Caderno do Chef"
+            className={styles.logoManuscrito}
           />
           <img
             src={imagemPrato}
             alt="Prato branco"
             className={styles.imagemPrato}
-          
+
           />
           <p className={styles.fraseAbaixoLogo}>
             Suas receitas e despesas na palma da sua mão!
@@ -88,6 +107,10 @@ export default function Cadastro() {
         <form className={styles.formulario} onSubmit={handleCadastro}>
           <h2 className="text-center mb-3">Crie sua conta</h2>
 
+          {erro && !erro.includes('e-mail') && !erro.includes('senha') && !erro.includes('telefone') && (
+            <p className={styles.textErro}>{erro}</p>
+          )}
+
           {/* Linha: Nome e Sobrenome */}
           <div className={styles.inputsRow}>
             <div className={styles.formGroup}>
@@ -95,6 +118,8 @@ export default function Cadastro() {
               <input
                 id="nome"
                 type="text"
+                minlength="2"
+                maxlength="20"
                 value={nome}
                 onChange={(e) => setNome(e.target.value)}
                 required
@@ -106,6 +131,8 @@ export default function Cadastro() {
               <input
                 id="sobrenome"
                 type="text"
+                minlength="2"
+                maxlength="20"
                 value={sobrenome}
                 onChange={(e) => setSobrenome(e.target.value)}
                 required
@@ -114,73 +141,86 @@ export default function Cadastro() {
             </div>
           </div>
 
-          {/* Linha: Email e Confirmar Email */}
+          {/* Email */}
+
+          <div className={styles.formGroup}>
+            <label htmlFor="email">E-mail</label>
+            <input
+              id="email"
+              type="email"
+              minlength="5"
+              maxlength="50"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className={styles.inputField}
+            />
+          </div>
+
+          {/* Confirmar Email */}
+
+          <div className={styles.formGroup}>
+            <label htmlFor="confirmarEmail">Confirmar e-mail</label>
+            <input
+              id="confirmarEmail"
+              type="email"
+              minlength="5"
+              maxlength="50"
+              value={confirmarEmail}
+              onChange={(e) => setConfirmarEmail(e.target.value)}
+              required
+              className={styles.inputField}
+            />
+            {erro && erro.includes('e-mail') && <p className={styles.textErro}>{erro}</p>}
+          </div>
+
+
+          {/* Linha: Senha e Confirmar Senha */}
           <div className={styles.inputsRow}>
             <div className={styles.formGroup}>
-              <label htmlFor="email">E-mail</label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className={styles.inputField}
-              />
+              <label htmlFor="senha">Senha</label>
+              <div className={styles.senhaContainer}>
+                <input
+                  id="senha"
+                  type={mostrarSenha ? 'text' : 'password'}
+                  minlength="8"
+                  maxlength="20"
+                  value={senha}
+                  onChange={(e) => setSenha(e.target.value)}
+                  required
+                  className={styles.inputField}
+                />
+                <button
+                  type="button"
+                  onClick={() => setMostrarSenha(!mostrarSenha)}
+                  className={styles.toggleSenha}
+                >
+                  {mostrarSenha ? <i className="bi bi-eye-slash"></i> : <i className="bi bi-eye"></i>}
+                </button>
+              </div>
+              {erro && erro.includes('senha') && <p className={styles.textErro}>{erro}</p>}
             </div>
             <div className={styles.formGroup}>
-              <label htmlFor="confirmarEmail">Confirmar e-mail</label>
-              <input
-                id="confirmarEmail"
-                type="email"
-                value={confirmarEmail}
-                onChange={(e) => setConfirmarEmail(e.target.value)}
-                required
-                className={styles.inputField}
-              />
-            </div>
-          </div>
-
-          {/* Senha */}
-          <div className={styles.formGroup}>
-            <label htmlFor="senha">Senha</label>
-            <div className={styles.senhaContainer}>
-              <input
-                id="senha"
-                type={mostrarSenha ? 'text' : 'password'}
-                value={senha}
-                onChange={(e) => setSenha(e.target.value)}
-                required
-                className={styles.inputField}
-              />
-              <button
-                type="button"
-                onClick={() => setMostrarSenha(!mostrarSenha)}
-                className={styles.toggleSenha}
-              >
-                {mostrarSenha ? '🙈' : '👁️'}
-              </button>
-            </div>
-          </div>
-
-          {/* Confirmar Senha */}
-          <div className={styles.formGroup}>
-            <label htmlFor="confirmarSenha">Confirmar senha</label>
-            <div className={styles.senhaContainer}>
-              <input
-                id="confirmarSenha"
-                type={mostrarConfirmarSenha ? 'text' : 'password'}
-                value={confirmarSenha}
-                onChange={(e) => setConfirmarSenha(e.target.value)}
-                required
-                className={styles.inputField}
-              />
-              <button
-                type="button"
-                onClick={() => setMostrarConfirmarSenha(!mostrarConfirmarSenha)}
-                className={styles.toggleSenha}
-              >
-                {mostrarConfirmarSenha ? '🙈' : '👁️'}
-              </button>
+              <label htmlFor="confirmarSenha">Confirmar senha</label>
+              <div className={styles.senhaContainer}>
+                <input
+                  id="confirmarSenha"
+                  type={mostrarConfirmarSenha ? 'text' : 'password'}
+                  minlength="8"
+                  maxlength="20"
+                  value={confirmarSenha}
+                  onChange={(e) => setConfirmarSenha(e.target.value)}
+                  required
+                  className={styles.inputField}
+                />
+                <button
+                  type="button"
+                  onClick={() => setMostrarConfirmarSenha(!mostrarConfirmarSenha)}
+                  className={styles.toggleSenha}
+                >
+                  {mostrarConfirmarSenha ? <i className="bi bi-eye-slash"></i> : <i className="bi bi-eye"></i>}
+                </button>
+              </div>
             </div>
           </div>
 
@@ -191,14 +231,14 @@ export default function Cadastro() {
               id="telefone"
               type="tel"
               value={telefone}
-              onChange={(e) => setTelefone(e.target.value)}
+              onChange={(e) => setTelefone(formatTelefone(e.target.value))}
               required
               className={styles.inputField}
             />
+            {erro && erro.includes('telefone') && <p className={styles.textErro}>{erro}</p>}
           </div>
 
           {/* Mensagens */}
-          {erro && <p className={styles.textErro}>{erro}</p>}
           {sucesso && <p className={styles.textSucesso}>{sucesso}</p>}
 
           <button type="submit" className={styles.btnCadastrar}>
