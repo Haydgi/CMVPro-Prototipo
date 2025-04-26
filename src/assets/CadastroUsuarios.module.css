@@ -1,0 +1,191 @@
+.cadastroContainer {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+  background: 
+  radial-gradient(circle at 30% center, rgba(123, 61, 147, 0.7) 20%, rgba(81, 46, 97, 0.7) 35%, rgba(60, 38, 74, 0.7) 100%),
+  url('/midia/ingredientes-bg.png') no-repeat center center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Silhueta no fundo (não muda) */
+.bgSilhueta::before {
+  content: "";
+  position: absolute;
+  width: 500px; /* Ajuste conforme o tamanho desejado */
+  height: 500px; /* Ajuste conforme o tamanho desejado */
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  background-image: url('../assets/ingredientes-silhueta.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  opacity: 0.6; /* Deixa mais suave se quiser */
+  z-index: 0; /* Fica atrás do texto */
+}
+
+
+/* Texto no lado esquerdo */
+.ladoEsquerdo {
+  position: absolute;
+  left: 0;
+  top: 40%;
+  bottom: 0;
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  color: #FFF8ED;
+  text-align: center;
+  z-index: 1;
+}
+
+.fraseEfeito {
+  font-size: 2.8rem;
+  font-weight: bold;
+  line-height: 1.4;
+  z-index: 2;
+}
+
+/* Modal do cadastro */
+.ladoDireito {
+  position: absolute;
+  right: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #FFF8ED;
+  padding: 3rem 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 20px 120px rgba(0, 0, 0, 0.4);
+  width: 100%;
+  max-width: 650px;
+  z-index: 2;
+}
+
+.formulario {
+  width: 100%;
+}
+
+.inputsRow {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.inputField {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.senhaContainer {
+  position: relative;
+}
+
+.toggleSenha {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.btnCadastrar {
+  margin-top: 1.5rem;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #fca311;
+  color: #FFF8ED;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btnCadastrar:hover {
+  background-color: #e07a00;
+  color: #ffffff; 
+}
+
+.textErro {
+  color: #EF4444;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.textSucesso {
+  color: #22C55E;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .ladoEsquerdo {
+    display: none;
+  }
+
+  .ladoDireito {
+    position: static;
+    transform: none;
+    right: 0;
+    top: 0;
+    margin: 1.5rem;
+    padding: 2rem 1.5rem;
+    width: 100%;
+    max-width: 100%;
+    box-shadow: 0 10px 60px rgba(0, 0, 0, 0.3);
+  }
+
+  .fraseEfeito {
+    font-size: 2rem;
+  }
+
+  .inputsRow {
+    flex-direction: column;
+  }
+}
+
+.logoManuscrito {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px; /* pode ajustar para o melhor tamanho */
+  height: auto;
+  opacity: 0.9;
+  z-index: 2; /* levemente acima */
+}
+
+.fraseAbaixoLogo {
+  display: flex;
+  margin-top: 80px;
+  font-size: 30px;
+  color: #FFF8ED;
+  z-index: 2;
+  left: 50%;
+  font-family: 'Cabin', sans-serif;
+}
+
+.imagemPrato {
+  width: 1200px; /* ajuste o tamanho conforme quiser */
+  height: auto;
+  margin-top: -210px; /* distancia do logo */
+  z-index: 2;
+}

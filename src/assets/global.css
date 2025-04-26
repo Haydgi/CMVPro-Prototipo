@@ -1,12 +1,11 @@
 /* Variáveis de tema */
 :root {
-    --fundo: #FFF8ED;
-    --cor-texto: #1D1D1D;
-    --cor-navbar: #67477A;
-    --cor-link: #FCD18A;
-    --cor-link-hover: #fff;
-    --cor-botao: #FCD18A;
-    --cor-botao-hover: #e6b874;
+    --floral-white: #FFF8ED;
+    --rich-black: #111827;
+    --ultra-violet: #67477A;
+    --sunset: #FCD18A;
+    --dark-pastel-green: #22C55E;
+    --imperial-red: #EF4444;
 }
 
 /* Estilos globais */

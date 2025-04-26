@@ -4,7 +4,7 @@ import Navbar from './components/Navbar';
 import Produtos from './pages/Produtos';
 import Receitas from './pages/Receitas';
 import Sobre from './pages/Login';
-import Cadastro from './pages/Cadastro'; // Importa o componente Cadastro
+import Cadastro from './pages/CadastroUsuarios'; // Importa o componente Cadastro
 
 function App() {
   const [logado, setLogado] = useState(false);
