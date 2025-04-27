@@ -12,8 +12,8 @@
 body {
     background-color: var(--fundo);
     color: var(--cor-texto);
-    font-size: 120%;
-    font-family: 'Inter', sans-serif;
+    font-size: 18px !important;
+    font-family: 'Lato', sans-serif !important;
 }
 
 /* Barra de pesquisa */
