@@ -59,21 +59,28 @@ input[type="password"]::-ms-reveal {
 
 /* Modal do cadastro */
 .ladoDireito {
-  position: absolute;
+  position: fixed;
   right: 10%;
   top: 50%;
   transform: translateY(-50%);
   background-color: #FFF8ED;
-  padding: 3rem 2.5rem;
   border-radius: 20px;
   box-shadow: 0 20px 120px rgba(0, 0, 0, 0.4);
   width: 100%;
   max-width: 650px;
   z-index: 2;
+  padding: 2rem 1.5rem; /* Adicionado espaçamento lateral */
+  max-height: 90vh; /* Limite de altura */
+  overflow-y: auto; /* Rolagem se necessário */
 }
 
+/* Formulário */
 .formulario {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 1.5rem; /* Espaçamento interno ajustado */
 }
 
 .inputsRow {
@@ -90,9 +97,25 @@ input[type="password"]::-ms-reveal {
   font-weight: bold;
 }
 
+/* Contêiner para o input com ícone */
+.inputIconContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputIconContainer i {
+  position: absolute;
+  left: 0.75rem; /* Espaço à esquerda */
+  top: 0.75rem;
+  font-size: 1.2rem;
+  color: #6c757d;
+}
+
+/* Campos de entrada */
 .inputField {
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.75rem 1rem 0.75rem 2.5rem; /* Espaço extra para o ícone */
   margin-bottom: 1rem;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -114,6 +137,7 @@ input[type="password"]::-ms-reveal {
   cursor: pointer;
 }
 
+/* Botão de cadastro */
 .btnCadastrar {
   margin-top: 1.5rem;
   width: 100%;

@@ -105,7 +105,7 @@ export default function Cadastro() {
 
       <div className={styles.ladoDireito}>
         <form className={styles.formulario} onSubmit={handleCadastro}>
-          <h2 className="text-center mb-3">Crie sua conta</h2>
+          <h2 className="text-center" style={{ marginBottom: '60px' }}>Crie sua conta</h2>
 
           {erro && !erro.includes('e-mail') && !erro.includes('senha') && !erro.includes('telefone') && (
             <p className={styles.textErro}>{erro}</p>
@@ -115,29 +115,35 @@ export default function Cadastro() {
           <div className={styles.inputsRow}>
             <div className={styles.formGroup}>
               <label htmlFor="nome">Nome</label>
-              <input
-                id="nome"
-                type="text"
-                minlength="2"
-                maxlength="20"
-                value={nome}
-                onChange={(e) => setNome(e.target.value)}
-                required
-                className={styles.inputField}
-              />
+              <div className={styles.inputIconContainer}>
+                <i className="bi bi-person"></i>
+                <input
+                  id="nome"
+                  type="text"
+                  minLength="2"
+                  maxLength="20"
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
+                  required
+                  className={styles.inputField}
+                />
+              </div>
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="sobrenome">Sobrenome</label>
-              <input
-                id="sobrenome"
-                type="text"
-                minlength="2"
-                maxlength="20"
-                value={sobrenome}
-                onChange={(e) => setSobrenome(e.target.value)}
-                required
-                className={styles.inputField}
-              />
+              <div className={styles.inputIconContainer}>
+                <i className="bi bi-person"></i>
+                <input
+                  id="sobrenome"
+                  type="text"
+                  minLength="2"
+                  maxLength="20"
+                  value={sobrenome}
+                  onChange={(e) => setSobrenome(e.target.value)}
+                  required
+                  className={styles.inputField}
+                />
+              </div>
             </div>
           </div>
 
@@ -145,35 +151,57 @@ export default function Cadastro() {
 
           <div className={styles.formGroup}>
             <label htmlFor="email">E-mail</label>
-            <input
-              id="email"
-              type="email"
-              minlength="5"
-              maxlength="50"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className={styles.inputField}
-            />
+            <div className={styles.inputIconContainer}>
+              <i className="bi bi-envelope"></i>
+              <input
+                id="email"
+                type="email"
+                minLength="5"
+                maxLength="50"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className={styles.inputField}
+              />
+            </div>
           </div>
 
           {/* Confirmar Email */}
 
           <div className={styles.formGroup}>
             <label htmlFor="confirmarEmail">Confirmar e-mail</label>
-            <input
-              id="confirmarEmail"
-              type="email"
-              minlength="5"
-              maxlength="50"
-              value={confirmarEmail}
-              onChange={(e) => setConfirmarEmail(e.target.value)}
-              required
-              className={styles.inputField}
-            />
+            <div className={styles.inputIconContainer}>
+              <i className="bi bi-envelope"></i>
+              <input
+                id="confirmarEmail"
+                type="email"
+                minLength="5"
+                maxLength="50"
+                value={confirmarEmail}
+                onChange={(e) => setConfirmarEmail(e.target.value)}
+                required
+                className={styles.inputField}
+              />
+            </div>
             {erro && erro.includes('e-mail') && <p className={styles.textErro}>{erro}</p>}
           </div>
 
+          {/* Telefone */}
+          <div className={styles.formGroup}>
+            <label htmlFor="telefone">Telefone celular</label>
+            <div className={styles.inputIconContainer}>
+              <i className="bi bi-telephone"></i>
+              <input
+                id="telefone"
+                type="tel"
+                value={telefone}
+                onChange={(e) => setTelefone(formatTelefone(e.target.value))}
+                required
+                className={styles.inputField}
+              />
+            </div>
+            {erro && erro.includes('telefone') && <p className={styles.textErro}>{erro}</p>}
+          </div>
 
           {/* Linha: Senha e Confirmar Senha */}
           <div className={styles.inputsRow}>
@@ -183,23 +211,28 @@ export default function Cadastro() {
                 <input
                   id="senha"
                   type={mostrarSenha ? 'text' : 'password'}
-                  minlength="8"
-                  maxlength="20"
+                  minLength="8"
+                  maxLength="20"
                   value={senha}
                   onChange={(e) => setSenha(e.target.value)}
                   required
                   className={styles.inputField}
                 />
-                <button
-                  type="button"
-                  onClick={() => setMostrarSenha(!mostrarSenha)}
-                  className={styles.toggleSenha}
-                >
+                <button type="button" onClick={() => setMostrarSenha(!mostrarSenha)} className={styles.toggleSenha}>
                   {mostrarSenha ? <i className="bi bi-eye-slash"></i> : <i className="bi bi-eye"></i>}
                 </button>
               </div>
               {erro && erro.includes('senha') && <p className={styles.textErro}>{erro}</p>}
+              <p style={{ fontSize: '0.85rem', marginTop: '0.5rem', color: '#6c757d' }}>
+                Regras para a criação de senha:
+                <br />- Possuir um tamanho entre 8 e 20 caracteres.
+                <br />- Possuir no mínimo 1 letra minúscula.
+                <br />- Possuir no mínimo 1 letra maiúscula.
+                <br />- Possuir no mínimo 1 número.
+                <br />- Possuir no mínimo 1 caractere especial.
+              </p>
             </div>
+
             <div className={styles.formGroup}>
               <label htmlFor="confirmarSenha">Confirmar senha</label>
               <div className={styles.senhaContainer}>
@@ -224,19 +257,6 @@ export default function Cadastro() {
             </div>
           </div>
 
-          {/* Telefone */}
-          <div className={styles.formGroup}>
-            <label htmlFor="telefone">Telefone celular</label>
-            <input
-              id="telefone"
-              type="tel"
-              value={telefone}
-              onChange={(e) => setTelefone(formatTelefone(e.target.value))}
-              required
-              className={styles.inputField}
-            />
-            {erro && erro.includes('telefone') && <p className={styles.textErro}>{erro}</p>}
-          </div>
 
           {/* Mensagens */}
           {sucesso && <p className={styles.textSucesso}>{sucesso}</p>}
@@ -245,8 +265,8 @@ export default function Cadastro() {
             Cadastrar-se
           </button>
 
-          <div className="mt-3 text-center">
-            <p style={{ marginTop: '30px' }}>
+          <div className="mt-1 text-center">
+            <p style={{ marginTop: '10px', marginBottom: '0px' }}>
               Já é cadastrado?{' '}
               <span
                 onClick={() => navigate('/')}
