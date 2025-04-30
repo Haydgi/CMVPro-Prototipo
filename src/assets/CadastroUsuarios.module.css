@@ -5,15 +5,16 @@ input[type="password"]::-ms-reveal {
 .cadastroContainer {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   background: 
-  radial-gradient(circle at 30% center, rgba(123, 61, 147, 0.7) 20%, rgba(81, 46, 97, 0.7) 35%, rgba(60, 38, 74, 0.7) 100%),
+  radial-gradient(circle at 28% center, rgba(123, 61, 147, 0.7) 30%, rgba(81, 46, 97, 0.7) 35%, rgba(75, 41, 96, 0.7) 40%),
   url('/midia/ingredientes-bg.png') no-repeat center center;
   background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 /* Silhueta no fundo (não muda) */
@@ -37,7 +38,7 @@ input[type="password"]::-ms-reveal {
 /* Texto no lado esquerdo */
 .ladoEsquerdo {
   position: absolute;
-  left: 0;
+  left: -2%;
   top: 40%;
   bottom: 0;
   width: 60%;
@@ -45,7 +46,7 @@ input[type="password"]::-ms-reveal {
   justify-content: center;
   align-items: center;
   padding: 2rem;
-  color: #FFF8ED;
+  color: var(--floral-white);
   text-align: center;
   z-index: 1;
 }
@@ -59,28 +60,34 @@ input[type="password"]::-ms-reveal {
 
 /* Modal do cadastro */
 .ladoDireito {
+  flex: 1;
   position: fixed;
   right: 10%;
   top: 50%;
   transform: translateY(-50%);
-  background-color: #FFF8ED;
+  background-color: var(--floral-white);
   border-radius: 20px;
   box-shadow: 0 20px 120px rgba(0, 0, 0, 0.4);
   width: 100%;
   max-width: 650px;
-  z-index: 2;
-  padding: 2rem 1.5rem; /* Adicionado espaçamento lateral */
-  max-height: 90vh; /* Limite de altura */
-  overflow-y: auto; /* Rolagem se necessário */
+  height: 90vh; /* Garante que o modal ocupe 90% da altura da tela */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Garante que o conteúdo seja distribuído */
+  padding: 2rem 1.5rem;
+  overflow: hidden; /* Remove o scroll do modal */
+  animation: slideUp 1s ease-out; /* Duração de 1 segundo */
 }
 
 /* Formulário */
 .formulario {
-  width: 100%;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 1rem 1.5rem; /* Espaçamento interno ajustado */
+  justify-content: space-between;
+  overflow-y: auto; /* Adiciona scroll apenas ao conteúdo interno */
+  padding: 1rem 1.5rem;
+  box-sizing: border-box;
 }
 
 .inputsRow {
@@ -94,7 +101,7 @@ input[type="password"]::-ms-reveal {
 
 .formGroup label {
   margin-bottom: 0.75rem; /* Ou entre 0.5rem a 1rem */
-  font-weight: bold;
+  color: var(--rich-black)
 }
 
 /* Contêiner para o input com ícone */
@@ -128,8 +135,9 @@ input[type="password"]::-ms-reveal {
 
 .toggleSenha {
   position: absolute;
-  top: 40%;
-  right: 0.48rem;
+  top: 3%;
+  right: 0.25rem;
+  left: 13.7rem;
   transform: translateY(-50%);
   background: none;
   border: none;
@@ -143,32 +151,121 @@ input[type="password"]::-ms-reveal {
   width: 100%;
   padding: 0.75rem;
   background-color: #fca311;
-  color: #FFF8ED;
+  color: var(--floral-white);
   border: none;
   border-radius: 8px;
   font-size: 1.2rem;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
+  flex-shrink: 0; /* Garante que o botão não encolha */
 }
 
 .btnCadastrar:hover {
   background-color: #e07a00;
-  color: #ffffff; 
+  color: var(--white); 
 }
 
-.textErro {
-  color: #EF4444;
-  margin-top: -0.5rem;
-  margin-bottom: 1rem;
+.topoForms{
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center; /* Centraliza horizontalmente */
+}
+
+.crieConta {
+  width: 55%;
+  margin-bottom: 25px;
+  justify-content: center;
+  max-width: 100%; /* Garante que a imagem não ultrapasse o tamanho do contêiner */
+  height: auto; /* Mantém a proporção da imagem */
+}
+
+.textErroSenha {
+  color: var(--imperial-red); /* Vermelho para mensagens de erro */
+  font-size: 0.85rem;
   font-weight: 600;
+  position: absolute; /* Posiciona a mensagem fora do fluxo normal */
+  top: 100%; /* Coloca a mensagem logo abaixo do campo */
+  right: 0; /* Alinha o texto à direita do contêiner */
+  white-space: nowrap; /* Garante que o texto fique em uma linha só */
+  margin-top: 0.25rem; /* Espaçamento entre o campo e a mensagem */
+}
+
+.textErroEmail {
+  color: var(--imperial-red); /* Vermelho para mensagens de erro */
+  font-size: 0.85rem;
+  font-weight: 600;
+  position: absolute; /* Posiciona a mensagem fora do fluxo normal */
+  bottom: 100%; /* Coloca a mensagem acima do campo */
+  right: 0; /* Alinha o texto à direita do contêiner */
+  white-space: nowrap; /* Garante que o texto fique em uma linha só */
+  margin-bottom: -1.5rem; /* Espaçamento entre o campo e a mensagem */
 }
 
 .textSucesso {
-  color: #22C55E;
+  color: var(--dark-pastel-green);
   margin-top: -0.5rem;
   margin-bottom: 1rem;
   font-weight: 600;
+}
+
+.regrasSenha {
+  font-size: 0.85rem;
+  margin-top: 0.1rem;
+  color: #6c757d;
+  list-style: none;
+  padding: 0;
+}
+
+.regrasSenha li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.1rem;
+  white-space: nowrap; /* Impede quebra de linha */
+}
+
+.regrasSenha li i {
+  margin-right: 0.5rem;
+  font-size: 1rem;
+}
+
+.regrasSenha .valido i {
+  color: green; /* Ícone verde para regras atendidas */
+}
+
+.regrasSenha .invalido i {
+  color: red; /* Ícone vermelho para regras não atendidas */
+}
+
+.regrasSenha .valido {
+  font-weight: bold; /* Texto em negrito para regras atendidas */
+}
+
+.logoManuscrito {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px; /* pode ajustar para o melhor tamanho */
+  height: auto;
+  opacity: 0.9;
+  z-index: 2; /* levemente acima */
+  animation: slideDownLogo 1.2s ease-out; /* Duração de 1.2 segundos */
+  animation: slideDownLogo 1.2s ease-out;
+}
+
+.imagemPrato {
+  width: 1100px; /* ajuste o tamanho conforme quiser */
+  height: auto;
+  margin-top: -350px; /* distancia do logo */
+  z-index: 2;
+  animation: slideDown 1.2s ease-out; /* Duração de 1 segundo */
+}
+
+.mt-1.text-center {
+  margin-top: 1rem;
+  flex-shrink: 0; /* Garante que o parágrafo não encolha */
 }
 
 @media (max-width: 768px) {
@@ -195,32 +292,180 @@ input[type="password"]::-ms-reveal {
   .inputsRow {
     flex-direction: column;
   }
+
+  .toggleSenha {
+    position: absolute;
+    top: 3%;
+    right: 0.25rem;
+    left: 13.7rem;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
 }
 
-.logoManuscrito {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 800px; /* pode ajustar para o melhor tamanho */
-  height: auto;
-  opacity: 0.9;
-  z-index: 2; /* levemente acima */
+@media (max-width: 480px) {
+  .ladoEsquerdo {
+    display: none;
+  }
+
+  .ladoDireito {
+    position: static;
+    transform: none;
+    right: 0;
+    top: 0;
+    margin: 1.5rem;
+    padding: 2rem 1.5rem;
+    width: 100%;
+    max-width: 100%;
+    box-shadow: 0 10px 60px rgba(0, 0, 0, 0.3);
+  }
+
+  .fraseEfeito {
+    font-size: 2rem;
+  }
+
+  .inputsRow {
+    flex-direction: column;
+  }
+
+  .toggleSenha {
+    position: absolute;
+    top: 3%;
+    right: 0.25rem;
+    left: 14.1rem;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
 }
 
-.fraseAbaixoLogo {
-  display: flex;
-  margin-top: 80px;
-  font-size: 30px;
-  color: #FFF8ED;
-  z-index: 2;
-  left: 50%;
-  font-family: 'Cabin', sans-serif;
+@media (max-width: 375px) {
+  .ladoEsquerdo {
+    display: none;
+  }
+
+  .ladoDireito {
+    position: static;
+    transform: none;
+    right: 0;
+    top: 0;
+    margin: 1.5rem;
+    padding: 2rem 1.5rem;
+    width: 100%;
+    max-width: 100%;
+    box-shadow: 0 10px 60px rgba(0, 0, 0, 0.3);
+  }
+
+  .fraseEfeito {
+    font-size: 2rem;
+  }
+
+  .inputsRow {
+    flex-direction: column;
+  }
+
+  .toggleSenha {
+    position: absolute;
+    top: 3%;
+    right: 0.25rem;
+    left: 11.7rem;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
 }
 
-.imagemPrato {
-  width: 1200px; /* ajuste o tamanho conforme quiser */
-  height: auto;
-  margin-top: -210px; /* distancia do logo */
-  z-index: 2;
+.popUpError {
+  position: fixed;
+  bottom: 5px;
+  right: 10px;
+  background-color: var(--imperial-red); /* Vermelho para erros */
+  color: var(--white);
+  padding: 10px 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 0.9rem;
+  font-weight: bold;
+  z-index: 1000;
+  animation: fadeOut 5s forwards; /* Desaparece após 5 segundos */
+}
+
+.popUpSucess {
+  position: fixed;
+  bottom: 5px;
+  right: 10px;
+  background-color: var(--dark-pastel-green); /* Verde para confirmações bem sucedidas */
+  color: var(--white);
+  padding: 10px 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 0.9rem;
+  font-weight: bold;
+  z-index: 1000;
+  animation: fadeOut 3s forwards; /* Desaparece após 3 segundos */
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.asterisco {
+  color: var(--imperial-red); /* Vermelho para o asterisco */
+  margin-left: 0.25rem;
+}
+
+.inputInvalido {
+  border: 2px solid var(--imperial-red); /* Borda vermelha para campos inválidos */
+  background-color: var(--white); /* Fundo levemente vermelho */
+}
+
+/* Animação para a imagem do prato */
+@keyframes slideDown {
+  0% {
+    transform: translateY(-100%); /* Começa fora da tela, acima */
+    opacity: 0; /* Invisível */
+  }
+  100% {
+    transform: translateY(0); /* Posição final */
+    opacity: 1; /* Visível */
+  }
+}
+
+/* Animação para o logo manuscrito */
+@keyframes slideDownLogo {
+  0% {
+    transform: translate(-50%, -200%); /* Começa acima e alinhada horizontalmente */
+    opacity: 0; /* Invisível */
+  }
+  100% {
+    transform: translate(-50%, -50%); /* Posição final: centro do prato */
+    opacity: 1; /* Visível */
+  }
+}
+
+/* Animação para o modal */
+@keyframes slideUp {
+  0% {
+    transform: translateY(100%); /* Começa fora da tela, abaixo */
+    opacity: 0; /* Invisível */
+  }
+  100% {
+    transform: translateY(-50%); /* Posição final */
+    opacity: 1; /* Visível */
+  }
 }

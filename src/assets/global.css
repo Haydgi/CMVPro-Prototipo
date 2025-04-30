@@ -6,12 +6,13 @@
     --sunset: #FCD18A;
     --dark-pastel-green: #22C55E;
     --imperial-red: #EF4444;
+    --white: #FFFFFF;
 }
 
 /* Estilos globais */
 body {
     background-color: var(--fundo);
-    color: var(--cor-texto);
+    color: var(--rich-black);
     font-size: 18px !important;
     font-family: 'Lato', sans-serif !important;
 }

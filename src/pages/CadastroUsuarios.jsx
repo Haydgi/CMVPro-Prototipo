@@ -1,66 +1,74 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styles from '../assets/CadastroUsuarios.module.css';
-import logoManuscrito from '../assets/logotipo-manuscrito.png';
-import imagemPrato from '../assets/imagem-prato.png';
-import '../assets/global.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styles from "../assets/CadastroUsuarios.module.css";
+import logoManuscrito from "../assets/logotipo-manuscrito.png";
+import imagemPrato from "../assets/imagem-prato.png";
+import "../assets/global.css";
+import crieConta from "../assets/crie-sua-conta.png";
 
 export default function Cadastro() {
   const navigate = useNavigate();
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const [mostrarConfirmarSenha, setMostrarConfirmarSenha] = useState(false);
 
-  const [nome, setNome] = useState('');
-  const [sobrenome, setSobrenome] = useState('');
-  const [email, setEmail] = useState('');
-  const [confirmarEmail, setConfirmarEmail] = useState('');
-  const [senha, setSenha] = useState('');
-  const [confirmarSenha, setConfirmarSenha] = useState('');
-  const [telefone, setTelefone] = useState('');
+  const [nome, setNome] = useState("");
+  const [sobrenome, setSobrenome] = useState("");
+  const [email, setEmail] = useState("");
+  const [confirmarEmail, setConfirmarEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [confirmarSenha, setConfirmarSenha] = useState("");
+  const [telefone, setTelefone] = useState("");
 
-  const [erro, setErro] = useState('');
-  const [sucesso, setSucesso] = useState('');
+  const [popUpMessage, setPopUpMessage] = useState(""); // Estado para o pop-up
+  const [camposInvalidos, setCamposInvalidos] = useState([]); // Campos inválidos
 
   const formatTelefone = (value) => {
-    value = value.replace(/\D/g, '');
+    // Remove todos os caracteres que não são números
+    value = value.replace(/\D/g, "");
 
+    // Aplica o formato apenas se o valor for maior que 2 caracteres
     if (value.length <= 2) {
       return value;
     }
     if (value.length <= 6) {
       return `(${value.slice(0, 2)}) ${value.slice(2)}`;
     }
-    return `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7, 15)}`;
+    if (value.length <= 10) {
+      return `(${value.slice(0, 2)}) ${value.slice(2, 6)}-${value.slice(6)}`;
+    }
+    return `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7, 11)}`;
   };
 
   const handleCadastro = (e) => {
     e.preventDefault();
 
-    if (!nome || !sobrenome || !email || !confirmarEmail || !senha || !confirmarSenha || !telefone) {
-      setErro('Por favor, preencha todos os campos.');
-      setSucesso('');
+    // Redefine o pop-up para garantir que ele reapareça
+    setPopUpMessage("");
+
+    const camposNaoPreenchidos = [];
+    const camposInvalidosTemp = [];
+
+    // Validações
+    if (nome.length < 3) camposInvalidosTemp.push("nome");
+    if (sobrenome.length < 3) camposInvalidosTemp.push("sobrenome");
+    if (!email) camposNaoPreenchidos.push("email");
+    if (!confirmarEmail || email !== confirmarEmail) camposInvalidosTemp.push("confirmarEmail");
+    if (!telefone || telefone.replace(/\D/g, "").length < 11 || telefone.replace(/\D/g, "").length > 15)
+      camposInvalidosTemp.push("telefone");
+    if (!senha || senha.length < 8 || senha.length > 20 || !/[a-z]/.test(senha) || !/[A-Z]/.test(senha) || !/[0-9]/.test(senha) || !/[!@#$%^&*(),.?":{}|<>]/.test(senha))
+      camposInvalidosTemp.push("senha");
+    if (!confirmarSenha || senha !== confirmarSenha) camposInvalidosTemp.push("confirmarSenha");
+
+    // Se houver campos inválidos ou não preenchidos
+    if (camposNaoPreenchidos.length > 0 || camposInvalidosTemp.length > 0) {
+      setTimeout(() => {
+        setPopUpMessage("Por favor, corrija os campos destacados.");
+      }, 0);
+      setCamposInvalidos([...camposNaoPreenchidos, ...camposInvalidosTemp]);
       return;
     }
 
-    if (email !== confirmarEmail) {
-      setErro('Os e-mails não coincidem.');
-      setSucesso('');
-      return;
-    }
-
-    if (senha !== confirmarSenha) {
-      setErro('As senhas não coincidem.');
-      setSucesso('');
-      return;
-    }
-
-    const telefoneLimpo = telefone.replace(/\D/g, ''); // Remover tudo que não for número
-    if (telefoneLimpo.length < 11 || telefoneLimpo.length > 15) {
-      setErro('O telefone deve ter entre 11 e 15 dígitos.');
-      setSucesso('');
-      return;
-    }
-
+    // Cadastro bem-sucedido
     const usuario = {
       nome,
       sobrenome,
@@ -69,17 +77,57 @@ export default function Cadastro() {
       senha,
     };
 
-    localStorage.setItem('usuario', JSON.stringify(usuario));
-    setErro('');
-    setSucesso('Cadastro realizado com sucesso!');
+    localStorage.setItem("usuario", JSON.stringify(usuario));
+    setTimeout(() => {
+      setPopUpMessage("Cadastro realizado com sucesso!");
+    }, 0);
+    setCamposInvalidos([]);
 
-    setNome('');
-    setSobrenome('');
-    setEmail('');
-    setConfirmarEmail('');
-    setSenha('');
-    setConfirmarSenha('');
-    setTelefone('');
+    // Limpa os campos
+    setNome("");
+    setSobrenome("");
+    setEmail("");
+    setConfirmarEmail("");
+    setSenha("");
+    setConfirmarSenha("");
+    setTelefone("");
+
+    // Exibe o pop-up de sucesso
+    setTimeout(() => {
+      setPopUpMessage("Cadastro realizado com sucesso!");
+    }, 0);
+  };
+
+  const handleInputChange = (campo, valor) => {
+    switch (campo) {
+      case "nome":
+        setNome(valor);
+        break;
+      case "sobrenome":
+        setSobrenome(valor);
+        break;
+      case "email":
+        setEmail(valor);
+        break;
+      case "confirmarEmail":
+        setConfirmarEmail(valor);
+        break;
+      case "senha":
+        setSenha(valor);
+        break;
+      case "confirmarSenha":
+        setConfirmarSenha(valor);
+        break;
+      case "telefone":
+        // Atualiza o estado com o valor formatado
+        setTelefone(formatTelefone(valor));
+        break;
+      default:
+        break;
+    }
+
+    // Remove o campo da lista de inválidos assim que o usuário começa a preenchê-lo
+    setCamposInvalidos((prev) => prev.filter((item) => item !== campo));
   };
 
   return (
@@ -95,26 +143,21 @@ export default function Cadastro() {
             src={imagemPrato}
             alt="Prato branco"
             className={styles.imagemPrato}
-
           />
-          <p className={styles.fraseAbaixoLogo}>
-            Suas receitas e despesas na palma da sua mão!
-          </p>
         </div>
       </div>
 
       <div className={styles.ladoDireito}>
-        <form className={styles.formulario} onSubmit={handleCadastro}>
-          <h2 className="text-center" style={{ marginBottom: '60px' }}>Crie sua conta</h2>
-
-          {erro && !erro.includes('e-mail') && !erro.includes('senha') && !erro.includes('telefone') && (
-            <p className={styles.textErro}>{erro}</p>
-          )}
+        <form className={styles.formulario} onSubmit={handleCadastro} noValidate>
+          <div className={styles.topoForms}> <img src={crieConta} alt="Crie sua conta" className={styles.crieConta}/> </div>
 
           {/* Linha: Nome e Sobrenome */}
           <div className={styles.inputsRow}>
             <div className={styles.formGroup}>
-              <label htmlFor="nome">Nome</label>
+              <label htmlFor="nome">
+                Nome
+                {camposInvalidos.includes("nome") && <span className={styles.asterisco}>*</span>}
+              </label>
               <div className={styles.inputIconContainer}>
                 <i className="bi bi-person"></i>
                 <input
@@ -123,14 +166,18 @@ export default function Cadastro() {
                   minLength="2"
                   maxLength="20"
                   value={nome}
-                  onChange={(e) => setNome(e.target.value)}
+                  onChange={(e) => handleInputChange("nome", e.target.value)}
                   required
-                  className={styles.inputField}
+                  className={`${styles.inputField} ${camposInvalidos.includes("nome") ? styles.inputInvalido : ""
+                    }`}
                 />
               </div>
             </div>
             <div className={styles.formGroup}>
-              <label htmlFor="sobrenome">Sobrenome</label>
+              <label htmlFor="sobrenome">
+                Sobrenome
+                {camposInvalidos.includes("sobrenome") && <span className={styles.asterisco}>*</span>}
+              </label>
               <div className={styles.inputIconContainer}>
                 <i className="bi bi-person"></i>
                 <input
@@ -139,9 +186,10 @@ export default function Cadastro() {
                   minLength="2"
                   maxLength="20"
                   value={sobrenome}
-                  onChange={(e) => setSobrenome(e.target.value)}
+                  onChange={(e) => handleInputChange("sobrenome", e.target.value)}
                   required
-                  className={styles.inputField}
+                  className={`${styles.inputField} ${camposInvalidos.includes("sobrenome") ? styles.inputInvalido : ""
+                    }`}
                 />
               </div>
             </div>
@@ -150,7 +198,9 @@ export default function Cadastro() {
           {/* Email */}
 
           <div className={styles.formGroup}>
-            <label htmlFor="email">E-mail</label>
+            <label htmlFor="email">E-mail
+              {camposInvalidos.includes("email") && <span className={styles.asterisco}>*</span>}
+            </label>
             <div className={styles.inputIconContainer}>
               <i className="bi bi-envelope"></i>
               <input
@@ -159,17 +209,20 @@ export default function Cadastro() {
                 minLength="5"
                 maxLength="50"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => handleInputChange("email", e.target.value)}
                 required
-                className={styles.inputField}
+                className={`${styles.inputField} ${camposInvalidos.includes("confirmarEmail") ? styles.inputInvalido : ""
+                  }`}
               />
             </div>
           </div>
 
           {/* Confirmar Email */}
 
-          <div className={styles.formGroup}>
-            <label htmlFor="confirmarEmail">Confirmar e-mail</label>
+          <div className={styles.formGroup} style={{ position: "relative" }}>
+            <label htmlFor="confirmarEmail">Confirmar e-mail
+              {camposInvalidos.includes("confirmarEmail") && <span className={styles.asterisco}>*</span>}
+            </label>
             <div className={styles.inputIconContainer}>
               <i className="bi bi-envelope"></i>
               <input
@@ -178,113 +231,176 @@ export default function Cadastro() {
                 minLength="5"
                 maxLength="50"
                 value={confirmarEmail}
-                onChange={(e) => setConfirmarEmail(e.target.value)}
+                onChange={(e) => handleInputChange("confirmarEmail", e.target.value)}
                 required
-                className={styles.inputField}
+                className={`${styles.inputField} ${camposInvalidos.includes("confirmarEmail") ? styles.inputInvalido : ""
+                  }`}
               />
             </div>
-            {erro && erro.includes('e-mail') && <p className={styles.textErro}>{erro}</p>}
+            {/* Mensagem de erro se os e-mails não coincidirem */}
+            {confirmarEmail && confirmarEmail !== email && (
+              <p className={styles.textErroEmail}>Os e-mails não coincidem.</p>
+            )}
           </div>
 
           {/* Telefone */}
           <div className={styles.formGroup}>
-            <label htmlFor="telefone">Telefone celular</label>
+            <label htmlFor="telefone">Telefone celular (com DDD)</label>
+            {camposInvalidos.includes("telefone") && <span className={styles.asterisco}>*</span>}
             <div className={styles.inputIconContainer}>
               <i className="bi bi-telephone"></i>
               <input
                 id="telefone"
                 type="tel"
                 value={telefone}
-                onChange={(e) => setTelefone(formatTelefone(e.target.value))}
+                onChange={(e) => handleInputChange("telefone", e.target.value)}
                 required
-                className={styles.inputField}
+                className={`${styles.inputField} ${camposInvalidos.includes("telefone") ? styles.inputInvalido : ""
+                  }`}
               />
             </div>
-            {erro && erro.includes('telefone') && <p className={styles.textErro}>{erro}</p>}
           </div>
 
           {/* Linha: Senha e Confirmar Senha */}
           <div className={styles.inputsRow}>
             <div className={styles.formGroup}>
-              <label htmlFor="senha">Senha</label>
-              <div className={styles.senhaContainer}>
+              <label htmlFor="senha">Senha
+                {camposInvalidos.includes("senha") && <span className={styles.asterisco}>*</span>}
+              </label>
+              <div className={styles.inputIconContainer}>
+                <i className="bi bi-lock"></i> {/* Ícone de cadeado */}
                 <input
                   id="senha"
-                  type={mostrarSenha ? 'text' : 'password'}
+                  type={mostrarSenha ? "text" : "password"}
                   minLength="8"
                   maxLength="20"
                   value={senha}
-                  onChange={(e) => setSenha(e.target.value)}
+                  onChange={(e) => handleInputChange("senha", e.target.value)}
                   required
-                  className={styles.inputField}
+                  className={`${styles.inputField} ${camposInvalidos.includes("confirmarSenha") ? styles.inputInvalido : ""
+                    }`}
                 />
-                <button type="button" onClick={() => setMostrarSenha(!mostrarSenha)} className={styles.toggleSenha}>
-                  {mostrarSenha ? <i className="bi bi-eye-slash"></i> : <i className="bi bi-eye"></i>}
+                <button
+                  type="button"
+                  onClick={() => setMostrarSenha(!mostrarSenha)}
+                  className={styles.toggleSenha}
+                >
+                  {mostrarSenha ? (
+                    <i className="bi bi-eye-slash"></i>
+                  ) : (
+                    <i className="bi bi-eye"></i>
+                  )}
                 </button>
               </div>
-              {erro && erro.includes('senha') && <p className={styles.textErro}>{erro}</p>}
-              <p style={{ fontSize: '0.85rem', marginTop: '0.5rem', color: '#6c757d' }}>
-                Regras para a criação de senha:
-                <br />- Possuir um tamanho entre 8 e 20 caracteres.
-                <br />- Possuir no mínimo 1 letra minúscula.
-                <br />- Possuir no mínimo 1 letra maiúscula.
-                <br />- Possuir no mínimo 1 número.
-                <br />- Possuir no mínimo 1 caractere especial.
-              </p>
             </div>
 
-            <div className={styles.formGroup}>
-              <label htmlFor="confirmarSenha">Confirmar senha</label>
-              <div className={styles.senhaContainer}>
+            <div className={styles.formGroup} style={{ position: "relative" }}>
+              <label htmlFor="confirmarSenha">Confirmar senha
+                {camposInvalidos.includes("confirmarSenha") && <span className={styles.asterisco}>*</span>}
+              </label>
+              <div className={styles.inputIconContainer}>
+                <i className="bi bi-lock"></i> {/* Ícone de cadeado */}
                 <input
                   id="confirmarSenha"
-                  type={mostrarConfirmarSenha ? 'text' : 'password'}
-                  minlength="8"
-                  maxlength="20"
+                  type={mostrarConfirmarSenha ? "text" : "password"}
+                  minLength="8"
+                  maxLength="20"
                   value={confirmarSenha}
-                  onChange={(e) => setConfirmarSenha(e.target.value)}
+                  onChange={(e) => handleInputChange("confirmarSenha", e.target.value)}
                   required
-                  className={styles.inputField}
+                  className={`${styles.inputField} ${camposInvalidos.includes("confirmarSenha") ? styles.inputInvalido : ""
+                    }`}
                 />
                 <button
                   type="button"
                   onClick={() => setMostrarConfirmarSenha(!mostrarConfirmarSenha)}
                   className={styles.toggleSenha}
                 >
-                  {mostrarConfirmarSenha ? <i className="bi bi-eye-slash"></i> : <i className="bi bi-eye"></i>}
+                  {mostrarConfirmarSenha ? (
+                    <i className="bi bi-eye-slash"></i>
+                  ) : (
+                    <i className="bi bi-eye"></i>
+                  )}
                 </button>
               </div>
+              {/* Mensagem de erro se as senhas não coincidirem */}
+              {confirmarSenha && confirmarSenha !== senha && (
+                <p className={styles.textErroSenha}>As senhas não coincidem.</p>
+              )}
             </div>
           </div>
 
+          <p
+            style={{
+              fontSize: "1rem",
+              marginBottom: "0.2rem",
+              color: " #6c757d",
+              padding: "0",
+            }}
+          >
+            <strong>Regras para a criação de senha:</strong>
+          </p>
 
-          {/* Mensagens */}
-          {sucesso && <p className={styles.textSucesso}>{sucesso}</p>}
+          <ul className={styles.regrasSenha}>
+            <li className={senha.length >= 8 && senha.length <= 20 ? styles.valido : styles.invalido}>
+              <i className={senha.length >= 8 && senha.length <= 20 ? "bi bi-check-circle" : "bi bi-x-circle"}></i>
+              Possuir um tamanho entre 8 e 20 caracteres.
+            </li>
+            <li className={/[a-z]/.test(senha) ? styles.valido : styles.invalido}>
+              <i className={/[a-z]/.test(senha) ? "bi bi-check-circle" : "bi bi-x-circle"}></i>
+              Possuir no mínimo 1 letra minúscula.
+            </li>
+            <li className={/[A-Z]/.test(senha) ? styles.valido : styles.invalido}>
+              <i className={/[A-Z]/.test(senha) ? "bi bi-check-circle" : "bi bi-x-circle"}></i>
+              Possuir no mínimo 1 letra maiúscula.
+            </li>
+            <li className={/[0-9]/.test(senha) ? styles.valido : styles.invalido}>
+              <i className={/[0-9]/.test(senha) ? "bi bi-check-circle" : "bi bi-x-circle"}></i>
+              Possuir no mínimo 1 número.
+            </li>
+            <li className={/[!@#$%^&*(),.?":{}|<>]/.test(senha) ? styles.valido : styles.invalido}>
+              <i className={/[!@#$%^&*(),.?":{}|<>]/.test(senha) ? "bi bi-check-circle" : "bi bi-x-circle"}></i>
+              Possuir no mínimo 1 caractere especial.
+            </li>
+          </ul>
 
           <button type="submit" className={styles.btnCadastrar}>
             Cadastrar-se
           </button>
 
           <div className="mt-1 text-center">
-            <p style={{ marginTop: '10px', marginBottom: '0px' }}>
-              Já é cadastrado?{' '}
+            <p style={{ marginTop: "25px", marginBottom: "0px" }}>
+              Já é cadastrado?{" "}
               <span
-                onClick={() => navigate('/')}
+                onClick={() => navigate("/")}
                 style={{
-                  color: '#67477A',
-                  cursor: 'pointer',
-                  textDecoration: 'underline',
-                  display: 'inline-block',
-                  transition: 'transform 0.3s ease, color 0.3s ease',
+                  color: "#67477A",
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                  display: "inline-block",
+                  transition: "transform 0.3s ease, color 0.3s ease",
                 }}
-                onMouseEnter={(e) => (e.target.style.transform = 'scale(1.03)')}
-                onMouseLeave={(e) => (e.target.style.transform = 'scale(1)')}
+                onMouseEnter={(e) => (e.target.style.transform = "scale(1.01)")}
+                onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
               >
                 Fazer log-in
               </span>
             </p>
           </div>
         </form>
+
+        {/* Pop-up para mensagens */}
+        {popUpMessage && (
+          <div
+            className={
+              popUpMessage === "Cadastro realizado com sucesso!"
+                ? styles.popUpSucess
+                : styles.popUpError
+            }
+          >
+            {popUpMessage}
+          </div>
+        )}
       </div>
     </div>
   );
