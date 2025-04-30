@@ -7,9 +7,13 @@ input[type="password"]::-ms-reveal {
   width: 100%;
   height: 100dvh;
   overflow: hidden;
-  background: 
-  radial-gradient(circle at 28% center, rgba(123, 61, 147, 0.7) 30%, rgba(81, 46, 97, 0.7) 35%, rgba(75, 41, 96, 0.7) 40%),
-  url('/midia/ingredientes-bg.png') no-repeat center center;
+  background: radial-gradient(
+      circle at 28% center,
+      rgba(123, 61, 147, 0.7) 30%,
+      rgba(81, 46, 97, 0.7) 35%,
+      rgba(75, 41, 96, 0.7) 40%
+    ),
+    url("/midia/ingredientes-bg.png") no-repeat center center;
   background-size: cover;
   display: flex;
   justify-content: center;
@@ -26,14 +30,13 @@ input[type="password"]::-ms-reveal {
   top: 50%;
   left: 30%;
   transform: translate(-50%, -50%);
-  background-image: url('../assets/ingredientes-silhueta.svg');
+  background-image: url("../assets/ingredientes-silhueta.svg");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
   opacity: 0.6; /* Deixa mais suave se quiser */
   z-index: 0; /* Fica atrás do texto */
 }
-
 
 /* Texto no lado esquerdo */
 .ladoEsquerdo {
@@ -76,7 +79,7 @@ input[type="password"]::-ms-reveal {
   justify-content: space-between; /* Garante que o conteúdo seja distribuído */
   padding: 2rem 1.5rem;
   overflow: hidden; /* Remove o scroll do modal */
-  animation: slideUp 1s ease-out; /* Duração de 1 segundo */
+  animation: slideUp 1.2s ease-out; /* Duração de 1 segundo */
 }
 
 /* Formulário */
@@ -101,7 +104,7 @@ input[type="password"]::-ms-reveal {
 
 .formGroup label {
   margin-bottom: 0.75rem; /* Ou entre 0.5rem a 1rem */
-  color: var(--rich-black)
+  color: var(--rich-black);
 }
 
 /* Contêiner para o input com ícone */
@@ -163,10 +166,10 @@ input[type="password"]::-ms-reveal {
 
 .btnCadastrar:hover {
   background-color: #e07a00;
-  color: var(--white); 
+  color: var(--white);
 }
 
-.topoForms{
+.topoForms {
   display: flex;
   width: 100%;
   align-items: center;
@@ -252,7 +255,6 @@ input[type="password"]::-ms-reveal {
   opacity: 0.9;
   z-index: 2; /* levemente acima */
   animation: slideDownLogo 1.2s ease-out; /* Duração de 1.2 segundos */
-  animation: slideDownLogo 1.2s ease-out;
 }
 
 .imagemPrato {
@@ -261,11 +263,6 @@ input[type="password"]::-ms-reveal {
   margin-top: -350px; /* distancia do logo */
   z-index: 2;
   animation: slideDown 1.2s ease-out; /* Duração de 1 segundo */
-}
-
-.mt-1.text-center {
-  margin-top: 1rem;
-  flex-shrink: 0; /* Garante que o parágrafo não encolha */
 }
 
 @media (max-width: 768px) {
@@ -382,6 +379,7 @@ input[type="password"]::-ms-reveal {
   }
 }
 
+/* Estilo para o pop-up de erro */
 .popUpError {
   position: fixed;
   bottom: 5px;
@@ -394,14 +392,17 @@ input[type="password"]::-ms-reveal {
   font-size: 0.9rem;
   font-weight: bold;
   z-index: 1000;
-  animation: fadeOut 5s forwards; /* Desaparece após 5 segundos */
+  animation: slideInError 0.3s ease-in, slideOutError 0.5s ease-out 8s forwards; /* Combina as animações */
 }
 
+/* Estilo para o pop-up de sucesso */
 .popUpSucess {
   position: fixed;
-  bottom: 5px;
-  right: 10px;
-  background-color: var(--dark-pastel-green); /* Verde para confirmações bem sucedidas */
+  bottom: 770px;
+  right: 70px;
+  background-color: var(
+    --dark-pastel-green
+  ); /* Verde para confirmações bem sucedidas */
   color: var(--white);
   padding: 10px 20px;
   border-radius: 20px;
@@ -409,19 +410,8 @@ input[type="password"]::-ms-reveal {
   font-size: 0.9rem;
   font-weight: bold;
   z-index: 1000;
-  animation: fadeOut 3s forwards; /* Desaparece após 3 segundos */
-}
-
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
+  animation: slideInSuccess 0.5s ease-out,
+    slideOutSuccess 0.5s ease-out 240s forwards; /* Combina as animações */
 }
 
 .asterisco {
@@ -449,7 +439,10 @@ input[type="password"]::-ms-reveal {
 /* Animação para o logo manuscrito */
 @keyframes slideDownLogo {
   0% {
-    transform: translate(-50%, -200%); /* Começa acima e alinhada horizontalmente */
+    transform: translate(
+      -50%,
+      -200%
+    ); /* Começa acima e alinhada horizontalmente */
     opacity: 0; /* Invisível */
   }
   100% {
@@ -467,5 +460,51 @@ input[type="password"]::-ms-reveal {
   100% {
     transform: translateY(-50%); /* Posição final */
     opacity: 1; /* Visível */
+  }
+}
+
+/* Animação para entrada suave dos pop-ups */
+@keyframes slideInError {
+  0% {
+    transform: translateY(40px); /* Começa ligeiramente abaixo */
+    opacity: 1; /* Invisível */
+  }
+  100% {
+    transform: translateY(0px); /* Posição final */
+    opacity: 1; /* Visível */
+  }
+}
+
+/* Animação para saída suave dos pop-ups */
+@keyframes slideOutError {
+  100% {
+    transform: translateY(50px); /* Posição inicial */
+    opacity: 1; /* Visível */
+  }
+  0% {
+    transform: translateY(0px); /* Sai ligeiramente abaixo */
+    opacity: 1; /* Invisível */
+  }
+}
+
+@keyframes slideInSuccess {
+  0% {
+    transform: translateY(-100px); /* Começa ligeiramente acima */
+    opacity: 1; /* Invisível */
+  }
+  100% {
+    transform: translateY(0px); /* Posição final */
+    opacity: 1; /* Visível */
+  }
+}
+
+@keyframes slideOutSuccess {
+  100% {
+    transform: translateY(-100px); /* Posição inicial */
+    opacity: 1; /* Visível */
+  }
+  0% {
+    transform: translateY(0px); /* Sai ligeiramente abaixo */
+    opacity: 1; /* Invisível */
   }
 }
