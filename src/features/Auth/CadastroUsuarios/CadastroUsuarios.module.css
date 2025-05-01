@@ -9,7 +9,7 @@ input[type="password"]::-ms-reveal {
   overflow: hidden;
   background: radial-gradient(
       circle at 28% center,
-      rgba(123, 61, 147, 0.7) 30%,
+      rgba(123, 61, 147, 0.702) 30%,
       rgba(81, 46, 97, 0.7) 35%,
       rgba(75, 41, 96, 0.7) 40%
     ),
@@ -150,8 +150,9 @@ input[type="password"]::-ms-reveal {
 
 /* Botão de cadastro */
 .btnCadastrar {
-  margin-top: 1.5rem;
-  width: 100%;
+  margin: auto; /* Centraliza horizontalmente */
+  margin-top: 25px;
+  width: 42%; /* Define a largura como 50% */
   padding: 0.75rem;
   background-color: #fca311;
   color: var(--floral-white);
@@ -161,7 +162,8 @@ input[type="password"]::-ms-reveal {
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
-  flex-shrink: 0; /* Garante que o botão não encolha */
+  flex-shrink: 0;
+  display: block; /* Garante que o botão seja tratado como um bloco */
 }
 
 .btnCadastrar:hover {
@@ -178,7 +180,7 @@ input[type="password"]::-ms-reveal {
 
 .crieConta {
   width: 55%;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
   justify-content: center;
   max-width: 100%; /* Garante que a imagem não ultrapasse o tamanho do contêiner */
   height: auto; /* Mantém a proporção da imagem */

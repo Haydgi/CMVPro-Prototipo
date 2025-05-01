@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./CadastroUsuarios.module.css";
 import logoManuscrito from "../../../assets/logotipo-manuscrito.png";
 import imagemPrato from "../../../assets/imagem-prato.png";
-import '../../../Styles/global.css'; 
+import '../../../Styles/global.css';
 import crieConta from "../../../assets/crie-sua-conta.png";
 
 export default function Cadastro() {
@@ -69,9 +69,10 @@ export default function Cadastro() {
       !/[0-9]/.test(senha) ||
       !/[!@#$%^&*(),.?":{}|<>]/.test(senha)
     )
-      camposInvalidosTemp.push("senha");
-    if (!confirmarSenha || senha !== confirmarSenha)
-      camposInvalidosTemp.push("confirmarSenha");
+      camposInvalidosTemp.push("senha", "confirmarSenha"); // Adiciona ambos os campos
+    if (!confirmarSenha || senha !== confirmarSenha) {
+      camposInvalidosTemp.push("senha", "confirmarSenha"); // Marca ambos os campos como inválidos
+    }
 
     // Se houver campos inválidos ou não preenchidos
     if (camposNaoPreenchidos.length > 0 || camposInvalidosTemp.length > 0) {
@@ -187,13 +188,12 @@ export default function Cadastro() {
                   id="nome"
                   type="text"
                   minLength="2"
-                  maxLength="20"
+                  maxLength="30"
                   value={nome}
                   onChange={(e) => handleInputChange("nome", e.target.value)}
                   required
-                  className={`${styles.inputField} ${
-                    camposInvalidos.includes("nome") ? styles.inputInvalido : ""
-                  }`}
+                  className={`${styles.inputField} ${camposInvalidos.includes("nome") ? styles.inputInvalido : ""
+                    }`}
                 />
               </div>
             </div>
@@ -210,17 +210,16 @@ export default function Cadastro() {
                   id="sobrenome"
                   type="text"
                   minLength="2"
-                  maxLength="20"
+                  maxLength="50"
                   value={sobrenome}
                   onChange={(e) =>
                     handleInputChange("sobrenome", e.target.value)
                   }
                   required
-                  className={`${styles.inputField} ${
-                    camposInvalidos.includes("sobrenome")
-                      ? styles.inputInvalido
-                      : ""
-                  }`}
+                  className={`${styles.inputField} ${camposInvalidos.includes("sobrenome")
+                    ? styles.inputInvalido
+                    : ""
+                    }`}
                 />
               </div>
             </div>
@@ -245,11 +244,10 @@ export default function Cadastro() {
                 value={email}
                 onChange={(e) => handleInputChange("email", e.target.value)}
                 required
-                className={`${styles.inputField} ${
-                  camposInvalidos.includes("confirmarEmail")
-                    ? styles.inputInvalido
-                    : ""
-                }`}
+                className={`${styles.inputField} ${camposInvalidos.includes("confirmarEmail")
+                  ? styles.inputInvalido
+                  : ""
+                  }`}
               />
             </div>
           </div>
@@ -275,11 +273,10 @@ export default function Cadastro() {
                   handleInputChange("confirmarEmail", e.target.value)
                 }
                 required
-                className={`${styles.inputField} ${
-                  camposInvalidos.includes("confirmarEmail")
-                    ? styles.inputInvalido
-                    : ""
-                }`}
+                className={`${styles.inputField} ${camposInvalidos.includes("confirmarEmail")
+                  ? styles.inputInvalido
+                  : ""
+                  }`}
               />
             </div>
             {/* Mensagem de erro se os e-mails não coincidirem */}
@@ -302,11 +299,10 @@ export default function Cadastro() {
                 value={telefone}
                 onChange={(e) => handleInputChange("telefone", e.target.value)}
                 required
-                className={`${styles.inputField} ${
-                  camposInvalidos.includes("telefone")
-                    ? styles.inputInvalido
-                    : ""
-                }`}
+                className={`${styles.inputField} ${camposInvalidos.includes("telefone")
+                  ? styles.inputInvalido
+                  : ""
+                  }`}
               />
             </div>
           </div>
@@ -321,7 +317,7 @@ export default function Cadastro() {
                 )}
               </label>
               <div className={styles.inputIconContainer}>
-                <i className="bi bi-lock"></i> {/* Ícone de cadeado */}
+                <i className="bi bi-lock"></i>
                 <input
                   id="senha"
                   type={mostrarSenha ? "text" : "password"}
@@ -330,11 +326,8 @@ export default function Cadastro() {
                   value={senha}
                   onChange={(e) => handleInputChange("senha", e.target.value)}
                   required
-                  className={`${styles.inputField} ${
-                    camposInvalidos.includes("confirmarSenha")
-                      ? styles.inputInvalido
-                      : ""
-                  }`}
+                  className={`${styles.inputField} ${camposInvalidos.includes("senha") ? styles.inputInvalido : ""
+                    }`}
                 />
                 <button
                   type="button"
@@ -358,7 +351,7 @@ export default function Cadastro() {
                 )}
               </label>
               <div className={styles.inputIconContainer}>
-                <i className="bi bi-lock"></i> {/* Ícone de cadeado */}
+                <i className="bi bi-lock"></i>
                 <input
                   id="confirmarSenha"
                   type={mostrarConfirmarSenha ? "text" : "password"}
@@ -369,11 +362,10 @@ export default function Cadastro() {
                     handleInputChange("confirmarSenha", e.target.value)
                   }
                   required
-                  className={`${styles.inputField} ${
-                    camposInvalidos.includes("confirmarSenha")
-                      ? styles.inputInvalido
-                      : ""
-                  }`}
+                  className={`${styles.inputField} ${camposInvalidos.includes("confirmarSenha")
+                    ? styles.inputInvalido
+                    : ""
+                    }`}
                 />
                 <button
                   type="button"
@@ -486,11 +478,12 @@ export default function Cadastro() {
                   cursor: "pointer",
                   textDecoration: "underline",
                   display: "inline-block",
+                  fontWeight: "bold",
                   transition: "transform 0.3s ease, color 0.3s ease",
                 }}
                 onMouseEnter={(e) => (e.target.style.transform = "scale(1.01)")}
                 onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
-              >
+                >
                 Fazer log-in
               </span>
             </p>
@@ -502,7 +495,7 @@ export default function Cadastro() {
           <div
             className={
               popUpMessage ===
-              "Cadastro realizado com sucesso! Verifique seu e-mail para ativar sua conta."
+                "Cadastro realizado com sucesso! Verifique seu e-mail para ativar sua conta."
                 ? styles.popUpSucess
                 : styles.popUpError
             }
