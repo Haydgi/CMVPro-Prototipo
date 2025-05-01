@@ -102,6 +102,10 @@ input[type="password"]::-ms-reveal {
   flex: 1;
 }
 
+.formGroup {
+  position: relative; /* Define o contêiner como referência para posicionamento absoluto */
+}
+
 .formGroup label {
   margin-bottom: 0.75rem; /* Ou entre 0.5rem a 1rem */
   color: var(--rich-black);
@@ -206,6 +210,37 @@ input[type="password"]::-ms-reveal {
   right: 0; /* Alinha o texto à direita do contêiner */
   white-space: nowrap; /* Garante que o texto fique em uma linha só */
   margin-bottom: -1.5rem; /* Espaçamento entre o campo e a mensagem */
+}
+
+.textErroTelefone {
+  color: var(--imperial-red); /* Vermelho para mensagens de erro */
+  font-size: 0.85rem;
+  font-weight: 600;
+  position: absolute; /* Posiciona a mensagem em relação ao formGroup */
+  top: 0.3rem; /* Coloca a mensagem acima do campo */
+  left: 22.4rem; /* Alinha o texto à esquerda do campo */
+  white-space: nowrap; /* Garante que o texto fique em uma linha só */
+}
+
+.textErroFormatoEmail {
+  color: var(--imperial-red); /* Vermelho para mensagens de erro */
+  font-size: 0.85rem;
+  font-weight: 600;
+  position: absolute; /* Posiciona a mensagem em relação ao formGroup */
+  top: 0.3rem; /* Coloca a mensagem acima do campo */
+  left: 23rem; /* Alinha o texto à esquerda do campo */
+  white-space: nowrap; /* Garante que o texto fique em uma linha só */
+}
+
+.textErroConfirmarEmail {
+  color: var(--imperial-red); /* Vermelho para mensagens de erro */
+  font-size: 0.85rem;
+  font-weight: 600;
+  position: absolute; /* Posiciona a mensagem fora do fluxo normal */
+  top: 0%; /* Coloca a mensagem abaixo do campo */
+  left: 70%; /* Alinha o texto à esquerda do contêiner */
+  white-space: nowrap; /* Garante que o texto fique em uma linha só */
+  margin-top: 0.25rem; /* Espaçamento entre o campo e a mensagem */
 }
 
 .textSucesso {

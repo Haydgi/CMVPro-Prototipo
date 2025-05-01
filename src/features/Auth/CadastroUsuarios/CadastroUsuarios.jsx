@@ -50,8 +50,12 @@ export default function Cadastro() {
 
     // Validações
     if (nome.length < 3) camposInvalidosTemp.push("nome");
-    if (sobrenome.length < 3) camposInvalidosTemp.push("sobrenome");
-    if (!email) camposNaoPreenchidos.push("email");
+    if (sobrenome.length < 2) camposInvalidosTemp.push("sobrenome");
+    if (!email) {
+      camposNaoPreenchidos.push("email");
+    } else if (!email.includes("@")) {
+      camposInvalidosTemp.push("email"); // Adiciona o campo de e-mail como inválido
+    }
     if (!confirmarEmail || email !== confirmarEmail)
       camposInvalidosTemp.push("confirmarEmail");
     if (
@@ -226,14 +230,17 @@ export default function Cadastro() {
           </div>
 
           {/* Email */}
-
           <div className={styles.formGroup}>
             <label htmlFor="email">
               E-mail
-              {camposInvalidos.includes("email") && (
+              {(camposInvalidos.includes("email") || camposInvalidos.includes("confirmarEmail")) && (
                 <span className={styles.asterisco}>*</span>
               )}
             </label>
+            {/* Mensagem de erro para formato inválido de e-mail */}
+            {!email.includes("@") && email && (
+              <p className={styles.textErroFormatoEmail}>Formato de e-mail inválido.</p>
+            )}
             <div className={styles.inputIconContainer}>
               <i className="bi bi-envelope"></i>
               <input
@@ -244,7 +251,7 @@ export default function Cadastro() {
                 value={email}
                 onChange={(e) => handleInputChange("email", e.target.value)}
                 required
-                className={`${styles.inputField} ${camposInvalidos.includes("confirmarEmail")
+                className={`${styles.inputField} ${camposInvalidos.includes("email") || confirmarEmail !== email
                   ? styles.inputInvalido
                   : ""
                   }`}
@@ -253,11 +260,10 @@ export default function Cadastro() {
           </div>
 
           {/* Confirmar Email */}
-
           <div className={styles.formGroup} style={{ position: "relative" }}>
             <label htmlFor="confirmarEmail">
               Confirmar e-mail
-              {camposInvalidos.includes("confirmarEmail") && (
+              {(camposInvalidos.includes("email") || camposInvalidos.includes("confirmarEmail")) && (
                 <span className={styles.asterisco}>*</span>
               )}
             </label>
@@ -269,11 +275,9 @@ export default function Cadastro() {
                 minLength="5"
                 maxLength="50"
                 value={confirmarEmail}
-                onChange={(e) =>
-                  handleInputChange("confirmarEmail", e.target.value)
-                }
+                onChange={(e) => handleInputChange("confirmarEmail", e.target.value)}
                 required
-                className={`${styles.inputField} ${camposInvalidos.includes("confirmarEmail")
+                className={`${styles.inputField} ${camposInvalidos.includes("confirmarEmail") || confirmarEmail !== email
                   ? styles.inputInvalido
                   : ""
                   }`}
@@ -281,7 +285,7 @@ export default function Cadastro() {
             </div>
             {/* Mensagem de erro se os e-mails não coincidirem */}
             {confirmarEmail && confirmarEmail !== email && (
-              <p className={styles.textErroEmail}>Os e-mails não coincidem.</p>
+              <p className={styles.textErroConfirmarEmail}>Os e-mails não coincidem.</p>
             )}
           </div>
 
@@ -290,6 +294,10 @@ export default function Cadastro() {
             <label htmlFor="telefone">Telefone celular (com DDD)</label>
             {camposInvalidos.includes("telefone") && (
               <span className={styles.asterisco}>*</span>
+            )}
+            {/* Mensagem de erro para número de telefone inválido */}
+            {telefone.replace(/\D/g, "").length > 0 && telefone.replace(/\D/g, "").length < 10 && (
+              <p className={styles.textErroTelefone}>Número de telefone inválido.</p>
             )}
             <div className={styles.inputIconContainer}>
               <i className="bi bi-telephone"></i>
@@ -483,7 +491,7 @@ export default function Cadastro() {
                 }}
                 onMouseEnter={(e) => (e.target.style.transform = "scale(1.01)")}
                 onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
-                >
+              >
                 Fazer log-in
               </span>
             </p>
