@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import "../assets/ModalCadastro.css"; // Reutilizando o CSS do ModalCadastroProduto
-import "../assets/global.css";
+import "../ModalCadastro.css"; // Reutilizando o CSS do ModalCadastroProduto
+import '../../../Styles/global.css'; 
 
 function ModalCadastroReceita({ onClose, onSave }) {
   const [form, setForm] = useState({

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import "../assets/ModalCadastro.css";
-import "../assets/global.css";
+import "../ModalCadastro.css";
+import "../../../Styles/global.css";
 
 // Mapeamento de categorias para ícones
 const categoriaIcones = {

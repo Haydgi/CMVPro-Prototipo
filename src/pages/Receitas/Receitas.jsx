@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import ModalCadastroReceita from '../components/ModalCadastroReceita';
+import ModalCadastroReceita from '../../components/Modals/ModalCadastroReceita/ModalCadastroReceita';
 
 function Receitas() {
   const [receitas, setReceitas] = useState([]);

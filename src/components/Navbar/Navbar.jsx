@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
-import '../assets/Navbar.css'
-import '../assets/global.css'
+import './Navbar.css'
+import '../../Styles/global.css'; 
 
 function Navbar({ onLogout }) {
   const location = useLocation();

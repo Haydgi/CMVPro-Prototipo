@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "../assets/CadastroUsuarios.module.css";
-import logoManuscrito from "../assets/logotipo-manuscrito.png";
-import imagemPrato from "../assets/imagem-prato.png";
-import "../assets/global.css";
-import crieConta from "../assets/crie-sua-conta.png";
+import styles from "./CadastroUsuarios.module.css";
+import logoManuscrito from "../../../assets/logotipo-manuscrito.png";
+import imagemPrato from "../../../assets/imagem-prato.png";
+import '../../../Styles/global.css'; 
+import crieConta from "../../../assets/crie-sua-conta.png";
 
 export default function Cadastro() {
   const navigate = useNavigate();

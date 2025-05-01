@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import '../assets/global.css';
-import '../assets/Itens.css';
-import ModalCadastroProduto from '../components/ModalCadastroProduto';
+import '../../Styles/global.css'; 
+import './Itens.css';
+import ModalCadastroProduto from '../../components/Modals/ModalCadastroProduto/ModalCadastroProduto';
 
 function Produtos() {
   const [produtos, setProdutos] = useState([]);

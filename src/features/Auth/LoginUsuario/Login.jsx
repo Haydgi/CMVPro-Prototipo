@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Importa o hook useNavigate
-import '../assets/LoginCadastro.css';
-import '../assets/global.css';
+import '../../../Styles/global.css'; 
 
 function Login({ onLogin }) { // Renomeado de Sobre para Login
   const [mostrarCadastro, setMostrarCadastro] = useState(false);
