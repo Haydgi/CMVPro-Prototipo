@@ -5,6 +5,7 @@ import Produtos from './pages/Produtos/Produtos';
 import Receitas from './pages/Receitas/Receitas';
 import Sobre from './features/Auth/LoginUsuario/Login';
 import Cadastro from './features/Auth/CadastroUsuarios/CadastroUsuarios'; // Importa o componente Cadastro
+import AuthUser from './features/Auth/AuthUser/AuthUser';
 
 function App() {
   const [logado, setLogado] = useState(false);
@@ -34,6 +35,10 @@ function App() {
         <Route 
           path="/cadastro" 
           element={<Cadastro />} // Rota para o componente Cadastro
+        />
+        <Route 
+          path="/auth" 
+          element={<AuthUser />} // Rota para o componente Cadastro
         />
       </Routes>
     </>

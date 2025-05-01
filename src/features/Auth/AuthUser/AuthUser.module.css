@@ -1,0 +1,83 @@
+.cadastroContainer {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background: radial-gradient(
+      circle at 50% center,
+      rgba(123, 61, 147, 0.702) 40%,
+      rgba(81, 46, 97, 0.7) 45%,
+      rgba(75, 41, 96, 0.7) 50%
+    ),
+    url("/midia/ingredientes-bg.png") no-repeat center center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Silhueta no fundo (não muda) */
+.bgSilhueta::before {
+  content: "";
+  position: absolute;
+  width: 500px; /* Ajuste conforme o tamanho desejado */
+  height: 500px; /* Ajuste conforme o tamanho desejado */
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  background-image: url("../assets/ingredientes-silhueta.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  opacity: 0.6; /* Deixa mais suave se quiser */
+  z-index: 0; /* Fica atrás do texto */
+}
+
+/* Texto no lado esquerdo */
+.ladoEsquerdo {
+  position: absolute;
+  left: 20%;
+  top: 40%;
+  bottom: 0;
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  color: var(--floral-white);
+  text-align: center;
+  z-index: 1;
+}
+
+.imagemPrato {
+  width: 1100px; /* ajuste o tamanho conforme quiser */
+  height: auto;
+  margin-top: -350px; /* distancia do logo */
+  z-index: 2;
+  animation: slideDown 1.2s ease-out; /* Duração de 1 segundo */
+}
+
+.textConfAuth {
+  position: absolute; /* Posiciona o texto em relação ao contêiner pai */
+  top: 5%; /* Centraliza verticalmente */
+  left: 50%; /* Centraliza horizontalmente */
+  transform: translate(-50%, -50%); /* Ajusta o ponto de referência para o centro */
+  color: var(--dark-pastel-green); /* Cor do texto */
+  font-size: 2rem; /* Tamanho do texto */
+  font-weight: bold; /* Negrito */
+  text-align: center; /* Centraliza o texto */
+  z-index: 3; /* Garante que o texto fique acima da imagem */
+}
+
+.textInfo {
+  position: absolute; /* Posiciona o texto em relação ao contêiner pai */
+  top: 25%; /* Centraliza verticalmente */
+  left: 50%; /* Centraliza horizontalmente */
+  transform: translate(-50%, -50%); /* Ajusta o ponto de referência para o centro */
+  color: var(--rich-black); /* Cor do texto */
+  font-size: 2rem; /* Tamanho do texto */
+  font-weight: bold; /* Negrito */
+  text-align: center; /* Centraliza o texto */
+  z-index: 3; /* Garante que o texto fique acima da imagem */
+}
