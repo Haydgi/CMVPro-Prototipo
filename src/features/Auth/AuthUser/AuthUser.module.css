@@ -14,70 +14,80 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-}
-
-/* Silhueta no fundo (não muda) */
-.bgSilhueta::before {
-  content: "";
-  position: absolute;
-  width: 500px; /* Ajuste conforme o tamanho desejado */
-  height: 500px; /* Ajuste conforme o tamanho desejado */
-  top: 50%;
-  left: 30%;
-  transform: translate(-50%, -50%);
-  background-image: url("../assets/ingredientes-silhueta.svg");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  opacity: 0.6; /* Deixa mais suave se quiser */
-  z-index: 0; /* Fica atrás do texto */
-}
-
-/* Texto no lado esquerdo */
-.ladoEsquerdo {
-  position: absolute;
-  left: 20%;
-  top: 40%;
-  bottom: 0;
-  width: 60%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
-  color: var(--floral-white);
-  text-align: center;
-  z-index: 1;
 }
 
 .imagemPrato {
-  width: 1100px; /* ajuste o tamanho conforme quiser */
+  width: 1100px;
+  max-width: 90vw;
   height: auto;
-  margin-top: -350px; /* distancia do logo */
-  z-index: 2;
-  animation: slideDown 1.2s ease-out; /* Duração de 1 segundo */
+}
+
+.sobreposicao {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 600px;
+  justify-items: center;
 }
 
 .textConfAuth {
-  position: absolute; /* Posiciona o texto em relação ao contêiner pai */
-  top: 5%; /* Centraliza verticalmente */
-  left: 50%; /* Centraliza horizontalmente */
-  transform: translate(-50%, -50%); /* Ajusta o ponto de referência para o centro */
-  color: var(--dark-pastel-green); /* Cor do texto */
-  font-size: 2rem; /* Tamanho do texto */
-  font-weight: bold; /* Negrito */
-  text-align: center; /* Centraliza o texto */
-  z-index: 3; /* Garante que o texto fique acima da imagem */
+  color: var(--dark-pastel-green);
+  font-size: 2rem;
+  font-weight: bold; 
+  text-align: center;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
 }
 
 .textInfo {
-  position: absolute; /* Posiciona o texto em relação ao contêiner pai */
-  top: 25%; /* Centraliza verticalmente */
-  left: 50%; /* Centraliza horizontalmente */
-  transform: translate(-50%, -50%); /* Ajusta o ponto de referência para o centro */
-  color: var(--rich-black); /* Cor do texto */
-  font-size: 2rem; /* Tamanho do texto */
-  font-weight: bold; /* Negrito */
-  text-align: center; /* Centraliza o texto */
-  z-index: 3; /* Garante que o texto fique acima da imagem */
+  color: var(--rich-black); 
+  font-size: 2rem; 
+  font-weight: bold; 
+  text-align: center; 
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+}
+
+.btnCadastrar {
+  margin-top: 25px;
+  width: 50%;
+  padding: 0.75rem;
+  background: linear-gradient(to right, #a36acb, var(--ultra-violet));
+  background-size: 200% 100%;
+  background-position: right;
+  color: var(--floral-white);
+  border: none;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease-in-out;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btnCadastrar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 150%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 60%);
+  transform: skewX(-20deg);
+  transition: left 0.5s ease-in-out;
+  z-index: 0;
+}
+
+.btnCadastrar:hover::before {
+  left: 105%;
+}
+
+.btnCadastrar:hover {
+  background-position: left;
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
 }
