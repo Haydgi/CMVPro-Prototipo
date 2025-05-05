@@ -285,17 +285,19 @@ input[type="password"]::-ms-reveal {
 /* Popups */
 /* Estilização do popup de erro */
 .popUpError {
-  position: fixed;
-  bottom: 5px;
-  right: 10px;
+  position: absolute;
+  bottom: 3px;
+  left: 77%;
+  transform: translateX(-50%);
   background-color: var(--imperial-red);
   color: var(--white);
   padding: 10px 20px;
   border-radius: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-size: 0.9rem;
+  white-space: nowrap;
   font-weight: bold;
-  z-index: 1000;
+  z-index: 10;
   animation: slideInError 0.3s ease-in, slideOutError 0.5s ease-out 8s forwards;
 }
 
@@ -483,24 +485,24 @@ input[type="password"]::-ms-reveal {
 /* Animação para entrada do popup de erro */
 @keyframes slideInError {
   0% {
-    transform: translateY(40px);
-    opacity: 1;
+    transform: translateX(-50%) translateY(100%); /* Fora do modal */
+    opacity: 0;
   }
   100% {
-    transform: translateY(0px); 
-    opacity: 1; 
+    transform: translateX(-50%) translateY(0); /* Dentro do modal */
+    opacity: 1;
   }
 }
 
 /* Animação para saída do popup de erro */
 @keyframes slideOutError {
-  100% {
-    transform: translateY(50px);
+  0% {
+    transform: translateX(-50%) translateY(0); /* Dentro do modal */
     opacity: 1;
   }
-  0% {
-    transform: translateY(0px);
-    opacity: 1;
+  100% {
+    transform: translateX(-50%) translateY(100%); /* Fora do modal */
+    opacity: 0;
   }
 }
 
