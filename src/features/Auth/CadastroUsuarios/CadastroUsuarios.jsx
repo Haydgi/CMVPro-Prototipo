@@ -481,7 +481,7 @@ export default function Cadastro() {
             <p style={{ marginTop: "25px", marginBottom: "0px" }}>
               Já é cadastrado?{" "}
               <span
-                onClick={() => navigate("/")}
+                onClick={() => navigate("/signin")}
                 style={{
                   color: "#67477A",
                   cursor: "pointer",

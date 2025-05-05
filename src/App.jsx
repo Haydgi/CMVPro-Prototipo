@@ -21,16 +21,8 @@ function App() {
       {logado && <Navbar onLogout={logout} />}
       <Routes>
         <Route
-          path="/"
+          path="/signin"
           element={logado ? <Navigate to="/produtos" /> : <Sobre onLogin={() => setLogado(true)} />}
-        />
-        <Route
-          path="/produtos"
-          element={logado ? <Produtos /> : <Navigate to="/" />}
-        />
-        <Route
-          path="/receitas"
-          element={logado ? <Receitas /> : <Navigate to="/" />}
         />
         <Route 
           path="/signup" 
@@ -40,7 +32,15 @@ function App() {
           path="/auth" 
           element={<AuthUser />} // Rota para o componente Cadastro
         />
-      </Routes>
+        <Route
+          path="/produtos"
+          element={logado ? <Produtos /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/receitas"
+          element={logado ? <Receitas /> : <Navigate to="/" />}
+        />
+        </Routes>
     </>
   );
 }
