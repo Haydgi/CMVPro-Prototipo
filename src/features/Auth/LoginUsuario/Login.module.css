@@ -1,34 +1,67 @@
-/* Container do lado direito + modal */
 .container {
-    position: absolute;
-    bottom: 15%;
-    background-color: var(--floral-white);
-    border-radius: 20px;
-    box-shadow: 0 20px 120px rgba(0, 0, 0, 0.4);
-    width: 100%;
-    max-width: 600px;
-    height: 50vh;
-    animation: slideUp 1.2s ease-out; 
-  }
+  background-color: var(--floral-white);
+  border-radius: 20px;
+  box-shadow: 0 20px 120px rgba(0, 0, 0, 0.4);
+  width: 400px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+}
 
-  .logoManuscrito {
-    position: absolute;
-    top: -29%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    height: auto;
-    opacity: 0.9;
-    z-index: 2;
-    animation: slideDownLogo 1.2s ease-out;
-  }
+.logoContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .imagemPrato {
-    position:absolute;
-    width: 400px;
-    height: auto;
-    margin-top: -340px;
-    left: 21%;
-    z-index: 1;
-    animation: slideDown 1.2s ease-out;
-  }
+.formulario {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.formulario h2 {
+  text-align: center;
+  padding-bottom: 15px;
+  font-weight: bold;
+}
+
+.logoManuscrito {
+  position: absolute;
+  width: 230px;
+}
+
+.imagemPrato {
+  width: 300px;
+}
+
+.inputField {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.formGroup label {
+  margin-bottom: 0.75rem;
+  color: var(--rich-black);
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.footerLinks {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: var(--rich-black);
+  margin-top: auto; /* Faz o footer descer até o fim do container */
+}

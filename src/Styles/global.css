@@ -12,7 +12,7 @@
 /* Estilos globais */
 body {
     background-color: var(--fundo);
-    color: var(--rich-black);
+    color: var(--rich-black) !important;
     font-size: 18px !important;
     font-family: 'Lato', sans-serif !important;
 }
