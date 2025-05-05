@@ -1,3 +1,4 @@
+import '../globalAuth.css';
 import styles from "./AuthUser.module.css";
 import { useNavigate } from 'react-router-dom';
 import imagemPrato from "../../../assets/imagem-prato.png";
@@ -10,12 +11,12 @@ export default function AuthUser() {
   };
 
   return (
-    <div className={styles.cadastroContainer}>
+    <div className={`${'backgroundContainer'} ${styles.backgroundAuth}`}>
       <div>
         <img
           src={imagemPrato}
           alt="Prato branco"
-          className={styles.imagemPrato}
+          className={`${'imagemPrato'}`}
         />
         <div className={styles.sobreposicao}>
           <p className={styles.textConfAuth}>
@@ -24,7 +25,7 @@ export default function AuthUser() {
           <p className={styles.textInfo}>
             Aguarde o administrador <br />validar seu cadastro.
           </p>
-          <button className={styles.btnCadastrar} onClick={handleVoltarParaTelaInicial}>
+          <button className={`${'btnUltraViolet'}`} onClick={handleVoltarParaTelaInicial}>
           <i class="bi bi-arrow-left"></i> Voltar Para Tela Inicial
           </button>
         </div>

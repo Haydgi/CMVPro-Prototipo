@@ -31,62 +31,50 @@ body {
     border-color: var(--cor-botao-hover) !important; /* Cor da borda ao focar */
 }
 
-/* Botão de login padrão */
-.btn-login {
-    background-color: var(--cor-botao);
-    color: var(--cor-texto);
+/* Botão estilizado em roxo com efeito  */
+.btnUltraViolet {
+    margin-top: 25px;
+    width: 50%;
+    padding: 0.75rem;
+    background: linear-gradient(to right, #a36acb, var(--ultra-violet));
+    background-size: 200% 100%;
+    background-position: right;
+    color: var(--floral-white);
     border: none;
-    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 1.2rem;
     font-weight: bold;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
     transition: all 0.3s ease-in-out;
-}
-
-.btn-login:hover {
-    background-color: var(--cor-botao-hover);
-    color: var(--cor-texto);
-}
-
-/* Botão alternativo */
-.btn-alt {
-    background-color: var(--fundo); /* Fundo claro */
-    color: var(--cor-texto); /* Texto com a cor do botão */
-    border: 2px solid var(--cor-botao); /* Borda com a cor do botão */
-    padding: 8px 16px;
-    font-weight: bold;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.3s ease-in-out;
-}
-
-.btn-alt:hover {
-    background-color: var(--cor-botao); /* Fundo muda para a cor do botão */
-    
-    border-color: var(--cor-botao-hover); /* Borda muda para a cor de hover */
-}
-
-button.custom-btn {
-    background-color: var(--cor-botao) !important;
-    color: var(--cor-texto) !important;
-    border: none !important;
-    padding: 8px 16px;
-    font-weight: bold;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.3s ease-in-out;
-}
-
-button.custom-btn:hover {
-    background-color: var(--cor-botao-hover) !important;
-    color: var(--cor-texto) !important;
-}
+    display: block;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+  
+  .btnUltraViolet::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 150%;
+    height: 100%;
+    background: linear-gradient(120deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 60%);
+    transform: skewX(-20deg);
+    transition: left 0.5s ease-in-out;
+    z-index: 0;
+  }
+  
+  .btnUltraViolet:hover::before {
+    left: 105%;
+  }
+  
+  .btnUltraViolet:hover {
+    background-position: left;
+    transform: scale(1.05);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+  }
 
 /* Estilo padrão para todos os campos de formulário */
 .form-control {

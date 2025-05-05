@@ -33,7 +33,7 @@ function App() {
           element={logado ? <Receitas /> : <Navigate to="/" />}
         />
         <Route 
-          path="/cadastro" 
+          path="/signup" 
           element={<Cadastro />} // Rota para o componente Cadastro
         />
         <Route 

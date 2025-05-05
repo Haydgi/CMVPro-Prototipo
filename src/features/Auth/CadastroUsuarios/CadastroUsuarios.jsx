@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import '../../../Styles/global.css';
+import '../globalAuth.css';
 import styles from "./CadastroUsuarios.module.css";
 import logoManuscrito from "../../../assets/logotipo-manuscrito.png";
 import imagemPrato from "../../../assets/imagem-prato.png";
-import '../../../Styles/global.css';
 import crieConta from "../../../assets/crie-sua-conta.png";
 
 export default function Cadastro() {
@@ -146,7 +147,7 @@ export default function Cadastro() {
   };
 
   return (
-    <div className={styles.cadastroContainer}>
+    <div className={`${'backgroundContainer'} ${styles.backgroundSignUp}`}>
       <div className={`${styles.ladoEsquerdo} ${styles.bgSilhueta}`}>
         <div className={styles.logoContainer}>
           <img
