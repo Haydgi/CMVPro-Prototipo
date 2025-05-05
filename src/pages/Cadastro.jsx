@@ -38,7 +38,7 @@ export default function Cadastro() {
       setSucesso('');
       return;
     }
-
+//teste
     const usuario = {
       nome,
       sobrenome,
