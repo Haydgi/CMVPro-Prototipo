@@ -13,7 +13,6 @@ export default function Cadastro() {
   const [mostrarConfirmarSenha, setMostrarConfirmarSenha] = useState(false);
 
   const [nome, setNome] = useState("");
-  const [sobrenome, setSobrenome] = useState("");
   const [email, setEmail] = useState("");
   const [confirmarEmail, setConfirmarEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -51,7 +50,7 @@ export default function Cadastro() {
 
     // Validações
     if (nome.length < 3) camposInvalidosTemp.push("nome");
-    if (sobrenome.length < 2) camposInvalidosTemp.push("sobrenome");
+
     if (!email) {
       camposNaoPreenchidos.push("email");
     } else if (!email.includes("@")) {
@@ -91,7 +90,6 @@ export default function Cadastro() {
     // Cadastro bem-sucedido
     const usuario = {
       nome,
-      sobrenome,
       email,
       telefone,
       senha,
@@ -99,7 +97,6 @@ export default function Cadastro() {
 
     // Limpa os campos
     setNome("");
-    setSobrenome("");
     setEmail("");
     setConfirmarEmail("");
     setSenha("");
@@ -118,9 +115,6 @@ export default function Cadastro() {
     switch (campo) {
       case "nome":
         setNome(valor);
-        break;
-      case "sobrenome":
-        setSobrenome(valor);
         break;
       case "email":
         setEmail(valor);
@@ -182,7 +176,7 @@ export default function Cadastro() {
           <div className={styles.inputsRow}>
             <div className={styles.formGroup}>
               <label htmlFor="nome">
-                Nome
+                Nome Completo
                 {camposInvalidos.includes("nome") && (
                   <span className={styles.asterisco}>*</span>
                 )}
@@ -193,7 +187,7 @@ export default function Cadastro() {
                   id="nome"
                   type="text"
                   minLength="2"
-                  maxLength="30"
+                  maxLength="100"
                   value={nome}
                   onChange={(e) => handleInputChange("nome", e.target.value)}
                   required
@@ -202,94 +196,6 @@ export default function Cadastro() {
                 />
               </div>
             </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="sobrenome">
-                Sobrenome
-                {camposInvalidos.includes("sobrenome") && (
-                  <span className={styles.asterisco}>*</span>
-                )}
-              </label>
-              <div className={styles.inputIconContainer}>
-                <i className="bi bi-person"></i>
-                <input
-                  id="sobrenome"
-                  type="text"
-                  minLength="2"
-                  maxLength="50"
-                  value={sobrenome}
-                  onChange={(e) =>
-                    handleInputChange("sobrenome", e.target.value)
-                  }
-                  required
-                  className={`${styles.inputField} ${camposInvalidos.includes("sobrenome")
-                    ? styles.inputInvalido
-                    : ""
-                    }`}
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Email */}
-          <div className={styles.formGroup}>
-            <label htmlFor="email">
-              E-mail
-              {(camposInvalidos.includes("email") || camposInvalidos.includes("confirmarEmail")) && (
-                <span className={styles.asterisco}>*</span>
-              )}
-            </label>
-            {/* Mensagem de erro para formato inválido de e-mail */}
-            {!email.includes("@") && email && (
-              <p className={styles.textErroFormatoEmail}>Formato de e-mail inválido.</p>
-            )}
-            <div className={styles.inputIconContainer}>
-              <i className="bi bi-envelope"></i>
-              <input
-                id="email"
-                type="email"
-                minLength="5"
-                maxLength="50"
-                value={email}
-                onChange={(e) => handleInputChange("email", e.target.value)}
-                required
-                className={`${styles.inputField} ${camposInvalidos.includes("email") || confirmarEmail !== email
-                  ? styles.inputInvalido
-                  : ""
-                  }`}
-              />
-            </div>
-          </div>
-
-          {/* Confirmar Email */}
-          <div className={styles.formGroup} style={{ position: "relative" }}>
-            <label htmlFor="confirmarEmail">
-              Confirmar e-mail
-              {(camposInvalidos.includes("email") || camposInvalidos.includes("confirmarEmail")) && (
-                <span className={styles.asterisco}>*</span>
-              )}
-            </label>
-            <div className={styles.inputIconContainer}>
-              <i className="bi bi-envelope"></i>
-              <input
-                id="confirmarEmail"
-                type="email"
-                minLength="5"
-                maxLength="50"
-                value={confirmarEmail}
-                onChange={(e) => handleInputChange("confirmarEmail", e.target.value)}
-                required
-                className={`${styles.inputField} ${camposInvalidos.includes("confirmarEmail") || confirmarEmail !== email
-                  ? styles.inputInvalido
-                  : ""
-                  }`}
-              />
-            </div>
-            {/* Mensagem de erro se os e-mails não coincidirem */}
-            {confirmarEmail && confirmarEmail !== email && (
-              <p className={styles.textErroConfirmarEmail}>Os e-mails não coincidem.</p>
-            )}
-          </div>
-
           {/* Telefone */}
           <div className={styles.formGroup}>
             <label htmlFor="telefone">Telefone celular (com DDD)</label>
@@ -313,8 +219,74 @@ export default function Cadastro() {
                   : ""
                   }`}
               />
+              </div>
             </div>
           </div>
+          
+
+          <div className={styles.inputsRow}>
+            {/* Email */}
+            <div className={styles.formGroup}>
+              <label htmlFor="email">
+                E-mail
+                {(camposInvalidos.includes("email") || camposInvalidos.includes("confirmarEmail")) && (
+                  <span className={styles.asterisco}>*</span>
+                )}
+              </label>
+              {/* Mensagem de erro para formato inválido de e-mail */}
+              {!email.includes("@") && email && (
+                <p className={styles.textErroFormatoEmail}>Formato de e-mail inválido.</p>
+              )}
+              <div className={styles.inputIconContainer}>
+                <i className="bi bi-envelope"></i>
+                <input
+                  id="email"
+                  type="email"
+                  minLength="5"
+                  maxLength="50"
+                  value={email}
+                  onChange={(e) => handleInputChange("email", e.target.value)}
+                  required
+                  className={`${styles.inputField} ${camposInvalidos.includes("email") || confirmarEmail !== email
+                    ? styles.inputInvalido
+                    : ""
+                    }`}
+                />
+              </div>
+            </div>
+
+
+            {/* Confirmar Email */}
+            <div className={styles.formGroup} style={{ position: "relative" }}>
+              <label htmlFor="confirmarEmail">
+                Confirmar e-mail
+                {(camposInvalidos.includes("email") || camposInvalidos.includes("confirmarEmail")) && (
+                  <span className={styles.asterisco}>*</span>
+                )}
+              </label>
+              <div className={styles.inputIconContainer}>
+                <i className="bi bi-envelope"></i>
+                <input
+                  id="confirmarEmail"
+                  type="email"
+                  minLength="5"
+                  maxLength="50"
+                  value={confirmarEmail}
+                  onChange={(e) => handleInputChange("confirmarEmail", e.target.value)}
+                  required
+                  className={`${styles.inputField} ${camposInvalidos.includes("confirmarEmail") || confirmarEmail !== email
+                    ? styles.inputInvalido
+                    : ""
+                    }`}
+                />
+              </div>
+              {/* Mensagem de erro se os e-mails não coincidirem */}
+              {confirmarEmail && confirmarEmail !== email && (
+                <p className={styles.textErroConfirmarEmail}>Os e-mails não coincidem.</p>
+              )}
+            </div>
+          </div>
+
 
           {/* Linha: Senha e Confirmar Senha */}
           <div className={styles.inputsRow}>

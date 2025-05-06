@@ -6,10 +6,10 @@ input[type="password"]::-ms-reveal {
 /* Background personalizado do cadastro de usuários */
 .backgroundSignUp {
   background: radial-gradient(
-      circle at 28% center,
-      rgba(123, 61, 147, 0.702) 30%,
-      rgba(81, 46, 97, 0.7) 35%,
-      rgba(75, 41, 96, 0.7) 40%
+      circle at 21% center,
+      rgba(123, 61, 147, 0.702) 20%,
+      rgba(81, 46, 97, 0.7) 25%,
+      rgba(75, 41, 96, 0.7) 30%
     ),
     url("/midia/ingredientes-bg.png") no-repeat center center /cover;
   flex-wrap: wrap;
@@ -18,10 +18,10 @@ input[type="password"]::-ms-reveal {
 /* Container do lado esquerdo */
 .ladoEsquerdo {
   position: absolute;
-  left: -2%;
+  left: 0%;
   top: 40%;
   bottom: 0;
-  width: 60%;
+  width: 30%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,7 +33,7 @@ input[type="password"]::-ms-reveal {
 
 /* Imagem do prato (à esquerda) */
 .imagemPrato {
-  width: 1100px;
+  width: 800px;
   height: auto;
   margin-top: -350px;
   z-index: 2;
@@ -43,28 +43,33 @@ input[type="password"]::-ms-reveal {
 /* Logotipo "Caderno do Chefe" dentro da imagem do prato (à esquerda) */
 .logoManuscrito {
   position: absolute;
-  top: 20%;
+  top: 15%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 800px;
+  width: 500px;
   height: auto;
   opacity: 0.9;
   z-index: 2;
   animation: slideDownLogo 1.2s ease-out;
 }
 
+.logoContainer {
+  position: absolute;
+  left: 0%;
+}
+
 /* Container do lado direito + modal */
 .ladoDireito {
   flex: 1;
   position: fixed;
-  right: 10%;
+  right: 5%;
   top: 50%;
   transform: translateY(-50%);
   background-color: var(--floral-white);
   border-radius: 20px;
   box-shadow: 0 20px 120px rgba(0, 0, 0, 0.4);
   width: 100%;
-  max-width: 650px;
+  max-width: 1000px;
   height: 90vh;
   display: flex;
   flex-direction: column;
@@ -132,8 +137,7 @@ input[type="password"]::-ms-reveal {
 .toggleSenha {
   position: absolute;
   top: 3%;
-  right: 0.25rem;
-  left: 13.7rem;
+  right: 2rem;
   transform: translateY(-50%);
   background: none;
   border: none;
@@ -211,7 +215,7 @@ input[type="password"]::-ms-reveal {
   font-weight: 600;
   position: absolute;
   top: 0.3rem;
-  left: 23rem;
+  left: 276px;
   white-space: nowrap;
 }
 
@@ -221,7 +225,7 @@ input[type="password"]::-ms-reveal {
   font-weight: 600;
   position: absolute;
   top: 0%;
-  left: 70%;
+  left: 286px;
   white-space: nowrap;
   margin-top: 0.25rem;
 }
@@ -233,7 +237,7 @@ input[type="password"]::-ms-reveal {
   font-weight: 600;
   position: absolute;
   top: 0.3rem;
-  left: 22.4rem;
+  left: 265px;
   white-space: nowrap;
 }
 
@@ -243,7 +247,7 @@ input[type="password"]::-ms-reveal {
   font-size: 0.85rem;
   font-weight: 600;
   position: absolute; 
-  top: 100%;
+  top: 0px;
   right: 0;
   white-space: nowrap;
   margin-top: 0.25rem;
@@ -285,9 +289,10 @@ input[type="password"]::-ms-reveal {
 /* Popups */
 /* Estilização do popup de erro */
 .popUpError {
-  position: fixed;
-  bottom: 5px;
-  right: 10px;
+  position: absolute;
+  bottom: 3px;
+  left: 85%;
+  transform: translateX(-50%);
   background-color: var(--imperial-red);
   color: var(--white);
   padding: 10px 20px;
@@ -295,27 +300,27 @@ input[type="password"]::-ms-reveal {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-size: 0.9rem;
   font-weight: bold;
-  z-index: 1000;
-  animation: slideInError 0.3s ease-in, slideOutError 0.5s ease-out 8s forwards;
+  z-index: 10;
+  animation: slideIn 0.3s ease-in, slideOut 0.5s ease-out 8s forwards;
+  white-space: nowrap;
 }
 
 /* Estilização do popup de sucesso */
 .popUpSucess {
-  position: fixed;
-  bottom: 770px;
-  right: 70px;
-  background-color: var(
-    --dark-pastel-green
-  );
+  position: absolute;
+  bottom: 3px;
+  left: 738px;
+  transform: translateX(-50%);
+  background-color: var(--dark-pastel-green);
   color: var(--white);
   padding: 10px 20px;
   border-radius: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-size: 0.9rem;
+  white-space: nowrap;
   font-weight: bold;
-  z-index: 1000;
-  animation: slideInSuccess 0.5s ease-out,
-    slideOutSuccess 0.5s ease-out 240s forwards;
+  z-index: 10;
+  animation: slideIn 0.3s ease-in, slideOut 0.5s ease-out 8s forwards;
 }
 
 .textSucesso {
@@ -480,50 +485,26 @@ input[type="password"]::-ms-reveal {
   }
 }
 
-/* Animação para entrada do popup de erro */
-@keyframes slideInError {
+/* Animação para entrada do popup de erro e sucesso*/
+@keyframes slideIn {
   0% {
-    transform: translateY(40px);
-    opacity: 1;
+    transform: translateX(-50%) translateY(100%); /* Fora do modal */
+    opacity: 0;
   }
   100% {
-    transform: translateY(0px); 
-    opacity: 1; 
-  }
-}
-
-/* Animação para saída do popup de erro */
-@keyframes slideOutError {
-  100% {
-    transform: translateY(50px);
-    opacity: 1;
-  }
-  0% {
-    transform: translateY(0px);
+    transform: translateX(-50%) translateY(0); /* Dentro do modal */
     opacity: 1;
   }
 }
 
-/* Animação para entrada do popup de sucesso */
-@keyframes slideInSuccess {
+/* Animação para saída do popup de erro e sucesso*/
+@keyframes slideOut {
   0% {
-    transform: translateY(-100px);
+    transform: translateX(-50%) translateY(0); /* Dentro do modal */
     opacity: 1;
   }
   100% {
-    transform: translateY(0px);
-    opacity: 1;
-  }
-}
-
-/* Animação para saída do popup de sucesso */
-@keyframes slideOutSuccess {
-  100% {
-    transform: translateY(-100px);
-    opacity: 1;
-  }
-  0% {
-    transform: translateY(0px);
-    opacity: 1;
+    transform: translateX(-50%) translateY(100%); /* Fora do modal */
+    opacity: 0;
   }
 }
