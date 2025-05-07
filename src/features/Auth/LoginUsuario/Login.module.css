@@ -1,9 +1,13 @@
+input[type="password"]::-ms-reveal {
+  display: none !important;
+}
+
 .container {
   background-color: var(--floral-white);
   border-radius: 20px;
   box-shadow: 0 20px 120px rgba(0, 0, 0, 0.4);
-  width: 400px;
-  height: 500px;
+  width: 430px;
+  height: 450px;
   display: flex;
   flex-direction: column;
 }
@@ -15,7 +19,7 @@
 }
 
 .formulario {
-  padding: 20px;
+  padding: 1rem 1.5rem;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -50,18 +54,52 @@
   color: var(--rich-black);
 }
 
+.inputIconContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputIconContainer i {
+  position: absolute;
+  left: 0.75rem;
+  top: 0.75rem;
+  font-size: 1.2rem;
+  color: #6c757d;
+}
+
+.toggleSenha {
+  position: absolute;
+    top: 3%;
+    right: 32px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
 .buttonContainer {
   display: flex;
   justify-content: center;
-  margin-top: 1rem;
+
 }
 
 .footerLinks {
   display: flex;
   justify-content: space-between;
   padding: 0 20px;
-  font-size: 0.9rem;
-  cursor: pointer;
+  font-size: 16px;
   color: var(--rich-black);
-  margin-top: auto; /* Faz o footer descer até o fim do container */
+  margin-top: auto;
+
+}
+
+.footerLinks span {
+  color: #67477A;
+  cursor: pointer;
+  text-Decoration: underline;
+  display: inline-block;
+  font-Weight: bold;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
