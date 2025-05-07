@@ -204,7 +204,7 @@ export default function Cadastro() {
             )}
             {/* Mensagem de erro para número de telefone inválido */}
             {telefone.replace(/\D/g, "").length > 0 && telefone.replace(/\D/g, "").length < 10 && (
-              <p className={styles.textErroTelefone}>Número de telefone inválido.</p>
+              <p className={styles.textErroTelefone}>Número de telefone inválido</p>
             )}
             <div className={styles.inputIconContainer}>
               <i className="bi bi-telephone"></i>
@@ -235,7 +235,7 @@ export default function Cadastro() {
               </label>
               {/* Mensagem de erro para formato inválido de e-mail */}
               {!email.includes("@") && email && (
-                <p className={styles.textErroFormatoEmail}>Formato de e-mail inválido.</p>
+                <p className={styles.textErroFormatoEmail}>Formato de e-mail inválido</p>
               )}
               <div className={styles.inputIconContainer}>
                 <i className="bi bi-envelope"></i>
@@ -282,7 +282,7 @@ export default function Cadastro() {
               </div>
               {/* Mensagem de erro se os e-mails não coincidirem */}
               {confirmarEmail && confirmarEmail !== email && (
-                <p className={styles.textErroConfirmarEmail}>Os e-mails não coincidem.</p>
+                <p className={styles.textErroConfirmarEmail}>Os e-mails não coincidem</p>
               )}
             </div>
           </div>
@@ -364,20 +364,14 @@ export default function Cadastro() {
               </div>
               {/* Mensagem de erro se as senhas não coincidirem */}
               {confirmarSenha && confirmarSenha !== senha && (
-                <p className={styles.textErroSenha}>As senhas não coincidem.</p>
+                <p className={styles.textErroSenha}>As senhas não coincidem</p>
               )}
             </div>
           </div>
 
-          <p
-            style={{
-              fontSize: "1rem",
-              marginBottom: "0.2rem",
-              color: " #6c757d",
-              padding: "0",
-            }}
+          <p className = {styles.titleRegrasSenha}
           >
-            <strong>Regras para a criação de senha:</strong>
+            Regras para a criação de senha:
           </p>
 
           <ul className={styles.regrasSenha}>
@@ -405,7 +399,7 @@ export default function Cadastro() {
                   /[a-z]/.test(senha) ? "bi bi-check-circle" : "bi bi-x-circle"
                 }
               ></i>
-              Possuir no mínimo 1 letra minúscula.
+              Possuir no mínimo 1 letra minúscula
             </li>
             <li
               className={/[A-Z]/.test(senha) ? styles.valido : styles.invalido}
@@ -450,7 +444,7 @@ export default function Cadastro() {
           </button>
 
           <div className="mt-1 text-center">
-            <p style={{ marginTop: "25px", marginBottom: "0px" }}>
+            <p className={`${styles.footerModal}`}>
               Já é cadastrado?{" "}
               <span
                 onClick={() => navigate("/signin")}

@@ -96,12 +96,12 @@ input[type="password"]::-ms-reveal {
 
 /* Formulário */
 .formulario {
+  padding: 1rem 1.5rem;
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   overflow-y: auto;
-  padding: 1rem 1.5rem;
   box-sizing: border-box;
 }
 
@@ -143,6 +143,14 @@ input[type="password"]::-ms-reveal {
   border: none;
   font-size: 1.2rem;
   cursor: pointer;
+}
+
+.titleRegrasSenha{
+  font-Size: 1rem;
+  margin-Bottom: 0.2rem;
+  color:  #6c757d;
+  padding: 0px;
+  font-weight: bold;
 }
 
 .regrasSenha {
@@ -215,7 +223,7 @@ input[type="password"]::-ms-reveal {
   font-weight: 600;
   position: absolute;
   top: 0.3rem;
-  left: 276px;
+  left: 279px;
   white-space: nowrap;
 }
 
@@ -237,7 +245,7 @@ input[type="password"]::-ms-reveal {
   font-weight: 600;
   position: absolute;
   top: 0.3rem;
-  left: 265px;
+  left: 267px;
   white-space: nowrap;
 }
 
@@ -248,7 +256,7 @@ input[type="password"]::-ms-reveal {
   font-weight: 600;
   position: absolute; 
   top: 0px;
-  right: 0;
+  right: 5px;
   white-space: nowrap;
   margin-top: 0.25rem;
 }
@@ -263,10 +271,14 @@ input[type="password"]::-ms-reveal {
   background-color: var(--white);
 }
 
+
 /* Botão de cadastro */
 .btnCadastrar {
-  margin: auto;
+  
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 25px;
+  margin-bottom: 5px;
   width: 42%;
   padding: 0.75rem;
   background-color: #fca311;
@@ -279,11 +291,17 @@ input[type="password"]::-ms-reveal {
   transition: background-color 0.3s, color 0.3s;
   flex-shrink: 0;
   display: block;
+
 }
 
 .btnCadastrar:hover {
   background-color: #e07a00;
   color: var(--white);
+}
+
+.footerModal {
+  margin: 0px;
+  
 }
 
 /* Popups */
