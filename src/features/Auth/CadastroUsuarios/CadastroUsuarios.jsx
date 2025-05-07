@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import '../../../Styles/global.css';
-import '../globalAuth.css';
+import "../../../Styles/global.css";
+import "../globalAuth.css";
 import styles from "./CadastroUsuarios.module.css";
 import logoManuscrito from "../../../assets/logotipo-manuscrito.png";
 import imagemPrato from "../../../assets/imagem-prato.png";
@@ -141,7 +141,7 @@ export default function Cadastro() {
   };
 
   return (
-    <div className={`${'backgroundContainer'} ${styles.backgroundSignUp}`}>
+    <div className={`${"backgroundContainer"} ${styles.backgroundSignUp}`}>
       <div className={`${styles.ladoEsquerdo} ${styles.bgSilhueta}`}>
         <div className={styles.logoContainer}>
           <img
@@ -191,51 +191,60 @@ export default function Cadastro() {
                   value={nome}
                   onChange={(e) => handleInputChange("nome", e.target.value)}
                   required
-                  className={`${styles.inputField} ${camposInvalidos.includes("nome") ? styles.inputInvalido : ""
-                    }`}
+                  className={`${styles.inputField} ${
+                    camposInvalidos.includes("nome") ? styles.inputInvalido : ""
+                  }`}
                 />
               </div>
             </div>
-          {/* Telefone */}
-          <div className={styles.formGroup}>
-            <label htmlFor="telefone">Telefone celular (com DDD)</label>
-            {camposInvalidos.includes("telefone") && (
-              <span className={styles.asterisco}>*</span>
-            )}
-            {/* Mensagem de erro para número de telefone inválido */}
-            {telefone.replace(/\D/g, "").length > 0 && telefone.replace(/\D/g, "").length < 10 && (
-              <p className={styles.textErroTelefone}>Número de telefone inválido</p>
-            )}
-            <div className={styles.inputIconContainer}>
-              <i className="bi bi-telephone"></i>
-              <input
-                id="telefone"
-                type="tel"
-                value={telefone}
-                onChange={(e) => handleInputChange("telefone", e.target.value)}
-                required
-                className={`${styles.inputField} ${camposInvalidos.includes("telefone")
-                  ? styles.inputInvalido
-                  : ""
+            {/* Telefone */}
+            <div className={styles.formGroup}>
+              <label htmlFor="telefone">Telefone celular (com DDD)</label>
+              {camposInvalidos.includes("telefone") && (
+                <span className={styles.asterisco}>*</span>
+              )}
+              {/* Mensagem de erro para número de telefone inválido */}
+              {telefone.replace(/\D/g, "").length > 0 &&
+                telefone.replace(/\D/g, "").length < 10 && (
+                  <p className={styles.textErroTelefone}>
+                    Número de telefone inválido
+                  </p>
+                )}
+              <div className={styles.inputIconContainer}>
+                <i className="bi bi-telephone"></i>
+                <input
+                  id="telefone"
+                  type="tel"
+                  value={telefone}
+                  onChange={(e) =>
+                    handleInputChange("telefone", e.target.value)
+                  }
+                  required
+                  className={`${styles.inputField} ${
+                    camposInvalidos.includes("telefone")
+                      ? styles.inputInvalido
+                      : ""
                   }`}
-              />
+                />
               </div>
             </div>
           </div>
-          
 
           <div className={styles.inputsRow}>
             {/* Email */}
             <div className={styles.formGroup}>
               <label htmlFor="email">
                 E-mail
-                {(camposInvalidos.includes("email") || camposInvalidos.includes("confirmarEmail")) && (
+                {(camposInvalidos.includes("email") ||
+                  camposInvalidos.includes("confirmarEmail")) && (
                   <span className={styles.asterisco}>*</span>
                 )}
               </label>
               {/* Mensagem de erro para formato inválido de e-mail */}
               {!email.includes("@") && email && (
-                <p className={styles.textErroFormatoEmail}>Formato de e-mail inválido</p>
+                <p className={styles.textErroFormatoEmail}>
+                  Formato de e-mail inválido
+                </p>
               )}
               <div className={styles.inputIconContainer}>
                 <i className="bi bi-envelope"></i>
@@ -247,20 +256,22 @@ export default function Cadastro() {
                   value={email}
                   onChange={(e) => handleInputChange("email", e.target.value)}
                   required
-                  className={`${styles.inputField} ${camposInvalidos.includes("email") || confirmarEmail !== email
-                    ? styles.inputInvalido
-                    : ""
-                    }`}
+                  className={`${styles.inputField} ${
+                    camposInvalidos.includes("email") ||
+                    confirmarEmail !== email
+                      ? styles.inputInvalido
+                      : ""
+                  }`}
                 />
               </div>
             </div>
-
 
             {/* Confirmar Email */}
             <div className={styles.formGroup} style={{ position: "relative" }}>
               <label htmlFor="confirmarEmail">
                 Confirmar e-mail
-                {(camposInvalidos.includes("email") || camposInvalidos.includes("confirmarEmail")) && (
+                {(camposInvalidos.includes("email") ||
+                  camposInvalidos.includes("confirmarEmail")) && (
                   <span className={styles.asterisco}>*</span>
                 )}
               </label>
@@ -272,21 +283,26 @@ export default function Cadastro() {
                   minLength="5"
                   maxLength="50"
                   value={confirmarEmail}
-                  onChange={(e) => handleInputChange("confirmarEmail", e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("confirmarEmail", e.target.value)
+                  }
                   required
-                  className={`${styles.inputField} ${camposInvalidos.includes("confirmarEmail") || confirmarEmail !== email
-                    ? styles.inputInvalido
-                    : ""
-                    }`}
+                  className={`${styles.inputField} ${
+                    camposInvalidos.includes("confirmarEmail") ||
+                    confirmarEmail !== email
+                      ? styles.inputInvalido
+                      : ""
+                  }`}
                 />
               </div>
               {/* Mensagem de erro se os e-mails não coincidirem */}
               {confirmarEmail && confirmarEmail !== email && (
-                <p className={styles.textErroConfirmarEmail}>Os e-mails não coincidem</p>
+                <p className={styles.textErroConfirmarEmail}>
+                  Os e-mails não coincidem
+                </p>
               )}
             </div>
           </div>
-
 
           {/* Linha: Senha e Confirmar Senha */}
           <div className={styles.inputsRow}>
@@ -307,8 +323,11 @@ export default function Cadastro() {
                   value={senha}
                   onChange={(e) => handleInputChange("senha", e.target.value)}
                   required
-                  className={`${styles.inputField} ${camposInvalidos.includes("senha") ? styles.inputInvalido : ""
-                    }`}
+                  className={`${styles.inputField} ${
+                    camposInvalidos.includes("senha")
+                      ? styles.inputInvalido
+                      : ""
+                  }`}
                 />
                 <button
                   type="button"
@@ -343,10 +362,11 @@ export default function Cadastro() {
                     handleInputChange("confirmarSenha", e.target.value)
                   }
                   required
-                  className={`${styles.inputField} ${camposInvalidos.includes("confirmarSenha")
-                    ? styles.inputInvalido
-                    : ""
-                    }`}
+                  className={`${styles.inputField} ${
+                    camposInvalidos.includes("confirmarSenha")
+                      ? styles.inputInvalido
+                      : ""
+                  }`}
                 />
                 <button
                   type="button"
@@ -369,8 +389,7 @@ export default function Cadastro() {
             </div>
           </div>
 
-          <p className = {styles.titleRegrasSenha}
-          >
+          <p className={styles.titleRegrasSenha}>
             Regras para a criação de senha:
           </p>
 
@@ -448,15 +467,8 @@ export default function Cadastro() {
               Já é cadastrado?{" "}
               <span
                 onClick={() => navigate("/signin")}
-                style={{
-                  color: "#67477A",
-                  cursor: "pointer",
-                  textDecoration: "underline",
-                  display: "inline-block",
-                  fontWeight: "bold",
-                  transition: "transform 0.3s ease, color 0.3s ease",
-                }}
-                onMouseEnter={(e) => (e.target.style.transform = "scale(1.01)")}
+                className={`${styles.signIn}`}
+                onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
                 onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
               >
                 Fazer log-in
@@ -470,7 +482,7 @@ export default function Cadastro() {
           <div
             className={
               popUpMessage ===
-                "Cadastro realizado com sucesso! Verifique seu e-mail para ativar sua conta."
+              "Cadastro realizado com sucesso! Verifique seu e-mail para ativar sua conta."
                 ? styles.popUpSucess
                 : styles.popUpError
             }

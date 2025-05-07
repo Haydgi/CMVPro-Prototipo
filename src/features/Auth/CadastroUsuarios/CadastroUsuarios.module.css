@@ -271,37 +271,67 @@ input[type="password"]::-ms-reveal {
   background-color: var(--white);
 }
 
-
 /* Botão de cadastro */
 .btnCadastrar {
-  
   margin-left: auto;
   margin-right: auto;
-  margin-top: 25px;
   margin-bottom: 5px;
+  margin-top: 25px;
   width: 42%;
   padding: 0.75rem;
-  background-color: #fca311;
+  background: linear-gradient(to right, #f58802);
+  background-size: 200% 100%;
+  background-position: right;
   color: var(--floral-white);
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   font-size: 1.2rem;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease-in-out;
   display: block;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  flex-shrink: 0;
+}
 
+.btnCadastrar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 150%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 60%);
+  transform: skewX(-20deg);
+  transition: left 0.5s ease-in-out;
+  z-index: 0;
+}
+
+.btnCadastrar:hover::before {
+  left: 105%;
 }
 
 .btnCadastrar:hover {
-  background-color: #e07a00;
-  color: var(--white);
+  background-position: left;
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
 }
 
+/* Footer do modal */
 .footerModal {
   margin: 0px;
-  
+}
+
+.signIn {
+  color: var(--ultra-violet);
+  cursor: pointer;
+  text-decoration: underline;
+  display: inline-block;
+  font-weight: bold;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
 /* Popups */
