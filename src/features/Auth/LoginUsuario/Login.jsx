@@ -50,18 +50,6 @@ export default function Login() {
   return (
     <div className="backgroundContainer">
       <div>
-        <div className={styles.logoContainer}>
-          <img
-            src={logoManuscrito}
-            alt="Logotipo manuscrito: Caderno do Chef"
-            className={styles.logoManuscrito}
-          />
-          <img
-            src={imagemPrato}
-            alt="Imagem de um prato"
-            className={styles.imagemPrato}
-          />
-        </div>
 
         <div className={styles.container}>
           <form className={styles.formulario}
@@ -70,14 +58,14 @@ export default function Login() {
               <h2>Acesse seu Caderno!</h2>
 
               <div className={styles.formGroup}>
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">E-mail</label>
                 <div className={styles.inputIconContainer}>
                   <i className="bi bi-envelope"></i>
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => handleInputChange("email", e.target.value)}
-                    placeholder="Email"
+                    placeholder="Insira seu e-mail"
                     className={styles.inputField}
                   />
                 </div>
@@ -92,7 +80,7 @@ export default function Login() {
                     type={mostrarSenha ? "text" : "password"}
                     value={senha}
                     onChange={(e) => handleInputChange("senha", e.target.value)}
-                    placeholder="Senha"
+                    placeholder="Insira sua senha"
                     className={styles.inputField}
                   />
                   <button

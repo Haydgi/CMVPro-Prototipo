@@ -1,6 +1,6 @@
 /* Variáveis de tema */
 :root {
-    --floral-white: #FFF8ED;
+    --white-smoke: #f3f0f0;
     --rich-black: #111827;
     --ultra-violet: #67477A;
     --sunset: #FCD18A;
@@ -39,7 +39,7 @@ body {
     background: linear-gradient(to right, #a36acb, var(--ultra-violet));
     background-size: 200% 100%;
     background-position: right;
-    color: var(--floral-white);
+    color: var(--white-smoke);
     border: none;
     border-radius: 12px;
     font-size: 1.2rem;

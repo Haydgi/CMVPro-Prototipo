@@ -149,11 +149,6 @@ export default function Cadastro() {
             alt="Logotipo manuscrito: Caderno do Chef"
             className={styles.logoManuscrito}
           />
-          <img
-            src={imagemPrato}
-            alt="Prato branco"
-            className={styles.imagemPrato}
-          />
         </div>
       </div>
 

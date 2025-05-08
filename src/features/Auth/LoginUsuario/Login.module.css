@@ -2,12 +2,19 @@ input[type="password"]::-ms-reveal {
   display: none !important;
 }
 
-.container {
+.backgroundContainer {
+  display: flex;
+  justify-content: center;
+  background: none;
   background-color: var(--floral-white);
+}
+
+.container {
+  background-color: var(--white-smoke);
   border-radius: 20px;
-  box-shadow: 0 20px 120px rgba(0, 0, 0, 0.4);
-  width: 430px;
-  height: 450px;
+  box-shadow: 0 20px 120px rgba(0, 0, 0, 0.5);
+  width: 600px;
+  height: 600px;
   display: flex;
   flex-direction: column;
 }
@@ -19,26 +26,17 @@ input[type="password"]::-ms-reveal {
 }
 
 .formulario {
-  padding: 1rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+  padding: 1rem 4rem;
+  display: flex; /* Ativa o Flexbox */
+  flex-direction: column; /* Mantém os itens em coluna */
+  justify-content: center; /* Centraliza os itens verticalmente */
+  height: 100%; /* Garante que o formulário ocupe toda a altura do modal */
 }
 
 .formulario h2 {
   text-align: center;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-bottom: 45px;
   font-weight: bold;
-}
-
-.logoManuscrito {
-  position: absolute;
-  width: 230px;
-}
-
-.imagemPrato {
-  width: 300px;
 }
 
 .inputField {
@@ -53,6 +51,7 @@ input[type="password"]::-ms-reveal {
 .formGroup label {
   margin-bottom: 0.75rem;
   color: var(--rich-black);
+  font-weight: bold;
 }
 
 .inputIconContainer {
@@ -83,6 +82,7 @@ input[type="password"]::-ms-reveal {
 .buttonContainer {
   display: flex;
   justify-content: center;
+  padding-top: 25px;
 }
 
 /* Estilo para o link "Esqueci minha senha" */
