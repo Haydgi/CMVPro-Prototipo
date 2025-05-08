@@ -38,9 +38,11 @@ input[type="password"]::-ms-reveal {
 }
 
 .formulario h2 {
-  text-align: center;
-  padding-bottom: 45px;
-  font-weight: bold;
+  font-family: "Birthstone", cursive; /* Define a fonte Birthstone */
+  text-align: center; /* Centraliza o texto */
+  padding-bottom: 40px; /* Espaçamento abaixo do título */
+  font-size: 3.5rem; /* Ajuste o tamanho da fonte conforme necessário */
+  color: var(--rich-black); /* Ajuste a cor conforme necessário */
 }
 
 .inputField {

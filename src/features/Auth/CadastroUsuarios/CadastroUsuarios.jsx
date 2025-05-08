@@ -4,8 +4,6 @@ import "../../../Styles/global.css";
 import "../globalAuth.css";
 import styles from "./CadastroUsuarios.module.css";
 import logoManuscrito from "../../../assets/logotipo-manuscrito.png";
-import imagemPrato from "../../../assets/imagem-prato.png";
-import crieConta from "../../../assets/crie-sua-conta.png";
 
 export default function Cadastro() {
   const navigate = useNavigate();
@@ -23,20 +21,26 @@ export default function Cadastro() {
   const [camposInvalidos, setCamposInvalidos] = useState([]); // Campos inválidos
 
   const formatTelefone = (value) => {
-    // Remove todos os caracteres que não são números
+    // Remove todos os caracteres que não sejam números
     value = value.replace(/\D/g, "");
 
-    // Aplica o formato apenas se o valor for maior que 2 caracteres
-    if (value.length <= 2) {
-      return value;
+    // Se o campo estiver vazio, retorna uma string vazia
+    if (value === "") {
+      return "";
     }
-    if (value.length <= 6) {
-      return `(${value.slice(0, 2)}) ${value.slice(2)}`;
+
+    // Adiciona os parênteses e o traço conforme o usuário digita
+    if (value.length > 10) {
+      value = value.replace(/^(\d{2})(\d{5})(\d{4}).*/, "($1) $2-$3");
+    } else if (value.length > 6) {
+      value = value.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+    } else if (value.length > 2) {
+      value = value.replace(/^(\d{2})(\d{0,5})/, "($1) $2");
+    } else {
+      value = value.replace(/^(\d*)/, "($1");
     }
-    if (value.length <= 10) {
-      return `(${value.slice(0, 2)}) ${value.slice(2, 6)}-${value.slice(6)}`;
-    }
-    return `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7, 11)}`;
+
+    return value;
   };
 
   const handleCadastro = (e) => {
@@ -58,12 +62,14 @@ export default function Cadastro() {
     }
     if (!confirmarEmail || email !== confirmarEmail)
       camposInvalidosTemp.push("confirmarEmail");
-    if (
-      !telefone ||
-      telefone.replace(/\D/g, "").length < 11 ||
-      telefone.replace(/\D/g, "").length > 15
-    )
+
+    // Validação do telefone
+    const telefoneNumeros = telefone.replace(/\D/g, ""); // Remove caracteres não numéricos
+    if (!telefone || telefoneNumeros.length < 11 || telefoneNumeros.length > 15) {
       camposInvalidosTemp.push("telefone");
+    }
+
+    // Validação da senha
     if (
       !senha ||
       senha.length < 8 ||
@@ -151,7 +157,7 @@ export default function Cadastro() {
           />
         </div>
       </div>
-    
+
       <div className={styles.ladoDireito}>
         <form
           className={styles.formulario}
@@ -160,11 +166,8 @@ export default function Cadastro() {
         >
           <div className={styles.topoForms}>
             {" "}
-            <img
-              src={crieConta}
-              alt="Crie sua conta"
-              className={styles.crieConta}
-            />{" "}
+
+            <h2 className={styles.topoForms}> Crie sua conta </h2>
           </div>
 
           {/* Linha: Nome e Sobrenome */}
@@ -183,6 +186,7 @@ export default function Cadastro() {
                   type="text"
                   minLength="2"
                   maxLength="100"
+                  placeholder="Ex: João Oliveira da Silva"
                   value={nome}
                   onChange={(e) => handleInputChange("nome", e.target.value)}
                   required
@@ -193,33 +197,33 @@ export default function Cadastro() {
             </div>
             {/* Telefone */}
             <div className={styles.formGroup}>
-              <label htmlFor="telefone">Telefone celular (com DDD)</label>
-              {camposInvalidos.includes("telefone") && (
-                <span className={styles.asterisco}>*</span>
-              )}
-              {/* Mensagem de erro para número de telefone inválido */}
-              {telefone.replace(/\D/g, "").length > 0 &&
-                telefone.replace(/\D/g, "").length < 10 && (
-                  <p className={styles.textErroTelefone}>
-                    Número de telefone inválido
-                  </p>
+              <label htmlFor="telefone">
+                Telefone celular (com DDD)
+                {camposInvalidos.includes("telefone") && (
+                  <span className={styles.asterisco}>*</span>
                 )}
+              </label>
               <div className={styles.inputIconContainer}>
                 <i className="bi bi-telephone"></i>
                 <input
                   id="telefone"
-                  type="tel"
+                  type="text"
                   value={telefone}
                   onChange={(e) =>
-                    handleInputChange("telefone", e.target.value)
+                    handleInputChange("telefone", formatTelefone(e.target.value))
                   }
+                  placeholder="(XX) XXXXX-XXXX"
                   required
-                  className={`${styles.inputField} ${camposInvalidos.includes("telefone")
-                      ? styles.inputInvalido
-                      : ""
+                  className={`${styles.inputField} ${camposInvalidos.includes("telefone") ? styles.inputInvalido : ""
                     }`}
                 />
               </div>
+              {/* Exibe a mensagem de erro apenas se o telefone não for válido e o usuário começou a digitar */}
+              {telefone && camposInvalidos.includes("telefone") && (
+                <p className={styles.textErroTelefone}>
+                  Número de telefone inválido.
+                </p>
+              )}
             </div>
           </div>
 
@@ -250,9 +254,9 @@ export default function Cadastro() {
                   onChange={(e) => handleInputChange("email", e.target.value)}
                   required
                   className={`${styles.inputField} ${camposInvalidos.includes("email") ||
-                      confirmarEmail !== email
-                      ? styles.inputInvalido
-                      : ""
+                    confirmarEmail !== email
+                    ? styles.inputInvalido
+                    : ""
                     }`}
                 />
               </div>
@@ -280,9 +284,9 @@ export default function Cadastro() {
                   }
                   required
                   className={`${styles.inputField} ${camposInvalidos.includes("confirmarEmail") ||
-                      confirmarEmail !== email
-                      ? styles.inputInvalido
-                      : ""
+                    confirmarEmail !== email
+                    ? styles.inputInvalido
+                    : ""
                     }`}
                 />
               </div>
@@ -295,7 +299,7 @@ export default function Cadastro() {
             </div>
           </div>
 
-          {/* Linha: Senha e Confirmar Senha */}
+          {/* Senha e Confirmar Senha */}
           <div className={styles.inputsRow}>
             <div className={styles.formGroup}>
               <label htmlFor="senha">
@@ -315,8 +319,8 @@ export default function Cadastro() {
                   onChange={(e) => handleInputChange("senha", e.target.value)}
                   required
                   className={`${styles.inputField} ${camposInvalidos.includes("senha")
-                      ? styles.inputInvalido
-                      : ""
+                    ? styles.inputInvalido
+                    : ""
                     }`}
                 />
                 <button
@@ -353,8 +357,8 @@ export default function Cadastro() {
                   }
                   required
                   className={`${styles.inputField} ${camposInvalidos.includes("confirmarSenha")
-                      ? styles.inputInvalido
-                      : ""
+                    ? styles.inputInvalido
+                    : ""
                     }`}
                 />
                 <button

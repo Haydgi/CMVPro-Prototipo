@@ -6,10 +6,10 @@ input[type="password"]::-ms-reveal {
 /* Background personalizado do cadastro de usuários */
 .backgroundSignUp {
   background: radial-gradient(
-      circle at 21% center,
-      rgba(123, 61, 147, 0.702) 20%,
-      rgba(81, 46, 97, 0.7) 25%,
-      rgba(75, 41, 96, 0.7) 30%
+      circle at 19% center,
+      rgba(123, 61, 147, 0.702) 15%,
+      rgba(81, 46, 97, 0.7) 20%,
+      rgba(75, 41, 96, 0.7) 25%
     ),
     url("/midia/ingredientes-bg.png") no-repeat center center /cover;
   flex-wrap: wrap;
@@ -29,17 +29,21 @@ input[type="password"]::-ms-reveal {
 /* Logotipo "Caderno do Chefe" dentro da imagem do prato (à esquerda) */
 .logoContainer {
   position: absolute;
-  top: 78%;
-  left: 35%;
+  top: 62%;
+  left: 19%;
   transform: translate(-50%, -50%);
 }
 
 .logoManuscrito {
   width: 550px;
   height: auto;
-  opacity: 0.9;
+  opacity: 0; /* Torna a logo invisível inicialmente */
   z-index: 2;
+  position: absolute;
+  top: -100px; /* Esconde a logo acima da página */
+  transform: translate(-50%, -50%); /* Ajusta o ponto de referência */
   animation: slideDownLogo 1.2s ease-out forwards;
+  animation-delay: 1s; /* Adiciona o atraso de 2 segundos */
 }
 
 /* Container do lado direito + modal */
@@ -47,13 +51,11 @@ input[type="password"]::-ms-reveal {
   flex: 1;
   height: 100vh;
   background-color: var(--white-smoke);
-  border-radius: 0px;
   box-shadow: 0 20px 120px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 2rem 1.5rem;
-  animation: slideUp 1.2s ease-out; 
+  padding: 2rem 5rem;
 }
 
  /* Imagem "Crie sua conta" no topo do modal */
@@ -62,14 +64,10 @@ input[type="password"]::-ms-reveal {
   width: 100%;
   align-items: center;
   justify-content: center;
-}
-
-.crieConta {
-  width: 55%;
-  margin-bottom: 30px;
-  justify-content: center;
-  max-width: 100%;
-  height: auto;
+  padding-top: 5px;
+  padding-bottom: 15px;
+  font-family: "Birthstone", cursive;
+  font-size: 5.5rem;
 }
 
 /* Formulário */
@@ -321,7 +319,7 @@ input[type="password"]::-ms-reveal {
 .popUpError {
   position: absolute;
   bottom: 3px;
-  left: 85%;
+  left: 1770px;
   transform: translateX(-50%);
   background-color: var(--imperial-red);
   color: var(--white);
@@ -339,7 +337,7 @@ input[type="password"]::-ms-reveal {
 .popUpSucess {
   position: absolute;
   bottom: 3px;
-  left: 738px;
+  left: 1658px;
   transform: translateX(-50%);
   background-color: var(--dark-pastel-green);
   color: var(--white);
@@ -491,36 +489,23 @@ input[type="password"]::-ms-reveal {
 /* Animação para o logo manuscrito */
 @keyframes slideDownLogo {
   0% {
-    transform: translate(-50%, -50%) translateY(-500px); /* Começa no centro, mas acima */
-    opacity: 0;
+    transform: translate(-50%, -50%) translateY(-500px); /* Começa fora da tela */
+    opacity: 0; /* Invisível */
   }
   100% {
-    transform: translate(-50%, -50%) translateY(0); /* Termina no centro certinho */
-    opacity: 1;
-  }
-}
-
-
-/* Animação para o modal */
-@keyframes slideUp {
-  0% {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0%);
-    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0); /* Fica na posição final */
+    opacity: 1; /* Visível */
   }
 }
 
 /* Animação para entrada do popup de erro e sucesso*/
 @keyframes slideIn {
   0% {
-    transform: translateX(-50%) translateY(100%); /* Fora do modal */
+    transform: translateX(-50%) translateY(100%);
     opacity: 0;
   }
   100% {
-    transform: translateX(-50%) translateY(0); /* Dentro do modal */
+    transform: translateX(-50%) translateY(0);
     opacity: 1;
   }
 }
@@ -528,11 +513,11 @@ input[type="password"]::-ms-reveal {
 /* Animação para saída do popup de erro e sucesso*/
 @keyframes slideOut {
   0% {
-    transform: translateX(-50%) translateY(0); /* Dentro do modal */
+    transform: translateX(-50%) translateY(0);
     opacity: 1;
   }
   100% {
-    transform: translateX(-50%) translateY(100%); /* Fora do modal */
+    transform: translateX(-50%) translateY(100%);
     opacity: 0;
   }
 }
