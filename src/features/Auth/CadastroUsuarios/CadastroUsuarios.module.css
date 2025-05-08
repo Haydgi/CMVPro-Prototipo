@@ -17,51 +17,41 @@ input[type="password"]::-ms-reveal {
 
 /* Container do lado esquerdo */
 .ladoEsquerdo {
-  position: absolute;
-  left: 21%;
-  top: 55%;
-  bottom: 0;
-  width: 30%;
+  width: 40%;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 2rem;
-  color: var(--white-smoke);
   text-align: center;
-  z-index: 1;
 }
 
 /* Logotipo "Caderno do Chefe" dentro da imagem do prato (à esquerda) */
-.logoManuscrito {
+.logoContainer {
+  position: absolute;
+  top: 78%;
+  left: 35%;
   transform: translate(-50%, -50%);
+}
+
+.logoManuscrito {
   width: 550px;
   height: auto;
   opacity: 0.9;
   z-index: 2;
-  animation: slideDownLogo 1.2s ease-out;
-}
-
-.logoContainer {
-  position: absolute;
-  left: 0%;
+  animation: slideDownLogo 1.2s ease-out forwards;
 }
 
 /* Container do lado direito + modal */
 .ladoDireito {
   flex: 1;
-  position: fixed;
-  right: 5%;
-  top: 50%;
-  transform: translateY(-50%);
+  height: 100vh;
   background-color: var(--white-smoke);
-  border-radius: 20px;
+  border-radius: 0px;
   box-shadow: 0 20px 120px rgba(0, 0, 0, 0.4);
-  width: 100%;
-  max-width: 1000px;
-  height: 90vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   padding: 2rem 1.5rem;
   animation: slideUp 1.2s ease-out; 
 }
@@ -501,17 +491,15 @@ input[type="password"]::-ms-reveal {
 /* Animação para o logo manuscrito */
 @keyframes slideDownLogo {
   0% {
-    transform: translate(
-      -50%,
-      -200%
-    );
+    transform: translate(-50%, -50%) translateY(-500px); /* Começa no centro, mas acima */
     opacity: 0;
   }
   100% {
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) translateY(0); /* Termina no centro certinho */
     opacity: 1;
   }
 }
+
 
 /* Animação para o modal */
 @keyframes slideUp {
@@ -520,7 +508,7 @@ input[type="password"]::-ms-reveal {
     opacity: 0;
   }
   100% {
-    transform: translateY(-50%);
+    transform: translateY(0%);
     opacity: 1;
   }
 }

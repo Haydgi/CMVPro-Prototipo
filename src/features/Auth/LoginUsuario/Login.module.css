@@ -2,11 +2,15 @@ input[type="password"]::-ms-reveal {
   display: none !important;
 }
 
-.backgroundContainer {
-  display: flex;
-  justify-content: center;
-  background: none;
-  background-color: var(--floral-white);
+
+
+.backgroundSignIn {
+  background: radial-gradient(
+      rgba(123, 61, 147, 0.702) 20%,
+      rgba(81, 46, 97, 0.7) 25%,
+      rgba(75, 41, 96, 0.7) 30%
+    ),
+    url("/midia/ingredientes-bg.png") no-repeat center center /cover;
 }
 
 .container {

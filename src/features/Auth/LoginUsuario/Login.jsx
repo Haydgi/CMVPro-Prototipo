@@ -48,7 +48,7 @@ export default function Login() {
   };
 
   return (
-    <div className="backgroundContainer">
+    <div className={`${"backgroundContainer"} ${styles.backgroundSignIn}`}>
       <div>
 
         <div className={styles.container}>

@@ -142,7 +142,7 @@ export default function Cadastro() {
 
   return (
     <div className={`${"backgroundContainer"} ${styles.backgroundSignUp}`}>
-      <div className={`${styles.ladoEsquerdo} ${styles.bgSilhueta}`}>
+      <div className={`${styles.ladoEsquerdo}`}>
         <div className={styles.logoContainer}>
           <img
             src={logoManuscrito}
@@ -151,7 +151,7 @@ export default function Cadastro() {
           />
         </div>
       </div>
-
+    
       <div className={styles.ladoDireito}>
         <form
           className={styles.formulario}
