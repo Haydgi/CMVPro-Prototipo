@@ -27,6 +27,7 @@ input[type="password"]::-ms-reveal {
 
 .formulario h2 {
   text-align: center;
+  padding-top: 15px;
   padding-bottom: 15px;
   font-weight: bold;
 }
@@ -70,36 +71,57 @@ input[type="password"]::-ms-reveal {
 
 .toggleSenha {
   position: absolute;
-    top: 3%;
-    right: 32px;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
+  top: 3%;
+  right: 32px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
 }
 
 .buttonContainer {
   display: flex;
   justify-content: center;
-
 }
 
-.footerLinks {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 20px;
-  font-size: 16px;
-  color: var(--rich-black);
-  margin-top: auto;
-
-}
-
-.footerLinks span {
-  color: #67477A;
+/* Estilo para o link "Esqueci minha senha" */
+.esqueciSenha {
+  font-size: 0.9rem;
+  color: var(--ultra-violet);
   cursor: pointer;
-  text-Decoration: underline;
-  display: inline-block;
-  font-Weight: bold;
+  text-decoration: underline;
+  font-weight: bold;
   transition: transform 0.3s ease, color 0.3s ease;
+  text-align: right; /* Alinha o texto à direita */
+  margin-top: -0.5rem; /* Espaçamento entre o campo de senha e o link */
+  display: block; /* Garante que o link ocupe uma linha inteira */
+}
+
+.esqueciSenha:hover {
+  color: #502d5a; /* Cor ao passar o mouse */
+}
+
+/* Estilo para o footer do modal */
+.modalFooter {
+  font-size: 0.9rem;
+  display: flex; /* Alinha os elementos em linha */
+  justify-content: center; /* Centraliza o conteúdo */
+  text-align: center;
+  margin-top: 1rem; /* Espaçamento acima do footer */
+  gap: 0.3rem; /* Espaçamento entre os elementos */
+  flex-wrap: wrap; /* Permite quebra de linha em telas menores */
+}
+
+/* Estilo para o link "Criar conta" */
+.linkCriarConta {
+  color: var(--ultra-violet);
+  cursor: pointer;
+  text-decoration: underline;
+  font-weight: bold;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.linkCriarConta:hover {
+  color: #502d5a; /* Cor ao passar o mouse */
 }

@@ -67,7 +67,7 @@ export default function Login() {
           <form className={styles.formulario}
             onSubmit={handleCadastro}>
             <div className={styles.teste}>
-              <h2>Entrar</h2>
+              <h2>Acesse seu Caderno!</h2>
 
               <div className={styles.formGroup}>
                 <label htmlFor="email">Email</label>
@@ -93,7 +93,7 @@ export default function Login() {
                     value={senha}
                     onChange={(e) => handleInputChange("senha", e.target.value)}
                     placeholder="Senha"
-                    className={`${styles.inputField} `}
+                    className={styles.inputField}
                   />
                   <button
                     type="button"
@@ -107,16 +107,25 @@ export default function Login() {
                     )}
                   </button>
                 </div>
+                {/* Adicionando o link "Esqueci minha senha" abaixo do campo de senha */}
+                <p onClick={handleForgotPassword} className={styles.esqueciSenha}>
+                  Esqueci minha senha
+                </p>
               </div>
 
               <div className={styles.buttonContainer}>
-                <button className="btnUltraViolet">Logar</button>
+                <button className="btnUltraViolet">Entrar</button>
               </div>
             </div>
 
-            <div className={styles.footerLinks}>
-              <p onClick={handleForgotPassword}><span>Esqueci minha senha</span></p>
-              <p onClick={handleSignUp}><span>Criar uma conta</span></p>
+            <div className={styles.modalFooter}>
+              <span>Ainda não é cadastrado? </span>
+              <span
+                onClick={handleSignUp}
+                className={styles.linkCriarConta}
+              >
+                Criar conta
+              </span>
             </div>
           </form>
         </div>

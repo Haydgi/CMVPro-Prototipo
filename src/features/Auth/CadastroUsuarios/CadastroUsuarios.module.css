@@ -325,13 +325,17 @@ input[type="password"]::-ms-reveal {
   margin: 0px;
 }
 
-.signIn {
+.otherLinks {
   color: var(--ultra-violet);
   cursor: pointer;
   text-decoration: underline;
   display: inline-block;
   font-weight: bold;
   transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.otherLinks:hover {
+  color: #502d5a; /* Cor ao passar o mouse */
 }
 
 /* Popups */

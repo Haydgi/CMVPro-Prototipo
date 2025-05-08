@@ -191,9 +191,8 @@ export default function Cadastro() {
                   value={nome}
                   onChange={(e) => handleInputChange("nome", e.target.value)}
                   required
-                  className={`${styles.inputField} ${
-                    camposInvalidos.includes("nome") ? styles.inputInvalido : ""
-                  }`}
+                  className={`${styles.inputField} ${camposInvalidos.includes("nome") ? styles.inputInvalido : ""
+                    }`}
                 />
               </div>
             </div>
@@ -220,11 +219,10 @@ export default function Cadastro() {
                     handleInputChange("telefone", e.target.value)
                   }
                   required
-                  className={`${styles.inputField} ${
-                    camposInvalidos.includes("telefone")
+                  className={`${styles.inputField} ${camposInvalidos.includes("telefone")
                       ? styles.inputInvalido
                       : ""
-                  }`}
+                    }`}
                 />
               </div>
             </div>
@@ -237,8 +235,8 @@ export default function Cadastro() {
                 E-mail
                 {(camposInvalidos.includes("email") ||
                   camposInvalidos.includes("confirmarEmail")) && (
-                  <span className={styles.asterisco}>*</span>
-                )}
+                    <span className={styles.asterisco}>*</span>
+                  )}
               </label>
               {/* Mensagem de erro para formato inválido de e-mail */}
               {!email.includes("@") && email && (
@@ -256,12 +254,11 @@ export default function Cadastro() {
                   value={email}
                   onChange={(e) => handleInputChange("email", e.target.value)}
                   required
-                  className={`${styles.inputField} ${
-                    camposInvalidos.includes("email") ||
-                    confirmarEmail !== email
+                  className={`${styles.inputField} ${camposInvalidos.includes("email") ||
+                      confirmarEmail !== email
                       ? styles.inputInvalido
                       : ""
-                  }`}
+                    }`}
                 />
               </div>
             </div>
@@ -272,8 +269,8 @@ export default function Cadastro() {
                 Confirmar e-mail
                 {(camposInvalidos.includes("email") ||
                   camposInvalidos.includes("confirmarEmail")) && (
-                  <span className={styles.asterisco}>*</span>
-                )}
+                    <span className={styles.asterisco}>*</span>
+                  )}
               </label>
               <div className={styles.inputIconContainer}>
                 <i className="bi bi-envelope"></i>
@@ -287,12 +284,11 @@ export default function Cadastro() {
                     handleInputChange("confirmarEmail", e.target.value)
                   }
                   required
-                  className={`${styles.inputField} ${
-                    camposInvalidos.includes("confirmarEmail") ||
-                    confirmarEmail !== email
+                  className={`${styles.inputField} ${camposInvalidos.includes("confirmarEmail") ||
+                      confirmarEmail !== email
                       ? styles.inputInvalido
                       : ""
-                  }`}
+                    }`}
                 />
               </div>
               {/* Mensagem de erro se os e-mails não coincidirem */}
@@ -323,11 +319,10 @@ export default function Cadastro() {
                   value={senha}
                   onChange={(e) => handleInputChange("senha", e.target.value)}
                   required
-                  className={`${styles.inputField} ${
-                    camposInvalidos.includes("senha")
+                  className={`${styles.inputField} ${camposInvalidos.includes("senha")
                       ? styles.inputInvalido
                       : ""
-                  }`}
+                    }`}
                 />
                 <button
                   type="button"
@@ -362,11 +357,10 @@ export default function Cadastro() {
                     handleInputChange("confirmarSenha", e.target.value)
                   }
                   required
-                  className={`${styles.inputField} ${
-                    camposInvalidos.includes("confirmarSenha")
+                  className={`${styles.inputField} ${camposInvalidos.includes("confirmarSenha")
                       ? styles.inputInvalido
                       : ""
-                  }`}
+                    }`}
                 />
                 <button
                   type="button"
@@ -463,13 +457,11 @@ export default function Cadastro() {
           </button>
 
           <div className="mt-1 text-center">
-            <p className={`${styles.footerModal}`}>
+            <p className={styles.footerModal}>
               Já é cadastrado?{" "}
               <span
                 onClick={() => navigate("/signin")}
-                className={`${styles.signIn}`}
-                onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
-                onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+                className={styles.otherLinks}
               >
                 Fazer log-in
               </span>
@@ -482,7 +474,7 @@ export default function Cadastro() {
           <div
             className={
               popUpMessage ===
-              "Cadastro realizado com sucesso! Verifique seu e-mail para ativar sua conta."
+                "Cadastro realizado com sucesso! Verifique seu e-mail para ativar sua conta."
                 ? styles.popUpSucess
                 : styles.popUpError
             }
