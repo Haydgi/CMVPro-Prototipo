@@ -63,9 +63,20 @@ export default function Cadastro() {
     if (!confirmarEmail || email !== confirmarEmail)
       camposInvalidosTemp.push("confirmarEmail");
 
+    // Validações
+    if (nome.length < 3) camposInvalidosTemp.push("nome");
+
+    if (!email) {
+      camposNaoPreenchidos.push("email");
+    } else if (!email.includes("@")) {
+      camposInvalidosTemp.push("email"); // Adiciona o campo de e-mail como inválido
+    }
+    if (!confirmarEmail || email !== confirmarEmail)
+      camposInvalidosTemp.push("confirmarEmail");
+
     // Validação do telefone
     const telefoneNumeros = telefone.replace(/\D/g, ""); // Remove caracteres não numéricos
-    if (!telefone || telefoneNumeros.length < 11 || telefoneNumeros.length > 15) {
+    if (!telefone || telefoneNumeros.length < 10 || telefoneNumeros.length > 15) {
       camposInvalidosTemp.push("telefone");
     }
 
@@ -110,11 +121,9 @@ export default function Cadastro() {
     setTelefone("");
 
     // Exibe o pop-up de sucesso
-    setTimeout(() => {
-      setPopUpMessage(
-        "Cadastro realizado com sucesso! Verifique seu e-mail para ativar sua conta."
-      );
-    }, 0);
+    setPopUpMessage(
+      "Cadastro realizado com sucesso! Verifique seu e-mail para ativar sua conta."
+    );
   };
 
   const handleInputChange = (campo, valor) => {
@@ -137,8 +146,19 @@ export default function Cadastro() {
       case "telefone":
         // Atualiza o estado com o valor formatado
         setTelefone(formatTelefone(valor));
+
+        // Validação do telefone
+        const telefoneNumeros = valor.replace(/\D/g, ""); // Remove caracteres não numéricos
+        if (telefoneNumeros.length >= 10 && telefoneNumeros.length <= 15) {
+          // Número válido: remove o campo da lista de inválidos
+          setCamposInvalidos((prev) =>
+            prev.filter((item) => item !== "telefone")
+          );
+        }
         break;
+
       default:
+        setCamposInvalidos((prev) => prev.filter((item) => item !== campo));
         break;
     }
 
@@ -218,12 +238,14 @@ export default function Cadastro() {
                     }`}
                 />
               </div>
-              {/* Exibe a mensagem de erro apenas se o telefone não for válido e o usuário começou a digitar */}
-              {telefone && camposInvalidos.includes("telefone") && (
-                <p className={styles.textErroTelefone}>
-                  Número de telefone inválido.
-                </p>
-              )}
+              {/* Exibe a mensagem de erro apenas se o telefone não for válido */}
+              {telefone.replace(/\D/g, "").length > 0 &&
+                (telefone.replace(/\D/g, "").length < 10 ||
+                  telefone.replace(/\D/g, "").length > 15) && (
+                  <p className={styles.textErroTelefone}>
+                    Número de telefone inválido.
+                  </p>
+                )}
             </div>
           </div>
 
@@ -232,8 +254,7 @@ export default function Cadastro() {
             <div className={styles.formGroup}>
               <label htmlFor="email">
                 E-mail
-                {(camposInvalidos.includes("email") ||
-                  camposInvalidos.includes("confirmarEmail")) && (
+                {(camposInvalidos.includes("email")) && (
                     <span className={styles.asterisco}>*</span>
                   )}
               </label>
@@ -253,10 +274,7 @@ export default function Cadastro() {
                   value={email}
                   onChange={(e) => handleInputChange("email", e.target.value)}
                   required
-                  className={`${styles.inputField} ${camposInvalidos.includes("email") ||
-                    confirmarEmail !== email
-                    ? styles.inputInvalido
-                    : ""
+                  className={`${styles.inputField} ${camposInvalidos.includes("email") ? styles.inputInvalido : ""
                     }`}
                 />
               </div>
@@ -283,10 +301,7 @@ export default function Cadastro() {
                     handleInputChange("confirmarEmail", e.target.value)
                   }
                   required
-                  className={`${styles.inputField} ${camposInvalidos.includes("confirmarEmail") ||
-                    confirmarEmail !== email
-                    ? styles.inputInvalido
-                    : ""
+                  className={`${styles.inputField} ${camposInvalidos.includes("confirmarEmail") || camposInvalidos.includes("email") ? styles.inputInvalido : ""
                     }`}
                 />
               </div>
@@ -336,7 +351,8 @@ export default function Cadastro() {
                 </button>
               </div>
             </div>
-
+            
+            {/*Confirmar Senha*/ }
             <div className={styles.formGroup} style={{ position: "relative" }}>
               <label htmlFor="confirmarSenha">
                 Confirmar senha
@@ -356,9 +372,7 @@ export default function Cadastro() {
                     handleInputChange("confirmarSenha", e.target.value)
                   }
                   required
-                  className={`${styles.inputField} ${camposInvalidos.includes("confirmarSenha")
-                    ? styles.inputInvalido
-                    : ""
+                  className={`${styles.inputField} ${camposInvalidos.includes("confirmarSenha") ? styles.inputInvalido : ""
                     }`}
                 />
                 <button
