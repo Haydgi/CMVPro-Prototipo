@@ -92,7 +92,7 @@ export default function Cadastro() {
     )
       camposInvalidosTemp.push("senha", "confirmarSenha"); // Adiciona ambos os campos
     if (!confirmarSenha || senha !== confirmarSenha) {
-      camposInvalidosTemp.push("senha", "confirmarSenha"); // Marca ambos os campos como inválidos
+      camposInvalidosTemp.push("confirmarSenha"); // Marca ambos os campos como inválidos
     }
 
     // Se houver campos inválidos ou não preenchidos
@@ -121,9 +121,12 @@ export default function Cadastro() {
     setTelefone("");
 
     // Exibe o pop-up de sucesso
-    setPopUpMessage(
-      "Cadastro realizado com sucesso! Verifique seu e-mail para ativar sua conta."
-    );
+    setTimeout(() => {
+      setPopUpMessage(
+        "Cadastro realizado com sucesso! Verifique seu e-mail para ativar sua conta."
+      );
+    }, 0);
+    
   };
 
   const handleInputChange = (campo, valor) => {
