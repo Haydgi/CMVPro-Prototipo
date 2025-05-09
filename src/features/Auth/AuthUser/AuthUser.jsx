@@ -7,7 +7,7 @@ import '../../../Styles/global.css';
 export default function AuthUser() {
   const navigate = useNavigate();
   const handleVoltarParaTelaInicial = () => {
-    navigate('/signin');
+    navigate('/sign-in');
   };
 
   return (

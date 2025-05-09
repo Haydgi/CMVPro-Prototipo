@@ -15,8 +15,8 @@ input[type="password"]::-ms-reveal {
   background-color: var(--white-smoke);
   border-radius: 20px;
   box-shadow: 0 20px 120px rgba(0, 0, 0, 0.5);
-  width: 600px;
-  height: 600px;
+  width: 650px;
+  height: 500px;
   display: flex;
   flex-direction: column;
 }
@@ -83,10 +83,30 @@ input[type="password"]::-ms-reveal {
   cursor: pointer;
 }
 
+/* Botão de "Enviar" */
 .btnDetails {
     margin-top: 15px;
     width: 50%;
     padding: 0.75rem;
+}
+
+/* Botão de voltar para o log-in */
+.btnDetailsBack {
+  top: 250px;
+  left: 660px;
+  width: 50px;
+  height: 50px;
+  padding: 0.75rem;
+  background: var(--tangerine);
+  color: var(--white-smoke);
+  border: none;
+  border-radius: 100%;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  display: flex;
+  position: absolute;
+  overflow: hidden;
+  z-index: 1;
 }
 
 .buttonContainer {

@@ -4,8 +4,9 @@ import Navbar from './components/Navbar/Navbar';
 import Produtos from './pages/Produtos/Produtos';
 import Receitas from './pages/Receitas/Receitas';
 import Sobre from './features/Auth/LoginUsuario/Login';
-import Cadastro from './features/Auth/CadastroUsuarios/CadastroUsuarios'; // Importa o componente Cadastro
+import Cadastro from './features/Auth/CadastroUsuarios/CadastroUsuarios';
 import AuthUser from './features/Auth/AuthUser/AuthUser';
+import EsqueciSenha from './features/Auth/LoginUsuario/ForgotPswd';
 
 function App() {
   const [logado, setLogado] = useState(false);
@@ -21,12 +22,16 @@ function App() {
       {logado && <Navbar onLogout={logout} />}
       <Routes>
         <Route
-          path="/signin"
+          path="/sign-in"
           element={logado ? <Navigate to="/produtos" /> : <Sobre onLogin={() => setLogado(true)} />}
         />
         <Route 
-          path="/signup" 
+          path="/sign-up" 
           element={<Cadastro />} // Rota para o componente Cadastro
+        />
+        <Route
+          path="/forgot-password"
+          element={<EsqueciSenha/>}
         />
         <Route 
           path="/auth" 

@@ -3,8 +3,6 @@ import "../globalAuth.css";
 import styles from "./Login.module.css";
 import { useNavigate } from "react-router-dom";
 import "../../../Styles/global.css";
-import logoManuscrito from "../../../assets/logotipo-manuscrito.png";
-import imagemPrato from "../../../assets/imagem-prato.png";
 import { useState } from "react";
 
 export default function Login() {
@@ -15,11 +13,11 @@ export default function Login() {
 
 
   const handleSignUp = () => {
-    navigate("/signup");
+    navigate("/sign-up");
   };
 
   const handleForgotPassword = () => {
-    navigate("/forgotPassword");
+    navigate("/forgot-password");
   };
 
   const usuario = {
@@ -43,7 +41,6 @@ export default function Login() {
         break;
     }
 
-    // Remove o campo da lista de inválidos assim que o usuário começa a preenchê-lo
     setCamposInvalidos((prev) => prev.filter((item) => item !== campo));
   };
 
@@ -95,17 +92,19 @@ export default function Login() {
                     )}
                   </button>
                 </div>
-                {/* Adicionando o link "Esqueci minha senha" abaixo do campo de senha */}
+
+                {/* Link "Esqueci minha senha" abaixo do campo de senha */}
                 <p onClick={handleForgotPassword} className={styles.esqueciSenha}>
                   Esqueci minha senha
                 </p>
               </div>
 
               <div className={styles.buttonContainer}>
-                <button className="btnUltraViolet">Entrar</button>
+                <button className={`${styles.btnDetails} ${"btnUltraViolet"}`}>Entrar</button>
               </div>
             </div>
 
+            {/* Link "Ainda não é cadastrado?" abaixo do botão de login */}
             <div className={styles.modalFooter}>
               <span>Ainda não é cadastrado? </span>
               <span

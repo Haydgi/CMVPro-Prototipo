@@ -319,7 +319,7 @@ export default function Cadastro() {
             <p className={styles.footerModal}>
               Já é cadastrado?{" "}
               <span
-                onClick={() => navigate("/signin")}
+                onClick={() => navigate("/sign-in")}
                 className={styles.otherLinks}
               >
                 Fazer log-in

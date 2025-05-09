@@ -3,7 +3,7 @@
     --white-smoke: #f3f0f0;
     --rich-black: #111827;
     --ultra-violet: #67477A;
-    --sunset: #FCD18A;
+    --tangerine: #f58802;
     --dark-pastel-green: #22C55E;
     --imperial-red: #EF4444;
     --white: #FFFFFF;
@@ -17,25 +17,8 @@ body {
     font-family: 'Lato', sans-serif !important;
 }
 
-/* Barra de pesquisa */
-.search-bar {
-    border-radius: 8px;
-    padding: 8px;
-    transition: box-shadow 1.7s ease-in-out, border-color 1.7s ease-in-out;
-}
-
-/* Destaque ao selecionar a barra de pesquisa */
-.search-bar:focus {
-    outline: none;
-    box-shadow: 0 0 5px var(--cor-botao) !important; /* Destaque com sombra */
-    border-color: var(--cor-botao-hover) !important; /* Cor da borda ao focar */
-}
-
 /* Botão estilizado em roxo com efeito  */
 .btnUltraViolet {
-    margin-top: 15px;
-    width: 50%;
-    padding: 0.75rem;
     background: linear-gradient(to right, #a36acb, var(--ultra-violet));
     background-size: 200% 100%;
     background-position: right;
@@ -75,6 +58,20 @@ body {
     transform: scale(1.05);
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
   }
+
+/* Barra de pesquisa */
+.search-bar {
+    border-radius: 8px;
+    padding: 8px;
+    transition: box-shadow 1.7s ease-in-out, border-color 1.7s ease-in-out;
+}
+
+/* Destaque ao selecionar a barra de pesquisa */
+.search-bar:focus {
+    outline: none;
+    box-shadow: 0 0 5px var(--cor-botao) !important; /* Destaque com sombra */
+    border-color: var(--cor-botao-hover) !important; /* Cor da borda ao focar */
+}
 
 /* Estilo padrão para todos os campos de formulário */
 .form-control {
