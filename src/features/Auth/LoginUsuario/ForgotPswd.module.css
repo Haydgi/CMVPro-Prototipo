@@ -38,12 +38,11 @@ input[type="password"]::-ms-reveal {
 .formulario h2 {
   font-family: "Birthstone", cursive; /* Define a fonte Birthstone */
   text-align: center; /* Centraliza o texto */
-  padding-bottom: 30px; /* Espaçamento abaixo do título */
+  padding-bottom: 40px; /* Espaçamento abaixo do título */
   font-size: 3.5rem; /* Ajuste o tamanho da fonte conforme necessário */
   color: var(--rich-black); /* Ajuste a cor conforme necessário */
   
 }
-
 
 .inputField {
   width: 100%;
@@ -87,14 +86,14 @@ input[type="password"]::-ms-reveal {
 
 /* Botão de "Enviar" */
 .btnDetails {
-    margin-top: 60px;
+    margin-top: 50px;
     width: 50%;
     padding: 0.75rem;
 }
 
 /* Botão de voltar para o log-in */
 .btnDetailsBack {
-  top: -38px;
+  top: -25px;
   left: -40px;
   width: 100px;
   height: 50px;
