@@ -182,34 +182,25 @@ input[type="password"]::-ms-reveal {
 
 /* Mensagens de erro */
 /* Campo de email e confirmar email */
-.textErroEmail {
-  color: var(--imperial-red);
-  font-size: 0.85rem;
-  font-weight: 600;
-  position: absolute;
-  bottom: 100%;
-  right: 0;
-  white-space: nowrap;
-  margin-bottom: -1.5rem;
-}
 
 .textErroFormatoEmail {
   color: var(--imperial-red);
   font-size: 0.85rem;
   font-weight: 600;
-  position: absolute;
-  top: 0.3rem;
-  left: 279px;
+  position: absolute; 
+  top: 0px;
+  right: 5px;
   white-space: nowrap;
+  margin-top: 0.25rem;
 }
 
 .textErroConfirmarEmail {
   color: var(--imperial-red);
   font-size: 0.85rem;
   font-weight: 600;
-  position: absolute;
-  top: 0%;
-  left: 286px;
+  position: absolute; 
+  top: 0px;
+  right: 5px;
   white-space: nowrap;
   margin-top: 0.25rem;
 }
@@ -219,10 +210,11 @@ input[type="password"]::-ms-reveal {
   color: var(--imperial-red);
   font-size: 0.85rem;
   font-weight: 600;
-  position: absolute;
-  top: 0.3rem;
-  left: 267px;
+  position: absolute; 
+  top: 0px;
+  right: 5px;
   white-space: nowrap;
+  margin-top: 0.25rem;
 }
 
 /* Campo de senha e confirmar senha */
