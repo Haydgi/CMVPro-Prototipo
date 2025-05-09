@@ -41,7 +41,9 @@ input[type="password"]::-ms-reveal {
   padding-bottom: 30px; /* Espaçamento abaixo do título */
   font-size: 3.5rem; /* Ajuste o tamanho da fonte conforme necessário */
   color: var(--rich-black); /* Ajuste a cor conforme necessário */
+  
 }
+
 
 .inputField {
   width: 100%;
@@ -85,28 +87,27 @@ input[type="password"]::-ms-reveal {
 
 /* Botão de "Enviar" */
 .btnDetails {
-    margin-top: 15px;
+    margin-top: 60px;
     width: 50%;
     padding: 0.75rem;
 }
 
 /* Botão de voltar para o log-in */
 .btnDetailsBack {
-  top: 250px;
-  left: 660px;
-  width: 50px;
+  top: -38px;
+  left: -40px;
+  width: 100px;
   height: 50px;
-  padding: 0.75rem;
-  background: var(--tangerine);
-  color: var(--white-smoke);
+  align-items: center;
+  color: var(--rich-black);
   border: none;
-  border-radius: 100%;
+  border-radius: 12px;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-  display: flex;
-  position: absolute;
+  position: relative;
   overflow: hidden;
   z-index: 1;
+  display: flex;
+  gap: 0.5rem;
 }
 
 .buttonContainer {
@@ -154,4 +155,56 @@ input[type="password"]::-ms-reveal {
 
 .linkCriarConta:hover {
   color: #502d5a; /* Cor ao passar o mouse */
+}
+
+.mensagemEmail {
+  margin-top: -0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--ultra-violet);
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
+}
+
+.mensagemEmail p {
+  margin: 0;
+}
+
+.btnReenviar {
+  background-color: transparent;
+  border: none;
+  color: var(--ultra-violet);
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.btnReenviar:hover {
+  color: #502d5a;
+}
+
+.textErroFormatoEmail {
+  color: var(--imperial-red);
+  font-size: 0.85rem;
+  font-weight: 600;
+  position: absolute;
+  top: 0px;
+  right: 5px;
+  white-space: nowrap;
+  margin-top: 0.25rem;
+}
+
+.asterisco {
+  color: var(--imperial-red);
+  margin-left: 0.25rem;
+}
+
+.inputInvalido {
+  border: 2px solid var(--imperial-red);
+  background-color: var(--white);
 }
