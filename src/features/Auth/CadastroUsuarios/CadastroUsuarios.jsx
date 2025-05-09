@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Password from "../PswdLogic.jsx";
+import Password, { validarSenha, validarConfirmacaoSenha } from "../PswdLogic.jsx";
 import { useNavigate } from "react-router-dom";
 import "../../../Styles/global.css";
 import "../globalAuth.css";
@@ -8,8 +8,6 @@ import logoManuscrito from "../../../assets/logotipo-manuscrito.png";
 
 export default function Cadastro() {
   const navigate = useNavigate();
-  const [mostrarSenha, setMostrarSenha] = useState(false);
-  const [mostrarConfirmarSenha, setMostrarConfirmarSenha] = useState(false);
 
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -64,17 +62,6 @@ export default function Cadastro() {
     if (!confirmarEmail || email !== confirmarEmail)
       camposInvalidosTemp.push("confirmarEmail");
 
-    // Validações
-    if (nome.length < 3) camposInvalidosTemp.push("nome");
-
-    if (!email) {
-      camposNaoPreenchidos.push("email");
-    } else if (!email.includes("@")) {
-      camposInvalidosTemp.push("email"); // Adiciona o campo de e-mail como inválido
-    }
-    if (!confirmarEmail || email !== confirmarEmail)
-      camposInvalidosTemp.push("confirmarEmail");
-
     // Validação do telefone
     const telefoneNumeros = telefone.replace(/\D/g, ""); // Remove caracteres não numéricos
     if (!telefone || telefoneNumeros.length < 10 || telefoneNumeros.length > 15) {
@@ -82,19 +69,13 @@ export default function Cadastro() {
     }
 
     // Validação da senha
-    if (
-      !senha ||
-      senha.length < 8 ||
-      senha.length > 20 ||
-      !/[a-z]/.test(senha) ||
-      !/[A-Z]/.test(senha) ||
-      !/[0-9]/.test(senha) ||
-      !/[!@#$%^&*(),.?":{}|<>]/.test(senha)
-    )
-      camposInvalidosTemp.push("senha", "confirmarSenha"); // Adiciona ambos os campos
-    if (senha !== confirmarSenha) {
-      camposInvalidosTemp.push("confirmarSenha"); // Marca ambos os campos como inválidos
+    if (!validarSenha(senha)) {
+      camposInvalidosTemp.push("senha");
     }
+
+    if (!confirmarSenha || !validarConfirmacaoSenha(senha, confirmarSenha)) {
+    camposInvalidosTemp.push("confirmarSenha");
+  }
 
     // Se houver campos inválidos ou não preenchidos
     if (camposNaoPreenchidos.length > 0 || camposInvalidosTemp.length > 0) {
@@ -120,6 +101,9 @@ export default function Cadastro() {
     setSenha("");
     setConfirmarSenha("");
     setTelefone("");
+
+    // Limpa os campos inválidos
+    setCamposInvalidos([]); // Adiciona esta linha para redefinir os campos inválidos
 
     // Exibe o pop-up de sucesso
     setTimeout(() => {
@@ -318,156 +302,14 @@ export default function Cadastro() {
             </div>
           </div>
 
-          {/* Senha e Confirmar Senha */}
-          <div className={styles.inputsRow}>
-            <div className={styles.formGroup}>
-              <label htmlFor="senha">
-                Senha
-                {camposInvalidos.includes("senha") && (
-                  <span className={styles.asterisco}>*</span>
-                )}
-              </label>
-              <div className={styles.inputIconContainer}>
-                <i className="bi bi-lock"></i>
-                <input
-                  id="senha"
-                  type={mostrarSenha ? "text" : "password"}
-                  minLength="8"
-                  maxLength="20"
-                  value={senha}
-                  onChange={(e) => handleInputChange("senha", e.target.value)}
-                  required
-                  className={`${styles.inputField} ${camposInvalidos.includes("senha")
-                    ? styles.inputInvalido
-                    : ""
-                    }`}
-                />
-                <button
-                  type="button"
-                  onClick={() => setMostrarSenha(!mostrarSenha)}
-                  className={styles.toggleSenha}
-                >
-                  {mostrarSenha ? (
-                    <i className="bi bi-eye-slash"></i>
-                  ) : (
-                    <i className="bi bi-eye"></i>
-                  )}
-                </button>
-              </div>
-            </div>
-            
-            {/*Confirmar Senha*/ }
-            <div className={styles.formGroup} style={{ position: "relative" }}>
-              <label htmlFor="confirmarSenha">
-                Confirmar senha
-                {camposInvalidos.includes("confirmarSenha") && (
-                  <span className={styles.asterisco}>*</span>
-                )}
-              </label>
-              <div className={styles.inputIconContainer}>
-                <i className="bi bi-lock"></i>
-                <input
-                  id="confirmarSenha"
-                  type={mostrarConfirmarSenha ? "text" : "password"}
-                  minLength="8"
-                  maxLength="20"
-                  value={confirmarSenha}
-                  onChange={(e) =>
-                    handleInputChange("confirmarSenha", e.target.value)
-                  }
-                  required
-                  className={`${styles.inputField} ${camposInvalidos.includes("confirmarSenha") ? styles.inputInvalido : ""
-                    }`}
-                />
-                <button
-                  type="button"
-                  onClick={() =>
-                    setMostrarConfirmarSenha(!mostrarConfirmarSenha)
-                  }
-                  className={styles.toggleSenha}
-                >
-                  {mostrarConfirmarSenha ? (
-                    <i className="bi bi-eye-slash"></i>
-                  ) : (
-                    <i className="bi bi-eye"></i>
-                  )}
-                </button>
-              </div>
-              {/* Mensagem de erro se as senhas não coincidirem */}
-              {confirmarSenha && confirmarSenha !== senha && (
-                <p className={styles.textErroSenha}>As senhas não coincidem</p>
-              )}
-            </div>
-          </div>
-
-          <p className={styles.titleRegrasSenha}>
-            Regras para a criação de senha:
-          </p>
-
-          <ul className={styles.regrasSenha}>
-            <li
-              className={
-                senha.length >= 8 && senha.length <= 20
-                  ? styles.valido
-                  : styles.invalido
-              }
-            >
-              <i
-                className={
-                  senha.length >= 8 && senha.length <= 20
-                    ? "bi bi-check-circle"
-                    : "bi bi-x-circle"
-                }
-              ></i>
-              Possuir um tamanho entre 8 e 20 caracteres.
-            </li>
-            <li
-              className={/[a-z]/.test(senha) ? styles.valido : styles.invalido}
-            >
-              <i
-                className={
-                  /[a-z]/.test(senha) ? "bi bi-check-circle" : "bi bi-x-circle"
-                }
-              ></i>
-              Possuir no mínimo 1 letra minúscula
-            </li>
-            <li
-              className={/[A-Z]/.test(senha) ? styles.valido : styles.invalido}
-            >
-              <i
-                className={
-                  /[A-Z]/.test(senha) ? "bi bi-check-circle" : "bi bi-x-circle"
-                }
-              ></i>
-              Possuir no mínimo 1 letra maiúscula.
-            </li>
-            <li
-              className={/[0-9]/.test(senha) ? styles.valido : styles.invalido}
-            >
-              <i
-                className={
-                  /[0-9]/.test(senha) ? "bi bi-check-circle" : "bi bi-x-circle"
-                }
-              ></i>
-              Possuir no mínimo 1 número.
-            </li>
-            <li
-              className={
-                /[!@#$%^&*(),.?":{}|<>]/.test(senha)
-                  ? styles.valido
-                  : styles.invalido
-              }
-            >
-              <i
-                className={
-                  /[!@#$%^&*(),.?":{}|<>]/.test(senha)
-                    ? "bi bi-check-circle"
-                    : "bi bi-x-circle"
-                }
-              ></i>
-              Possuir no mínimo 1 caractere especial.
-            </li>
-          </ul>
+          <Password
+            senha={senha}
+            setSenha={setSenha}
+            confirmarSenha={confirmarSenha}
+            setConfirmarSenha={setConfirmarSenha}
+            camposInvalidos={camposInvalidos}
+            setCamposInvalidos={setCamposInvalidos}
+          />
 
           <button type="submit" className={styles.btnCadastrar}>
             Cadastrar-se

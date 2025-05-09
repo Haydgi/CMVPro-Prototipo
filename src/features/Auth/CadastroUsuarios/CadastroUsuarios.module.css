@@ -109,62 +109,6 @@ input[type="password"]::-ms-reveal {
   font-size: 1rem;
 }
 
-/* Campos senha e confirmar senha */
-.toggleSenha {
-  position: absolute;
-  top: 3%;
-  right: 2rem;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-
-.titleRegrasSenha{
-  font-Size: 1rem;
-  margin-Bottom: 0.2rem;
-  color:  #6c757d;
-  padding: 0px;
-  font-weight: bold;
-}
-
-.regrasSenha {
-  font-size: 0.85rem;
-  margin-top: 0.1rem;
-  color: #6c757d;
-  list-style: none;
-  padding: 0;
-}
-
-.regrasSenha li {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.1rem;
-  white-space: nowrap;
-}
-
-.regrasSenha li i {
-  margin-right: 0.5rem;
-  font-size: 1rem;
-}
-
-.regrasSenha .valido i {
-  color: green;
-}
-
-.regrasSenha .invalido i {
-  color: red;
-}
-
-.regrasSenha .valido {
-  font-weight: bold;
-}
-
-.senhaContainer {
-  position: relative;
-}
-
 /* Contêiner para os campos com ícone */
 .inputIconContainer {
   position: relative;
@@ -228,18 +172,7 @@ input[type="password"]::-ms-reveal {
   margin-top: 0.25rem;
 }
 
-/* Campo de senha e confirmar senha */
-.textErroSenha {
-  color: var(--imperial-red);
-  font-size: 0.85rem;
-  font-weight: 600;
-  position: absolute; 
-  top: 0px;
-  right: 5px;
-  white-space: nowrap;
-  margin-top: 0.25rem;
-}
-
+/* Estilização de campos inconsistentes ou vazios */
 .asterisco {
   color: var(--imperial-red);
   margin-left: 0.25rem;
