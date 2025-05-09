@@ -190,7 +190,11 @@ input[type="password"]::-ms-reveal {
   position: absolute; 
   top: 0px;
   right: 5px;
+  position: absolute; 
+  top: 0px;
+  right: 5px;
   white-space: nowrap;
+  margin-top: 0.25rem;
   margin-top: 0.25rem;
 }
 
@@ -198,6 +202,9 @@ input[type="password"]::-ms-reveal {
   color: var(--imperial-red);
   font-size: 0.85rem;
   font-weight: 600;
+  position: absolute; 
+  top: 0px;
+  right: 5px;
   position: absolute; 
   top: 0px;
   right: 5px;
@@ -213,7 +220,11 @@ input[type="password"]::-ms-reveal {
   position: absolute; 
   top: 0px;
   right: 5px;
+  position: absolute; 
+  top: 0px;
+  right: 5px;
   white-space: nowrap;
+  margin-top: 0.25rem;
   margin-top: 0.25rem;
 }
 
