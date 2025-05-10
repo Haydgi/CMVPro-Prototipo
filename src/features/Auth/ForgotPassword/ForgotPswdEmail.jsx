@@ -1,6 +1,6 @@
 import '../../../Styles/global.css';
 import "../globalAuth.css";
-import styles from "./ForgotPswd.module.css";
+import styles from "./ForgotPswdEmail.module.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -9,6 +9,7 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [mensagem, setMensagem] = useState("");
   const [mostrarErroEmail, setMostrarErroEmail] = useState(false); // controla borda e asterisco
+  const [popUpMessage, setPopUpMessage] = useState(""); // controla o popup de erro
 
   const emailTemErro = email !== "" && !email.includes("@");
 
@@ -22,17 +23,20 @@ export default function ForgotPassword() {
     if (!email.includes("@")) {
       setMostrarErroEmail(true); // ativa erro visual
       setMensagem(""); // não mostra sucesso
+      setPopUpMessage("Por favor, insira um e-mail válido."); // define mensagem do popup
       return;
     }
 
     setMensagem("Verifique seu email. Um link para redefinir sua senha foi enviado.");
     setMostrarErroEmail(false); // tudo certo
+    setPopUpMessage(""); // limpa o popup de erro
   };
 
   const handleEmailChange = (valor) => {
     setEmail(valor);
     setMensagem("");
     setMostrarErroEmail(false); // sempre remove erro ao digitar algo
+    setPopUpMessage(""); // limpa o popup de erro ao digitar
   };
 
   return (
@@ -52,12 +56,6 @@ export default function ForgotPassword() {
                 {mostrarErroEmail && <span className={styles.asterisco}>*</span>}
               </label>
 
-              {emailTemErro && (
-                <p className={styles.textErroFormatoEmail}>
-                  Formatação do email inválido
-                </p>
-              )}
-
               <div className={styles.inputIconContainer}>
                 <i className="bi bi-envelope"></i>
                 <input
@@ -75,8 +73,7 @@ export default function ForgotPassword() {
                   <button
                     type="button"
                     className={styles.btnReenviar}
-                    onClick={() => setMensagem("Um novo link foi enviado ao seu email.")}
-                  >
+                    onClick={() => setMensagem("Um novo link foi enviado ao seu email.")} >
                     Reenviar email
                   </button>
                 </div>
@@ -89,6 +86,13 @@ export default function ForgotPassword() {
               </button>
             </div>
           </form>
+
+          {/* Pop-up para mensagens */}
+          {popUpMessage && (
+            <div className={styles.popUpError}>
+              {popUpMessage}
+            </div>
+          )}
         </div>
       </div>
     </div>

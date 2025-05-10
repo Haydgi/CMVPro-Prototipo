@@ -80,8 +80,7 @@ export default function Cadastro() {
     // Se houver campos inválidos ou não preenchidos
     if (camposNaoPreenchidos.length > 0 || camposInvalidosTemp.length > 0) {
       setTimeout(() => {
-        setPopUpMessage("Por favor, corrija os campos destacados.");
-      }, 0);
+        setPopUpMessage("Por favor, corrija os campos destacados."); }, 0);
       setCamposInvalidos([...camposNaoPreenchidos, ...camposInvalidosTemp]);
       return;
     }

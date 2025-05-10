@@ -6,7 +6,7 @@ import Receitas from './pages/Receitas/Receitas';
 import Sobre from './features/Auth/LoginUsuario/Login';
 import Cadastro from './features/Auth/CadastroUsuarios/CadastroUsuarios';
 import AuthUser from './features/Auth/AuthUser/AuthUser';
-import EsqueciSenha from './features/Auth/LoginUsuario/ForgotPswd';
+import EsqueciSenha from './features/Auth/ForgotPassword/ForgotPswdEmail';
 
 function App() {
   const [logado, setLogado] = useState(false);
