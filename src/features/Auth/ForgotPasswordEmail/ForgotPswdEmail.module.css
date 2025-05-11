@@ -2,7 +2,7 @@ input[type="password"]::-ms-reveal {
   display: none !important;
 }
 
-.backgroundSignIn {
+.background {
   background: radial-gradient(
       rgba(123, 61, 147, 0.702) 20%,
       rgba(81, 46, 97, 0.7) 25%,

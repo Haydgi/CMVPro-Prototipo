@@ -40,7 +40,7 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className={`${"backgroundContainer"} ${styles.backgroundSignIn}`}>
+    <div className={`${"backgroundContainer"} ${styles.background}`}>
       <div>
         <div className={styles.container}>
           <form className={styles.formulario} onSubmit={handleCadastro} noValidate>

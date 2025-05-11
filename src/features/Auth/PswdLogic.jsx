@@ -26,13 +26,14 @@ export default function PasswordLogic({
   setConfirmarSenha,
   camposInvalidos,
   setCamposInvalidos,
+  vertical = false, // valor padrão é false (mantém os campos lado a lado)
 }) {
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const [mostrarConfirmarSenha, setMostrarConfirmarSenha] = useState(false);
 
   return (
     <div className={styles.ladoDireito}>
-      <div className={styles.inputsRow}>
+      <div className={`${styles.inputsRow} ${vertical ? styles.inputsColumn : ""}`}>
         {/* Campo de Senha */}
         <div className={styles.formGroup}>
           <label htmlFor="senha">

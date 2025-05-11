@@ -3,6 +3,10 @@
   gap: 1rem;
 }
 
+.inputsColumn {
+  flex-direction: column;
+}
+
 .inputsRow > .formGroup {
   flex: 1;
 }

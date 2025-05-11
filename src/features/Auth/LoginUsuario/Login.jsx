@@ -17,7 +17,7 @@ export default function Login() {
   };
 
   const handleForgotPassword = () => {
-    navigate("/forgot-password");
+    navigate("/forgot-password-email");
   };
 
   const usuario = {

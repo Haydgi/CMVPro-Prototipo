@@ -6,7 +6,9 @@ import Receitas from './pages/Receitas/Receitas';
 import Sobre from './features/Auth/LoginUsuario/Login';
 import Cadastro from './features/Auth/CadastroUsuarios/CadastroUsuarios';
 import AuthUser from './features/Auth/AuthUser/AuthUser';
-import EsqueciSenha from './features/Auth/ForgotPassword/ForgotPswdEmail';
+import EsqueciSenha from './features/Auth/ForgotPasswordEmail/ForgotPswdEmail';
+import RedefinirSenha from './features/Auth/ForgotPassword/ForgotPswd';
+import NavegacaoTemporaria from './pages/NavegacaoTemporaria/NavegacaoTemp';
 
 function App() {
   const [logado, setLogado] = useState(false);
@@ -29,9 +31,17 @@ function App() {
           path="/sign-up" 
           element={<Cadastro />} // Rota para o componente Cadastro
         />
+        <Route 
+          path="/" 
+          element={<NavegacaoTemporaria />}
+        />
+        <Route
+          path="/forgot-password-email"
+          element={<EsqueciSenha/>}
+        />
         <Route
           path="/forgot-password"
-          element={<EsqueciSenha/>}
+          element={<RedefinirSenha/>}
         />
         <Route 
           path="/auth" 
