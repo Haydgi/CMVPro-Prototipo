@@ -50,8 +50,8 @@ input[type="password"]::-ms-reveal {
 
 .popUpError {
   position: absolute;
-  bottom: 110px;
-  left: 1106px;
+  bottom: 100px;
+  left: 1110px;
   transform: translateX(-50%);
   background-color: var(--imperial-red);
   color: var(--white);
@@ -67,8 +67,8 @@ input[type="password"]::-ms-reveal {
 
 .popUpSucess {
   position: absolute;
-  bottom: 110px;
-  left: 1135px;
+  bottom: 100px;
+  left: 1139px;
   transform: translateX(-50%);
   background-color: var(--dark-pastel-green);
   color: var(--white);
