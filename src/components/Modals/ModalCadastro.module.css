@@ -1,0 +1,196 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro semitransparente */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Certifique-se de que o modal está acima de outros elementos */
+}
+
+.modalContainer {
+  background-color: var(--floral-white);
+  width: 600px;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modalHeader h5 {
+  color: var(--ultra-violet); /* Ajustado para usar a variável de cor */
+  font-size: 1.8rem;
+  margin: 0 auto;
+}
+
+.btnClose {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.modalBody {
+  padding: 10px 0;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 20px;
+  margin-top: 30px;
+}
+
+button {
+  background-color: var(--ultra-violet); /* Fundo roxo */
+  color: var(--floral-white); /* Texto branco */
+  border: 2px solid var(--ultra-violet); /* Borda roxa */
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: var(--dark-pastel-green); /* Fundo verde no hover */
+  border-color: var(--dark-pastel-green); /* Borda verde no hover */
+}
+
+button.btn-alt {
+  background-color: var(--floral-white); /* Fundo branco */
+  color: var(--ultra-violet); /* Texto roxo */
+  border: 2px solid var(--ultra-violet); /* Borda roxa */
+}
+
+button.btn-alt:hover {
+  background-color: var(--sunset); /* Fundo laranja no hover */
+  border-color: var(--sunset); /* Borda laranja no hover */
+}
+
+.upload-box {
+  width: 180px;
+  height: 180px;
+  border: 2px dashed var(--ultra-violet); /* Ajustado para usar a variável de cor */
+  border-radius: 10px;
+  text-align: center;
+  padding: 20px;
+  color: var(--ultra-violet); /* Ajustado para usar a variável de cor */
+  cursor: pointer;
+  background-color: var(--floral-white); /* Ajustado para usar a variável de cor */
+  transition: 0.3s;
+}
+
+.upload-box:hover {
+  background-color: var(--sunset); /* Ajustado para usar a variável de cor */
+}
+
+.upload-box span {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.preco-final {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--ultra-violet); /* Ajustado para usar a variável de cor */
+  text-decoration: underline;
+  text-decoration-color: var(--ultra-violet); /* Ajustado para usar a variável de cor */
+  text-decoration-thickness: 2px;
+  margin-top: 10px;
+}
+
+.tabela-ingredientes {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px;
+  border: 2px solid var(--ultra-violet); /* Ajustado para usar a variável de cor */
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: var(--ultra-violet); /* Ajustado para usar a variável de cor */
+  color: var(--floral-white); /* Ajustado para usar a variável de cor */
+}
+
+.tabela-ingredientes th {
+  background-color: var(--ultra-violet); /* Ajustado para usar a variável de cor */
+  color: var(--floral-white); /* Ajustado para usar a variável de cor */
+  padding: 10px;
+  text-align: left;
+}
+
+.tabela-ingredientes td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tabela-ingredientes tr:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.tabela-ingredientes td input,
+.tabela-ingredientes td select {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid var(--ultra-violet); /* Ajustado para usar a variável de cor */
+  border-radius: 4px;
+  background-color: var(--floral-white); /* Ajustado para usar a variável de cor */
+  color: var(--rich-black); /* Ajustado para usar a variável de cor */
+}
+
+.autocomplete-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid var(--ultra-violet); /* Ajustado para usar a variável de cor */
+  border-radius: 10px;
+  background-color: var(--ultra-violet); /* Ajustado para usar a variável de cor */
+  color: var(--floral-white); /* Ajustado para usar a variável de cor */
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.autocomplete-item {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.autocomplete-item:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Botão de remoção discreto */
+.btn-remove-ingrediente {
+background: none;
+border: none;
+color: var(--imperial-red); /* Ajustado para usar a variável de cor */
+font-size: 1rem;
+margin-left: 10px;
+cursor: pointer;
+transition: color 0.2s ease-in-out;
+}
+
+.btn-remove-ingrediente:hover {
+color: var(--dark-pastel-green); /* Ajustado para usar a variável de cor */
+}
+
+
+

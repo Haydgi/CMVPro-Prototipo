@@ -1,0 +1,44 @@
+/* Estilo principal da navbar */
+.navbar {
+    background-color: var(--ultra-violet-transparent); /* Fundo roxo */
+    padding: 2px 200px !important; /* Adiciona margem interna para evitar que os elementos fiquem colados */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* Sombra para profundidade */
+    z-index: 10; /* Garante que a navbar fique acima de outros elementos */
+}
+
+/* Logo */
+.logo {
+    width: 50px;
+    margin-right: 20px; /* Espaço entre a logo e os links */
+}
+
+/* Links */
+.navbar-links {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Alinha os links à direita */
+    flex-grow: 1; /* Faz os links ocuparem o espaço restante */
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espaçamento entre os links */
+}
+
+.navbar .nav-link {
+    color: var(--white-smoke) !important; /* Cor do texto dos links */
+    font-weight: bold;
+    font-size: 120%;
+    transition: color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.navbar .nav-link:hover {
+    color: var(--sunset) !important; /* Cor ao passar o mouse */
+    transform: translateY(-2px);
+}
+
+.navbar .nav-link.active {
+    color: var(--sunset) !important; /* Cor do link ativo */
+    border-bottom: 2px solid var(--sunset); /* Underline no link ativo */
+}
