@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { toast } from "react-toastify"; // Importar o Toastify
+import { toast } from "react-toastify";
 import "../../../Styles/global.css";
-import styles from "../ModalCadastro.module.css"; // Importando o CSS Modules
+import styles from "../ModalCadastro.module.css";
 
-function ModalCadastroProduto({ onClose, onSave }) {
+function ModalEditaIngrediente({ onClose, onSave }) {
   const [form, setForm] = useState({
     nome: "",
     custo: "",
@@ -53,20 +53,20 @@ function ModalCadastroProduto({ onClose, onSave }) {
 
   const handleSubmit = () => {
     if (!form.nome || !form.custo || !form.categoria || !form.unidade || !form.taxaDesperdicio) {
-      toast.error("Por favor, preencha todos os campos!"); // Notificação de erro
+      toast.error("Por favor, preencha todos os campos!");
       return;
     }
 
-    const ingredienteFormatado = {
+    const ingredienteAtualizado = {
       ...form,
-      unidadeCompra: form.unidade, 
+      unidadeCompra: form.unidade,
       custo: parseFloat(form.custo.replace(",", ".")),
       taxaDesperdicio: parseFloat(form.taxaDesperdicio.replace(",", ".")),
     };
 
     if (onSave) {
-      onSave(ingredienteFormatado);
-      toast.success("Ingrediente cadastrado com sucesso!"); // Notificação de sucesso
+      onSave(ingredienteAtualizado);
+      toast.success("Ingrediente atualizado com sucesso!");
     }
 
     handleClose();
@@ -77,14 +77,13 @@ function ModalCadastroProduto({ onClose, onSave }) {
       <div className={`${styles.modalContainer} shadow ${isClosing ? styles.modalExit : styles.modalEnter}`}>
         {/* Header do Modal */}
         <div className={styles.modalHeader}>
-          <h5>Cadastrar Ingrediente</h5>
+          <h5>Editar Ingrediente</h5>
           <button onClick={handleClose} className={styles.btnClose}>&times;</button>
         </div>
 
         {/* Corpo do Modal */}
         <div className={styles.modalBody}>
           <div className={styles.formGrid}>
-            {/* Primeira linha: Nome e Custo */}
             <div className={`${styles.formGroup} ${styles.colSpan2}`}>
               <label>Nome</label>
               <input
@@ -105,8 +104,6 @@ function ModalCadastroProduto({ onClose, onSave }) {
                 onChange={handleChange}
               />
             </div>
-
-            {/* Segunda linha: Categoria, Unidade de Compra e Taxa de Desperdício */}
             <div className={styles.formGroup}>
               <label>Categoria</label>
               <select
@@ -117,9 +114,7 @@ function ModalCadastroProduto({ onClose, onSave }) {
               >
                 <option value="">Selecione...</option>
                 {categorias.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
-                  </option>
+                  <option key={cat} value={cat}>{cat}</option>
                 ))}
               </select>
             </div>
@@ -173,4 +168,4 @@ function ModalCadastroProduto({ onClose, onSave }) {
   );
 }
 
-export default ModalCadastroProduto;
+export default ModalEditaIngrediente;

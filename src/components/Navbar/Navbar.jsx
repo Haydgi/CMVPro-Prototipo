@@ -1,75 +1,69 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import "./Navbar.css"; // Importando o CSS global
+import { NavLink } from "react-router-dom";
+import "./Navbar.css";
 
 export default function Navbar() {
-  const location = useLocation();
+  const handleLogout = () => {
+    // Lógica para logout
+    console.log("Usuário saiu");
+  };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-custom">
-      <div className="container">
-        {/* Logo */}
-        <Link className="navbar-brand" to="/">
-          <img
-            src={`${import.meta.env.BASE_URL}midia/logo_caderno_do_chef.png`}
-            alt="Logo Caderno do Chef"
-            className="logo"
-          />
-        </Link>
+    <div className="container-fluid">
+      <nav className="navbar">
+        {/* Logo no canto esquerdo */}
+        
 
-        {/* Botão colapsável mobile */}
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
+        {/* Links de navegação */}
+        <ul className="nav-list">
+          <li>
+            <NavLink
+              to="/receitas"
+              className="hoverable"
+              activeClassName="active"
+            >
+              Receitas
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/relatorios"
+              className="hoverable"
+              activeClassName="active"
+            >
+              Relatórios
+            </NavLink>
+          </li>
+          <li>
+          <img src={`${import.meta.env.BASE_URL}midia/logo_caderno_do_che2.png`} alt="Logo" className="logo" />
+         </li>
+          
+          <li>
+            <NavLink
+              to="/ingredientes"
+              className="hoverable"
+              activeClassName="active"
+            >
+              Ingredientes
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/despesas"
+              className="hoverable"
+              activeClassName="active"
+            >
+              Despesas
+            </NavLink>
+          </li>
+        </ul>
+
+        {/* Botão de sair no canto direito */}
+        <button className="btnLogout" onClick={handleLogout}>
+          <i className="bi bi-box-arrow-right"></i> Sair
         </button>
-
-        {/* Links */}
-        <div className="collapse navbar-collapse navbar-links" id="navbarNav">
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <Link
-                className={`nav-link ${
-                  location.pathname === "/produtos" ? "active" : ""
-                }`}
-                to="/produtos"
-              >
-                Produtos
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link
-                className={`nav-link ${
-                  location.pathname === "/receitas" ? "active" : ""
-                }`}
-                to="/receitas"
-              >
-                Receitas
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link
-                className={`nav-link ${
-                  location.pathname === "/relatorios" ? "active" : ""
-                }`}
-                to="/relatorios"
-              >
-                Relatórios
-              </Link>
-            </li>
-            
-          </ul>
-          <button className="btn btn-outline-light btn-login ms-3 custom-btn">
-            <i className="bi bi-box-arrow-right"></i> Sair
-          </button>
-        </div>
-      </div>
-    </nav>
+        
+      </nav>
+    </div>
   );
 }

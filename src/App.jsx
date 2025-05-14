@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { ToastContainer } from 'react-toastify'; // Importando o ToastContainer
 import 'react-toastify/dist/ReactToastify.css'; // Estilos do Toastify
 import Navbar from './components/Navbar/Navbar';
-import Produtos from './pages/CadastrosSistema/Produtos/Produtos';
+import Ingredientes from './pages/CadastrosSistema/Ingredientes/Ingredientes';
 import Receitas from './pages/CadastrosSistema/Receitas/Receitas';
 import Sobre from './features/Auth/LoginUsuario/Login';
 import Cadastro from './features/Auth/CadastroUsuarios/CadastroUsuarios';
@@ -62,8 +62,8 @@ function App() {
           element={<AuthUser />} // Rota para o componente Cadastro
         />
         <Route
-          path="/produtos"
-          element={<Produtos />}
+          path="/ingredientes"
+          element={<Ingredientes />}
         />
         <Route
           path="/receitas"

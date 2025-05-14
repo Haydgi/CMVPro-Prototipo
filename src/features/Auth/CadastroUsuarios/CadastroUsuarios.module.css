@@ -67,7 +67,7 @@ input[type="password"]::-ms-reveal {
   padding-top: 5px;
   padding-bottom: 15px;
   font-family: "Birthstone", cursive;
-  font-size: 5.5rem;
+  font-size: 5.5rem !important;
 }
 
 /* Formulário */
@@ -191,10 +191,10 @@ input[type="password"]::-ms-reveal {
   margin-top: 25px;
   width: 42%;
   padding: 0.75rem;
-  background: linear-gradient(to right, #f58802);
+  background: var(--ultra-violet);
   background-size: 200% 100%;
   background-position: right;
-  color: var(--white-smoke);
+  color: var(--white);
   border: none;
   border-radius: 12px;
   font-size: 1.2rem;

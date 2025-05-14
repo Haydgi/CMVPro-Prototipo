@@ -25,8 +25,11 @@ export default function AuthUser() {
           <p className={styles.textInfo}>
             Aguarde o administrador <br />validar seu cadastro.
           </p>
-          <button className={`${'btnUltraViolet'}`} onClick={handleVoltarParaTelaInicial}>
-          <i class="bi bi-arrow-left"></i> Voltar Para Tela Inicial
+          <button
+            className={`${'btnUltraViolet'} ${styles.btnCustomHeight}`}
+            onClick={handleVoltarParaTelaInicial}
+          >
+            <i className="bi bi-arrow-left"></i> Voltar Para Tela Inicial
           </button>
         </div>
       </div>

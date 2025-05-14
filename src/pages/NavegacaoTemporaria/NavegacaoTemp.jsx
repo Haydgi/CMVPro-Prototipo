@@ -20,7 +20,7 @@ export default function Sobre() {
     navigate("/forgot-password");
   };
   const produto = () => {
-    navigate("/produtos");
+    navigate("/ingredientes");
   };
   const receita = () => {
     navigate("/receitas");

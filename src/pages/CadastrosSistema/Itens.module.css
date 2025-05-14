@@ -1,36 +1,30 @@
-/* Estilo para o cabeçalho */
-.headerProdutos {
-  background-color: var(--white); /* Fundo branco */
-  width: 100%; /* Ocupa toda a largura da tela */
-  padding: 10px 0; /* Espaçamento interno vertical */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para destaque */
-  position: relative; /* Garante que o header fique no fluxo do layout */
-  z-index: 1;
+/* Centralizar o título e alinhar a barra de pesquisa à direita */
+.title {
+  font-size: 3.2rem !important;
+  
+  color: var(--rich-black); /* Cor roxa */
+  margin: 0; /* Remove margens extras */
 }
 
-/* Conteúdo do cabeçalho */
-.headerProdutos .container {
-  max-width: 1200px; /* Largura máxima do conteúdo */
-  margin: 0 auto; /* Centraliza o conteúdo */
-  padding: 0 20px; /* Espaçamento interno horizontal */
+/* Estilo para o container da barra de pesquisa */
+.searchBarContainer {
+  position: relative; /* Necessário para posicionar o botão da lupa */
+  display: flex;
+  align-items: center;
+  width: auto; /* Ajusta a largura para ser pequena */
 }
 
-/* Título */
-.headerProdutos .title {
-  font-size: 1.8rem;
-  color: var(--rich-black); /* Cor do texto */
-}
-
-/* Barra de pesquisa */
+/* Estilo para o campo de pesquisa */
 .searchBar {
-  width: 100%;
-  padding: 0.75rem 1rem 0.75rem 2.5rem; /* Espaçamento interno */
-  border: 2px solid var(--ultra-violet) !important; /* Borda roxa por padrão */
+  width: 200px; /* Define uma largura pequena */
+  padding: 0.5rem 1rem; /* Espaçamento interno */
+  padding-right: 2.5rem; /* Espaço para o botão da lupa */
+  border: 2px solid var(--ultra-violet) !important; /* Borda roxa */
   border-radius: 8px; /* Bordas arredondadas */
-  font-size: 1rem; /* Tamanho da fonte */
+  font-size: 0.9rem; /* Tamanho da fonte */
   color: var(--rich-black); /* Cor do texto */
-  background-color: var(--white-smoke); /* Fundo branco */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra leve padrão */
+  background-color: var(--white); /* Fundo branco */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra leve */
   transition: box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
 }
 
@@ -44,37 +38,47 @@
 .searchBar:focus {
   outline: none;
   border-color: var(--ultra-violet); /* Mantém a borda roxa */
-  box-shadow: 0 0 8px var(--tangerine) !important; /* Sombra verde ao focar */
+  box-shadow: 0 0 8px var(--sunset) !important; /* Sombra verde ao focar */
 }
 
-/* Ícone dentro da barra de pesquisa */
-.searchBarContainer {
-  position: relative;
-}
-
-.searchBarContainer i {
-  position: absolute;
-  left: 0.75rem;
-  top: 50%;
+/* Estilo para o botão de pesquisa */
+.searchButton {
+  position: absolute; /* Posiciona o botão dentro do campo */
+  right: 10px; /* Alinha à direita dentro do campo */
+  top: 50%; /* Centraliza verticalmente */
   transform: translateY(-50%);
-  font-size: 1.2rem;
-  color: #6c757d; /* Cor do ícone */
+  background: none; /* Fundo transparente */
+  border: none; /* Remove borda */
+  color: var(--ultra-violet); /* Cor do ícone */
+  font-size: 1.2rem; /* Tamanho do ícone */
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
+}
+
+.searchButton:hover {
+  color: var(--rich-black); /* Cor verde ao passar o mouse */
+  
 }
 
 /* Botão de adicionar */
 .addBtn {
   background-color: var(--ultra-violet);
-  color: var(--white);
-  border: none;
-  border-radius: 8px;
-  padding: 8px 12px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
-}
-
-.addBtn:hover {
-  background-color: var(--dark-pastel-green);
+  color: var(--white) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  width: 60px !important;
+  height: 45px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem !important; /* Um pouco maior se quiser destaque */
+  cursor: pointer !important;
+  transition: background-color 0.3s ease-in-out !important;
+  padding: 0 !important; /* Remove padding extra que pode empurrar o ícone */
 }
 
 
@@ -91,18 +95,54 @@
 
 /* Estilo dos cards */
 .cardProduto {
-  background-color: var(--white-smoke);
-  border: 2px solid var(--sunset);
-  border-radius: 8px;
-  padding: 15px;
+  background-color: var(--ultra-violet); /* Fundo roxo */
+  color: var(--white-smoke); /* Texto branco */
+  border-radius: 12px;
+  padding: 20px;
   text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .cardProduto:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  transform: scale(1.05); /* Leve aumento no hover */
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35); /* Sombra mais intensa */
+}
+
+/* Ícone do card */
+.cardIcon {
+  font-size: 3rem; /* Tamanho do ícone */
+  margin-bottom: 10px;
+  color: var(--floral-white); /* Cor do ícone */
+}
+
+/* Título do card */
+.cardTitle {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Preço do card */
+.cardPrice {
+  font-size: 1rem;
+  color: var(--floral-white); /* Cor do texto */
+}
+
+/* Ação do card (ícone de edição) */
+.cardAction {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 1.2rem;
+  color: var(--floral-white);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.cardAction:hover {
+  color: var(--sunset); /* Cor laranja ao passar o mouse */
 }
 
 /* Grid de itens (produtos ou receitas) */
@@ -211,12 +251,178 @@ h2 {
     background-color: var(--dark-pastel-green); /* Ajustado para usar a variável de cor */
 }
 
+/* Botão dentro de #sem-produtos */
+#sem-produtos button {
+  background-color: var(--ultra-violet); /* Mantém o fundo roxo */
+  color: var(--white-smoke); /* Define a cor do texto e do ícone como white-smoke */
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Espaçamento entre o ícone e o texto */
+}
+
+/* Hover para o botão */
+#sem-produtos button:hover {
+  background-color: var(--dark-pastel-green); /* Cor de fundo ao passar o mouse */
+  color: var(--white-smoke); /* Mantém o texto e o ícone como white-smoke */
+}
+
 /* Estilo para o fundo da página abaixo do header */
 .pageContent {
-  background: url("/midia/cadernoHorizontal2.png") no-repeat center center; /* Define a imagem de fundo */
-  background-size: 100% 100%; /* Ajusta a imagem para caber inteiramente na tela */
-  height: calc(100vh - 145px); /* Altura total da tela menos a altura do header */
-  justify-content: center; /* Centraliza o conteúdo verticalmente */
-  padding: 20px; /* Espaçamento interno */
-  overflow: hidden; /* Garante que nada ultrapasse o contêiner */
+  background: url("/midia/cadernoHorizontal5.png") no-repeat center center;
+  background-size: 100% 100%;
+  height: calc(109vh - 145px);
+  justify-content: center;
+  padding: 20px;
+  
+}
+
+/* Estilo para o texto dentro do botão */
+.btnText {
+  color: var(--white-smoke); /* Define a cor do texto como white-smoke */
+  font-size: 1rem; /* Tamanho da fonte */
+  margin: 0; /* Remove margens */
+  padding: 0; /* Remove preenchimento */
+  display: inline; /* Garante que o texto fique na mesma linha do ícone */
+}
+
+.Trash{
+    font-size: 25px;
+}
+
+/* Estilo para a paginação */
+/* Estilo para a paginação */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  gap: 8px;
+  padding: 10px 0;
+  margin-bottom: 20px;
+  position: absolute; /* Fixa a paginação dentro do container */
+  bottom: 0; /* Alinha na parte inferior do container */
+  left: 0;
+  width: 100%; /* Garante que ocupe toda a largura do container */
+  z-index: 1000; /* Garante que fique acima de outros elementos */
+}
+
+.pageItem {
+  border: 1px solid var(--ultra-violet); /* Borda roxa */
+  border-radius: 50%; /* Botões circulares */
+  width: 35px; /* Largura do botão */
+  height: 35px; /* Altura do botão */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem; /* Tamanho da fonte */
+  color: var(--ultra-violet); /* Cor do texto */
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.pageItem:hover {
+  background-color: var(--sunset); /* Fundo roxo ao passar o mouse */
+  color: var(--ultra-violet); /* Texto branco */
+  transform: scale(1.1); /* Leve aumento no hover */
+}
+
+.pageLink {
+  text-decoration: none; /* Remove sublinhado */
+  color: inherit; /* Herda a cor do item */
+}
+
+.active {
+  background-color: var(--sunset); /* Fundo roxo para o item ativo */
+  color: var(--ultra-violet); /* Texto branco */
+  font-weight: bold;
+  transform: scale(1.1); /* Leve aumento para destacar */
+}
+
+/* Botões do Footer */
+.btnCancel {
+  background: linear-gradient(to right, #f44336, var(--imperial-red)); /* Gradiente vermelho */
+  background-size: 200% 100%;
+  background-position: right;
+  color: var(--white-smoke); /* Texto branco */
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease-in-out;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btnCancel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 150%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 60%);
+  transform: skewX(-20deg);
+  transition: left 0.5s ease-in-out;
+  z-index: 0;
+}
+
+.btnCancel:hover::before {
+  left: 105%;
+}
+
+.btnCancel:hover {
+  background-position: left;
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+}
+
+.btnAlt {
+  background: linear-gradient(to right, #5c5b5a, var(--rich-black)); /* Gradiente vermelho */
+  background-size: 200% 100%;
+  background-position: right;
+  color: var(--white-smoke); /* Texto branco */
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease-in-out;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  margin-left: 10px;
+}
+
+.btnAlt::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 150%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 60%);
+  transform: skewX(-20deg);
+  transition: left 0.5s ease-in-out;
+  z-index: 0;
+}
+
+.btnAlt:hover::before {
+  left: 105%;
+}
+
+.btnAlt:hover {
+  background-position: left;
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
 }

@@ -30,3 +30,7 @@
   color: var(--rich-black); 
   text-shadow: 0 8px 6px rgba(0, 0, 0, 0.4);
 }
+
+.btnCustomHeight {
+  height: 45px; /* Ajuste a altura conforme necessário */
+}
