@@ -1,4 +1,6 @@
 /* Variáveis de tema */
+@import url('https://fonts.googleapis.com/css2?family=Lobster+Two&display=swap');
+
 :root {
     --white-smoke: #f3f0f0; /* Branco suave */
     --rich-black: #111827; /* Preto rico */

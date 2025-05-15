@@ -1,4 +1,6 @@
 /* Esconder o ícone padrão de senha do navegador Microsoft Edge */
+@import url('https://fonts.googleapis.com/css2?family=Lobster+Two&display=swap');
+
 input[type="password"]::-ms-reveal {
   display: none !important;
 }

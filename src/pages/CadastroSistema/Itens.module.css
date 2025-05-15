@@ -1,9 +1,10 @@
 /* Centralizar o título e alinhar a barra de pesquisa à direita */
 .title {
   font-size: 3.2rem !important;
-  
+  font-family: "Lobster Two", cursive;
   color: var(--rich-black); /* Cor roxa */
   margin: 0; /* Remove margens extras */
+  white-space: nowrap; /* Impede que o texto quebre em várias linhas */
 }
 
 /* Estilo para o container da barra de pesquisa */
@@ -175,11 +176,6 @@
 
 .card-produto {
     width: auto;
-}
-
-h2 {
-    font-family: "Birthstone", cursive;
-    font-size: 2.5rem !important;
 }
 
 .card-receita {

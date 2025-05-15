@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { ToastContainer } from 'react-toastify'; // Importando o ToastContainer
 import 'react-toastify/dist/ReactToastify.css'; // Estilos do Toastify
 import Navbar from './components/Navbar/Navbar';
-import Ingredientes from './pages/CadastrosSistema/Ingredientes/Ingredientes';
-import Receitas from './pages/CadastrosSistema/Receitas/Receitas';
+import Ingredientes from './pages/CadastroSistema/Ingredientes/Ingredientes';
+import Receitas from './pages/CadastroSistema/Receitas/Receitas';
 import Sobre from './features/Auth/LoginUsuario/Login';
 import Cadastro from './features/Auth/CadastroUsuarios/CadastroUsuarios';
 import AuthUser from './features/Auth/AuthUser/AuthUser';

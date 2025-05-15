@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster+Two&display=swap');
+
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -36,10 +38,9 @@
 
 .modalHeader h5 {
   font-size: 2.2rem;
-
-  color: var(--white-smoke);
+  color: var(--white-smoke); /* Texto branco */
   margin: 0;
-  font-family: "Birthstone", cursive;
+  font-family: "Lobster Two", cursive;
 }
 
 .btnClose {
