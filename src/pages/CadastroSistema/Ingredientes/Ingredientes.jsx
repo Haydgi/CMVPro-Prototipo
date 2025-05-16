@@ -107,6 +107,7 @@ function Ingredientes() {
       ModalCadastro={ModalCadastroProduto}
       ModalEditar={ModalEditaIngrediente}
       renderCard={renderCard}
+      itensPorPagina={12}
     />
   );
 }

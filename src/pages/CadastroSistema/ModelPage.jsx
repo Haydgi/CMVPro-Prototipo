@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import styles from './itens.module.css';
 import ReactPaginate from "react-paginate";
@@ -17,7 +17,7 @@ function ModelPage({
     ModalCadastro,
     ModalEditar,
     renderCard,
-    itensPorPagina = 12,
+    itensPorPagina,
 }) {
     useEffect(() => {
         document.body.classList.add('produtos-page');
@@ -26,8 +26,26 @@ function ModelPage({
         };
     }, []);
 
+    const [paginaAtual, setPaginaAtual] = useState(0);
     const totalPaginas = Math.ceil(dados.length / itensPorPagina);
-    const [paginaAtual, setPaginaAtual] = React.useState(0);
+
+    // Referência para controlar quantidade anterior de páginas
+    const prevTotalPaginas = useRef(totalPaginas);
+
+    // 🔁 Atualiza página atual para última se novo item criar nova página
+    useEffect(() => {
+        if (totalPaginas > prevTotalPaginas.current) {
+            setPaginaAtual(totalPaginas - 1);
+        }
+        prevTotalPaginas.current = totalPaginas;
+    }, [dados, totalPaginas]);
+
+    // 🔁 Corrige caso a página atual seja inválida após uma exclusão
+    useEffect(() => {
+        if (paginaAtual >= totalPaginas && totalPaginas > 0) {
+            setPaginaAtual(totalPaginas - 1);
+        }
+    }, [paginaAtual, totalPaginas]);
 
     const dadosExibidos = dados.slice(
         paginaAtual * itensPorPagina,
@@ -92,6 +110,7 @@ function ModelPage({
                             nextLabel={<i className="bi bi-arrow-right"></i>}
                             pageCount={totalPaginas}
                             onPageChange={mudarPagina}
+                            forcePage={paginaAtual}
                             containerClassName={styles.pagination}
                             activeClassName={styles.active}
                             previousClassName={styles.pageItem}

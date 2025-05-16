@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import "../../../Styles/global.css";
 import styles from "./ModalCadastroReceita.module.css";
 
-function ModalCadastroReceita({ onClose, onSave, }) {
+function ModalEditaReceita({ onClose, onSave, receita }) {
   const [form, setForm] = useState({
     imagem: null,
     nome: "",
@@ -11,12 +11,13 @@ function ModalCadastroReceita({ onClose, onSave, }) {
     tempoDePreparo: "",
     porcentagemDeLucro: "",
     descricao: "",
-    custoTotalIngredientes: "49.99",
+    custoTotalIngredientes: "0.00",
+    id: null,
   });
 
-  const [isClosing, setIsClosing] = useState(false);
-  const [ingredienteBusca, setIngredienteBusca] = useState("");
   const [ingredientesSelecionados, setIngredientesSelecionados] = useState([]);
+  const [ingredienteBusca, setIngredienteBusca] = useState("");
+  const [isClosing, setIsClosing] = useState(false);
 
   const categorias = [
     "Carnes", "Aves", "Peixes e Frutos do Mar", "Massas", "Arroz e Grãos",
@@ -31,6 +32,23 @@ function ModalCadastroReceita({ onClose, onSave, }) {
     "Grão-de-bico", "Quinoa", "Aveia", "Sementes", "Nozes", "Castanhas",
     "Macarrão", "Sopa", "Mel"
   ];
+
+  useEffect(() => {
+    if (receita) {
+      setForm({
+        imagem: receita.imagem || null,
+        nome: receita.nome || "",
+        categoria: receita.categoria || "",
+        tempoDePreparo: receita.tempoDePreparo || "",
+        porcentagemDeLucro: receita.porcentagemDeLucro || "",
+        descricao: receita.descricao || "",
+        custoTotalIngredientes: receita.custoTotalIngredientes || "0.00",
+        id: receita.id,
+      });
+
+      setIngredientesSelecionados(receita.ingredientes || []);
+    }
+  }, [receita]);
 
   const handleClose = () => setIsClosing(true);
 
@@ -82,16 +100,13 @@ function ModalCadastroReceita({ onClose, onSave, }) {
       return;
     }
 
-    const receitaFormatado = {
+    const receitaEditada = {
       ...form,
       ingredientes: ingredientesSelecionados,
     };
 
-    if (onSave) {
-      onSave(receitaFormatado);
-      toast.success("Receita cadastrada com sucesso!");
-    }
-
+    onSave(receitaEditada);
+    toast.success("Receita atualizada com sucesso!");
     handleClose();
   };
 
@@ -99,7 +114,7 @@ function ModalCadastroReceita({ onClose, onSave, }) {
     <div className={`${styles.modalOverlay} ${isClosing ? styles.modalExit : styles.modalEnter}`}>
       <div className={`${styles.modalContainer} shadow`}>
         <div className={styles.modalHeader}>
-          <h5>Cadastrar Receita</h5>
+          <h5>Editar Receita</h5>
           <button onClick={handleClose} className={styles.btnClose}>&times;</button>
         </div>
 
@@ -257,7 +272,6 @@ function ModalCadastroReceita({ onClose, onSave, }) {
           </div>
         </div>
 
-
         <div className={styles.modalFooter}>
           <button className={styles.btnCancel} onClick={handleClose}>Cancelar</button>
           <button className={styles.btnSave} onClick={handleSubmit}>Salvar</button>
@@ -267,4 +281,4 @@ function ModalCadastroReceita({ onClose, onSave, }) {
   );
 }
 
-export default ModalCadastroReceita;
+export default ModalEditaReceita;

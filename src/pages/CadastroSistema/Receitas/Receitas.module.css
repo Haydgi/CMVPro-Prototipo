@@ -1,0 +1,23 @@
+.cardReceita {
+  background-color: var(--ultra-violet); /* Fundo roxo */
+  color: var(--white-smoke); /* Texto branco */
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cardReceita:hover {
+  transform: scale(1.05); /* Leve aumento no hover */
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35); /* Sombra mais intensa */
+}
+
+.Trash{
+    font-size: 18px;
+}
+
+.Trash:hover {
+  color: var(--imperial-red); /* Cor laranja ao passar o mouse */
+}

@@ -1,0 +1,399 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster+Two&display=swap');
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modalContainer {
+  background: linear-gradient(145deg, var(--ultra-violet) 0%, rgb(107, 0, 139) 100%);
+  color: var(--white-smoke);
+  width: 900px;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  position: relative;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--white-smoke);
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.modalHeader h5 {
+  font-size: 2.2rem;
+  color: var(--white-smoke);
+  margin: 0;
+  font-family: "Lobster Two", cursive;
+}
+
+.btnClose {
+  background-color: var(--white-smoke);
+  border: none;
+  font-size: 1.5rem;
+  color: var(--ultra-violet);
+  cursor: pointer;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+  padding-bottom: 5px;
+}
+
+.btnClose:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+}
+
+.btnClose:focus-visible {
+  outline: 2px solid var(--tangerine);
+  outline-offset: 2px;
+}
+
+.modalBody {
+  padding: 10px 0;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  padding-top: 20px;
+  margin-top: 20px;
+  border-top: 2px solid var(--white-smoke);
+}
+
+.btnCancel,
+.btnSave {
+  background-size: 200% 100%;
+  background-position: right;
+  color: var(--white-smoke);
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease-in-out;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btnCancel {
+  background: linear-gradient(to right, #f44336, var(--imperial-red));
+}
+
+.btnSave {
+  background: linear-gradient(to right, #4caf50, var(--dark-pastel-green));
+}
+
+.btnCancel::before,
+.btnSave::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 150%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 60%);
+  transform: skewX(-20deg);
+  transition: left 0.5s ease-in-out;
+  z-index: 0;
+}
+
+.btnCancel:hover::before,
+.btnSave:hover::before {
+  left: 105%;
+}
+
+.btnCancel:hover,
+.btnSave:hover {
+  background-position: left;
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+.modalExit {
+  animation: fadeOut 0.3s ease-in-out forwards;
+}
+
+.upload-box {
+  width: 180px;
+  height: 180px;
+  border: 2px dashed var(--ultra-violet);
+  border-radius: 10px;
+  text-align: center;
+  padding: 20px;
+  color: var(--ultra-violet);
+  cursor: pointer;
+  background-color: var(--white-smoke);
+  transition: 0.3s;
+}
+
+.upload-box:hover {
+  background-color: var(--sunset);
+}
+
+.upload-box span {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.previewImage {
+  width: 120px;
+  max-height: 120px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 2px solid var(--white-smoke);
+}
+
+.preco-final {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--ultra-violet);
+  text-decoration: underline;
+  text-decoration-color: var(--ultra-violet);
+  text-decoration-thickness: 2px;
+  margin-top: 10px;
+}
+
+.tabela-ingredientes {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px;
+  border: 2px solid var(--ultra-violet);
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: var(--ultra-violet);
+  color: var(--white-smoke);
+}
+
+.tabela-ingredientes th,
+.tabela-ingredientes td {
+  padding: 10px;
+}
+
+.tabela-ingredientes th {
+  background-color: var(--ultra-violet);
+  text-align: left;
+}
+
+.tabela-ingredientes td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tabela-ingredientes tr:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.tabela-ingredientes td input,
+.tabela-ingredientes td select {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid var(--ultra-violet);
+  border-radius: 4px;
+  background-color: var(--white-smoke);
+  color: var(--rich-black);
+}
+
+.autocomplete-list,
+.suggestionsList {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid var(--ultra-violet);
+  border-radius: 10px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.autocomplete-list {
+  background-color: var(--ultra-violet);
+  color: var(--white-smoke);
+}
+
+.suggestionsList {
+  background-color: var(--white-smoke);
+  color: var(--ultra-violet);
+  border-radius: 5px;
+  margin: 5px 0 10px 0;
+}
+
+.autocomplete-item,
+.suggestionsList li {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.autocomplete-item:hover,
+.suggestionsList li:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.colSpan2 {
+  grid-column: span 2;
+}
+
+.ingredientesBox {
+  padding-top: 10px;
+  height: 347px;;
+  max-height: 347px;
+  overflow-y: auto;
+
+  border-radius: 10px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.ingredienteItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Novo input com largura reduzida para quantidade */
+.inputQuantidade {
+  border-radius: 6px;
+  border: 1px solid var(--ultra-violet);
+  background-color: var(--white-smoke);
+  color: var(--rich-black);
+}
+
+.ingredienteItem input {
+  padding: 6px;
+  width: 180px;
+}
+
+.btn-remove-ingrediente,
+.btnRemoveIngrediente {
+  background: none;
+  border: none;
+  color: var(--imperial-red);
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-left: 5px;
+  transition: color 0.2s ease-in-out;
+}
+
+.btn-remove-ingrediente:hover,
+.btnRemoveIngrediente:hover {
+  color: var(--white-smoke);
+}
+
+.hiddenFileInput {
+  display: none;
+}
+
+.imagePreviewBox {
+  width: 139px;
+  height: 139px;
+  border: 2px dashed var(--rich-black);
+  border-radius: 10px;
+  background-color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ultra-violet);
+  font-weight: bold;
+  font-size: 1rem;
+  text-align: center;
+  background-size: cover;
+  background-position: center;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.imagePreviewBox:hover {
+  background-color: var(--white-smoke);
+}
+
+.suggestionsContainer {
+  position: relative;
+}
+
+.suggestionsList {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--white-smoke);
+  color: var(--rich-black);
+  border: 1px solid var(--ultra-violet);
+  border-radius: 4px;
+  z-index: 20;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.suggestionsList li {
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.suggestionsList li:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
