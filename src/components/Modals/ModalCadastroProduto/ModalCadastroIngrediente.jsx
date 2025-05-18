@@ -1,18 +1,22 @@
 import { useState, useEffect } from "react";
-import { toast } from "react-toastify"; // Importar o Toastify
+import { toast } from "react-toastify";
 import "../../../Styles/global.css";
-import styles from "../ModalCadastro.module.css"; // Importando o CSS Modules
+import styles from "./ModalCadastroIngrediente.module.css";
+import { FaTrash } from "react-icons/fa";
 
-function ModalCadastroProduto({ onClose, onSave }) {
+function ModalCadastroIngrediente({ onClose, onSave }) {
   const [form, setForm] = useState({
     nome: "",
     custo: "",
     categoria: "",
-    unidade: "kg",
+    unidade: "",
     taxaDesperdicio: "",
   });
 
   const [isClosing, setIsClosing] = useState(false);
+  const [ingredienteBusca, setIngredienteBusca] = useState("");
+  const [ingredientesRelacionados, setIngredientesRelacionados] = useState([]);
+  const [camposInvalidos, setCamposInvalidos] = useState({});
 
   const categorias = [
     "Carnes",
@@ -27,46 +31,59 @@ function ModalCadastroProduto({ onClose, onSave }) {
     "Temperos e Condimentos",
   ];
 
-  const handleClose = () => {
-    setIsClosing(true);
-  };
+  const handleClose = () => setIsClosing(true);
 
   useEffect(() => {
     if (isClosing) {
-      const timer = setTimeout(() => {
-        onClose();
-      }, 300);
+      const timer = setTimeout(() => onClose(), 300);
       return () => clearTimeout(timer);
     }
   }, [isClosing, onClose]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     let newValue = value;
+
     if (name === "custo" || name === "taxaDesperdicio") {
       newValue = value.replace(/[^\d,]/g, "").replace(/(,.*?),/g, "$1");
     }
 
     setForm((prev) => ({ ...prev, [name]: newValue }));
+
+    if (camposInvalidos[name]) {
+      setCamposInvalidos((prev) => {
+        const novo = { ...prev };
+        delete novo[name];
+        return novo;
+      });
+    }
   };
 
   const handleSubmit = () => {
-    if (!form.nome || !form.custo || !form.categoria || !form.unidade || !form.taxaDesperdicio) {
-      toast.error("Por favor, preencha todos os campos!"); // Notificação de erro
+    const campos = {};
+
+    if (!form.nome) campos.nome = true;
+    if (!form.custo) campos.custo = true;
+    if (!form.categoria) campos.categoria = true;
+    if (!form.unidade) campos.unidade = true;
+    if (!form.taxaDesperdicio) campos.taxaDesperdicio = true;
+
+    if (Object.keys(campos).length > 0) {
+      setCamposInvalidos(campos);
+      toast.error("Preencha todos os campos obrigatórios!");
       return;
     }
 
     const ingredienteFormatado = {
       ...form,
-      unidadeCompra: form.unidade, 
+      unidadeCompra: form.unidade,
       custo: parseFloat(form.custo.replace(",", ".")),
       taxaDesperdicio: parseFloat(form.taxaDesperdicio.replace(",", ".")),
     };
 
     if (onSave) {
       onSave(ingredienteFormatado);
-      toast.success("Ingrediente cadastrado com sucesso!"); // Notificação de sucesso
+      toast.success("Ingrediente cadastrado com sucesso!");
     }
 
     handleClose();
@@ -74,22 +91,19 @@ function ModalCadastroProduto({ onClose, onSave }) {
 
   return (
     <div className={`${styles.modalOverlay} ${isClosing ? styles.modalExit : styles.modalEnter}`}>
-      <div className={`${styles.modalContainer} shadow ${isClosing ? styles.modalExit : styles.modalEnter}`}>
-        {/* Header do Modal */}
+      <div className={`${styles.modalContainer} shadow`}>
         <div className={styles.modalHeader}>
           <h5>Cadastrar Ingrediente</h5>
           <button onClick={handleClose} className={styles.btnClose}>&times;</button>
         </div>
 
-        {/* Corpo do Modal */}
         <div className={styles.modalBody}>
           <div className={styles.formGrid}>
-            {/* Primeira linha: Nome e Custo */}
             <div className={`${styles.formGroup} ${styles.colSpan2}`}>
               <label>Nome</label>
               <input
                 name="nome"
-                className="form-control"
+                className={`form-control ${camposInvalidos.nome ? styles.erroInput : ""}`}
                 value={form.nome}
                 onChange={handleChange}
               />
@@ -98,28 +112,23 @@ function ModalCadastroProduto({ onClose, onSave }) {
               <label>Custo de Compra (R$)</label>
               <input
                 name="custo"
-                className="form-control"
+                className={`form-control ${camposInvalidos.custo ? styles.erroInput : ""}`}
                 inputMode="decimal"
-                pattern="\d+,\d{2}"
                 value={form.custo}
                 onChange={handleChange}
               />
             </div>
-
-            {/* Segunda linha: Categoria, Unidade de Compra e Taxa de Desperdício */}
             <div className={styles.formGroup}>
               <label>Categoria</label>
               <select
                 name="categoria"
-                className="form-control"
+                className={`form-control ${camposInvalidos.categoria ? styles.erroInput : ""}`}
                 value={form.categoria}
                 onChange={handleChange}
               >
                 <option value="">Selecione...</option>
                 {categorias.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
-                  </option>
+                  <option key={cat} value={cat}>{cat}</option>
                 ))}
               </select>
             </div>
@@ -127,10 +136,11 @@ function ModalCadastroProduto({ onClose, onSave }) {
               <label>Unidade de Compra</label>
               <select
                 name="unidade"
-                className="form-control"
+                className={`form-control ${camposInvalidos.unidade ? styles.erroInput : ""}`}
                 value={form.unidade}
                 onChange={handleChange}
               >
+                <option value="">Selecione...</option>
                 <option value="kg">Quilo (kg)</option>
                 <option value="g">Grama (g)</option>
                 <option value="mg">Miligrama (mg)</option>
@@ -143,9 +153,8 @@ function ModalCadastroProduto({ onClose, onSave }) {
               <label>Taxa de Desperdício (%)</label>
               <input
                 name="taxaDesperdicio"
-                className="form-control"
+                className={`form-control ${camposInvalidos.taxaDesperdicio ? styles.erroInput : ""}`}
                 inputMode="decimal"
-                pattern="\d+,\d{2}"
                 value={form.taxaDesperdicio}
                 onChange={handleChange}
               />
@@ -153,24 +162,13 @@ function ModalCadastroProduto({ onClose, onSave }) {
           </div>
         </div>
 
-        {/* Footer do Modal */}
         <div className={styles.modalFooter}>
-          <button
-            className={`${styles.btnCancel}`}
-            onClick={handleClose}
-          >
-            Cancelar
-          </button>
-          <button
-            className={`${styles.btnSave}`}
-            onClick={handleSubmit}
-          >
-            Salvar
-          </button>
+          <button className={styles.btnCancel} onClick={handleClose}>Cancelar</button>
+          <button className={styles.btnSave} onClick={handleSubmit}>Salvar</button>
         </div>
       </div>
     </div>
   );
 }
 
-export default ModalCadastroProduto;
+export default ModalCadastroIngrediente;

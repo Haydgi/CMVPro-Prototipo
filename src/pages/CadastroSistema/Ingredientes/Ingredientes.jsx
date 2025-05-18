@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import ModalCadastroProduto from '../../../components/Modals/ModalCadastroProduto/ModalCadastroProduto';
+import ModalCadastroProduto from '../../../components/Modals/ModalCadastroProduto/ModalCadastroIngrediente';
 import ModalEditaIngrediente from '../../../components/Modals/ModalCadastroProduto/ModalEditaIngrediente';
 import ModelPage from '../ModelPage';
 import styles from '../itens.module.css';
@@ -8,11 +8,14 @@ import { CiWheat, CiDroplet } from "react-icons/ci";
 import { LuMilk } from "react-icons/lu";
 import { TbSalt } from "react-icons/tb";
 import Swal from "sweetalert2";
+import { FaTrash } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
 function Ingredientes() {
   const [ingredientes, setIngredientes] = useState([]);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [mostrarModalEditar, setMostrarModalEditar] = useState(false);
+  const [ingredienteSelecionado, setIngredienteSelecionado] = useState(null);
 
   const iconesCategorias = {
     Carnes: <GiMeat />,
@@ -27,33 +30,46 @@ function Ingredientes() {
     "Temperos e Condimentos": <TbSalt />,
   };
 
-  const salvarIngrediente = (ingrediente) => {
-    setIngredientes((prev) => {
-      const existe = prev.find((p) => p.id === ingrediente.id);
-      if (existe) {
-        return prev.map((p) => (p.id === ingrediente.id ? { ...ingrediente } : p));
-      }
-      return [
-        ...prev,
-        {
-          ...ingrediente,
-          id: prev.length + 1,
-          icone: iconesCategorias[ingrediente.categoria] || <TbSalt />,
-          unidadeCompra: ingrediente.unidadeCompra || "Kg",
-        },
-      ];
-    });
+  const salvarIngrediente = (novo) => {
+    setIngredientes((prev) => [
+      ...prev,
+      {
+        ...novo,
+        id: prev.length + 1,
+        icone: iconesCategorias[novo.categoria],
+        unidadeCompra: novo.unidadeCompra,
+      },
+    ]);
+    setMostrarModal(false);
   };
 
+  const atualizarIngrediente = (atualizado) => {
+  setIngredientes((prev) =>
+    prev.map((i) =>
+      i.id === atualizado.id
+        ? {
+            ...atualizado,
+            icone: iconesCategorias[atualizado.categoria],
+          }
+        : i
+    )
+  );
+  setMostrarModalEditar(false);
+  setIngredienteSelecionado(null);
+};
+
   const removerIngrediente = (id) => {
-    setIngredientes((prev) => prev.filter((p) => p.id !== id));
+    setIngredientes((prev) => prev.filter((i) => i.id !== id));
   };
 
   const renderCard = (ingrediente) => (
     <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" key={ingrediente.id}>
       <div
         className={styles.cardProduto}
-        onClick={() => setMostrarModalEditar(true)}
+        onClick={() => {
+          setIngredienteSelecionado(ingrediente);
+          setMostrarModalEditar(true);
+        }}
         style={{ cursor: "pointer" }}
       >
         <div className={styles.cardIcon}>{ingrediente.icone}</div>
@@ -85,7 +101,7 @@ function Ingredientes() {
             }}
             title="Excluir"
           >
-            <TbSalt />
+            <FaTrash />
           </i>
         </div>
       </div>
@@ -105,7 +121,18 @@ function Ingredientes() {
       mostrarModal={mostrarModal}
       mostrarModalEditar={mostrarModalEditar}
       ModalCadastro={ModalCadastroProduto}
-      ModalEditar={ModalEditaIngrediente}
+      ModalEditar={() => (
+        ingredienteSelecionado && (
+          <ModalEditaIngrediente
+            ingrediente={ingredienteSelecionado}
+            onClose={() => {
+              setMostrarModalEditar(false);
+              setIngredienteSelecionado(null);
+            }}
+            onSave={atualizarIngrediente}
+          />
+        )
+      )}
       renderCard={renderCard}
       itensPorPagina={12}
     />

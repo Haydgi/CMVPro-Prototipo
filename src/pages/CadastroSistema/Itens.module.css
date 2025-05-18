@@ -142,8 +142,8 @@
   transition: color 0.3s ease;
 }
 
-.cardAction:hover {
-  color: var(--sunset); /* Cor laranja ao passar o mouse */
+.Trash:hover {
+  color: var(--imperial-red); /* Cor laranja ao passar o mouse */
 }
 
 /* Grid de itens (produtos ou receitas) */

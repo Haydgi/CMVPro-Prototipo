@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "../../../Styles/global.css";
 import styles from "./ModalCadastroReceita.module.css";
+import { FaTrash } from 'react-icons/fa';
 
 function ModalCadastroReceita({ onClose, onSave, }) {
   const [form, setForm] = useState({
@@ -17,6 +18,7 @@ function ModalCadastroReceita({ onClose, onSave, }) {
   const [isClosing, setIsClosing] = useState(false);
   const [ingredienteBusca, setIngredienteBusca] = useState("");
   const [ingredientesSelecionados, setIngredientesSelecionados] = useState([]);
+  const [camposInvalidos, setCamposInvalidos] = useState({});
 
   const categorias = [
     "Carnes", "Aves", "Peixes e Frutos do Mar", "Massas", "Arroz e Grãos",
@@ -25,12 +27,35 @@ function ModalCadastroReceita({ onClose, onSave, }) {
   ];
 
   const ingredientesDisponiveis = [
-    "Farinha de Trigo", "Manteiga", "Leite", "Queijo", "Frango", "Carne",
-    "Peixe", "Batata", "Abóbora", "Milho", "Ovo", "Açúcar", "Chocolate",
-    "Baunilha", "Mostarda", "Maionese", "Arroz", "Feijão", "Lentilha",
-    "Grão-de-bico", "Quinoa", "Aveia", "Sementes", "Nozes", "Castanhas",
-    "Macarrão", "Sopa", "Mel"
+    { nome: "Farinha de trigo", unidade: "g" },
+    { nome: "Açúcar", unidade: "g" },
+    { nome: "Sal", unidade: "g" },
+    { nome: "Fermento em pó", unidade: "g" },
+    { nome: "Manteiga", unidade: "g" },
+    { nome: "Leite", unidade: "ml" },
+    { nome: "Água", unidade: "ml" },
+    { nome: "Óleo de soja", unidade: "ml" },
+    { nome: "Essência de baunilha", unidade: "ml" },
+    { nome: "Vinagre", unidade: "ml" },
+    { nome: "Ovo", unidade: "unid." },
+    { nome: "Tomate", unidade: "unid." },
+    { nome: "Cebola", unidade: "unid." },
+    { nome: "Alho", unidade: "unid." },
+    { nome: "Batata", unidade: "unid." },
+    { nome: "Cenoura", unidade: "unid." },
+    { nome: "Queijo mussarela", unidade: "g" },
+    { nome: "Presunto", unidade: "g" },
+    { nome: "Frango desfiado", unidade: "g" },
+    { nome: "Carne moída", unidade: "g" },
+    { nome: "Molho de tomate", unidade: "ml" },
+    { nome: "Creme de leite", unidade: "ml" },
+    { nome: "Requeijão", unidade: "g" },
+    { nome: "Chocolate em pó", unidade: "g" },
+    { nome: "Coco ralado", unidade: "g" },
+    { nome: "Fermento biológico", unidade: "g" },
+    { nome: "Leite condensado", unidade: "ml" }
   ];
+
 
   const handleClose = () => setIsClosing(true);
 
@@ -43,14 +68,25 @@ function ModalCadastroReceita({ onClose, onSave, }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     let newValue = value;
+
     if (name === "tempoDePreparo" || name === "porcentagemDeLucro") {
       newValue = value.replace(/[^\d,]/g, "").replace(/(,.*?),/g, "$1");
     }
 
     setForm((prev) => ({ ...prev, [name]: newValue }));
+
+    // Remove o erro ao digitar
+    if (camposInvalidos[name]) {
+      setCamposInvalidos((prev) => {
+        const novo = { ...prev };
+        delete novo[name];
+        return novo;
+      });
+    }
   };
+
+
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -60,8 +96,11 @@ function ModalCadastroReceita({ onClose, onSave, }) {
   };
 
   const handleSelectIngrediente = (ingrediente) => {
-    if (!ingredientesSelecionados.find(i => i.nome === ingrediente)) {
-      setIngredientesSelecionados(prev => [...prev, { nome: ingrediente, quantidade: "", unidade: "" }]);
+    if (!ingredientesSelecionados.find(i => i.nome === ingrediente.nome)) {
+      setIngredientesSelecionados(prev => [
+        ...prev,
+        { nome: ingrediente.nome, unidade: ingrediente.unidade, quantidade: "" }
+      ]);
     }
     setIngredienteBusca("");
   };
@@ -70,30 +109,75 @@ function ModalCadastroReceita({ onClose, onSave, }) {
     const novos = [...ingredientesSelecionados];
     novos[index][field] = value;
     setIngredientesSelecionados(novos);
+
+    if (field === "quantidade" && camposInvalidos[`ingrediente_${index}`]) {
+      setCamposInvalidos((prev) => {
+        const novo = { ...prev };
+        delete novo[`ingrediente_${index}`];
+        return novo;
+      });
+    }
   };
+
 
   const handleRemoverIngrediente = (index) => {
     setIngredientesSelecionados(prev => prev.filter((_, i) => i !== index));
   };
 
   const handleSubmit = () => {
-    if (!form.nome || !form.porcentagemDeLucro || !form.categoria || !form.descricao) {
-      toast.error("Por favor, preencha todos os campos!");
-      return;
+  const campos = {};
+
+  // 1. Validação dos campos obrigatórios
+  if (!form.nome) campos.nome = true;
+  if (!form.categoria) campos.categoria = true;
+  if (!form.tempoDePreparo) campos.tempoDePreparo = true;
+  if (!form.porcentagemDeLucro) campos.porcentagemDeLucro = true;
+
+  if (Object.keys(campos).length > 0) {
+    setCamposInvalidos(campos);
+    toast.error("Preencha todos os campos obrigatórios!");
+    return;
+  }
+
+  // 2. Validação das quantidades dos ingredientes
+  const errosIngredientes = {};
+  ingredientesSelecionados.forEach((ingrediente, index) => {
+    if (!ingrediente.quantidade || isNaN(ingrediente.quantidade)) {
+      errosIngredientes[`ingrediente_${index}`] = true;
     }
+  });
 
-    const receitaFormatado = {
-      ...form,
-      ingredientes: ingredientesSelecionados,
-    };
+  if (Object.keys(errosIngredientes).length > 0) {
+    setCamposInvalidos(errosIngredientes);
+    toast.error("Preencha a quantidade de todos os ingredientes!");
+    return;
+  }
 
-    if (onSave) {
-      onSave(receitaFormatado);
-      toast.success("Receita cadastrada com sucesso!");
-    }
+  // 3. Validação da quantidade de ingredientes adicionados
+  if (ingredientesSelecionados.length < 2) {
+    toast.error("Adicione pelo menos 2 ingredientes!");
+    return;
+  }
 
-    handleClose();
+  // Se tudo estiver ok, salva
+  setCamposInvalidos({});
+  const receitaFormatado = {
+    ...form,
+    ingredientes: ingredientesSelecionados,
   };
+
+  if (onSave) {
+    onSave(receitaFormatado);
+    toast.success("Receita cadastrada com sucesso!");
+  }
+
+  handleClose();
+};
+
+
+
+
+
 
   return (
     <div className={`${styles.modalOverlay} ${isClosing ? styles.modalExit : styles.modalEnter}`}>
@@ -136,7 +220,7 @@ function ModalCadastroReceita({ onClose, onSave, }) {
                     <label>Tempo de Preparo (Min.)</label>
                     <input
                       name="tempoDePreparo"
-                      className="form-control"
+                      className={`form-control ${camposInvalidos.tempoDePreparo ? styles.erroInput : ""}`}
                       inputMode="decimal"
                       value={form.tempoDePreparo}
                       onChange={handleChange}
@@ -152,7 +236,7 @@ function ModalCadastroReceita({ onClose, onSave, }) {
                     <label>Nome Da Receita</label>
                     <input
                       name="nome"
-                      className="form-control"
+                      className={`form-control ${camposInvalidos.nome ? styles.erroInput : ""}`}
                       value={form.nome}
                       onChange={handleChange}
                       placeholder="Ex: Bolo de Chocolate"
@@ -164,7 +248,7 @@ function ModalCadastroReceita({ onClose, onSave, }) {
                     <label>Categoria</label>
                     <select
                       name="categoria"
-                      className="form-control"
+                      className={`form-control ${camposInvalidos.categoria ? styles.erroInput : ""}`}
                       value={form.categoria}
                       onChange={handleChange}
                     >
@@ -180,7 +264,7 @@ function ModalCadastroReceita({ onClose, onSave, }) {
                     <label>Porcentagem de Lucro (%)</label>
                     <input
                       name="porcentagemDeLucro"
-                      className="form-control"
+                      className={`form-control ${camposInvalidos.porcentagemDeLucro ? styles.erroInput : ""}`}
                       inputMode="decimal"
                       value={form.porcentagemDeLucro}
                       onChange={handleChange}
@@ -220,9 +304,11 @@ function ModalCadastroReceita({ onClose, onSave, }) {
                   {ingredienteBusca && (
                     <ul className={styles.suggestionsList}>
                       {ingredientesDisponiveis
-                        .filter(i => i.toLowerCase().includes(ingredienteBusca.toLowerCase()))
+                        .filter(i => i.nome.toLowerCase().includes(ingredienteBusca.toLowerCase()))
                         .map(i => (
-                          <li key={i} onClick={() => handleSelectIngrediente(i)}>{i}</li>
+                          <li key={i.nome} onClick={() => handleSelectIngrediente(i)}>
+                            {i.nome}
+                          </li>
                         ))}
                     </ul>
                   )}
@@ -236,18 +322,21 @@ function ModalCadastroReceita({ onClose, onSave, }) {
                       <span className="w-50">{ingrediente.nome}</span>
                       <input
                         type="number"
-                        placeholder="Quantidade Utilizada"
-                        className={`${styles.inputQuantidade}`}
+                        placeholder="Quantidade"
+                        className={`${styles.inputQuantidade} ${camposInvalidos[`ingrediente_${index}`] ? styles.erroInput : ""}`}
                         value={ingrediente.quantidade}
                         onChange={(e) => handleIngredienteChange(index, "quantidade", e.target.value)}
                       />
+                      <div className="w-25 text-center">
+                        <span className={styles.unidade}>{ingrediente.unidade}</span>
+                      </div>
 
                       <button
                         type="button"
                         className={styles.btnRemoveIngrediente}
                         onClick={() => handleRemoverIngrediente(index)}
                       >
-                        ✕
+                        <FaTrash />
                       </button>
                     </div>
                   ))}

@@ -331,3 +331,7 @@ color: var(--dark-pastel-green); /* Ajustado para usar a variável de cor */
 .modalExit {
   animation: fadeOut 0.3s ease-in-out forwards;
 }
+
+.erroInput {
+  border: 2px solid var(--imperial-red) !important;
+}
