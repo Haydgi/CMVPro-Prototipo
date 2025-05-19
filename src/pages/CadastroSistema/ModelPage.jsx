@@ -81,6 +81,19 @@ function ModelPage({
                             {titulo}
                         </h2>
                         <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
+                            <div className={styles.searchBarContainer}>
+                                <input
+                                    type="text"
+                                    className={`form-control ${styles.searchBar} me-2`}
+                                placeholder="Pesquise um Produto"
+                />
+                                <button
+                                    className={styles.searchButton}
+                                    onClick={() => { }}
+                                >
+                                    <i className="bi bi-search me-2"></i>
+                                </button>
+                            </div>
                             <button className={`${styles.addBtn} btnUltraViolet btn`} onClick={abrirModal}>
                                 <i className="bi bi-plus-circle"></i>
                             </button>

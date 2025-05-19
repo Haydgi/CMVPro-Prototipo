@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import ModalCadastroProduto from '../../../components/Modals/ModalCadastroProduto/ModalCadastroIngrediente';
-import ModalEditaIngrediente from '../../../components/Modals/ModalCadastroProduto/ModalEditaIngrediente';
+import ModalCadastroProduto from '../../../components/Modals/ModalCadastroIngrediente/ModalCadastroIngrediente';
+import ModalEditaIngrediente from '../../../components/Modals/ModalCadastroIngrediente/ModalEditaIngrediente';
 import ModelPage from '../ModelPage';
 import styles from '../itens.module.css';
 import { GiMeat, GiFruitBowl, GiPumpkin, GiPeanut, GiWrappedSweet } from "react-icons/gi";

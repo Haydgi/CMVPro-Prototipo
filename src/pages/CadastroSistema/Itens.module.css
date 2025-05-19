@@ -422,3 +422,61 @@
   transform: scale(1.05);
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
 }
+
+.searchBarContainer {
+  position: relative; /* Necessário para posicionar o botão da lupa */
+  display: flex;
+  align-items: center;
+  width: auto; /* Ajusta a largura para ser pequena */
+}
+
+/* Estilo para o campo de pesquisa */
+.searchBar {
+  width: 200px; /* Define uma largura pequena */
+  padding: 0.5rem 1rem; /* Espaçamento interno */
+  padding-right: 2.5rem; /* Espaço para o botão da lupa */
+  border: 2px solid var(--ultra-violet) !important; /* Borda roxa */
+  border-radius: 8px; /* Bordas arredondadas */
+  font-size: 0.9rem; /* Tamanho da fonte */
+  color: var(--rich-black); /* Cor do texto */
+  background-color: var(--white); /* Fundo branco */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra leve */
+  transition: box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
+  margin-right: 10px;
+}
+
+/* Sem mudanças ao passar o mouse */
+.searchBar:hover {
+  border-color: var(--ultra-violet); /* Mantém a borda roxa */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Mantém a sombra padrão */
+}
+
+/* Destaque ao focar na barra de pesquisa */
+.searchBar:focus {
+  outline: none;
+  border-color: var(--ultra-violet); /* Mantém a borda roxa */
+  box-shadow: 0 0 8px var(--sunset) !important; /* Sombra verde ao focar */
+}
+
+/* Estilo para o botão de pesquisa */
+.searchButton {
+  position: absolute; /* Posiciona o botão dentro do campo */
+  right: 10px; /* Alinha à direita dentro do campo */
+  top: 50%; /* Centraliza verticalmente */
+  transform: translateY(-50%);
+  background: none; /* Fundo transparente */
+  border: none; /* Remove borda */
+  color: var(--ultra-violet); /* Cor do ícone */
+  font-size: 1.2rem; /* Tamanho do ícone */
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
+}
+
+.searchButton:hover {
+  color: var(--rich-black); /* Cor verde ao passar o mouse */
+  
+}

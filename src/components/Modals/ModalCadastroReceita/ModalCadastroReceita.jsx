@@ -26,35 +26,35 @@ function ModalCadastroReceita({ onClose, onSave, }) {
     "Molhos e Pastas", "Bebidas", "Vegano", "Vegetariano", "Sem Glúten", "Sem Lactose"
   ];
 
-  const ingredientesDisponiveis = [
-    { nome: "Farinha de trigo", unidade: "g" },
-    { nome: "Açúcar", unidade: "g" },
-    { nome: "Sal", unidade: "g" },
-    { nome: "Fermento em pó", unidade: "g" },
-    { nome: "Manteiga", unidade: "g" },
-    { nome: "Leite", unidade: "ml" },
-    { nome: "Água", unidade: "ml" },
-    { nome: "Óleo de soja", unidade: "ml" },
-    { nome: "Essência de baunilha", unidade: "ml" },
-    { nome: "Vinagre", unidade: "ml" },
-    { nome: "Ovo", unidade: "unid." },
-    { nome: "Tomate", unidade: "unid." },
-    { nome: "Cebola", unidade: "unid." },
-    { nome: "Alho", unidade: "unid." },
-    { nome: "Batata", unidade: "unid." },
-    { nome: "Cenoura", unidade: "unid." },
-    { nome: "Queijo mussarela", unidade: "g" },
-    { nome: "Presunto", unidade: "g" },
-    { nome: "Frango desfiado", unidade: "g" },
-    { nome: "Carne moída", unidade: "g" },
-    { nome: "Molho de tomate", unidade: "ml" },
-    { nome: "Creme de leite", unidade: "ml" },
-    { nome: "Requeijão", unidade: "g" },
-    { nome: "Chocolate em pó", unidade: "g" },
-    { nome: "Coco ralado", unidade: "g" },
-    { nome: "Fermento biológico", unidade: "g" },
-    { nome: "Leite condensado", unidade: "ml" }
-  ];
+  const [ingredientesDisponiveis, setIngredientesDisponiveis] = useState([
+  { nome: "Farinha de trigo", unidade: "g" },
+  { nome: "Açúcar", unidade: "g" },
+  { nome: "Sal", unidade: "g" },
+  { nome: "Fermento em pó", unidade: "g" },
+  { nome: "Manteiga", unidade: "g" },
+  { nome: "Leite", unidade: "ml" },
+  { nome: "Água", unidade: "ml" },
+  { nome: "Óleo de soja", unidade: "ml" },
+  { nome: "Essência de baunilha", unidade: "ml" },
+  { nome: "Vinagre", unidade: "ml" },
+  { nome: "Ovo", unidade: "unid." },
+  { nome: "Tomate", unidade: "unid." },
+  { nome: "Cebola", unidade: "unid." },
+  { nome: "Alho", unidade: "unid." },
+  { nome: "Batata", unidade: "unid." },
+  { nome: "Cenoura", unidade: "unid." },
+  { nome: "Queijo mussarela", unidade: "g" },
+  { nome: "Presunto", unidade: "g" },
+  { nome: "Frango desfiado", unidade: "g" },
+  { nome: "Carne moída", unidade: "g" },
+  { nome: "Molho de tomate", unidade: "ml" },
+  { nome: "Creme de leite", unidade: "ml" },
+  { nome: "Requeijão", unidade: "g" },
+  { nome: "Chocolate em pó", unidade: "g" },
+  { nome: "Coco ralado", unidade: "g" },
+  { nome: "Fermento biológico", unidade: "g" },
+  { nome: "Leite condensado", unidade: "ml" }
+]);
 
 
   const handleClose = () => setIsClosing(true);
@@ -96,14 +96,15 @@ function ModalCadastroReceita({ onClose, onSave, }) {
   };
 
   const handleSelectIngrediente = (ingrediente) => {
-    if (!ingredientesSelecionados.find(i => i.nome === ingrediente.nome)) {
-      setIngredientesSelecionados(prev => [
-        ...prev,
-        { nome: ingrediente.nome, unidade: ingrediente.unidade, quantidade: "" }
-      ]);
-    }
-    setIngredienteBusca("");
-  };
+  setIngredientesSelecionados((prev) => [
+    ...prev,
+    { nome: ingrediente.nome, unidade: ingrediente.unidade, quantidade: "" }
+  ]);
+  setIngredientesDisponiveis((prev) =>
+    prev.filter((i) => i.nome !== ingrediente.nome)
+  );
+  setIngredienteBusca("");
+};
 
   const handleIngredienteChange = (index, field, value) => {
     const novos = [...ingredientesSelecionados];
@@ -121,58 +122,74 @@ function ModalCadastroReceita({ onClose, onSave, }) {
 
 
   const handleRemoverIngrediente = (index) => {
-    setIngredientesSelecionados(prev => prev.filter((_, i) => i !== index));
-  };
+  setIngredientesSelecionados((prevSelecionados) => {
+    const ingredienteRemovido = prevSelecionados[index];
+
+    setIngredientesDisponiveis((prevDisponiveis) => {
+      const jaExiste = prevDisponiveis.some(
+        (i) => i.nome === ingredienteRemovido.nome
+      );
+      if (jaExiste) return prevDisponiveis; // já está lá, não adiciona de novo
+
+      return [...prevDisponiveis, {
+        nome: ingredienteRemovido.nome,
+        unidade: ingredienteRemovido.unidade,
+      }];
+    });
+
+    return prevSelecionados.filter((_, i) => i !== index);
+  });
+};
 
   const handleSubmit = () => {
-  const campos = {};
+    const campos = {};
 
-  // 1. Validação dos campos obrigatórios
-  if (!form.nome) campos.nome = true;
-  if (!form.categoria) campos.categoria = true;
-  if (!form.tempoDePreparo) campos.tempoDePreparo = true;
-  if (!form.porcentagemDeLucro) campos.porcentagemDeLucro = true;
+    // 1. Validação dos campos obrigatórios
+    if (!form.nome) campos.nome = true;
+    if (!form.categoria) campos.categoria = true;
+    if (!form.tempoDePreparo) campos.tempoDePreparo = true;
+    if (!form.porcentagemDeLucro) campos.porcentagemDeLucro = true;
 
-  if (Object.keys(campos).length > 0) {
-    setCamposInvalidos(campos);
-    toast.error("Preencha todos os campos obrigatórios!");
-    return;
-  }
-
-  // 2. Validação das quantidades dos ingredientes
-  const errosIngredientes = {};
-  ingredientesSelecionados.forEach((ingrediente, index) => {
-    if (!ingrediente.quantidade || isNaN(ingrediente.quantidade)) {
-      errosIngredientes[`ingrediente_${index}`] = true;
+    if (Object.keys(campos).length > 0) {
+      setCamposInvalidos(campos);
+      toast.error("Preencha todos os campos obrigatórios!");
+      return;
     }
-  });
 
-  if (Object.keys(errosIngredientes).length > 0) {
-    setCamposInvalidos(errosIngredientes);
-    toast.error("Preencha a quantidade de todos os ingredientes!");
-    return;
-  }
+    // 2. Validação das quantidades dos ingredientes
+    const errosIngredientes = {};
+    ingredientesSelecionados.forEach((ingrediente, index) => {
+      if (!ingrediente.quantidade || isNaN(ingrediente.quantidade)) {
+        errosIngredientes[`ingrediente_${index}`] = true;
+      }
+    });
 
-  // 3. Validação da quantidade de ingredientes adicionados
-  if (ingredientesSelecionados.length < 2) {
-    toast.error("Adicione pelo menos 2 ingredientes!");
-    return;
-  }
+    if (Object.keys(errosIngredientes).length > 0) {
+      setCamposInvalidos(errosIngredientes);
+      toast.error("Preencha a quantidade de todos os ingredientes!");
+      return;
+    }
 
-  // Se tudo estiver ok, salva
-  setCamposInvalidos({});
-  const receitaFormatado = {
-    ...form,
-    ingredientes: ingredientesSelecionados,
+    // 3. Validação da quantidade de ingredientes adicionados
+    if (ingredientesSelecionados.length < 2) {
+      toast.error("Adicione pelo menos 2 ingredientes!");
+      return;
+    }
+
+    // Se tudo estiver ok, salva
+    setCamposInvalidos({});
+    const receitaFormatado = {
+      ...form,
+      ingredientes: ingredientesSelecionados,
+    };
+
+    if (onSave) {
+      onSave(receitaFormatado);
+      toast.success("Receita cadastrada com sucesso!");
+    }
+
+    handleClose();
   };
-
-  if (onSave) {
-    onSave(receitaFormatado);
-    toast.success("Receita cadastrada com sucesso!");
-  }
-
-  handleClose();
-};
 
 
 
@@ -202,7 +219,7 @@ function ModalCadastroReceita({ onClose, onSave, }) {
                     <input
                       type="file"
                       id="imagemInput"
-                      accept="image/*"
+                      accept="image/png, image/jpeg, image/jpg, image/webp"
                       onChange={handleImageChange}
                       className={styles.hiddenFileInput}
                     />
@@ -220,6 +237,7 @@ function ModalCadastroReceita({ onClose, onSave, }) {
                     <label>Tempo de Preparo (Min.)</label>
                     <input
                       name="tempoDePreparo"
+                      autoComplete="off"
                       className={`form-control ${camposInvalidos.tempoDePreparo ? styles.erroInput : ""}`}
                       inputMode="decimal"
                       value={form.tempoDePreparo}
@@ -236,6 +254,7 @@ function ModalCadastroReceita({ onClose, onSave, }) {
                     <label>Nome Da Receita</label>
                     <input
                       name="nome"
+                      autoComplete="off"
                       className={`form-control ${camposInvalidos.nome ? styles.erroInput : ""}`}
                       value={form.nome}
                       onChange={handleChange}
@@ -264,6 +283,7 @@ function ModalCadastroReceita({ onClose, onSave, }) {
                     <label>Porcentagem de Lucro (%)</label>
                     <input
                       name="porcentagemDeLucro"
+                      autoComplete="off"
                       className={`form-control ${camposInvalidos.porcentagemDeLucro ? styles.erroInput : ""}`}
                       inputMode="decimal"
                       value={form.porcentagemDeLucro}
@@ -316,21 +336,26 @@ function ModalCadastroReceita({ onClose, onSave, }) {
 
 
                 <label className="mt-4">Ingredientes da Receita</label>
-                <div className={`${styles.ingredientesBox}`}>
+                <div className={styles.ingredientesBox}>
+                  <div className={`${styles.tabelaCabecalho}`}>
+                    <span className={`${styles.nomeIngrediente}`}>Nome</span>
+                    <span>Quantidade</span>
+                    <span className="d-flex justify-content-center">Unidade</span>
+                  </div>
                   {ingredientesSelecionados.map((ingrediente, index) => (
-                    <div key={index} className={styles.ingredienteItem}>
-                      <span className="w-50">{ingrediente.nome}</span>
+                    <div
+                      key={index}
+                      className={`${styles.ingredienteItem} ${index % 2 === 0 ? styles.linhaBege : "" }`}
+                    >
+                      <span className="ml-1">{ingrediente.nome}</span>
                       <input
                         type="number"
-                        placeholder="Quantidade"
+                        placeholder="Qtd"
                         className={`${styles.inputQuantidade} ${camposInvalidos[`ingrediente_${index}`] ? styles.erroInput : ""}`}
                         value={ingrediente.quantidade}
                         onChange={(e) => handleIngredienteChange(index, "quantidade", e.target.value)}
                       />
-                      <div className="w-25 text-center">
-                        <span className={styles.unidade}>{ingrediente.unidade}</span>
-                      </div>
-
+                      <span className="d-flex justify-content-center">{ingrediente.unidade}</span>
                       <button
                         type="button"
                         className={styles.btnRemoveIngrediente}
@@ -341,6 +366,7 @@ function ModalCadastroReceita({ onClose, onSave, }) {
                     </div>
                   ))}
                 </div>
+
               </div>
             </div>
           </div>

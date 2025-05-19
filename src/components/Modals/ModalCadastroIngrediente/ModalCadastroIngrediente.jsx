@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "../../../Styles/global.css";
 import styles from "./ModalCadastroIngrediente.module.css";
+import { FaTrash } from "react-icons/fa";
 
-function ModalEditaIngrediente({ onClose, onSave, ingrediente }) {
+function ModalCadastroIngrediente({ onClose, onSave }) {
   const [form, setForm] = useState({
     nome: "",
     custo: "",
@@ -13,6 +14,8 @@ function ModalEditaIngrediente({ onClose, onSave, ingrediente }) {
   });
 
   const [isClosing, setIsClosing] = useState(false);
+  const [ingredienteBusca, setIngredienteBusca] = useState("");
+  const [ingredientesRelacionados, setIngredientesRelacionados] = useState([]);
   const [camposInvalidos, setCamposInvalidos] = useState({});
 
   const categorias = [
@@ -28,18 +31,6 @@ function ModalEditaIngrediente({ onClose, onSave, ingrediente }) {
     "Temperos e Condimentos",
   ];
 
-  useEffect(() => {
-    if (ingrediente) {
-      setForm({
-        nome: ingrediente.nome || "",
-        custo: ingrediente.custo?.toString().replace(".", ",") || "",
-        categoria: ingrediente.categoria || "",
-        unidade: ingrediente.unidadeCompra || "",
-        taxaDesperdicio: ingrediente.taxaDesperdicio?.toString().replace(".", ",") || "",
-      });
-    }
-  }, [ingrediente]);
-
   const handleClose = () => setIsClosing(true);
 
   useEffect(() => {
@@ -51,8 +42,8 @@ function ModalEditaIngrediente({ onClose, onSave, ingrediente }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     let newValue = value;
+
     if (name === "custo" || name === "taxaDesperdicio") {
       newValue = value.replace(/[^\d,]/g, "").replace(/(,.*?),/g, "$1");
     }
@@ -84,7 +75,6 @@ function ModalEditaIngrediente({ onClose, onSave, ingrediente }) {
     }
 
     const ingredienteFormatado = {
-      id: ingrediente.id,
       ...form,
       unidadeCompra: form.unidade,
       custo: parseFloat(form.custo.replace(",", ".")),
@@ -93,7 +83,7 @@ function ModalEditaIngrediente({ onClose, onSave, ingrediente }) {
 
     if (onSave) {
       onSave(ingredienteFormatado);
-      toast.success("Ingrediente atualizado com sucesso!");
+      toast.success("Ingrediente cadastrado com sucesso!");
     }
 
     handleClose();
@@ -103,33 +93,33 @@ function ModalEditaIngrediente({ onClose, onSave, ingrediente }) {
     <div className={`${styles.modalOverlay} ${isClosing ? styles.modalExit : styles.modalEnter}`}>
       <div className={`${styles.modalContainer} shadow`}>
         <div className={styles.modalHeader}>
-          <h5>Editar Ingrediente</h5>
+          <h5>Cadastrar Ingrediente</h5>
           <button onClick={handleClose} className={styles.btnClose}>&times;</button>
         </div>
 
         <div className={styles.modalBody}>
           <div className={styles.formGrid}>
             <div className={`${styles.formGroup} ${styles.colSpan2}`}>
-              <label>Nome</label>
+              <label>Nome do Ingrediente</label>
               <input
                 name="nome"
+                autoComplete="off"
                 className={`form-control ${camposInvalidos.nome ? styles.erroInput : ""}`}
                 value={form.nome}
                 onChange={handleChange}
               />
             </div>
-
             <div className={styles.formGroup}>
               <label>Custo de Compra (R$)</label>
               <input
                 name="custo"
+                autoComplete="off"
                 className={`form-control ${camposInvalidos.custo ? styles.erroInput : ""}`}
                 inputMode="decimal"
                 value={form.custo}
                 onChange={handleChange}
               />
             </div>
-
             <div className={styles.formGroup}>
               <label>Categoria</label>
               <select
@@ -144,7 +134,6 @@ function ModalEditaIngrediente({ onClose, onSave, ingrediente }) {
                 ))}
               </select>
             </div>
-
             <div className={styles.formGroup}>
               <label>Unidade de Compra</label>
               <select
@@ -162,11 +151,11 @@ function ModalEditaIngrediente({ onClose, onSave, ingrediente }) {
                 <option value="un">Unidade (un.)</option>
               </select>
             </div>
-
             <div className={styles.formGroup}>
               <label>Taxa de Desperdício (%)</label>
               <input
                 name="taxaDesperdicio"
+                autoComplete="off"
                 className={`form-control ${camposInvalidos.taxaDesperdicio ? styles.erroInput : ""}`}
                 inputMode="decimal"
                 value={form.taxaDesperdicio}
@@ -185,4 +174,4 @@ function ModalEditaIngrediente({ onClose, onSave, ingrediente }) {
   );
 }
 
-export default ModalEditaIngrediente;
+export default ModalCadastroIngrediente;

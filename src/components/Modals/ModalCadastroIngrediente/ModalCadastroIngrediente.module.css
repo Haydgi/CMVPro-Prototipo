@@ -14,9 +14,9 @@
 }
 
 .modalContainer {
-  background-color: var(--white-smoke);
+  background: var(--white-smoke);
   color: var(--rich-black);
-  width: 900px;
+  width: 600px;
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
@@ -54,6 +54,7 @@
   line-height: 1;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+  outline: none;
   padding-bottom: 5px;
 }
 
@@ -77,11 +78,11 @@
   gap: 15px;
   padding-top: 20px;
   margin-top: 20px;
-  border-top: 2px solid;
+  border-top: 2px solid ;
 }
 
-.btnCancel,
-.btnSave {
+.btnCancel {
+  background: linear-gradient(to right, #f44336, var(--imperial-red));
   background-size: 200% 100%;
   background-position: right;
   color: var(--white-smoke);
@@ -98,15 +99,47 @@
   z-index: 1;
 }
 
-.btnCancel {
-  background: linear-gradient(to right, #f44336, var(--imperial-red));
+.btnCancel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 150%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 60%);
+  transform: skewX(-20deg);
+  transition: left 0.5s ease-in-out;
+  z-index: 0;
+}
+
+.btnCancel:hover::before {
+  left: 105%;
+}
+
+.btnCancel:hover {
+  background-position: left;
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
 }
 
 .btnSave {
   background: linear-gradient(to right, #4caf50, var(--dark-pastel-green));
+  background-size: 200% 100%;
+  background-position: right;
+  color: var(--white-smoke);
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease-in-out;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
 }
 
-.btnCancel::before,
 .btnSave::before {
   content: '';
   position: absolute;
@@ -120,12 +153,10 @@
   z-index: 0;
 }
 
-.btnCancel:hover::before,
 .btnSave:hover::before {
   left: 105%;
 }
 
-.btnCancel:hover,
 .btnSave:hover {
   background-position: left;
   transform: scale(1.05);
@@ -158,131 +189,21 @@
   animation: fadeOut 0.3s ease-in-out forwards;
 }
 
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
 .formGroup {
   display: flex;
   flex-direction: column;
 }
 
-.hiddenFileInput {
-  display: none;
-}
-
-.imagePreviewBox {
-  width: 139px;
-  height: 139px;
-  border: 2px dashed var(--rich-black);
-  border-radius: 10px;
-  background-color: var(--white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 1rem;
-  text-align: center;
-  background-size: cover;
-  background-position: center;
-  margin-top: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.imagePreviewBox:hover {
-  background-color: var(--white-smoke);
-}
-
-.suggestionsContainer {
-  position: relative;
-}
-
-.suggestionsList {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background-color: var(--white-smoke);
-  color: var(--rich-black);
-  border: 1px solid var(--ultra-violet);
-  border-radius: 4px;
-  z-index: 20;
-  max-height: 200px;
-  overflow-y: auto;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
-.suggestionsList li {
-  padding: 8px 12px;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-}
-
-.suggestionsList li:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-}
-
-.ingredientesBox {
-  height: 347px;
-  max-height: 347px;
-  overflow-y: auto;
-  border-radius: 10px;
-  background-color: var(--white);
-  border: 1px solid var(--rich-black);
-}
-
-.tabelaCabecalho {
-  display: grid;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  background-color: white;
-  grid-template-columns: 1.5fr 1fr 1fr 0.5fr;
-  font-weight: bold;
-  padding: 15px 0px 12px 0px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-  border-bottom: 1px solid var(--rich-black);
-}
-
-.ingredienteItem {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 0.5fr;
-  align-items: center;
-  gap: 10px;
-  border-bottom: 1px solid var(--rich-black);
-  padding: 10px 0px 10px 0px;
-}
-
-.nomeIngrediente {
-  padding-left: 43px;
-}
-
-.ingredienteItem input {
-  padding: 6px;
-  width: 100%;
-}
-.ingredienteItem span {
-  margin-left: 10px;
-}
-
-.inputQuantidade {
-  border-radius: 6px;
-  border: 1px solid var(--ultra-violet);
-  background-color: var(--white-smoke);
-  color: var(--rich-black);
-}
-
-.btnRemoveIngrediente {
-  background: none;
-  border: none;
-  color: var(--imperial-red);
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: color 0.2s ease-in-out;
-  margin-right: 10px;
+.colSpan2 {
+  grid-column: span 2;
 }
 
 .erroInput {
   border: 2px solid var(--imperial-red) !important;
-}
-
-.linhaBege {
-  background-color: rgba(235, 235, 235, 0.87); /* tom de bege claro */
 }
