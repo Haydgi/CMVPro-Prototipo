@@ -167,11 +167,12 @@ input[type="password"]::-ms-reveal {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 500;
   color: var(--ultra-violet);
   padding-left: 0.2rem;
   padding-right: 0.2rem;
+  white-space: nowrap;
 }
 
 .mensagemEmail p {
@@ -179,6 +180,7 @@ input[type="password"]::-ms-reveal {
 }
 
 .btnReenviar {
+  position: fixed;
   background-color: transparent;
   border: none;
   color: var(--ultra-violet);
@@ -187,6 +189,7 @@ input[type="password"]::-ms-reveal {
   font-size: 0.85rem;
   text-decoration: underline;
   transition: color 0.3s ease;
+  padding-left: 425px;
 }
 
 .btnReenviar:hover {
