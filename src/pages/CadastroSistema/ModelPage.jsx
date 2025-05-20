@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
-import styles from './itens.module.css';
+import styles from './Itens.module.css';
 import ReactPaginate from "react-paginate";
 
 function ModelPage({
@@ -32,7 +32,7 @@ function ModelPage({
     // Referência para controlar quantidade anterior de páginas
     const prevTotalPaginas = useRef(totalPaginas);
 
-    // 🔁 Atualiza página atual para última se novo item criar nova página
+    // Atualiza página atual para última se novo item criar nova página
     useEffect(() => {
         if (totalPaginas > prevTotalPaginas.current) {
             setPaginaAtual(totalPaginas - 1);
@@ -40,7 +40,7 @@ function ModelPage({
         prevTotalPaginas.current = totalPaginas;
     }, [dados, totalPaginas]);
 
-    // 🔁 Corrige caso a página atual seja inválida após uma exclusão
+    // Corrige caso a página atual seja inválida após uma exclusão
     useEffect(() => {
         if (paginaAtual >= totalPaginas && totalPaginas > 0) {
             setPaginaAtual(totalPaginas - 1);
@@ -77,16 +77,15 @@ function ModelPage({
                 <div className="container mt-4">
                     <div className="d-flex align-items-center" style={{ minHeight: 56 }}>
                         <div style={{ flex: 1 }}></div>
-                        <h2 className={`${styles.title} m-0`} style={{ flex: 1, textAlign: "center" }}>
-                            {titulo}
-                        </h2>
+                        <h2 className={`${styles.title} m-0`} style={{ flex: 1, textAlign: "center" }}>{titulo}</h2>
+                            
                         <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
                             <div className={styles.searchBarContainer}>
                                 <input
                                     type="text"
                                     className={`form-control ${styles.searchBar} me-2`}
-                                placeholder="Pesquise um Produto"
-                />
+                                placeholder="Pesquise um Produto"/>
+
                                 <button
                                     className={styles.searchButton}
                                     onClick={() => { }}
@@ -101,9 +100,9 @@ function ModelPage({
                     </div>
                 </div>
 
-                <div className="container mt-4">
+                <div className="container mt-4 ">
                     {dados.length === 0 ? (
-                        <div id="sem-dados" className={`text-center mt-5 ${styles.emptyState}`}>
+                        <div id="sem-dados" className={`${styles.emptyState}`}>
                             <p>Não há itens cadastrados</p>
                             <button className={`${styles.btnDetails} btnUltraViolet btn`} onClick={abrirModal}>
                                 <p className={styles.btnText}><i className="bi bi-plus-circle"></i> Criar o Primeiro Item</p>

@@ -13,6 +13,7 @@
   display: flex;              /* Deixa os itens em linha */
   justify-content: center;    /* Centraliza horizontalmente */
   gap: 40px;                  /* Espaçamento entre os itens */
+  padding-top: 10px;
   padding-left: 130px; /*meu heroi*/
   margin: 0 auto;             /* (opcional) Garante que o ul também esteja centralizado no container */
 }

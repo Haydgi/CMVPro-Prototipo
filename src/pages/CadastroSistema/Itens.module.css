@@ -1,10 +1,9 @@
 /* Centralizar o título e alinhar a barra de pesquisa à direita */
 .title {
-  font-size: 3.2rem !important;
-  font-family: "Lobster Two", cursive;
-  color: var(--rich-black); /* Cor roxa */
-  margin: 0; /* Remove margens extras */
+  font-size: 3.2rem;
+  font-family: "Lobster Two", cursive; /* Cor preta */
   white-space: nowrap; /* Impede que o texto quebre em várias linhas */
+  text-decoration-line: underline;
 }
 
 /* Estilo para o container da barra de pesquisa */
@@ -27,6 +26,7 @@
   background-color: var(--white); /* Fundo branco */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra leve */
   transition: box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
+  margin-right: 10px;
 }
 
 /* Sem mudanças ao passar o mouse */
@@ -62,7 +62,6 @@
 
 .searchButton:hover {
   color: var(--rich-black); /* Cor verde ao passar o mouse */
-  
 }
 
 /* Botão de adicionar */
@@ -82,6 +81,15 @@
   padding: 0 !important; /* Remove padding extra que pode empurrar o ícone */
 }
 
+.emptyState {
+  text-align: center;
+  margin-top: 250px;
+}
+
+.emptyState p {
+  font-size: 1.3rem;
+  color: var(--rich-black);
+}
 
 /* Contêiner dos cards */
 .productContainer {
@@ -271,7 +279,7 @@
 .pageContent {
   background: url("/midia/cadernoHorizontal5.png") no-repeat center center;
   background-size: 100% 100%;
-  height: calc(109vh - 145px);
+  height: calc(108vh - 145px);
   justify-content: center;
   padding: 20px;
   
@@ -279,7 +287,7 @@
 
 /* Estilo para o texto dentro do botão */
 .btnText {
-  color: var(--white-smoke); /* Define a cor do texto como white-smoke */
+  color: var(--white-smoke) !important; /* Define a cor do texto como white-smoke */
   font-size: 1rem; /* Tamanho da fonte */
   margin: 0; /* Remove margens */
   padding: 0; /* Remove preenchimento */
@@ -291,14 +299,13 @@
 }
 
 /* Estilo para a paginação */
-/* Estilo para a paginação */
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
   list-style: none;
   gap: 8px;
-  padding: 10px 0;
+  padding: 3px 0;
   margin-bottom: 20px;
   position: absolute; /* Fixa a paginação dentro do container */
   bottom: 0; /* Alinha na parte inferior do container */
