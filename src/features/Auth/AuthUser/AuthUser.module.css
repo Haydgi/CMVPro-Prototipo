@@ -1,0 +1,36 @@
+.backgroundAuth {
+  background: radial-gradient(
+      circle at 50% center,
+      rgba(123, 61, 147, 0.702) 40%,
+      rgba(81, 46, 97, 0.7) 45%,
+      rgba(75, 41, 96, 0.7) 50%
+    ),
+    url("/midia/ingredientes-bg.png") no-repeat center center /cover;
+}
+
+.sobreposicao {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 600px;
+  justify-items: center;
+  font-size: 2rem;
+  font-weight: bold; 
+  text-align: center;
+}
+
+.textConfAuth {
+  color: var(--dark-pastel-green);
+  text-shadow: 0 8px 6px rgba(0, 0, 0, 0.3);
+}
+
+.textInfo {
+  color: var(--rich-black); 
+  text-shadow: 0 8px 6px rgba(0, 0, 0, 0.4);
+}
+
+.btnCustomHeight {
+  height: 45px; /* Ajuste a altura conforme necessário */
+}
