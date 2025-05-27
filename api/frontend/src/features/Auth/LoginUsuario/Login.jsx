@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "../../../Styles/global.css";
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -35,11 +36,11 @@ export default function Login() {
       senha
     });
 
-    alert(response.data.mensagem);
+    
     // Redireciona o usuário
     navigate("/receitas"); // ou outro caminho da sua aplicação
   } catch (error) {
-    alert(error.response?.data?.mensagem || "Erro ao fazer login");
+    toast.error("Erro ao fazer login!");
   }
 };
 

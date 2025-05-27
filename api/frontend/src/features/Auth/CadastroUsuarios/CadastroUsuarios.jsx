@@ -5,6 +5,7 @@ import "../../../Styles/global.css";
 import "../globalAuth.css";
 import styles from "./CadastroUsuarios.module.css";
 import logoManuscrito from "../../../assets/logotipo-manuscrito.png";
+import { toast } from "react-toastify";
 
 export default function Cadastro() {
   const navigate = useNavigate();
@@ -102,7 +103,7 @@ fetch("http://localhost:3001/api/cadastrar", {
 })
 .then(response => response.json())
 .then(data => {
-  setPopUpMessage(data.mensagem || "Cadastro realizado com sucesso!");
+  toast.success("Cadastro realizado com sucesso!");
 
   // Limpa os campos após sucesso
   setNome("");
