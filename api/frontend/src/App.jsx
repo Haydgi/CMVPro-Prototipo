@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css'; // Estilos do Toastify
 import Navbar from './components/Navbar/Navbar';
 import Ingredientes from './pages/CadastroSistema/Ingredientes/Ingredientes';
 import Receitas from './pages/CadastroSistema/Receitas/Receitas';
+import Despesas from './pages/CadastroSistema/Despesas/Despesas';
 import Sobre from './features/Auth/LoginUsuario/Login';
 import Cadastro from './features/Auth/CadastroUsuarios/CadastroUsuarios';
 import AuthUser from './features/Auth/AuthUser/AuthUser';
@@ -68,6 +69,10 @@ function App() {
         <Route
           path="/receitas"
           element={<Receitas />}
+        />
+        <Route
+          path="/despesas"
+          element={<Despesas />}
         />
       </Routes>
     </>

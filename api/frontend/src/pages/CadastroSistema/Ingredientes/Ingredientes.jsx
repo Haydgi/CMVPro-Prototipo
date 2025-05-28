@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import ModalCadastroProduto from '../../../components/Modals/ModalCadastroIngrediente/ModalCadastroIngrediente';
+import ModalCadastroIngrediente from '../../../components/Modals/ModalCadastroIngrediente/ModalCadastroIngrediente';
 import ModalEditaIngrediente from '../../../components/Modals/ModalCadastroIngrediente/ModalEditaIngrediente';
 import ModelPage from '../ModelPage';
 import styles from '../itens.module.css';
@@ -9,7 +9,6 @@ import { LuMilk } from "react-icons/lu";
 import { TbSalt } from "react-icons/tb";
 import Swal from "sweetalert2";
 import { FaTrash } from 'react-icons/fa';
-import { toast } from 'react-toastify';
 
 function Ingredientes() {
   const [ingredientes, setIngredientes] = useState([]);
@@ -120,7 +119,7 @@ function Ingredientes() {
       fecharModalEditar={() => setMostrarModalEditar(false)}
       mostrarModal={mostrarModal}
       mostrarModalEditar={mostrarModalEditar}
-      ModalCadastro={ModalCadastroProduto}
+      ModalCadastro={ModalCadastroIngrediente}
       ModalEditar={() => (
         ingredienteSelecionado && (
           <ModalEditaIngrediente
