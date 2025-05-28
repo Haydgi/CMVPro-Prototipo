@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import ModalCadastroDespesa from '../../../components/Modals/ModalCadastroDespesa/ModalCadastroDespesa';
-import ModalEditaIngrediente from '../../../components/Modals/ModalCadastroIngrediente/ModalEditaIngrediente';
+import ModalEditaDespesa from '../../../components/Modals/ModalCadastroDespesa/ModalEditaDespesa';
 import ModelPage from '../ModelPage';
-import styles from '../itens.module.css';
-import { FaMoneyBillWave, FaUtensils, FaCar, FaHome, FaHeartbeat, FaTrash } from 'react-icons/fa';
+import styles from './Despesas.module.css';
+import { FaMoneyBillWave, FaTrash, FaRegClock } from 'react-icons/fa';
 import Swal from 'sweetalert2';
+import { MdOutlineCalendarMonth } from "react-icons/md";
 
 function Despesas() {
   const [despesas, setDespesas] = useState([]);
@@ -12,22 +13,12 @@ function Despesas() {
   const [mostrarModalEditar, setMostrarModalEditar] = useState(false);
   const [despesaSelecionada, setDespesaSelecionada] = useState(null);
 
-  const iconesCategorias = {
-    Alimentação: <FaUtensils />,
-    Transporte: <FaCar />,
-    Moradia: <FaHome />,
-    Saúde: <FaHeartbeat />,
-    Outros: <FaMoneyBillWave />,
-  };
-
   const salvarDespesa = (nova) => {
     setDespesas((prev) => [
       ...prev,
       {
         ...nova,
         id: prev.length + 1,
-        icone: iconesCategorias[nova.categoria] || <FaMoneyBillWave />,
-        unidade: nova.unidade || 'unid.',
       },
     ]);
     setMostrarModal(false);
@@ -35,14 +26,7 @@ function Despesas() {
 
   const atualizarDespesa = (atualizada) => {
     setDespesas((prev) =>
-      prev.map((d) =>
-        d.id === atualizada.id
-          ? {
-              ...atualizada,
-              icone: iconesCategorias[atualizada.categoria] || <FaMoneyBillWave />,
-            }
-          : d
-      )
+      prev.map((d) => (d.id === atualizada.id ? atualizada : d))
     );
     setMostrarModalEditar(false);
     setDespesaSelecionada(null);
@@ -55,21 +39,32 @@ function Despesas() {
   const renderCard = (despesa) => (
     <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" key={despesa.id}>
       <div
-        className={styles.cardProduto}
+        className={styles.cardDespesa}
         onClick={() => {
           setDespesaSelecionada(despesa);
           setMostrarModalEditar(true);
         }}
         style={{ cursor: "pointer" }}
       >
-        <div className={styles.cardIcon}>{despesa.icone}</div>
-        <h5 className={styles.cardTitle}>{despesa.nome}</h5>
-        <p className={styles.cardPrice}>
-          {despesa.valor} R$
-        </p>
-        <div className={styles.cardAction}>
+        
+
+        <h3 className="fw-bold mb-5 mt-3">{despesa.nome}</h3>
+
+        <div className="d-flex justify-content-between text-white fs-5">
+          <span className="d-flex align-items-center">
+            <MdOutlineCalendarMonth className="me-2" />
+            R$ {Number(despesa.custoMensal).toFixed(2)}
+          </span>
+          <span className="d-flex align-items-center">
+            <FaRegClock className="me-2" />
+            {despesa.tempoOperacional}h
+          </span>
+        </div>
+
+        <div className="d-flex justify-content-end mt-2">
           <i
             className={styles.Trash}
+            style={{ cursor: "pointer" }}
             onClick={(e) => {
               e.stopPropagation();
               Swal.fire({
@@ -110,22 +105,22 @@ function Despesas() {
       mostrarModal={mostrarModal}
       mostrarModalEditar={mostrarModalEditar}
       ModalCadastro={ModalCadastroDespesa}
-      ModalEditar={() => (
-        despesaSelecionada && (
-          <ModalEditaIngrediente
-            ingrediente={despesaSelecionada}
-            onClose={() => {
-              setMostrarModalEditar(false);
-              setDespesaSelecionada(null);
-            }}
-            onSave={atualizarDespesa}
-          />
-        )
-      )}
+      ModalEditar={() =>
+  despesaSelecionada && (
+    <ModalEditaDespesa
+      despesa={despesaSelecionada}
+      onClose={() => {
+        setMostrarModalEditar(false);
+        setDespesaSelecionada(null);
+      }}
+      onSave={atualizarDespesa}
+    />
+  )
+}
       renderCard={renderCard}
       itensPorPagina={12}
     />
   );
 }
 
-export default Despesas; 
+export default Despesas;

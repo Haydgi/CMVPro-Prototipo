@@ -1,34 +1,18 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "../../../Styles/global.css";
-import styles from "./ModalCadastroDespesa.module.css"; // Importação correta dos estilos
-import { FaTrash } from "react-icons/fa";
+import styles from "./ModalCadastroDespesa.module.css";
 import { IoWalletSharp } from "react-icons/io5";
 
 function ModalCadastroDespesa({ onClose, onSave }) {
   const [form, setForm] = useState({
     nome: "",
-    custo: "",
-    categoria: "",
-    unidade: "",
-    taxaDesperdicio: "",
+    custoMensal: "",
+    tempoOperacional: "",
   });
 
   const [isClosing, setIsClosing] = useState(false);
   const [camposInvalidos, setCamposInvalidos] = useState({});
-
-  const categorias = [
-    "Carnes",
-    "Doces",
-    "Farináceos",
-    "Frutas",
-    "Laticínios",
-    "Legumes e Verduras",
-    "Líquidos",
-    "Oleaginosas",
-    "Óleos e Gorduras",
-    "Temperos e Condimentos",
-  ];
 
   const handleClose = () => setIsClosing(true);
 
@@ -41,11 +25,12 @@ function ModalCadastroDespesa({ onClose, onSave }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    let newValue = value;
 
-    if (name === "custo" || name === "taxaDesperdicio") {
-      newValue = value.replace(/[^\d,]/g, "").replace(/(,.*?),/g, "$1");
-    }
+    // Permitir apenas números e vírgulas nos campos numéricos
+    const newValue =
+      name === "custoMensal" || name === "tempoOperacional"
+        ? value.replace(/[^\d,]/g, "").replace(/(,.*?),/g, "$1")
+        : value;
 
     setForm((prev) => ({ ...prev, [name]: newValue }));
 
@@ -60,32 +45,24 @@ function ModalCadastroDespesa({ onClose, onSave }) {
 
   const handleSubmit = () => {
     const campos = {};
+    if (!form.nome.trim()) campos.nome = true;
+    if (!form.custoMensal) campos.custoMensal = true;
+    if (!form.tempoOperacional) campos.tempoOperacional = true;
 
-    // Validação dos campos existentes no formulário
-    if (!form.nome) campos.nome = true;
-    if (!form.custo) campos.custo = true;
-    if (!form.tempo) campos.tempo = true;
-
-    // Se houver campos inválidos, exibe a mensagem de erro
     if (Object.keys(campos).length > 0) {
       setCamposInvalidos(campos);
       toast.error("Preencha todos os campos obrigatórios!");
       return;
     }
 
-    // Formatação dos dados antes de salvar
-    const despesaFormatada = {
-      ...form,
-      custo: parseFloat(form.custo.replace(",", ".")),
-      tempo: parseFloat(form.tempo.replace(",", ".")),
+    const despesa = {
+      nome: form.nome.trim(),
+      custoMensal: parseFloat(form.custoMensal.replace(",", ".")),
+      tempoOperacional: parseFloat(form.tempoOperacional.replace(",", ".")),
     };
 
-    // Chama a função de salvar e exibe mensagem de sucesso
-    if (onSave) {
-      onSave(despesaFormatada);
-      toast.success("Despesa cadastrada com sucesso!");
-    }
-
+    onSave?.(despesa);
+    toast.success("Despesa cadastrada com sucesso!");
     handleClose();
   };
 
@@ -97,7 +74,9 @@ function ModalCadastroDespesa({ onClose, onSave }) {
             <IoWalletSharp className={styles.walletIcon} />
             <h5>Cadastrar Despesa</h5>
           </div>
-          <button onClick={handleClose} className={styles.btnClose}>&times;</button>
+          <button onClick={handleClose} className={styles.btnClose}>
+            &times;
+          </button>
         </div>
 
         <div className={styles.modalBody}>
@@ -112,25 +91,27 @@ function ModalCadastroDespesa({ onClose, onSave }) {
                 onChange={handleChange}
               />
             </div>
+
             <div className={styles.formGroup}>
               <label>Custo Mensal (R$)</label>
               <input
-                name="custo"
+                name="custoMensal"
                 autoComplete="off"
-                className={`form-control ${camposInvalidos.custo ? styles.erroInput : ""}`}
+                className={`form-control ${camposInvalidos.custoMensal ? styles.erroInput : ""}`}
                 inputMode="decimal"
-                value={form.custo}
+                value={form.custoMensal}
                 onChange={handleChange}
               />
             </div>
+
             <div className={styles.formGroup}>
-              <label>Tempo Operacional (R$)</label>
+              <label>Tempo Operacional (horas)</label>
               <input
-                name="tempo"
+                name="tempoOperacional"
                 autoComplete="off"
-                className={`form-control ${camposInvalidos.custo ? styles.erroInput : ""}`}
+                className={`form-control ${camposInvalidos.tempoOperacional ? styles.erroInput : ""}`}
                 inputMode="decimal"
-                value={form.tempo}
+                value={form.tempoOperacional}
                 onChange={handleChange}
               />
             </div>
@@ -138,8 +119,12 @@ function ModalCadastroDespesa({ onClose, onSave }) {
         </div>
 
         <div className={styles.modalFooter}>
-          <button className={styles.btnCancel} onClick={handleClose}>Cancelar</button>
-          <button className={styles.btnSave} onClick={handleSubmit}>Salvar</button>
+          <button className={styles.btnCancel} onClick={handleClose}>
+            Cancelar
+          </button>
+          <button className={styles.btnSave} onClick={handleSubmit}>
+            Salvar
+          </button>
         </div>
       </div>
     </div>

@@ -1,44 +1,28 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "../../../Styles/global.css";
-import styles from "./ModalCadastroIngrediente.module.css";
+import styles from "./ModalCadastroDespesa.module.css";
+import { IoWalletSharp } from "react-icons/io5";
 
-function ModalEditaIngrediente({ onClose, onSave, ingrediente }) {
+function ModalEditaDespesa({ despesa, onClose, onSave }) {
   const [form, setForm] = useState({
     nome: "",
-    custo: "",
-    categoria: "",
-    unidade: "",
-    taxaDesperdicio: "",
+    custoMensal: "",
+    tempoOperacional: "",
   });
 
   const [isClosing, setIsClosing] = useState(false);
   const [camposInvalidos, setCamposInvalidos] = useState({});
 
-  const categorias = [
-    "Carnes",
-    "Doces",
-    "Farináceos",
-    "Frutas",
-    "Laticínios",
-    "Legumes e Verduras",
-    "Líquidos",
-    "Oleaginosas",
-    "Óleos e Gorduras",
-    "Temperos e Condimentos",
-  ];
-
   useEffect(() => {
-    if (ingrediente) {
+    if (despesa) {
       setForm({
-        nome: ingrediente.nome || "",
-        custo: ingrediente.custo?.toString().replace(".", ",") || "",
-        categoria: ingrediente.categoria || "",
-        unidade: ingrediente.unidadeCompra || "",
-        taxaDesperdicio: ingrediente.taxaDesperdicio?.toString().replace(".", ",") || "",
+        nome: despesa.nome || "",
+        custoMensal: despesa.custoMensal?.toString().replace(".", ",") || "",
+        tempoOperacional: despesa.tempoOperacional?.toString().replace(".", ",") || "",
       });
     }
-  }, [ingrediente]);
+  }, [despesa]);
 
   const handleClose = () => setIsClosing(true);
 
@@ -51,11 +35,10 @@ function ModalEditaIngrediente({ onClose, onSave, ingrediente }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    let newValue = value;
-    if (name === "custo" || name === "taxaDesperdicio") {
-      newValue = value.replace(/[^\d,]/g, "").replace(/(,.*?),/g, "$1");
-    }
+    const newValue =
+      name === "custoMensal" || name === "tempoOperacional"
+        ? value.replace(/[^\d,]/g, "").replace(/(,.*?),/g, "$1")
+        : value;
 
     setForm((prev) => ({ ...prev, [name]: newValue }));
 
@@ -70,12 +53,9 @@ function ModalEditaIngrediente({ onClose, onSave, ingrediente }) {
 
   const handleSubmit = () => {
     const campos = {};
-
-    if (!form.nome) campos.nome = true;
-    if (!form.custo) campos.custo = true;
-    if (!form.categoria) campos.categoria = true;
-    if (!form.unidade) campos.unidade = true;
-    if (!form.taxaDesperdicio) campos.taxaDesperdicio = true;
+    if (!form.nome.trim()) campos.nome = true;
+    if (!form.custoMensal) campos.custoMensal = true;
+    if (!form.tempoOperacional) campos.tempoOperacional = true;
 
     if (Object.keys(campos).length > 0) {
       setCamposInvalidos(campos);
@@ -83,19 +63,15 @@ function ModalEditaIngrediente({ onClose, onSave, ingrediente }) {
       return;
     }
 
-    const ingredienteFormatado = {
-      id: ingrediente.id,
-      ...form,
-      unidadeCompra: form.unidade,
-      custo: parseFloat(form.custo.replace(",", ".")),
-      taxaDesperdicio: parseFloat(form.taxaDesperdicio.replace(",", ".")),
+    const despesaAtualizada = {
+      ...despesa,
+      nome: form.nome.trim(),
+      custoMensal: parseFloat(form.custoMensal.replace(",", ".")),
+      tempoOperacional: parseFloat(form.tempoOperacional.replace(",", ".")),
     };
 
-    if (onSave) {
-      onSave(ingredienteFormatado);
-      toast.success("Ingrediente atualizado com sucesso!");
-    }
-
+    onSave?.(despesaAtualizada);
+    toast.success("Despesa atualizada com sucesso!");
     handleClose();
   };
 
@@ -103,14 +79,19 @@ function ModalEditaIngrediente({ onClose, onSave, ingrediente }) {
     <div className={`${styles.modalOverlay} ${isClosing ? styles.modalExit : styles.modalEnter}`}>
       <div className={`${styles.modalContainer} shadow`}>
         <div className={styles.modalHeader}>
-          <h5>Editar Ingrediente</h5>
-          <button onClick={handleClose} className={styles.btnClose}>&times;</button>
+          <div className={styles.headerIconTitle}>
+            <IoWalletSharp className={styles.walletIcon} />
+            <h5>Editar Despesa</h5>
+          </div>
+          <button onClick={handleClose} className={styles.btnClose}>
+            &times;
+          </button>
         </div>
 
         <div className={styles.modalBody}>
           <div className={styles.formGrid}>
             <div className={`${styles.formGroup} ${styles.colSpan2}`}>
-              <label>Nome do Ingrediente</label>
+              <label>Nome da Despesa</label>
               <input
                 name="nome"
                 autoComplete="off"
@@ -121,58 +102,25 @@ function ModalEditaIngrediente({ onClose, onSave, ingrediente }) {
             </div>
 
             <div className={styles.formGroup}>
-              <label>Custo de Compra (R$)</label>
+              <label>Custo Mensal (R$)</label>
               <input
-                name="custo"
+                name="custoMensal"
                 autoComplete="off"
-                className={`form-control ${camposInvalidos.custo ? styles.erroInput : ""}`}
+                className={`form-control ${camposInvalidos.custoMensal ? styles.erroInput : ""}`}
                 inputMode="decimal"
-                value={form.custo}
+                value={form.custoMensal}
                 onChange={handleChange}
               />
             </div>
 
             <div className={styles.formGroup}>
-              <label>Categoria</label>
-              <select
-                name="categoria"
-                className={`form-control ${camposInvalidos.categoria ? styles.erroInput : ""}`}
-                value={form.categoria}
-                onChange={handleChange}
-              >
-                <option value="">Selecione...</option>
-                {categorias.map((cat) => (
-                  <option key={cat} value={cat}>{cat}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className={styles.formGroup}>
-              <label>Unidade de Compra</label>
-              <select
-                name="unidade"
-                className={`form-control ${camposInvalidos.unidade ? styles.erroInput : ""}`}
-                value={form.unidade}
-                onChange={handleChange}
-              >
-                <option value="">Selecione...</option>
-                <option value="kg">Quilo (kg)</option>
-                <option value="g">Grama (g)</option>
-                <option value="mg">Miligrama (mg)</option>
-                <option value="L">Litro (L)</option>
-                <option value="ml">Mililitro (ml)</option>
-                <option value="un">Unidade (un.)</option>
-              </select>
-            </div>
-
-            <div className={styles.formGroup}>
-              <label>Taxa de Desperdício (%)</label>
+              <label>Tempo Operacional (horas)</label>
               <input
-                name="taxaDesperdicio"
+                name="tempoOperacional"
                 autoComplete="off"
-                className={`form-control ${camposInvalidos.taxaDesperdicio ? styles.erroInput : ""}`}
+                className={`form-control ${camposInvalidos.tempoOperacional ? styles.erroInput : ""}`}
                 inputMode="decimal"
-                value={form.taxaDesperdicio}
+                value={form.tempoOperacional}
                 onChange={handleChange}
               />
             </div>
@@ -180,12 +128,16 @@ function ModalEditaIngrediente({ onClose, onSave, ingrediente }) {
         </div>
 
         <div className={styles.modalFooter}>
-          <button className={styles.btnCancel} onClick={handleClose}>Cancelar</button>
-          <button className={styles.btnSave} onClick={handleSubmit}>Salvar</button>
+          <button className={styles.btnCancel} onClick={handleClose}>
+            Cancelar
+          </button>
+          <button className={styles.btnSave} onClick={handleSubmit}>
+            Salvar
+          </button>
         </div>
       </div>
     </div>
   );
 }
 
-export default ModalEditaIngrediente;
+export default ModalEditaDespesa;
