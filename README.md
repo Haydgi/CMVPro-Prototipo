@@ -1,5 +1,5 @@
 
-# 🍽️ Caderno do Chef – API e Frontend
+# 🍽️ Caderno do Chef
 
 Este repositório contém o projeto **Caderno do Chef**, uma aplicação voltada para o controle de receitas e produtos no setor gastronômico. Ela faz parte de um sistema que auxilia pequenos empreendedores a organizarem seus custos, produção e lucros.
 
@@ -21,6 +21,7 @@ A aplicação é composta por:
 - Vite (opcional)
 - React Router
 - CSS Modules
+- Bootstrap
 
 ## 📁 Estrutura do Projeto
 
