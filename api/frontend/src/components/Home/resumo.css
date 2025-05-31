@@ -1,0 +1,64 @@
+.resumo-container2 {
+  width: 100%;
+  display: flex;
+  flex-direction: row; /* Coloca a imagem e o texto lado a lado */
+  align-items: center;
+  justify-content: space-between; /* Espaço entre imagem e texto */
+  gap: var(--dl-layout-space-fourunits);
+  position: relative;
+}
+
+.resumo-image-container {
+  flex: 1; /* Faz com que a imagem ocupe metade do espaço disponível */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.resumo-image1 {
+  width: 180%; /* Faz com que a imagem ocupe todo o espaço disponível */
+  height: auto;
+  object-fit: contain; /* Garante que a imagem seja exibida inteira sem cortes */
+  
+}
+
+.resumo-tabs-menu {
+  flex: 1; /* Faz com que o texto ocupe metade do espaço disponível */
+  gap: var(--dl-layout-space-twounits);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.resumo-content1,
+.resumo-content2,
+.resumo-content3 {
+  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.resumo-text1,
+.resumo-text2,
+.resumo-text3,
+.resumo-text4,
+.resumo-text5,
+.resumo-text6 {
+  display: inline-block;
+}
+
+@media (max-width: 991px) {
+  .resumo-container2 {
+    flex-direction: column; /* Empilha imagem e texto em telas menores */
+    gap: var(--dl-layout-space-twounits);
+  }
+
+  .resumo-image1 {
+    width: 100%; /* Ajustado para ocupar todo o espaço disponível em telas menores */
+    height: auto;
+    object-fit: contain; /* Garante que a imagem seja exibida inteira em telas menores */
+  }
+}
