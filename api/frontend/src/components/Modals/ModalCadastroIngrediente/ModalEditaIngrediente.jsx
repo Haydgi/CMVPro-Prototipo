@@ -8,8 +8,8 @@ function ModalEditaIngrediente({ onClose, onSave, ingrediente }) {
     nome: "",
     custo: "",
     categoria: "",
-    unidade: "",
-    taxaDesperdicio: "",
+    unidadeCompra: "",
+    indiceDeDesperdicio: "",
   });
 
   const [isClosing, setIsClosing] = useState(false);
@@ -34,8 +34,8 @@ function ModalEditaIngrediente({ onClose, onSave, ingrediente }) {
         nome: ingrediente.nome || "",
         custo: ingrediente.custo?.toString().replace(".", ",") || "",
         categoria: ingrediente.categoria || "",
-        unidade: ingrediente.unidadeCompra || "",
-        taxaDesperdicio: ingrediente.taxaDesperdicio?.toString().replace(".", ",") || "",
+        unidadeCompra: ingrediente.unidadeCompra || "",
+        indiceDeDesperdicio: ingrediente.indiceDeDesperdicio?.toString().replace(".", ",") || "",
       });
     }
   }, [ingrediente]);
@@ -53,7 +53,7 @@ function ModalEditaIngrediente({ onClose, onSave, ingrediente }) {
     const { name, value } = e.target;
 
     let newValue = value;
-    if (name === "custo" || name === "taxaDesperdicio") {
+    if (name === "custo" || name === "indiceDeDesperdicio") {
       newValue = value.replace(/[^\d,]/g, "").replace(/(,.*?),/g, "$1");
     }
 
@@ -68,36 +68,54 @@ function ModalEditaIngrediente({ onClose, onSave, ingrediente }) {
     }
   };
 
-  const handleSubmit = () => {
-    const campos = {};
+  const handleSubmit = async () => {
+  const campos = {};
 
-    if (!form.nome) campos.nome = true;
-    if (!form.custo) campos.custo = true;
-    if (!form.categoria) campos.categoria = true;
-    if (!form.unidade) campos.unidade = true;
-    if (!form.taxaDesperdicio) campos.taxaDesperdicio = true;
+  if (!form.nome) campos.nome = true;
+  if (!form.custo) campos.custo = true;
+  if (!form.categoria) campos.categoria = true;
+  if (!form.unidade) campos.unidade = true;
+  if (!form.taxaDesperdicio) campos.taxaDesperdicio = true;
 
-    if (Object.keys(campos).length > 0) {
-      setCamposInvalidos(campos);
-      toast.error("Preencha todos os campos obrigatórios!");
-      return;
-    }
+  if (Object.keys(campos).length > 0) {
+    setCamposInvalidos(campos);
+    toast.error("Preencha todos os campos obrigatórios!");
+    return;
+  }
 
-    const ingredienteFormatado = {
-      id: ingrediente.id,
-      ...form,
-      unidadeCompra: form.unidade,
-      custo: parseFloat(form.custo.replace(",", ".")),
-      taxaDesperdicio: parseFloat(form.taxaDesperdicio.replace(",", ".")),
-    };
-
-    if (onSave) {
-      onSave(ingredienteFormatado);
-      toast.success("Ingrediente atualizado com sucesso!");
-    }
-
-    handleClose();
+  const ingredienteFormatado = {
+    Nome_Ingrediente: form.nome,
+    Custo_Ingrediente: parseFloat(form.custo.replace(",", ".")),
+    Unidade_De_Medida: form.unidade,
+    Categoria: form.categoria,
+    Indice_de_Desperdicio: parseFloat(form.taxaDesperdicio.replace(",", ".")),
+    // ID_Usuario: 1, // adicione aqui se necessário
   };
+
+  console.log("Enviando:", ingredienteFormatado);
+
+  try {
+    const response = await fetch("http://localhost:3001/api/ingredientes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(ingredienteFormatado),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Erro ao salvar o ingrediente.");
+    }
+
+    toast.success("Ingrediente salvo com sucesso!");
+    onSave(); // ou onSave(response.json()) se quiser atualizar com retorno
+    handleClose();
+  } catch (error) {
+    console.error("Erro ao salvar o ingrediente:", error.message);
+    toast.error("Erro ao salvar o ingrediente.");
+  }
+};
 
   return (
     <div className={`${styles.modalOverlay} ${isClosing ? styles.modalExit : styles.modalEnter}`}>
@@ -150,9 +168,9 @@ function ModalEditaIngrediente({ onClose, onSave, ingrediente }) {
             <div className={styles.formGroup}>
               <label>Unidade de Compra</label>
               <select
-                name="unidade"
-                className={`form-control ${camposInvalidos.unidade ? styles.erroInput : ""}`}
-                value={form.unidade}
+                name="unidadeCompra"
+                className={`form-control ${camposInvalidos.unidadeCompra ? styles.erroInput : ""}`}
+                value={form.unidadeCompra}
                 onChange={handleChange}
               >
                 <option value="">Selecione...</option>
@@ -166,13 +184,13 @@ function ModalEditaIngrediente({ onClose, onSave, ingrediente }) {
             </div>
 
             <div className={styles.formGroup}>
-              <label>Taxa de Desperdício (%)</label>
+              <label>Índice de Desperdício (%)</label>
               <input
-                name="taxaDesperdicio"
+                name="indiceDeDesperdicio"
                 autoComplete="off"
-                className={`form-control ${camposInvalidos.taxaDesperdicio ? styles.erroInput : ""}`}
+                className={`form-control ${camposInvalidos.indiceDeDesperdicio ? styles.erroInput : ""}`}
                 inputMode="decimal"
-                value={form.taxaDesperdicio}
+                value={form.indiceDeDesperdicio}
                 onChange={handleChange}
               />
             </div>
