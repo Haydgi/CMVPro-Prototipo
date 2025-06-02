@@ -16,89 +16,10 @@ const Home = (props) => {
   return (
     <div className="home-container">
       <Helmet>
-        <title>Fatherly Superficial Shark</title>
+        <title>Caderno do Chef</title>
         <meta property="og:title" content="Fatherly Superficial Shark" />
       </Helmet>
-      <Navbar
-        page4Description={
-          <Fragment>
-            <span className="home-text10">
-              Read interesting articles on food trends, cooking techniques, and more.
-            </span>
-          </Fragment>
-        }
-        action1={
-          <Fragment>
-            <span className="home-text11">Search</span>
-          </Fragment>
-        }
-        link2={
-          <Fragment>
-            <span className="home-text12">Recipes</span>
-          </Fragment>
-        }
-        page1={
-          <Fragment>
-            <span className="home-text13">Home</span>
-          </Fragment>
-        }
-        link1={
-          <Fragment>
-            <span className="home-text14">Home</span>
-          </Fragment>
-        }
-        page4={
-          <Fragment>
-            <span className="home-text15">Articles</span>
-          </Fragment>
-        }
-        page2={
-          <Fragment>
-            <span className="home-text16">Recipes</span>
-          </Fragment>
-        }
-        link4={
-          <Fragment>
-            <span className="home-text17">Articles</span>
-          </Fragment>
-        }
-        page1Description={
-          <Fragment>
-            <span className="home-text18">
-              Welcome to Caderno do Chef, your go-to source for delicious recipes and cooking tips.
-            </span>
-          </Fragment>
-        }
-        page2Description={
-          <Fragment>
-            <span className="home-text19">
-              Explore a wide variety of mouth-watering recipes from appetizers to desserts.
-            </span>
-          </Fragment>
-        }
-        link3={
-          <Fragment>
-            <span className="home-text20">Tips &amp; Tricks</span>
-          </Fragment>
-        }
-        page3={
-          <Fragment>
-            <span className="home-text21">Tips &amp; Tricks</span>
-          </Fragment>
-        }
-        page3Description={
-          <Fragment>
-            <span className="home-text22">
-              Discover helpful tips and tricks to enhance your culinary skills and kitchen expertise.
-            </span>
-          </Fragment>
-        }
-        action2={
-          <Fragment>
-            <span className="home-text23">Subscribe</span>
-          </Fragment>
-        }
-      ></Navbar>
+      <Navbar></Navbar>
       <Resumo
         feature3Description={
           <Fragment>

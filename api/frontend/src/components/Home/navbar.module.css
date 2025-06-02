@@ -19,7 +19,9 @@
 }
  
 .navbar-image1 {
-  height: 3rem;
+  height: 5rem;
+  width: 5rem;
+  margin-left: 10px;
 }
  
 .navbar-desktop-menu {
@@ -98,20 +100,14 @@
   flex-direction: row;
 }
  
-.navbar-action11 {
-  display: flex;
-  flex-direction: row;
-}
- 
-.navbar-action21 {
-  display: flex;
-  flex-direction: row;
-}
- 
 .navbar-burger-menu {
   display: none;
 }
- 
+
+.btnUltraViolet {
+  padding: 7px 20px;
+}
+
 .navbar-icon14 {
   width: var(--dl-layout-size-xsmall);
   height: var(--dl-layout-size-xsmall);

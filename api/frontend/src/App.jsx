@@ -40,6 +40,10 @@ function App() {
       />
       <Routes>
         <Route
+          path="/home"
+          element={<Home />}
+        />
+        <Route
           path="/sign-in"
           element={logado ? <Navigate to="/produtos" /> : <Sobre onLogin={() => setLogado(true)} />}
         />
@@ -74,10 +78,6 @@ function App() {
         <Route
           path="/despesas"
           element={<Despesas />}
-        />
-        <Route
-          path="/home"
-          element={<Home />}
         />
       </Routes>
     </>
