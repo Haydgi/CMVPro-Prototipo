@@ -10,8 +10,6 @@ import Equipe from '../../components/Home/equipe'; // Corrigido o caminho
 import Footer from '../../components/Home/footer'; // Corrigido o caminho
 import './Home.css'; // Usando estilos globais
 
-
-
 const Home = (props) => {
   return (
     <div className="home-container">
