@@ -84,7 +84,7 @@ function ModelPage({
                                 <input
                                     type="text"
                                     className={`form-control ${styles.searchBar} me-2`}
-                                placeholder="Pesquise um Produto"/>
+                                placeholder="Pesquise aqui..."/>
 
                                 <button
                                     className={styles.searchButton}
