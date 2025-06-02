@@ -14,7 +14,7 @@ A aplicação é composta por:
 
 ### Backend
 - Node.js
-- n sei oq mais
+- MySQL Workbench
 
 ### Frontend
 - React.js
