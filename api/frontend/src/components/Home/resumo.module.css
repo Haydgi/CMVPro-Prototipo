@@ -1,5 +1,7 @@
 .resumo-container2 {
-  width: 100%;
+  width: 100vw; /* Faz o container ocupar 100% da largura da viewport */
+  margin: 0; /* Remove margens */
+  padding: 0; /* Remove qualquer padding */
   display: flex;
   flex-direction: row; /* Coloca a imagem e o texto lado a lado */
   align-items: center;
@@ -15,21 +17,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.ChefInvestido {
-  width: 60%; /* Faz com que a imagem ocupe todo o espaço disponível */
-  height: auto;
-  object-fit: contain; /* Garante que a imagem seja exibida inteira sem cortes */
-}
-
-.resumo-tabs-menu {
-  margin-top: 50px;
-  flex: 1; /* Faz com que o texto ocupe metade do espaço disponível */
-  gap: var(--dl-layout-space-twounits);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 .resumo-content1,
@@ -59,6 +46,32 @@
 .resumo-text6 {
   display: inline-block;
   font-family: Lato, sans-serif;
+}
+
+.container {
+  position: relative;
+  background: linear-gradient(90deg, #67477A 0%, #FCD18A 100%);
+  height: 63vh; /* Define a altura do container */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Garante que o conteúdo não ultrapasse os limites */
+}
+
+.wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 1;
+}
+
+.wave svg {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
 }
 
 @media (max-width: 991px) {
