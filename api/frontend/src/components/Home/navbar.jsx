@@ -7,7 +7,7 @@ const Navbar = (props) => {
     const navigate = useNavigate();
 
     return (
-        <header className={styles['navbar-container1']}>
+        <h1 className={styles['navbar-container1']}>
             <div className={styles['navbar-navbar-interactive']}>
                 <img
                     alt="Logo Caderno do Chef"
@@ -15,8 +15,25 @@ const Navbar = (props) => {
                     className={styles['navbar-image1']}
                 />
 
-                
-                <div className={styles['navbar-buttons']}>
+                <div className={styles.links}>
+                    <a
+                        href="/"
+                        className={styles.links}
+                    >
+                        Home
+                    </a>
+                    <a
+                        href="/sobre"
+                        className={styles.links}
+                    >
+                        Sobre
+                    </a>
+                    <a
+                        href="/contato"
+                        className={styles.links}
+                    >
+                        Contato
+                    </a>
                 </div>
 
                 <div className={styles['navbar-buttons1']}>
@@ -34,7 +51,7 @@ const Navbar = (props) => {
                     </button>
                 </div>
             </div>
-        </header>
+        </h1>
     );
 };
 

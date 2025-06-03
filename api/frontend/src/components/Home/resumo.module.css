@@ -1,9 +1,8 @@
-.resumo-container2 {
+.resumo-container {
   width: 100vw; /* Faz o container ocupar 100% da largura da viewport */
   margin: 0; /* Remove margens */
   padding: 0; /* Remove qualquer padding */
   display: flex;
-  flex-direction: row; /* Coloca a imagem e o texto lado a lado */
   align-items: center;
   justify-content: space-between; /* Espaço entre imagem e texto */
   gap: var(--dl-layout-space-fourunits);
@@ -19,57 +18,54 @@
   align-items: center;
 }
 
-.resumo-content1,
-.resumo-content2,
-.resumo-content3 {
+.resumo-content1 {
   gap: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: -100px; /* Move o texto para cima */
 }
 
 .resumo-content1 h1 {
   display: flex;
-  font-size: 35px;
+  font-size: 40px;
 }
 
 .resumo-content1 h2 {
   display: flex;
-  font-size: 25px;
+  font-size: 30px;
 }
 
-.resumo-text1,
-.resumo-text2,
-.resumo-text3,
-.resumo-text4,
-.resumo-text5,
-.resumo-text6 {
-  display: inline-block;
+.resumo-text {
+  display: flex;
   font-family: Lato, sans-serif;
 }
 
 .container {
   position: relative;
-  background: linear-gradient(90deg, #67477A 0%, #FCD18A 100%);
+  background: linear-gradient(360deg, #67477A 0%, #FCD18A 100%);
   height: 63vh; /* Define a altura do container */
+  width: 100%; /* Garante que o container ocupe 100% da largura da tela */
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden; /* Garante que o conteúdo não ultrapasse os limites */
+  margin: 0; /* Remove margens */
+  padding: 0; /* Remove paddings */
+  box-sizing: border-box; /* Inclui padding e borda no cálculo do tamanho */
 }
 
 .wave {
   position: absolute;
-  bottom: 0;
+  top: 235px;
   left: 0;
-  width: 100%;
+  width: 100%; /* Garante que a onda ocupe 100% da largura */
   height: auto;
   z-index: 1;
 }
 
 .wave svg {
-  position: absolute;
-  width: 100%;
+  width: 100%; /* Garante que o SVG ocupe 100% da largura */
   bottom: 0;
   left: 0;
 }

@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import './passo-a-passo.css';
+import ChefFeliz from '/midia/chef_caderno.png';
 
 const PassoAPasso = (props) => {
   return (
@@ -9,14 +10,14 @@ const PassoAPasso = (props) => {
           <div className="passo-a-passo-section-header">
             <h2 className="thq-heading-2">Descubra o poder do nosso caderno</h2>
             <img
-              src={props.imageSrc}
+              src={ChefFeliz}
               alt={props.imageAlt}
               className="passo-a-passo-image"
             />
           </div>
           <div className="passo-a-passo-container3">
             <div className="passo-a-passo-container4 thq-card">
-              <h2 className="thq-heading-2">
+              <h2 className="card-roxo">
                 {props.step1Title ?? (
                   <Fragment>
                     <span className="passo-a-passo-text27">Cadastre os ingredientes</span>
@@ -50,7 +51,7 @@ const PassoAPasso = (props) => {
               <label className="passo-a-passo-text16 thq-heading-3">02</label>
             </div>
             <div className="passo-a-passo-container6 thq-card">
-              <h2 className="thq-heading-2">
+              <h2 className="card-roxo">
                 {props.step3Title ?? (
                   <Fragment>
                     <span className="passo-a-passo-text28">Toques finais</span>

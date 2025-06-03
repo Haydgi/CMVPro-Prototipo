@@ -5,13 +5,13 @@ const Resumo = () => {
   return (
     <div className={styles['container']}>
       <div className={styles['thq-section-padding']}>
-        <div className={`${styles['resumo-container2']} ${styles['thq-section-max-width']}`}>
+        <div className={`${styles['resumo-container']} ${styles['thq-section-max-width']}`}>
           <div className={styles['resumo-image-container']}>
             <div className={styles['resumo-content1']}>
               <h1>Quem cozinha bem, merece lucrar mais</h1>
               <h2 className={styles['thq-heading-2']}>
                 <Fragment>
-                  <span className={styles['resumo-text4']}>
+                  <span className={styles['resumo-text']}>
                     Tenha controle dos seus custos,
                     precifique com precisão e tome decisões com base nos dados reais do seu negócio
                   </span>
