@@ -631,7 +631,7 @@
     font-size: 25px;
     text-align: center;
     white-space: nowrap; /* Impede que o texto quebre em várias linhas */
-    text-decoration-line: none;
+    
   }
 
   .mobileSearchIcon {
