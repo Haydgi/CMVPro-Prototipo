@@ -27,7 +27,7 @@ export default function Login() {
     senha,
   };
 
- const handleCadastro = async (e) => {
+const handleCadastro = async (e) => {
   e.preventDefault();
 
   try {
@@ -36,13 +36,25 @@ export default function Login() {
       senha
     });
 
-    
-    // Redireciona o usuário
-    navigate("/receitas"); // ou outro caminho da sua aplicação
+    if (response.status === 200) {
+  localStorage.setItem("token", response.data.token);
+  navigate("/receitas");
+
+    } else {
+      // Caso retorne outro status (não 200), tratar aqui (opcional)
+      toast.error("Falha no login. Tente novamente.");
+    }
   } catch (error) {
-    toast.error("Erro ao fazer login!");
+    // Se o backend enviou mensagem de erro, pega ela e mostra
+    if (error.response && error.response.data && error.response.data.message) {
+      toast.error(error.response.data.message);
+    } else {
+      // Caso não tenha mensagem, mostra erro genérico
+      toast.error("Erro ao fazer login. Verifique seu e-mail e senha.");
+    }
   }
 };
+
 
   const handleInputChange = (campo, valor) => {
     switch (campo) {

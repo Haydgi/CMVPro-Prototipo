@@ -3,6 +3,9 @@ import { toast } from "react-toastify";
 import "../../../Styles/global.css";
 import styles from "./ModalCadastroIngrediente.module.css";
 import { FaTrash } from "react-icons/fa";
+import axios from "axios";
+
+
 
 function ModalCadastroIngrediente({ onClose, onSave }) {
   const [form, setForm] = useState({
@@ -59,35 +62,63 @@ function ModalCadastroIngrediente({ onClose, onSave }) {
     }
   };
 
-  const handleSubmit = () => {
-    const campos = {};
+const handleSubmit = async () => {
+  const campos = {};
 
-    if (!form.nome) campos.nome = true;
-    if (!form.custo) campos.custo = true;
-    if (!form.categoria) campos.categoria = true;
-    if (!form.unidade) campos.unidade = true;
-    if (!form.taxaDesperdicio) campos.taxaDesperdicio = true;
+  if (!form.nome) campos.nome = true;
+  if (!form.custo) campos.custo = true;
+  if (!form.categoria) campos.categoria = true;
+  if (!form.unidade) campos.unidade = true;
+  if (!form.taxaDesperdicio) campos.taxaDesperdicio = true;
 
-    if (Object.keys(campos).length > 0) {
-      setCamposInvalidos(campos);
-      toast.error("Preencha todos os campos obrigatórios!");
-      return;
+  if (Object.keys(campos).length > 0) {
+    setCamposInvalidos(campos);
+    toast.error("Preencha todos os campos obrigatórios!");
+    return;
+  }
+
+  const token = localStorage.getItem("token");
+  if (!token) {
+    toast.error("Usuário não autenticado.");
+    return;
+  }
+
+  const ingredienteFormatado = {
+  nome: form.nome,
+  unidadeDeMedida: form.unidade,
+  custo: parseFloat(form.custo.replace(",", ".")),
+  indiceDeDesperdicio: parseFloat(form.taxaDesperdicio.replace(",", ".")),
+  categoria: form.categoria // se tiver
+};
+
+  try {
+  const response = await fetch('http://localhost:3001/api/ingredientes', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + token,
+  },
+  body: JSON.stringify(ingredienteFormatado),  // <-- Use o objeto formatado aqui
+});
+
+    if (!response.ok) {
+      throw new Error("Erro ao salvar o ingrediente.");
     }
 
-    const ingredienteFormatado = {
-      ...form,
-      unidadeCompra: form.unidade,
-      custo: parseFloat(form.custo.replace(",", ".")),
-      taxaDesperdicio: parseFloat(form.taxaDesperdicio.replace(",", ".")),
-    };
+    const data = await response.json();
 
     if (onSave) {
-      onSave(ingredienteFormatado);
-      toast.success("Ingrediente cadastrado com sucesso!");
+      onSave(data);
     }
 
+    toast.success("Ingrediente cadastrado com sucesso!");
     handleClose();
-  };
+  } catch (error) {
+    console.error(error);
+    toast.error("Erro ao cadastrar ingrediente.");
+  }
+};
+
 
   return (
     <div className={`${styles.modalOverlay} ${isClosing ? styles.modalExit : styles.modalEnter}`}>

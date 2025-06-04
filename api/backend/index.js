@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cadastroRoutes from "./routes/CadastroUsuario.js";
 import loginRoutes from "./routes/login.js";
-import ingredientesRoutes from "./routes/cadastroIngredientes.js";  // ✅ Importa a nova rota
+import ingredientesRoutes from "./routes/cadastroIngredientes.js";
 
 dotenv.config();
 
@@ -20,8 +20,9 @@ app.use(express.json());
 
 app.use("/api", cadastroRoutes);
 app.use("/api", loginRoutes);
-app.use("/api", ingredientesRoutes);  //  adiciona as rotas de ingredientes
+app.use("/api/ingredientes", ingredientesRoutes);
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
+  console.log("SECRET_JWT =", process.env.SECRET_JWT);
 });

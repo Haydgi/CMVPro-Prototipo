@@ -1,20 +1,31 @@
+<<<<<<< HEAD
+import { useEffect, useState } from 'react';
+=======
 import { useState } from 'react';
+>>>>>>> 94f17d7dd1a7abc482e2b6b11f9472114f7bedff
 import ModalCadastroIngrediente from '../../../components/Modals/ModalCadastroIngrediente/ModalCadastroIngrediente';
 import ModalEditaIngrediente from '../../../components/Modals/ModalCadastroIngrediente/ModalEditaIngrediente';
 import ModelPage from '../ModelPage';
 import styles from '../itens.module.css';
+
 import { GiMeat, GiFruitBowl, GiPumpkin, GiPeanut, GiWrappedSweet } from "react-icons/gi";
 import { CiWheat, CiDroplet } from "react-icons/ci";
 import { LuMilk } from "react-icons/lu";
 import { TbSalt } from "react-icons/tb";
+import { FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
+<<<<<<< HEAD
+=======
 import { FaTrash } from 'react-icons/fa';
+>>>>>>> 94f17d7dd1a7abc482e2b6b11f9472114f7bedff
 
 function Ingredientes() {
   const [ingredientes, setIngredientes] = useState([]);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [mostrarModalEditar, setMostrarModalEditar] = useState(false);
   const [ingredienteSelecionado, setIngredienteSelecionado] = useState(null);
+
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
   const iconesCategorias = {
     Carnes: <GiMeat />,
@@ -29,36 +40,139 @@ function Ingredientes() {
     "Temperos e Condimentos": <TbSalt />,
   };
 
-  const salvarIngrediente = (novo) => {
-    setIngredientes((prev) => [
-      ...prev,
-      {
-        ...novo,
-        id: prev.length + 1,
-        icone: iconesCategorias[novo.categoria],
-        unidadeCompra: novo.unidadeCompra,
-      },
-    ]);
-    setMostrarModal(false);
+  const getToken = () => localStorage.getItem('token');
+
+  useEffect(() => {
+    async function fetchIngredientes() {
+      const token = getToken();
+      if (!token) return;
+
+      try {
+        const res = await fetch(`${API_URL}/api/ingredientes`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!res.ok) throw new Error('Erro ao buscar ingredientes');
+        const data = await res.json();
+
+        const formatados = data.map(item => ({
+          ...item,
+          id: item.ID_Ingredientes,
+          nome: item.Nome_Ingrediente,
+          preco: item.Custo_Ingrediente,
+          unidadeCompra: item.Unidade_Compra,
+          categoria: item.Categoria,
+          icone: iconesCategorias[item.Categoria] || "❓",
+        }));
+
+        setIngredientes(formatados);
+      } catch (error) {
+        console.error('Erro:', error);
+        Swal.fire('Erro', 'Falha ao buscar ingredientes.', 'error');
+      }
+    }
+
+    fetchIngredientes();
+  }, [API_URL]);
+
+  const salvarIngrediente = async (novoIngrediente) => {
+    const token = getToken();
+    if (!token) return;
+
+    try {
+      const res = await fetch(`${API_URL}/api/ingredientes`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(novoIngrediente)
+      });
+
+      if (!res.ok) throw new Error('Erro ao salvar ingrediente');
+      const salvo = await res.json();
+
+      setIngredientes(prev => [
+        ...prev,
+        {
+          ...salvo,
+          id: salvo.ID_Ingredientes,
+          nome: salvo.Nome_Ingrediente,
+          preco: salvo.Custo_Ingrediente,
+          unidadeCompra: salvo.Unidade_Compra,
+          categoria: salvo.Categoria,
+          icone: iconesCategorias[salvo.Categoria] || "❓"
+        }
+      ]);
+
+      setMostrarModal(false);
+      Swal.fire('Sucesso', 'Ingrediente cadastrado!', 'success');
+    } catch (err) {
+      Swal.fire('Erro', 'Erro ao cadastrar ingrediente.', 'error');
+    }
   };
 
-  const atualizarIngrediente = (atualizado) => {
-  setIngredientes((prev) =>
-    prev.map((i) =>
-      i.id === atualizado.id
-        ? {
-            ...atualizado,
-            icone: iconesCategorias[atualizado.categoria],
-          }
-        : i
-    )
-  );
-  setMostrarModalEditar(false);
-  setIngredienteSelecionado(null);
-};
+  const atualizarIngrediente = async (ingredienteAtualizado) => {
+    const token = getToken();
+    if (!token) return;
 
-  const removerIngrediente = (id) => {
-    setIngredientes((prev) => prev.filter((i) => i.id !== id));
+    try {
+      const res = await fetch(`${API_URL}/api/ingredientes/${ingredienteAtualizado.ID_Ingredientes}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(ingredienteAtualizado)
+      });
+
+      if (!res.ok) throw new Error('Erro ao atualizar ingrediente');
+
+      setIngredientes(prev =>
+        prev.map(i =>
+          i.id === ingredienteAtualizado.ID_Ingredientes
+            ? {
+                ...ingredienteAtualizado,
+                id: ingredienteAtualizado.ID_Ingredientes,
+                nome: ingredienteAtualizado.Nome_Ingrediente,
+                preco: ingredienteAtualizado.Custo_Ingrediente,
+                unidadeCompra: ingredienteAtualizado.Unidade_Compra,
+                categoria: ingredienteAtualizado.Categoria,
+                icone: iconesCategorias[ingredienteAtualizado.Categoria] || "❓"
+              }
+            : i
+        )
+      );
+
+      setMostrarModalEditar(false);
+      setIngredienteSelecionado(null);
+      Swal.fire('Sucesso', 'Ingrediente atualizado!', 'success');
+    } catch (err) {
+      Swal.fire('Erro', 'Erro ao atualizar ingrediente.', 'error');
+    }
+  };
+
+  const removerIngrediente = async (id) => {
+    const token = getToken();
+    if (!token) return;
+
+    try {
+      const res = await fetch(`${API_URL}/api/ingredientes/${id}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (!res.ok) throw new Error('Erro ao remover ingrediente');
+
+      setIngredientes(prev => prev.filter(i => i.id !== id));
+      Swal.fire('Excluído!', 'Ingrediente removido com sucesso.', 'success');
+    } catch (err) {
+      Swal.fire('Erro', 'Erro ao remover ingrediente.', 'error');
+    }
   };
 
   const renderCard = (ingrediente) => (
@@ -69,17 +183,16 @@ function Ingredientes() {
           setIngredienteSelecionado(ingrediente);
           setMostrarModalEditar(true);
         }}
-        style={{ cursor: "pointer" }}
+        style={{ cursor: 'pointer' }}
       >
         <div className={styles.cardIcon}>{ingrediente.icone}</div>
         <h5 className={styles.cardTitle}>{ingrediente.nome}</h5>
         <p className={styles.cardPrice}>
-          {(ingrediente.preco || ingrediente.custo)} R$/{ingrediente.unidadeCompra}
+          {(ingrediente.preco || 0).toFixed(2)} R$ / {ingrediente.unidadeCompra}
         </p>
         <div className={styles.cardAction}>
           <i
             className={styles.Trash}
-            style={{ cursor: "pointer" }}
             onClick={(e) => {
               e.stopPropagation();
               Swal.fire({
@@ -94,11 +207,9 @@ function Ingredientes() {
               }).then((result) => {
                 if (result.isConfirmed) {
                   removerIngrediente(ingrediente.id);
-                  Swal.fire('Excluído!', 'O ingrediente foi removido.', 'success');
                 }
               });
             }}
-            title="Excluir"
           >
             <FaTrash />
           </i>
@@ -120,7 +231,11 @@ function Ingredientes() {
       mostrarModal={mostrarModal}
       mostrarModalEditar={mostrarModalEditar}
       ModalCadastro={ModalCadastroIngrediente}
+<<<<<<< HEAD
+      ModalEditar={() =>
+=======
       ModalEditar={() => (
+>>>>>>> 94f17d7dd1a7abc482e2b6b11f9472114f7bedff
         ingredienteSelecionado && (
           <ModalEditaIngrediente
             ingrediente={ingredienteSelecionado}
@@ -131,9 +246,9 @@ function Ingredientes() {
             onSave={atualizarIngrediente}
           />
         )
-      )}
+      }
       renderCard={renderCard}
-      itensPorPagina={12}
+      itensPorPagina={8}
     />
   );
 }
