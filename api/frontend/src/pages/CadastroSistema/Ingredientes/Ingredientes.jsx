@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { useEffect, useState } from 'react';
-=======
-import { useState } from 'react';
->>>>>>> 94f17d7dd1a7abc482e2b6b11f9472114f7bedff
 import ModalCadastroIngrediente from '../../../components/Modals/ModalCadastroIngrediente/ModalCadastroIngrediente';
 import ModalEditaIngrediente from '../../../components/Modals/ModalCadastroIngrediente/ModalEditaIngrediente';
 import ModelPage from '../ModelPage';
@@ -14,18 +10,34 @@ import { LuMilk } from "react-icons/lu";
 import { TbSalt } from "react-icons/tb";
 import { FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
-<<<<<<< HEAD
-=======
-import { FaTrash } from 'react-icons/fa';
->>>>>>> 94f17d7dd1a7abc482e2b6b11f9472114f7bedff
 
 function Ingredientes() {
   const [ingredientes, setIngredientes] = useState([]);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [mostrarModalEditar, setMostrarModalEditar] = useState(false);
   const [ingredienteSelecionado, setIngredienteSelecionado] = useState(null);
+  const [itensPorPagina, setItensPorPagina] = useState(12); 
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+
+  useEffect(() => {
+    const ajustarItensPorTamanho = () => {
+      const largura = window.innerWidth;
+
+      if (largura < 576) {
+        setItensPorPagina(4);
+      } else if (largura < 992) {
+        setItensPorPagina(9);
+      } else {
+        setItensPorPagina(12);
+      }
+    };
+
+    ajustarItensPorTamanho();
+    window.addEventListener('resize', ajustarItensPorTamanho);
+
+    return () => window.removeEventListener('resize', ajustarItensPorTamanho);
+  }, []);
 
   const iconesCategorias = {
     Carnes: <GiMeat />,
@@ -231,11 +243,7 @@ function Ingredientes() {
       mostrarModal={mostrarModal}
       mostrarModalEditar={mostrarModalEditar}
       ModalCadastro={ModalCadastroIngrediente}
-<<<<<<< HEAD
       ModalEditar={() =>
-=======
-      ModalEditar={() => (
->>>>>>> 94f17d7dd1a7abc482e2b6b11f9472114f7bedff
         ingredienteSelecionado && (
           <ModalEditaIngrediente
             ingrediente={ingredienteSelecionado}
@@ -248,7 +256,7 @@ function Ingredientes() {
         )
       }
       renderCard={renderCard}
-      itensPorPagina={8}
+      itensPorPagina={itensPorPagina}
     />
   );
 }

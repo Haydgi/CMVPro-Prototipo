@@ -133,3 +133,128 @@ img {
   outline: 2px solid var(--tangerine);
   outline-offset: 2px;
 }
+
+/* Botão hamburguer visível apenas no mobile */
+.menu-toggle {
+  display: none;
+  position: absolute;
+  right: -10px;
+  top: 60%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--sunset);
+  cursor: pointer;
+  z-index: 20;
+  outline: none; /* Remove a borda preta ao clicar */
+  box-shadow: none; /* Remove qualquer sombra residual */
+}
+
+/* Menu mobile */
+.mobile-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  gap: 16px;
+  z-index: 15;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-menu a {
+  font-size: 1.3rem;
+  color: var(--rich-black);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding-top: 20px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  .navbar-logo {
+  position: relative;
+  left: 0;
+  top: 5px !important;
+  transform: none;
+  height: 40px;
+}
+
+  .btnLogout {
+    display: none;
+  }
+
+}
+
+.mobile-bootstrap-menu {
+  position: absolute;
+  top: 60px;
+  left: 10px;
+  right: 10px;
+  background: var(--ultra-violet) !important; /* Fundo roxo do sistema */
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeSlideDown 0.3s ease-in-out;
+}
+
+@keyframes fadeSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.mobile-bootstrap-menu .nav-link {
+  color: var(--floral-white); /* Texto branco */
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Linha sutil */
+  transition: all 0.2s ease;
+}
+
+/* Estilo para a página ativa */
+.mobile-bootstrap-menu .nav-link.active {
+  color: var(--sunset); /* Cor de destaque para a página ativa */
+  font-weight: bold;
+  border-bottom: 2px solid var(--ultra-violet) !important; /* Linha mais grossa para a página ativa */
+}
+
+/* Estilo do botão de logout no mobile */
+.btnLogoutCelular {
+  color: var(--floral-white); /* Texto branco */
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 10px 0;
+  border: none;
+  background: none;
+  transition: all 0.2s ease;
+}
+
+.btnLogoutCelular:hover {
+  color: var(--sunset); /* Cor de destaque ao passar o mouse */
+}
+
+.MdMenu{
+  color: var(--sunset);
+  font-size: 26px;
+}
