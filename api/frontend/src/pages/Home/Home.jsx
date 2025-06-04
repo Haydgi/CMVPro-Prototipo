@@ -167,7 +167,7 @@ const Home = (props) => {
       <Equipe
         member4={
           <Fragment>
-            <span className="home-text59">Chef Miguel Costa</span>
+            <span className="home-text59">Andress Colega</span>
           </Fragment>
         }
         member4Content={
@@ -184,12 +184,12 @@ const Home = (props) => {
         }
         member1={
           <Fragment>
-            <span className="home-text62">Chef Maria Silva</span>
+            <span className="home-text62">Bruno</span>
           </Fragment>
         }
         heading1={
           <Fragment>
-            <span className="home-text63">Meet our team</span>
+            <span className="home-text63">Conheça Nosso Time</span>
           </Fragment>
         }
         content1={
@@ -214,7 +214,7 @@ const Home = (props) => {
         }
         member3={
           <Fragment>
-            <span className="home-text68">Chef Ana Oliveira</span>
+            <span className="home-text68">Hahaydgi</span>
           </Fragment>
         }
         actionContent={
@@ -224,7 +224,7 @@ const Home = (props) => {
         }
         member2={
           <Fragment>
-            <span className="home-text70">Chef Carlos Santos</span>
+            <span className="home-text70">João</span>
           </Fragment>
         }
         member3Content={

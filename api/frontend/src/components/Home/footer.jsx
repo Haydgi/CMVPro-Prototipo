@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import logomanuscrito from '../../assets/logotipo-manuscrito.png'
 
 import PropTypes from 'prop-types'
 
@@ -11,8 +12,8 @@ const Footer = (props) => {
         <div className="footer-content">
           <div className="footer-logo1">
             <img
-              alt={props.logoAlt}
-              src={props.logoSrc}
+              alt="Caderno do Chef"
+              src={logomanuscrito}
               className="footer-logo2"
             />
           </div>
@@ -22,7 +23,7 @@ const Footer = (props) => {
           <div className="thq-divider-horizontal"></div>
           <div className="footer-row">
             <div className="footer-container">
-              <span className="thq-body-small">© 2024 TeleportHQ</span>
+              <span className="thq-body-small">© 2025 Caderno do Chef</span>
             </div>
             <div className="footer-footer-links">
               <span className="footer-text2 thq-body-small">

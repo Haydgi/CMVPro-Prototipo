@@ -1,10 +1,10 @@
 .resumo-container {
-  width: 100vw; /* Faz o container ocupar 100% da largura da viewport */
-  margin: 0; /* Remove margens */
-  padding: 0; /* Remove qualquer padding */
+  width: 100%;
+  margin: 0;
+  padding: 0;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Espaço entre imagem e texto */
+  justify-content: space-between;
   gap: var(--dl-layout-space-fourunits);
   position: relative;
 }
@@ -12,7 +12,7 @@
 .resumo-image-container {
   margin-top: 250px;
   margin-bottom: 250px;
-  flex: 1; /* Faz com que a imagem ocupe metade do espaço disponível */
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,7 +23,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: -100px; /* Move o texto para cima */
+  margin-top: -100px;
 }
 
 .resumo-content1 h1 {
@@ -44,41 +44,54 @@
 .container {
   position: relative;
   background: linear-gradient(360deg, #67477A 0%, #FCD18A 100%);
-  height: 63vh; /* Define a altura do container */
-  width: 100%; /* Garante que o container ocupe 100% da largura da tela */
+  min-height: 63vh;
+  width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden; /* Garante que o conteúdo não ultrapasse os limites */
-  margin: 0; /* Remove margens */
-  padding: 0; /* Remove paddings */
-  box-sizing: border-box; /* Inclui padding e borda no cálculo do tamanho */
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .wave {
   position: absolute;
-  top: 235px;
+  bottom: 0;
   left: 0;
-  width: 100%; /* Garante que a onda ocupe 100% da largura */
+  width: 100%;
   height: auto;
   z-index: 1;
 }
 
 .wave svg {
-  width: 100%; /* Garante que o SVG ocupe 100% da largura */
-  bottom: 0;
-  left: 0;
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 @media (max-width: 991px) {
-  .resumo-container2 {
-    flex-direction: column; /* Empilha imagem e texto em telas menores */
+  .resumo-container {
+    flex-direction: column;
     gap: var(--dl-layout-space-twounits);
   }
 
-  .resumo-image1 {
-    width: 100%; /* Ajustado para ocupar todo o espaço disponível em telas menores */
-    height: auto;
-    object-fit: contain; /* Garante que a imagem seja exibida inteira em telas menores */
+  .resumo-image-container {
+    margin-top: 150px;
+    margin-bottom: 150px;
+  }
+  
+  .resumo-content1 {
+    margin-top: 0;
+    padding: 0 20px;
+    text-align: center;
+  }
+  
+  .resumo-content1 h1 {
+    font-size: 32px;
+  }
+  
+  .resumo-content1 h2 {
+    font-size: 24px;
   }
 }

@@ -1,10 +1,13 @@
 import React, { Fragment } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 import PropTypes from 'prop-types'
 
 import './sugestao-cadastro.css'
 
 const SugestaoCadastro = (props) => {
+  const navigate = useNavigate();
+
   return (
     <div className="thq-section-padding">
       <div className="thq-section-max-width">
@@ -35,7 +38,8 @@ const SugestaoCadastro = (props) => {
               <div className="sugestao-cadastro-actions">
                 <button
                   type="button"
-                  className="thq-button-filled sugestao-cadastro-button"
+                  className="sugestao-cadastro-button"
+                  onClick={() => navigate('/sign-up')}
                 >
                   <span>
                     {props.action1 ?? (
