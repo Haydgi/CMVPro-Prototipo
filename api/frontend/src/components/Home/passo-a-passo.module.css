@@ -27,13 +27,13 @@
   align-items: flex-start;
   flex-direction: column;
 }
- 
+
 .passo-a-passo-actions {
   gap: var(--dl-layout-space-unit);
   display: flex;
   align-items: flex-start;
 }
- 
+
 .passo-a-passo-container3 {
   grid-area: span 1/span 1/span 1/span 1;
 }
@@ -139,10 +139,12 @@
  
 .passo-a-passo-text23 {
   display: inline-block;
+  font-size: 18px;
 }
  
 .passo-a-passo-text24 {
   display: inline-block;
+  font-size: 18px;
 }
 
 .passo-a-passo-text25 {
@@ -151,6 +153,7 @@
  
 .passo-a-passo-text26 {
   display: inline-block;
+  font-size: 18px;
 }
  
 .passo-a-passo-text27 {

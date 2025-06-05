@@ -5,8 +5,9 @@
   justify-content: space-between; /* Espaçamento entre itens */
   align-items: center; /* Centraliza verticalmente */
   padding: 0 var(--dl-layout-space-threeunits); /* Espaçamento lateral */
-  background: linear-gradient( #FCD18A 100%); /* Gradiente igual ao resumo */
+  background: transparent; /* Gradiente igual ao resumo */
   height: 5rem; /* Define a altura da navbar */
+  position: absolute;
   margin: 0;
 }
  
@@ -30,9 +31,10 @@
   font-family: Lato, sans-serif;
   color: var(--ultra-violet);
   font-size: 22px;
-  gap: 50px;
+  gap: 30px;
   margin-left: 50px;
   text-decoration: none;
+  font-weight: bold;
   position: relative;
   transition: color 0.3s ease, transform 0.3s ease;
 }
@@ -68,5 +70,5 @@
 }
 
 .btnUltraViolet {
-  padding: 7px 20px;
+  padding: 12px 20px;
 }

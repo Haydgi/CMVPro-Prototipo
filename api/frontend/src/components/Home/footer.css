@@ -61,7 +61,8 @@
  
 .footer-container {
   display: flex;
-  align-items: flex-start;
+  width: 100%;
+  justify-content: center;
 }
  
 .footer-footer-links {

@@ -16,23 +16,23 @@ const Navbar = (props) => {
                 />
 
                 <div className={styles.links}>
-                    <a
+                     <a
                         href="/"
                         className={styles.links}
                     >
-                        Home
+                        O que é o Caderno do Chef?
                     </a>
                     <a
                         href="/sobre"
                         className={styles.links}
                     >
-                        Sobre
+                        Como o sistema funciona?
                     </a>
                     <a
                         href="/contato"
                         className={styles.links}
                     >
-                        Contato
+                        Equipe
                     </a>
                 </div>
 

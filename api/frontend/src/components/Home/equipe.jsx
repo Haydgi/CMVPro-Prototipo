@@ -14,7 +14,7 @@ const Equipe = (props) => {
             <h2 className="thq-heading-2 equipe-text12">
               {props.heading1 ?? (
                 <Fragment>
-                  <span className="equipe-text30">Conheça Nosso Time</span>
+                  <span className="equipe-text30">Conheça nossa equipe</span>
                 </Fragment>
               )}
             </h2>
@@ -22,8 +22,10 @@ const Equipe = (props) => {
               {props.content2 ?? (
                 <Fragment>
                   <span className="equipe-text40">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Esse projeto foi desenvolvido por uma equipe de estudantes do curso de Análise
+                    e Desenvolvimento de Sistemas da Faculdade de Tecnologia de Guaratinguetá (FATEC GTA).
+                    <br/>Cada membro trouxe suas habilidades únicas para criar uma solução inovadora que ajuda
+                    chefs a gerenciar seus negócios de forma mais eficiente.
                   </span>
                 </Fragment>
               )}

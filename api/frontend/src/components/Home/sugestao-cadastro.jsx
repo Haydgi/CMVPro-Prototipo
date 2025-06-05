@@ -19,7 +19,7 @@ const SugestaoCadastro = (props) => {
                   {props.heading1 ?? (
                     <Fragment>
                       <span className="sugestao-cadastro-text4">
-                        Ready to Cook?
+                        Pronto para experimentar as capacidades do Caderno?
                       </span>
                     </Fragment>
                   )}
@@ -28,8 +28,7 @@ const SugestaoCadastro = (props) => {
                   {props.content1 ?? (
                     <Fragment>
                       <span className="sugestao-cadastro-text5">
-                        Explore our collection of delicious recipes and start
-                        cooking like a pro!
+                        Cadastre-se hoje e comece a desfrutar da experiência de uma ótima gestão de preços como você nunca viu antes!
                       </span>
                     </Fragment>
                   )}
@@ -45,7 +44,7 @@ const SugestaoCadastro = (props) => {
                     {props.action1 ?? (
                       <Fragment>
                         <span className="sugestao-cadastro-text6">
-                          Get Cooking
+                          Quero o meu Caderno!
                         </span>
                       </Fragment>
                     )}

@@ -10,13 +10,6 @@ const Footer = (props) => {
     <footer className="footer-footer7 thq-section-padding">
       <div className="footer-max-width thq-section-max-width">
         <div className="footer-content">
-          <div className="footer-logo1">
-            <img
-              alt="Caderno do Chef"
-              src={logomanuscrito}
-              className="footer-logo2"
-            />
-          </div>
           <div className="footer-links"></div>
         </div>
         <div className="footer-credits">
@@ -24,29 +17,6 @@ const Footer = (props) => {
           <div className="footer-row">
             <div className="footer-container">
               <span className="thq-body-small">© 2025 Caderno do Chef</span>
-            </div>
-            <div className="footer-footer-links">
-              <span className="footer-text2 thq-body-small">
-                {props.privacyLink ?? (
-                  <Fragment>
-                    <span className="footer-text7">Privacy Policy</span>
-                  </Fragment>
-                )}
-              </span>
-              <span className="thq-body-small">
-                {props.termsLink ?? (
-                  <Fragment>
-                    <span className="footer-text5">Terms of Use</span>
-                  </Fragment>
-                )}
-              </span>
-              <span className="thq-body-small">
-                {props.cookiesLink ?? (
-                  <Fragment>
-                    <span className="footer-text6">Cookies Policy</span>
-                  </Fragment>
-                )}
-              </span>
             </div>
           </div>
         </div>

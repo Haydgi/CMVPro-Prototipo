@@ -1,0 +1,23 @@
+.textotopo h2 {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.textotopo p {
+    margin-top: 15px;
+    margin-bottom: 30px;
+    font-size: 20px;
+    text-align: justify;
+}
+
+.imagemchef {
+    display: flex;
+    justify-content: center;
+}
+
+.imagem {
+    display: flex;
+    height: 500px;
+    width: 500px;
+}
