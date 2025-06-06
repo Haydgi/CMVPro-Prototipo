@@ -12,7 +12,6 @@ import Cadastro from './features/Auth/CadastroUsuarios/CadastroUsuarios';
 import AuthUser from './features/Auth/AuthUser/AuthUser';
 import EsqueciSenha from './features/Auth/ForgotPasswordEmail/ForgotPswdEmail';
 import RedefinirSenha from './features/Auth/ForgotPassword/ForgotPswd';
-import NavegacaoTemporaria from './pages/NavegacaoTemporaria/NavegacaoTemp';
 
 function App() {
   const [logado, setLogado] = useState(false);
@@ -40,10 +39,6 @@ function App() {
       />
       <Routes>
         <Route
-          path="/home"
-          element={<Home />}
-        />
-        <Route
           path="/sign-in"
           element={logado ? <Navigate to="/produtos" /> : <Sobre onLogin={() => setLogado(true)} />}
         />
@@ -53,7 +48,7 @@ function App() {
         />
         <Route 
           path="/" 
-          element={<NavegacaoTemporaria />}
+          element={<Home />}
         />
         <Route
           path="/forgot-password-email"
