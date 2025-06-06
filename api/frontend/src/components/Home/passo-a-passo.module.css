@@ -26,6 +26,7 @@
   position: sticky;
   align-items: flex-start;
   flex-direction: column;
+  scroll-margin-top: 25px;
 }
 
 .passo-a-passo-actions {
@@ -39,7 +40,7 @@
 }
  
 .passo-a-passo-container4 {
-  top: 10%;
+  top: 0%;
   position: sticky;
   transform: rotate(-2deg);
   margin-bottom: var(--dl-layout-space-twounits);

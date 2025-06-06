@@ -2,6 +2,13 @@ import React, { Fragment } from 'react';
 import styles from './resumo.module.css';
 
 const Resumo = () => {
+  const scrollToSection = () => {
+    const section = document.getElementById('bullets');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className={styles['container']}>
       <div className={styles['thq-section-padding']}>
@@ -9,7 +16,10 @@ const Resumo = () => {
           <div className={styles['resumo-image-container']}>
             <div className={styles['resumo-content1']}>
               <h1>Já pensou em lucrar mais no seu restaurante?</h1>
-              <button className={`btnUltraViolet ${styles['btnUltraViolet']}`}>
+              <button
+                className={`btnUltraViolet ${styles['btnUltraViolet']}`}
+                onClick={scrollToSection}
+              >
                 Descubra como!
               </button>
             </div>

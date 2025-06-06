@@ -17,19 +17,19 @@ const Navbar = (props) => {
 
                 <div className={styles.links}>
                      <a
-                        href="/"
+                        href="#descricao"
                         className={styles.links}
                     >
                         O que é o Caderno do Chef?
                     </a>
                     <a
-                        href="/sobre"
+                        href="#passo-a-passo"
                         className={styles.links}
                     >
                         Como o sistema funciona?
                     </a>
                     <a
-                        href="/contato"
+                        href="#equipe"
                         className={styles.links}
                     >
                         Equipe

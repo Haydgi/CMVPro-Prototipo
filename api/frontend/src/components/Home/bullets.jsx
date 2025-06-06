@@ -4,7 +4,7 @@ import ChefTriste from '/midia/chef_triste.png';
 
 const Bullets = (props) => {
   return (
-    <div className={`${styles['passo-a-passo-container1']} thq-section-padding ${props.rootClassName}`}>
+    <div className={`${styles['passo-a-passo-container1']} thq-section-padding ${props.rootClassName}`} id='bullets'>
       <div className={`${styles['passo-a-passo-max-width']} thq-section-max-width`}>
         <div className={`${styles['passo-a-passo-container2']}`}>
           <div className={styles['passo-a-passo-container3']}>

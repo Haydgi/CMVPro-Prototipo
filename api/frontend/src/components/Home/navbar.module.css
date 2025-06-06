@@ -72,3 +72,7 @@
 .btnUltraViolet {
   padding: 12px 20px;
 }
+
+html {
+  scroll-behavior: smooth;
+}

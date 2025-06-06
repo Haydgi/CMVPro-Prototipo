@@ -1,44 +1,30 @@
-import React, { Fragment } from 'react'
-import logomanuscrito from '../../assets/logotipo-manuscrito.png'
-
-import PropTypes from 'prop-types'
-
-import './footer.css'
+import React from 'react';
+import styles from './footer.module.css';
 
 const Footer = (props) => {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <footer className="footer-footer7 thq-section-padding">
-      <div className="footer-max-width thq-section-max-width">
-        <div className="footer-content">
-          <div className="footer-links"></div>
-        </div>
-        <div className="footer-credits">
-          <div className="thq-divider-horizontal"></div>
-          <div className="footer-row">
-            <div className="footer-container">
-              <span className="thq-body-small">© 2025 Caderno do Chef</span>
-            </div>
+    <footer className={styles['footer-footer7']}>
+      <button
+        className={`btnUltraViolet ${styles['btnUltraViolet']}`}
+        onClick={scrollToTop}
+      >
+        Voltar ao topo
+      </button>
+      <div className={styles['footer-max-width']}>
+        <div className={styles['footer-content']}></div>
+        <div className={styles['footer-row']}>
+          <div className={styles['footer-container']}>
+            <div className={styles['footer-divider']}></div> {/* Linha divisória */}
+            <span className={styles.caderno}>© 2025 Caderno do Chef</span>
           </div>
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-Footer.defaultProps = {
-  termsLink: undefined,
-  logoAlt: 'Caderno do Chef Logo',
-  cookiesLink: undefined,
-  logoSrc: 'https://presentation-website-assets.teleporthq.io/logos/logo.png',
-  privacyLink: undefined,
-}
-
-Footer.propTypes = {
-  termsLink: PropTypes.element,
-  logoAlt: PropTypes.string,
-  cookiesLink: PropTypes.element,
-  logoSrc: PropTypes.string,
-  privacyLink: PropTypes.element,
-}
-
-export default Footer
+export default Footer;

@@ -6,7 +6,7 @@ const PassoAPasso = (props) => {
   return (
     <div className={`passo-a-passo-container1 thq-section-padding ${props.rootClassName}`}>
       <div className="passo-a-passo-max-width thq-section-max-width">
-          <div className={styles.textotopo}>
+          <div className={styles.textotopo} id='descricao'>
             <h2>O que é o Caderno do Chef?</h2>
             <p>
               O Caderno do Chef é um sistema inovador desenvolvido por uma equipe de estudantes, com o objetivo de transformar a forma como empreendedores do setor gastronômico realizam a precificação de suas receitas.
@@ -17,11 +17,7 @@ const PassoAPasso = (props) => {
             </p>
 
             <p>
-              Nosso sistema oferece uma solução prática, eficiente e intuitiva, que auxilia na tomada de decisões estratégicas, proporcionando maior segurança e precisão na definição de preços. Com ele, é possível realizar cálculos automáticos, analisar e selecionar a quantidade de cada ingrediente na receita e otimizar a precificação e a gestão financeira do negócio.
-            </p>
-
-            <p>
-              Além de ser uma ferramenta de apoio técnico, o Caderno do Chef também busca fomentar uma cultura de profissionalização no setor gastronômico, contribuindo para o fortalecimento e crescimento sustentável dos empreendimentos.
+              Nosso sistema oferece uma solução prática, eficiente e intuitiva, que auxilia na tomada de decisões estratégicas, proporcionando maior segurança e precisão na definição de preços. Com ele, é possível realizar cálculos automáticos, analisar e selecionar a quantidade de cada ingrediente na receita e otimizar a precificação e a gestão financeira do negócio. Além de ser uma ferramenta de apoio técnico, o Caderno do Chef também busca fomentar uma cultura de profissionalização no setor gastronômico, contribuindo para o fortalecimento e crescimento sustentável dos empreendimentos.
             </p>
 
             <p>

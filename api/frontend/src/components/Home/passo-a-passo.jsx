@@ -7,7 +7,7 @@ const PassoAPasso = (props) => {
     <div className={`${styles['passo-a-passo-container1']} thq-section-padding ${props.rootClassName}`}>
       <div className={`${styles['passo-a-passo-max-width']} thq-section-max-width`}>
         <div className={`${styles['passo-a-passo-container2']} thq-grid-2`}>
-          <div className={styles['passo-a-passo-section-header']}>
+          <div className={styles['passo-a-passo-section-header']} id='passo-a-passo'>
             <h2 className="thq-heading-2">Como o sistema funciona?</h2>
             <img
               src={ChefFeliz}
