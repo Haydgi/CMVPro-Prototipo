@@ -7,6 +7,7 @@ import Ingredientes from './pages/CadastroSistema/Ingredientes/Ingredientes';
 import Home from './pages/Home/Home';
 import Receitas from './pages/CadastroSistema/Receitas/Receitas';
 import Despesas from './pages/CadastroSistema/Despesas/Despesas';
+import Relatorios from './pages/CadastroSistema/Relatorios/Relatorios';
 import Sobre from './features/Auth/LoginUsuario/Login';
 import Cadastro from './features/Auth/CadastroUsuarios/CadastroUsuarios';
 import AuthUser from './features/Auth/AuthUser/AuthUser';
@@ -73,6 +74,10 @@ function App() {
         <Route
           path="/despesas"
           element={<Despesas />}
+        />
+        <Route
+          path="/relatorios"
+          element={<Relatorios />}
         />
       </Routes>
     </>
