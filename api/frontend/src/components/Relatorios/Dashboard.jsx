@@ -2,7 +2,7 @@ import React from 'react';
 import { recipes, ingredients } from '../../Data/recipes';
 import ProfitChart from './ProfitChart';
 import TimeChart from './TimeChart';
-import CostImpactChart from './CostImpactChart';
+import RecipeCount from './RecipeCount';
 import WasteChart from './WasteChart';
 import IngredientCount from './IngredientCount';
 import ComplexRecipes from './ComplexRecipes';
@@ -23,7 +23,7 @@ const Dashboard = () => {
 
       {/* Linha 2 - Métricas compactas */}
       <div className="row compact">
-        <CostImpactChart recipes={recipes} ingredients={ingredients} />
+        <RecipeCount recipes={recipes} />
         <WasteChart ingredients={ingredients} />
         <IngredientCount ingredients={ingredients} />
       </div>
