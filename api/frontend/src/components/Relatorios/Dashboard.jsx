@@ -15,31 +15,44 @@ import './Dashboard.css';
 const Dashboard = () => {
   return (
     <div className="dashboard">
-      {/* Linha 1 - Gráficos principais */}
+
+      {/* Linha 1 - Histórico */}
+      <div className="row">
+        <IngredientHistory ingredients={ingredients} />
+      </div>
+
+      {/* Linha 2 - Lucro Por Receita */}
       <div className="row">
         <ProfitChart recipes={recipes} />
-        <TimeChart recipes={recipes} />
       </div>
 
-      {/* Linha 2 - Métricas compactas */}
-      <div className="row compact">
-        <RecipeCount recipes={recipes} />
+      {/* Linha 3 - Ingredientes com Maior Desperdicio /// Desperdicio Medio */}
+      <div className="row ">
         <WasteChart ingredients={ingredients} />
-        <IngredientCount ingredients={ingredients} />
-      </div>
-
-      {/* Linha 3 - Análises */}
-      <div className="row">
-        <ComplexRecipes recipes={recipes} />
-        <CategoriesChart recipes={recipes} />
         <AvgWaste ingredients={ingredients} />
       </div>
 
-      {/* Linha 4 - Lista */}
-      <UnderusedIngredients recipes={recipes} ingredients={ingredients} />
+      {/* Linha 4 - Tempo Medio Por Categoria */}
+      <div className="row">
+        <TimeChart recipes={recipes} />
+      </div>
 
-      {/* Linha 5 - Histórico */}
-      <IngredientHistory ingredients={ingredients} />
+      {/*<div className="row">
+        <ComplexRecipes recipes={recipes} />
+      </div>*/}
+
+      {/* Linha 5 - Receitas Cadastradas /// Ingredientes Cadastrados /// Distribuicao Por Categoria */}
+      <div className="row">
+        <RecipeCount recipes={recipes} />
+        <IngredientCount ingredients={ingredients} />
+        <CategoriesChart recipes={recipes} />
+      </div>
+
+      {/* Linha 6 - Ingredientes Subutilizados */}
+      <div className="row">
+        <UnderusedIngredients recipes={recipes} ingredients={ingredients} />
+      </div>
+      
     </div>
   );
 };

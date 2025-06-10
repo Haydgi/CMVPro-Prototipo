@@ -22,14 +22,17 @@ const TimeChart = ({ recipes }) => {
       <h3>Tempo Médio por Categoria</h3>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data}>
-          <XAxis dataKey="name" />
-          <YAxis label={{ value: 'Minutos', angle: -90, position: 'insideLeft' }} />
+          <XAxis dataKey="name"
+            tick={{ fontSize: 22 }} />
+
+          <YAxis label={{ value: 'Minutos', angle: -90, position: 'insideLeft' }}
+            tick={{ fontSize: 22 }} />
           <Tooltip formatter={(value) => [`${value} min`, 'Tempo']} />
-          <Bar 
-  dataKey="tempo" 
-  fill="var(--primary-light)" 
-  radius={[4, 4, 0, 0]} 
-/>
+          <Bar
+            dataKey="tempo"
+            fill="var(--primary-light)"
+            radius={[4, 4, 0, 0]}
+          />
         </BarChart>
       </ResponsiveContainer>
     </div>

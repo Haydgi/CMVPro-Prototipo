@@ -17,8 +17,7 @@ const UnderusedIngredients = ({ ingredients, recipes }) => {
 
   // 3. Filtra ingredientes não utilizados
   const underused = latestIngredients
-    .filter(ing => !usedIngredients.has(ing.name))
-    .slice(0, 5);
+    .filter(ing => !usedIngredients.has(ing.name));
 
   // 4. Mensagem quando não houver ingredientes subutilizados
   if (underused.length === 0) {

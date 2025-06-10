@@ -35,6 +35,7 @@ const CategoriesChart = ({ recipes }) => {
             paddingAngle={5}
             dataKey="value"
             label={({ name }) => name}
+            fontSize={22}
           >
             {data.map((_, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />

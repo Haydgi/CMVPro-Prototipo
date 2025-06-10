@@ -1,55 +1,70 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import './Dashboard.css';
 
 const ProfitChart = ({ recipes }) => {
-  const data = recipes
-    .map(r => ({
-      name: r.name.length > 15 ? `${r.name.substring(0, 12)}...` : r.name,
-      lucro: r.cost * (r.profitMargin / 100),
-      custo: r.cost
-    }))
-    .sort((a, b) => b.lucro - a.lucro);
+  const [filter, setFilter] = useState('mais');
+
+  // Ordena receitas conforme filtro
+  const sorted = [...recipes].sort((a, b) =>
+    filter === 'mais'
+      ? b.cost * (b.profitMargin / 100) - a.cost * (a.profitMargin / 100)
+      : a.cost * (a.profitMargin / 100) - b.cost * (b.profitMargin / 100)
+  );
+
+  // Top 5 conforme filtro
+  const data = sorted.slice(0, 5).map(r => ({
+    name: r.name.length > 15 ? `${r.name.substring(0, 12)}...` : r.name,
+    lucro: r.cost * (r.profitMargin / 100),
+    custo: r.cost
+  }));
 
   return (
     <div className="chart-card">
-      <h3>Lucro Estimado por Receita</h3>
-      <ResponsiveContainer width="100%" height={300}>
+      <div className="chart-header">
+        <h3>Top 5 Receitas</h3>
+        <select
+          value={filter}
+          onChange={e => setFilter(e.target.value)}
+          className="ingredient-select"
+        >
+          <option value="mais">Mais lucrativas</option>
+          <option value="menos">Menos lucrativas</option>
+        </select>
+      </div>
+      <ResponsiveContainer width="100%" height={400}>
         <BarChart
-          layout="vertical"
           data={data}
           margin={{ left: 30, right: 20 }}
         >
-          <XAxis 
-            type="number" 
-            label={{ value: 'Valor (R$)', position: 'insideBottom' }} 
+          <XAxis
+            dataKey="name"
+            type="category"
+            tick={{ fontSize: 22 }}
           />
-          <YAxis 
-            dataKey="name" 
-            type="category" 
-            width={80} 
-            tick={{ fontSize: 12 }}
+          <YAxis
+            type="number"
+            tick={{ fontSize: 22 }}
+            label={{ value: 'Valor (R$)', angle: -90, position: 'insideLeft', fontSize: 22 }}
           />
-          <Tooltip 
-            formatter={(value, name) => 
-              name === 'Lucro' 
-                ? [`R$ ${value.toFixed(2)}`, name]
-                : [`R$ ${value.toFixed(2)}`, name]
+          <Tooltip
+            formatter={(value, name) =>
+              [`R$ ${value.toFixed(2)}`, name]
             }
           />
-          <Bar 
-          dataKey="lucro" 
-          name="Lucro"
-          fill="var(--secondary)" 
-          radius={[0, 4, 4, 0]} 
-        />
-        <Bar 
-          dataKey="custo" 
-          name="Custo"
-          fill="var(--primary)" 
-          radius={[0, 4, 4, 0]}
-          opacity={0.8}
-        />
+          <Bar
+            dataKey="lucro"
+            name="Lucro"
+            fill="var(--secondary)"
+            radius={[4, 4, 0, 0]}
+          />
+          <Bar
+            dataKey="custo"
+            name="Custo"
+            fill="var(--primary)"
+            radius={[4, 4, 0, 0]}
+            opacity={0.8}
+          />
         </BarChart>
       </ResponsiveContainer>
     </div>
