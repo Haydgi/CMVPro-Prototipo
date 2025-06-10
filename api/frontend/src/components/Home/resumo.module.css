@@ -7,15 +7,38 @@
   justify-content: space-between;
   gap: var(--dl-layout-space-fourunits);
   position: relative;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.resumo-mulher-container {
+  flex: 1 1 43%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  min-width: 0;
+  max-width: 100%;
+  height: 700px;
+  
+}
+
+.resumo-mulher-img {
+  width: 700px;
+  height: 770px;
+  object-fit: contain;
+  display: block;
+margin-top: 200px;
+
 }
 
 .resumo-image-container {
-  margin-top: 250px;
+  flex: 2 1 57%;
+  margin-top: 150px;      /* diminua conforme desejar */
   margin-bottom: 250px;
-  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  max-width: 57%;
 }
 
 .resumo-content1 {
@@ -23,6 +46,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: white;
+  text-align: center;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .resumo-content1 h1 {
@@ -30,6 +58,10 @@
   font-weight: bold;
   display: flex;
   font-size: 40px;
+}
+
+.resumo-content1 p {
+  max-width: 400px;
 }
 
 .btnUltraViolet {
@@ -96,11 +128,20 @@
   .resumo-container {
     flex-direction: column;
     gap: var(--dl-layout-space-twounits);
+    padding-left: 8px;
+    padding-right: 8px;
   }
 
+  .resumo-mulher-container,
   .resumo-image-container {
-    margin-top: 150px;
-    margin-bottom: 150px;
+    max-width: 100%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    justify-content: center;
+  }
+  .resumo-mulher-img {
+    max-width: 180px;
+    margin-bottom: 16px;
   }
   
   .resumo-content1 {

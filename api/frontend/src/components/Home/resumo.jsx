@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import styles from './resumo.module.css';
 
 const Resumo = () => {
@@ -13,9 +13,12 @@ const Resumo = () => {
     <div className={styles['container']}>
       <div className={styles['thq-section-padding']}>
         <div className={`${styles['resumo-container']} ${styles['thq-section-max-width']}`}>
+          
+          {/* Conteúdo à direita ocupando 2/3 */}
           <div className={styles['resumo-image-container']}>
             <div className={styles['resumo-content1']}>
-              <h1>Já pensou em lucrar mais no seu restaurante?</h1>
+              <h1>Já pensou em lucrar mais <br/> no seu restaurante?</h1>
+              <p>Nós temos uma solução prática e eficiente para o seu negócio que poderá lhe proporcionar maiores lucros e um posicionamento mais assertivo no mercado gastronômico.</p>
               <button
                 className={`btnUltraViolet ${styles['btnUltraViolet']}`}
                 onClick={scrollToSection}
@@ -23,6 +26,14 @@ const Resumo = () => {
                 Descubra como!
               </button>
             </div>
+          </div>
+          {/* Imagem à esquerda ocupando 1/3 */}
+          <div className={styles['resumo-mulher-container']}>
+            <img
+              src="/midia/muié.png"
+              alt="Mulher chef"
+              className={styles['resumo-mulher-img']}
+            />
           </div>
         </div>
       </div>

@@ -17,7 +17,35 @@
 }
 
 .imagem {
-    display: flex;
+    display: block;
     height: 500px;
     width: 500px;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.descricao-flex-container {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.passo-a-passo-section-header {
+    flex: 0 0 auto;
+}
+
+.textotopo {
+    flex: 1 1 0;
+    min-width: 280px;
+}
+
+@media (max-width: 900px) {
+    .descricao-flex-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .passo-a-passo-section-header,
+    .textotopo {
+        width: 100%;
+    }
 }

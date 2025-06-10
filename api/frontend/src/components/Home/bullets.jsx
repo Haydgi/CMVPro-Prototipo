@@ -6,6 +6,14 @@ const Bullets = (props) => {
   return (
     <div className={`${styles['passo-a-passo-container1']} thq-section-padding ${props.rootClassName}`} id='bullets'>
       <div className={`${styles['passo-a-passo-max-width']} thq-section-max-width`}>
+        <div className={styles['passo-a-passo-section-header']}>
+            
+            <img
+              src={ChefTriste}
+              alt={props.imageAlt}
+              className={styles['passo-a-passo-image']}
+            />
+        </div>
         <div className={`${styles['passo-a-passo-container2']}`}>
           <div className={styles['passo-a-passo-container3']}>
                 <h2>Os erros invisíveis que drenam o seu lucro</h2>
@@ -29,14 +37,6 @@ const Bullets = (props) => {
                     </li>
                 </ul>
             </div>
-        </div>
-        <div className={styles['passo-a-passo-section-header']}>
-            
-            <img
-              src={ChefTriste}
-              alt={props.imageAlt}
-              className={styles['passo-a-passo-image']}
-            />
         </div>
       </div>
     </div>
