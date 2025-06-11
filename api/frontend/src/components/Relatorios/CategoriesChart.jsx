@@ -1,6 +1,6 @@
 import React from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
-import './Dashboard.css';
+import styles from './Dashboard.module.css';
 
 const COLORS = [
   'var(--primary)',
@@ -22,20 +22,19 @@ const CategoriesChart = ({ recipes }) => {
   }));
 
   return (
-    <div className="chart-card compact">
-      <h3>Distribuição por Categoria</h3>
+    <div className={`${styles['chart-card']} ${styles.compact}`}>
+      <h3 className={styles['chart-title']}>Distribuição por Categoria</h3>
       <ResponsiveContainer width="100%" height={200}>
         <PieChart>
           <Pie
             data={data}
             cx="50%"
             cy="50%"
-            innerRadius={60}
+            innerRadius={50}
             outerRadius={80}
             paddingAngle={5}
             dataKey="value"
             label={({ name }) => name}
-            fontSize={22}
           >
             {data.map((_, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import './Dashboard.css';
+import styles from './Dashboard.module.css';
 
 const ProfitChart = ({ recipes }) => {
   const [filter, setFilter] = useState('mais');
@@ -20,13 +20,13 @@ const ProfitChart = ({ recipes }) => {
   }));
 
   return (
-    <div className="chart-card">
-      <div className="chart-header">
-        <h3>Top 5 Receitas</h3>
+    <div className={`${styles['chart-card']} ${styles['full-width']}`}>
+      <div className={styles['chart-header']}>
+        <h3 className={styles['chart-title']}>Top 5 Receitas</h3>
         <select
           value={filter}
           onChange={e => setFilter(e.target.value)}
-          className="ingredient-select"
+          className={styles['ingredient-select']}
         >
           <option value="mais">Mais lucrativas</option>
           <option value="menos">Menos lucrativas</option>
@@ -40,12 +40,12 @@ const ProfitChart = ({ recipes }) => {
           <XAxis
             dataKey="name"
             type="category"
-            tick={{ fontSize: 22 }}
+            tick={{ fontSize: 12 }}
           />
           <YAxis
             type="number"
-            tick={{ fontSize: 22 }}
-            label={{ value: 'Valor (R$)', angle: -90, position: 'insideLeft', fontSize: 22 }}
+            tick={{ fontSize: 12 }}
+            label={{ value: 'Valor (R$)', angle: -90, position: 'insideLeft', fontSize: 12 }}
           />
           <Tooltip
             formatter={(value, name) =>

@@ -1,9 +1,22 @@
 import React, { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import './Dashboard.css';
+import { FaFilter } from 'react-icons/fa';
+import styles from './Dashboard.module.css';
 
 const WasteChart = ({ ingredients }) => {
   const [filter, setFilter] = useState('maior');
+  const [showOptions, setShowOptions] = useState(false); // Controla a visibilidade das opções
+  const [menuAnimation, setMenuAnimation] = useState(''); // Controla a animação do menu
+
+  const toggleMenu = () => {
+    if (showOptions) {
+      setMenuAnimation('exit'); // Aplica a animação de saída
+      setTimeout(() => setShowOptions(false), 300); // Fecha o menu após a animação
+    } else {
+      setShowOptions(true);
+      setMenuAnimation('enter'); // Aplica a animação de entrada
+    }
+  };
 
   // Pega a versão mais recente de cada ingrediente
   const latestIngredients = [...ingredients]
@@ -27,24 +40,46 @@ const WasteChart = ({ ingredients }) => {
     .slice(0, 5);
 
   return (
-    <div className="chart-card compact">
-      <div className="chart-header">
-        <h3>Top 5 Ingredientes</h3>
-        <select
-          value={filter}
-          onChange={e => setFilter(e.target.value)}
-          className="ingredient-select"
-        >
-          <option value="maior">Maior desperdício</option>
-          <option value="menor">Menor desperdício</option>
-        </select>
+    <div className={`${styles['chart-card']} ${styles['compact']}`}>
+      <div className={styles['chart-header']}>
+        <h3 className={styles['chart-title-mini']}>
+          Desperdício de Ingrediente - <span className={styles['filter-marker']}>{filter === 'maior' ? 'Maior' : 'Menor'}</span>
+        </h3>
+        <div className={styles['select-container']}>
+          <button
+            className={styles['icon-button']}
+            onClick={toggleMenu}
+          >
+            <FaFilter />
+          </button>
+          {showOptions && (
+            <div className={`${styles['dropdown-menu']} ${styles[menuAnimation]}`}>
+              <button
+                className={styles['dropdown-item']}
+                onClick={() => {
+                  setFilter('maior');
+                  toggleMenu();
+                }}
+              >
+                Maior desperdício
+              </button>
+              <button
+                className={styles['dropdown-item']}
+                onClick={() => {
+                  setFilter('menor');
+                  toggleMenu();
+                }}
+              >
+                Menor desperdício
+              </button>
+            </div>
+          )}
+        </div>
       </div>
       <ResponsiveContainer width="100%" height={200}>
         <BarChart data={data}>
-          <XAxis dataKey="name" type="category" 
-          tick={{ fontSize: 22 }}/>
-          <YAxis type="number" domain={[0, 100]} 
-          tick={{ fontSize: 22 }}/>
+          <XAxis dataKey="name" type="category" tick={{ fontSize: 12 }} />
+          <YAxis type="number" domain={[0, 100]} tick={{ fontSize: 12 }} />
           <Tooltip formatter={(value) => [`${value}%`, 'Desperdício']} />
           <Bar
             dataKey="desperdicio"

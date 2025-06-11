@@ -114,7 +114,7 @@ const Equipe = (props) => {
               <div className="equipe-card4">
                 <img
                   alt="Joao Portes"
-                  src="/midia/joao.png"
+                  src="/midia/joaoo.png"
                   className="equipe-placeholder-image thq-img-round "
                 />
                 <div className="equipe-content6">

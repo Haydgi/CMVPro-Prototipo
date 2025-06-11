@@ -1,6 +1,6 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import './Dashboard.css';
+import styles from './Dashboard.module.css';
 
 const TimeChart = ({ recipes }) => {
   const categoryTimes = recipes.reduce((acc, recipe) => {
@@ -12,21 +12,26 @@ const TimeChart = ({ recipes }) => {
     return acc;
   }, {});
 
-  const data = Object.keys(categoryTimes).map(category => ({
-    name: category,
-    tempo: Math.round(categoryTimes[category].total / categoryTimes[category].count)
-  })).sort((a, b) => b.tempo - a.tempo);
+  const data = Object.keys(categoryTimes)
+    .map(category => ({
+      name: category,
+      tempo: Math.round(categoryTimes[category].total / categoryTimes[category].count)
+    }))
+    .sort((a, b) => b.tempo - a.tempo);
 
   return (
-    <div className="chart-card">
-      <h3>Tempo Médio por Categoria</h3>
+    <div className={`${styles['chart-card']} ${styles['full-width']}`}>
+      <h3 className={styles['chart-title']}>Tempo Médio por Categoria</h3>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data}>
-          <XAxis dataKey="name"
-            tick={{ fontSize: 22 }} />
-
-          <YAxis label={{ value: 'Minutos', angle: -90, position: 'insideLeft' }}
-            tick={{ fontSize: 22 }} />
+          <XAxis
+            dataKey="name"
+            tick={{ fontSize: 12 }}
+          />
+          <YAxis
+            label={{ value: 'Minutos', angle: -90, position: 'insideLeft', fontSize: 12 }}
+            tick={{ fontSize: 12 }}
+          />
           <Tooltip formatter={(value) => [`${value} min`, 'Tempo']} />
           <Bar
             dataKey="tempo"

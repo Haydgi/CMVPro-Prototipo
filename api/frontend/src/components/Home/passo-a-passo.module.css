@@ -201,4 +201,11 @@
   .passo-a-passo-container7 {
     width: 100%;
   }
+
+ .passo-a-passo-image {
+  width: 75% !important;
+  height: 75% !important;
+  display: block; /* Garante que a imagem seja tratada como um bloco */
+  margin: 0 auto; /* Centraliza horizontalmente */
+}
 }

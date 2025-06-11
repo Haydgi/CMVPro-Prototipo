@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 import { MdMenu } from "react-icons/md";
@@ -7,13 +7,26 @@ import { useNavigate } from 'react-router-dom';
 export default function Navbar() {
   const [menuAberto, setMenuAberto] = useState(false);
   const navigate = useNavigate();
-  
+  const menuRef = useRef(null);
+
   const handleLogout = () => {
     console.log("Usuário saiu");
-    navigate('/home');
+    navigate('/');
   };
 
+  // Fecha o menu ao clicar fora dele
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuAberto(false);
+      }
+    };
 
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="container-fluid">
@@ -54,7 +67,7 @@ export default function Navbar() {
         </button>
 
         {menuAberto && (
-          <div className="mobile-bootstrap-menu w-100 mt-2 bg-white rounded shadow-sm p-3">
+          <div ref={menuRef} className="mobile-bootstrap-menu w-100 mt-2 bg-white rounded shadow-sm p-3">
             <ul className="navbar-nav flex-column">
               <li className="nav-item">
                 <NavLink to="/receitas" className="nav-link" onClick={() => setMenuAberto(false)}>Receitas</NavLink>

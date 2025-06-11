@@ -39,13 +39,110 @@
     min-width: 280px;
 }
 
+/* Botão para revelar o texto */
+.toggle-button {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.toggle-button:hover {
+  background-color: var(--primary-dark);
+}
+
+/* Texto escondido/revelado */
+.descricao-text {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--rich-black);
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  max-height: 0;
+  overflow: hidden;
+  margin-bottom: 0;
+}
+
+/* Quando visível */
+.visible {
+  max-height: 300px; /* Define uma altura máxima para o texto */
+  opacity: 1;
+  overflow: auto; /* Permite rolar o conteúdo se exceder a altura */
+  margin-bottom: 20px;
+}
+
+/* Responsividade para telas menores que 900px */
+@media (max-width: 1200px) {
+  .descricao-text {
+    max-height: 600px; /* Limita a altura do texto */
+    overflow: auto; /* Adiciona rolagem se o conteúdo exceder a altura */
+    padding-right: 20px;
+  }
+}
+
+/* Responsividade para telas maiores que 900px */
+@media (min-width: 1201px) {
+  .toggle-button {
+    display: none; /* Esconde o botão */
+  }
+
+  .descricao-text {
+    max-height: none; /* Remove a limitação de altura */
+    opacity: 1; /* Garante que o texto esteja visível */
+    overflow: visible;
+  }
+}
+
+/* Responsividade para telas menores que 900px */
 @media (max-width: 900px) {
-    .descricao-flex-container {
-        flex-direction: column;
-        align-items: center;
-    }
-    .passo-a-passo-section-header,
-    .textotopo {
-        width: 100%;
-    }
+  .imagem {
+    height: 400px; /* Reduz a altura da imagem */
+    width: 400px; /* Reduz a largura da imagem */
+  }
+
+  .descricao-text {
+    max-height: 500px; /* Limita a altura do texto */
+  }
+
+  .textotopo p {
+    font-size: 18px;
+
+}
+}
+
+/* Responsividade para telas menores que 700px */
+@media (max-width: 750px) {
+  .imagem {
+    height: 300px; /* Reduz ainda mais a altura da imagem */
+    width: 300px; /* Reduz ainda mais a largura da imagem */
+  }
+
+  .descricao-text {
+    max-height: 400px; /* Limita a altura do texto */
+  }
+
+  .textotopo p {
+    font-size: 18px;
+
+}
+}
+
+@media (max-width: 576px) {
+  .imagem {
+    height: 200px; /* Reduz ainda mais a altura da imagem */
+    width: 200px; /* Reduz ainda mais a largura da imagem */
+  }
+
+  .descricao-text {
+    max-height: 300px; /* Limita a altura do texto */
+  }
+
+  .textotopo p {
+    font-size: 18px;
+
+}
 }

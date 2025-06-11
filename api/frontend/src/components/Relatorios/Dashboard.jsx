@@ -10,49 +10,43 @@ import CategoriesChart from './CategoriesChart';
 import UnderusedIngredients from './UnderusedIngredients';
 import AvgWaste from './AvgWaste';
 import IngredientHistory from './IngredientHistory';
-import './Dashboard.css';
+import styles from './Dashboard.module.css';
 
 const Dashboard = () => {
   return (
-    <div className="dashboard">
-
+    <div className={styles.dashboard}>
       {/* Linha 1 - Histórico */}
-      <div className="row">
+      <div className={styles.row}>
         <IngredientHistory ingredients={ingredients} />
       </div>
 
       {/* Linha 2 - Lucro Por Receita */}
-      <div className="row">
+      <div className={styles.row}>
         <ProfitChart recipes={recipes} />
       </div>
 
-      {/* Linha 3 - Ingredientes com Maior Desperdicio /// Desperdicio Medio */}
-      <div className="row ">
+      {/* Linha 3 - Ingredientes com Maior Desperdício /// Desperdício Médio */}
+      <div className={styles.row}>
         <WasteChart ingredients={ingredients} />
         <AvgWaste ingredients={ingredients} />
       </div>
 
-      {/* Linha 4 - Tempo Medio Por Categoria */}
-      <div className="row">
+      {/* Linha 4 - Tempo Médio Por Categoria */}
+      <div className={styles.row}>
         <TimeChart recipes={recipes} />
       </div>
 
-      {/*<div className="row">
-        <ComplexRecipes recipes={recipes} />
-      </div>*/}
-
-      {/* Linha 5 - Receitas Cadastradas /// Ingredientes Cadastrados /// Distribuicao Por Categoria */}
-      <div className="row">
+      {/* Linha 5 - Receitas Cadastradas /// Ingredientes Cadastrados /// Distribuição Por Categoria */}
+      <div className={styles.row}>
         <RecipeCount recipes={recipes} />
         <IngredientCount ingredients={ingredients} />
         <CategoriesChart recipes={recipes} />
       </div>
 
       {/* Linha 6 - Ingredientes Subutilizados */}
-      <div className="row">
+      <div className={styles.row}>
         <UnderusedIngredients recipes={recipes} ingredients={ingredients} />
       </div>
-      
     </div>
   );
 };

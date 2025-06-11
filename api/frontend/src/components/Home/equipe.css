@@ -416,48 +416,214 @@
 .equipe-text41 {
   display: inline-block;
 }
- 
-@media(max-width: 991px) {
-  .equipe-section-title {
-    width: 50%;
-  }
-}
- 
-@media(max-width: 767px) {
+
+/* Responsividade para telas menores que 1250px */
+@media (max-width: 1250px) {
   .equipe-max-width {
-    align-items: center;
-    flex-direction: column;
+    gap: var(--dl-layout-space-fourunits); /* Reduz o espaçamento entre os elementos */
   }
+
+  .equipe-card1,
+  .equipe-card2,
+  .equipe-card3,
+  .equipe-card4,
+  .equipe-card5 {
+    max-width: 250px; /* Reduz a largura máxima dos cards */
+  }
+
+  .equipe-placeholder-image {
+    width: 250px; /* Reduz a largura da imagem */
+    height: 250px; /* Reduz a altura da imagem */
+  }
+
+}
+
+/* Responsividade para telas menores que 1000px */
+@media (max-width: 1000px) {
+
+  
+  .equipe-max-width {
+    flex-direction: column; /* Empilha os elementos verticalmente */
+    align-items: center; /* Centraliza os elementos */
+    gap: var(--dl-layout-space-threeunits); /* Reduz ainda mais o espaçamento */
+  }
+
+  .equipe-card1,
+  .equipe-card2,
+  .equipe-card3,
+  .equipe-card4,
+  .equipe-card5 {
+    max-width: 75% !important; /* As fotos ocupam 80% do espaço */
+  }
+
+  .equipe-placeholder-image {
+    width: 100%; /* Ajusta a largura da imagem para 80% */
+    height: auto; /* Mantém a proporção da imagem */
+  }
+
+  .equipe-placeholder-image {
+  width: 100%;
+  max-width: 300px !important;
+  height: auto !important;
+  border-radius: 50% !important;
+  object-fit: cover;
+}
   .equipe-section-title {
-    width: 100%;
+    width: 100%; /* Faz o título ocupar toda a largura */
+    text-align: center; /* Centraliza o texto do título */
+  }
+
+  .equipe-row1,
+  .equipe-row2 {
+    flex-direction: column; /* Empilha os elementos das linhas */
+    align-items: center; /* Centraliza os elementos */
+  }
+
+  .equipe-container1,
+  .equipe-container2 {
+    flex-direction: column; /* Empilha os elementos dos contêineres */
+    align-items: center; /* Centraliza os elementos */
   }
 }
- 
-@media(max-width: 479px) {
-  .equipe-text10 {
-    text-align: center;
+
+/* Responsividade para telas menores que 576px (celulares) */
+@media (max-width: 576px) {
+  .equipe-max-width {
+    flex-direction: column; /* Empilha os elementos verticalmente */
+    align-items: center; /* Centraliza os elementos */
+    gap: var(--dl-layout-space-twounits); /* Ajusta o espaçamento */
   }
-  .equipe-button {
-    width: 100%;
+
+  .equipe-card1,
+  .equipe-card2,
+  .equipe-card3,
+  .equipe-card4,
+  .equipe-card5 {
+    max-width: 100%; /* Os cards ocupam 100% da largura */
+    margin: 0; /* Remove margens laterais */
   }
-  .equipe-text12 {
-    text-align: center;
+
+  .equipe-placeholder-image {
+    width: 100%; /* Ajusta a largura da imagem para 100% */
+    height: auto; /* Mantém a proporção da imagem */
   }
-  .equipe-text13 {
-    text-align: center;
+
+  .equipe-section-title {
+    width: 100%; /* Faz o título ocupar toda a largura */
+    text-align: center; /* Centraliza o texto do título */
   }
-  .equipe-row1 {
-    align-items: center;
-    flex-direction: column;
-  }
-  .equipe-container1 {
-    flex-direction: column;
-  }
+
+  .equipe-row1,
   .equipe-row2 {
-    align-items: center;
-    flex-direction: column;
+    flex-direction: column; /* Empilha os elementos das linhas */
+    align-items: center; /* Centraliza os elementos */
   }
+
+  .equipe-container1,
   .equipe-container2 {
+    flex-direction: column; /* Empilha os elementos dos contêineres */
+    align-items: center; /* Centraliza os elementos */
+  }
+}
+
+/* ======= BASE RESPONSIVO ======= */
+.equipe-placeholder-image {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.equipe-container1,
+.equipe-container2 {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px;
+}
+
+.equipe-card1,
+.equipe-card2,
+.equipe-card3,
+.equipe-card4,
+.equipe-card5 {
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 16px;
+}
+
+/* ======= BREAKPOINT: 1100px ======= */
+@media (max-width: 1100px) {
+  .equipe-card1,
+  .equipe-card2,
+  .equipe-card3,
+  .equipe-card4,
+  .equipe-card5 {
+    max-width: 45%;
+  }
+
+  .equipe-placeholder-image {
+    max-width: 220px;
+  }
+
+  .link-container {
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+}
+
+/* ======= BREAKPOINT: 900px ======= */
+@media (max-width: 900px) {
+  .equipe-card1,
+  .equipe-card2,
+  .equipe-card3,
+  .equipe-card4,
+  .equipe-card5 {
+    max-width: 48%;
+  }
+
+  .equipe-placeholder-image {
+    max-width: 180px;
+  }
+
+  .equipe-text25 {
+    font-size: 15px;
+  }
+}
+
+/* ======= BREAKPOINT: 576px (mobile) ======= */
+@media (max-width: 576px) {
+  .equipe-card1,
+  .equipe-card2,
+  .equipe-card3,
+  .equipe-card4,
+  .equipe-card5 {
+    max-width: 100%;
+    margin: 12px 0;
+  }
+
+  .equipe-placeholder-image {
+    max-width: 150px;
+  }
+
+  .equipe-text25 {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .link-styles1,
+  .link-styles2 {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .link-container {
     flex-direction: column;
+    align-items: center;
+    gap: 6px;
   }
 }

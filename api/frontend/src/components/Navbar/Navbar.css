@@ -174,7 +174,7 @@ img {
   font-weight: bold;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .navbar {
     padding-top: 20px;
     height: auto;
@@ -196,6 +196,24 @@ img {
     display: none;
   }
 
+  /* Esconde a navbar desktop a partir de 900px */
+  .navbar.d-md-flex {
+    display: none !important;
+  }
+
+  .navbar.d-md-none {
+    display: flex !important;
+  }
+
+  /* Ajusta o ícone do menu para a esquerda */
+.MdMenu {
+  color: var(--sunset);
+  font-size: 26px;
+  position: absolute;
+  right: 10px; /* Move o ícone para a esquerda */
+  top: 50%;
+  transform: translateY(-50%);
+}
 }
 
 .mobile-bootstrap-menu {
@@ -236,7 +254,10 @@ img {
 .mobile-bootstrap-menu .nav-link.active {
   color: var(--sunset); /* Cor de destaque para a página ativa */
   font-weight: bold;
-  border-bottom: 2px solid var(--ultra-violet) !important; /* Linha mais grossa para a página ativa */
+  display: inline-block; /* necessário para aplicar largura */
+  border-bottom: 2px solid var(--ultra-violet) !important;
+  width: 30%;
+  margin: 0 auto; /* centraliza a borda abaixo do texto */
 }
 
 /* Estilo do botão de logout no mobile */

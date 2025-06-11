@@ -1,15 +1,15 @@
 import React from 'react';
-import './Dashboard.css';
+import styles from './Dashboard.module.css';
 
 const RecipeCount = ({ recipes }) => {
   const uniqueRecipes = [...new Set(recipes.map(i => i.name))].length;
 
   return (
-    <div className="chart-card compact">
-      <h3>Receitas Cadastrados</h3>
-      <div className="metric-value">
+    <div className={`${styles['chart-card']} ${styles.compact}`}>
+      <h3 className={styles['chart-title']}>Receitas Cadastradas</h3>
+      <div className={styles['metric-value']}>
         {uniqueRecipes}
-        <span className="metric-label">Receitas únicos</span>
+        <span className={styles['metric-label']}>Receitas únicas</span>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import './Dashboard.css';
+import styles from './Dashboard.module.css';
 
 const AvgWaste = ({ ingredients }) => {
   const latestIngredients = [...ingredients]
@@ -13,12 +13,12 @@ const AvgWaste = ({ ingredients }) => {
     : 0;
 
   return (
-    <div className="chart-card compact">
+    <div className={styles['chart-card'] + ' ' + styles.compact}>
       <h3>Desperdício Médio</h3>
-      <div className="metric-value large">
+      <div className={styles['metric-value'] + ' ' + styles.large}>
         {avgWaste}%
       </div>
-      <div className="metric-subtext">Média ponderada do sistema</div>
+      <div className={styles['metric-subtext']}>Média ponderada do sistema</div>
     </div>
   );
 };

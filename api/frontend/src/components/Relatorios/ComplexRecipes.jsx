@@ -1,6 +1,6 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import './Dashboard.css';
+import styles from './Dashboard.module.css';
 
 const ComplexRecipes = ({ recipes }) => {
   const data = [...recipes]
@@ -12,18 +12,21 @@ const ComplexRecipes = ({ recipes }) => {
     }));
 
   return (
-    <div className="chart-card">
-      <h3>Receitas Mais Complexas (Tempo)</h3>
+    <div className={`${styles['chart-card']} ${styles.compact}`}>
+      <h3 className={styles['chart-title']}>Receitas Mais Complexas (Tempo)</h3>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data}>
-          <XAxis dataKey="name" />
-          <YAxis label={{ value: 'Minutos', angle: -90, position: 'insideLeft' }} />
+          <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+          <YAxis
+            label={{
+              value: 'Minutos',
+              angle: -90,
+              position: 'insideLeft',
+              fontSize: 12
+            }}
+          />
           <Tooltip formatter={(value) => [`${value} min`, 'Tempo']} />
-          <Bar 
-  dataKey="tempo" 
-  fill="var(--secondary-dark)" 
-  radius={[4, 4, 0, 0]} 
-/>
+          <Bar dataKey="tempo" fill="var(--secondary-dark)" radius={[4, 4, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>

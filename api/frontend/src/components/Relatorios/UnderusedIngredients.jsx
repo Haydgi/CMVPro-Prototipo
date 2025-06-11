@@ -1,5 +1,5 @@
 import React from 'react';
-import './Dashboard.css';
+import styles from './Dashboard.module.css';
 
 const UnderusedIngredients = ({ ingredients, recipes }) => {
   // 1. Pegar apenas a versão mais recente de cada ingrediente
@@ -22,21 +22,23 @@ const UnderusedIngredients = ({ ingredients, recipes }) => {
   // 4. Mensagem quando não houver ingredientes subutilizados
   if (underused.length === 0) {
     return (
-      <div className="chart-card compact list-card">
-        <h3>Ingredientes Subutilizados</h3>
-        <p className="no-data-message">Todos os ingredientes estão sendo utilizados em receitas</p>
+      <div className={`${styles['chart-card']} ${styles['compact']} ${styles['list-card']}`}>
+        <h3 className={styles['chart-title']}>Ingredientes Subutilizados</h3>
+        <p className={styles['no-data-message']}>
+          Todos os ingredientes estão sendo utilizados em receitas
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="chart-card compact list-card">
-      <h3>Ingredientes Subutilizados</h3>
-      <ul>
+    <div className={`${styles['chart-card']} ${styles['compact']} ${styles['list-card']}`}>
+      <h3 className={styles['chart-title']}>Ingredientes Subutilizados</h3>
+      <ul className={styles['ingredient-list']}>
         {underused.map(ing => (
-          <li key={ing.name}>
-            <span className="ing-name">{ing.name}</span>
-            <span className="ing-category">{ing.category}</span>
+          <li key={ing.name} className={styles['ingredient-item']}>
+            <span className={styles['ing-name']}>{ing.name}</span>
+            <span className={styles['ing-category']}>{ing.category}</span>
           </li>
         ))}
       </ul>

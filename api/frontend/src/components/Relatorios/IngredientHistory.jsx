@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import './Dashboard.css';
+import styles from './Dashboard.module.css';
 
 const IngredientHistory = ({ ingredients }) => {
   const [selectedIngredient, setSelectedIngredient] = useState('Arroz Arbóreo');
@@ -19,13 +19,13 @@ const IngredientHistory = ({ ingredients }) => {
   const uniqueIngredients = [...new Set(ingredients.map(i => i.name))].sort();
 
   return (
-    <div className="chart-card full-width">
-      <div className="chart-header">
-        <h3>Custo Histórico do Ingrediente</h3>
-        <select 
-          value={selectedIngredient} 
+    <div className={`${styles['chart-card']} ${styles['full-width']}`}>
+      <div className={styles['chart-header']}>
+        <h3 className={styles['chart-title']}>Custo Histórico do Ingrediente</h3>
+        <select
+          value={selectedIngredient}
           onChange={(e) => setSelectedIngredient(e.target.value)}
-          className="ingredient-select"
+          className={styles['ingredient-select']}
         >
           {uniqueIngredients.map(name => (
             <option key={name} value={name}>{name}</option>
@@ -35,32 +35,42 @@ const IngredientHistory = ({ ingredients }) => {
 
       <ResponsiveContainer width="100%" height={400}>
         <LineChart data={historicalData}>
-          <XAxis dataKey="date" tick={{ fontSize: 22 }} />
-          <YAxis yAxisId="left" label={{ value: 'Custo (R$)', angle: -90, position: 'insideLeft', fontSize: 22 }} tick={{ fontSize: 22 }}/>
-          <YAxis yAxisId="right" orientation="right" label={{ value: 'Desperdício (%)', angle: 90, position: 'insideRight', fontSize: 22 }} tick={{ fontSize: 22 }}/>
-          <Tooltip 
-            formatter={(value, name) => name === 'Custo' 
-              ? [`R$ ${Number(value).toFixed(2)}`, name] 
-              : [`${value}%`, name]
+          <XAxis dataKey="date" tick={{ fontSize: 12 }} />
+          <YAxis
+            yAxisId="left"
+            label={{ value: 'Custo (R$)', angle: -90, position: 'insideLeft', fontSize: 12 }}
+            tick={{ fontSize: 12 }}
+          />
+          <YAxis
+            yAxisId="right"
+            orientation="right"
+            label={{ value: 'Desperdício (%)', angle: 90, position: 'insideRight', fontSize: 12 }}
+            tick={{ fontSize: 12 }}
+          />
+          <Tooltip
+            formatter={(value, name) =>
+              name === 'Custo'
+                ? [`R$ ${Number(value).toFixed(2)}`, name]
+                : [`${value}%`, name]
             }
           />
-          <Legend wrapperStyle={{ fontSize: 22 }} verticalAlign="bottom" align="center" />
-          <Line 
+          <Legend wrapperStyle={{ fontSize: 12 }} verticalAlign="bottom" align="center" />
+          <Line
             yAxisId="left"
-            type="monotone" 
-            dataKey="cost" 
-            name="Custo por Unidade" 
-            stroke="var(--primary)" 
+            type="monotone"
+            dataKey="cost"
+            name="Custo por Unidade"
+            stroke="var(--primary)"
             strokeWidth={3}
             dot={{ r: 5 }}
             activeDot={{ r: 6 }}
           />
-          <Line 
+          <Line
             yAxisId="right"
-            type="monotone" 
-            dataKey="waste" 
-            name="Taxa de Desperdício" 
-            stroke="var(--secondary-dark)" 
+            type="monotone"
+            dataKey="waste"
+            name="Taxa de Desperdício"
+            stroke="var(--secondary-dark)"
             strokeWidth={3}
             dot={{ r: 5 }}
           />

@@ -1,6 +1,6 @@
 .resumo-container {
   width: 100%;
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
   display: flex;
   align-items: center;
@@ -9,6 +9,8 @@
   position: relative;
   padding-left: 40px;
   padding-right: 40px;
+  padding-top: 80px; /* Adiciona espaço para evitar sobreposição com a navbar */
+  box-sizing: border-box;
 }
 
 .resumo-mulher-container {
@@ -125,11 +127,15 @@ margin-top: 200px;
 }
 
 @media (max-width: 991px) {
+  .resumo-mulher-img {
+    display: none;
+  }
   .resumo-container {
     flex-direction: column;
     gap: var(--dl-layout-space-twounits);
     padding-left: 8px;
     padding-right: 8px;
+    padding-top: 200px !important;
   }
 
   .resumo-mulher-container,
@@ -139,22 +145,79 @@ margin-top: 200px;
     margin-bottom: 50px;
     justify-content: center;
   }
-  .resumo-mulher-img {
-    max-width: 180px;
-    margin-bottom: 16px;
-  }
   
   .resumo-content1 {
-    margin-top: 0;
-    padding: 0 20px;
+    width: 90%; /* Faz o conteúdo ocupar toda a largura */
+    padding: 50px; /* Ajusta o padding para manter o espaçamento interno */
     text-align: center;
+    gap: 22px;
   }
   
   .resumo-content1 h1 {
-    font-size: 32px;
+    font-size: 28px;
   }
-  
-  .resumo-content1 h2 {
-    font-size: 24px;
+
+}
+/* Esconde a imagem do resumo-mulher a partir de 1000px */
+
+/* Responsividade para telas menores que 768px */
+@media (max-width: 768px) {
+
+  .resumo-content1 {
+    width: 90%; /* Faz o conteúdo ocupar toda a largura */
+    padding: 50px; /* Ajusta o padding para manter o espaçamento interno */
+    text-align: center;
+    gap: 22px;
+  }
+
+  .resumo-content1 h1 {
+    font-size: 28px;
+  }
+
+  .resumo-content1 p {
+    font-size: 18px;
+    max-width: 300px;
+  }
+}
+
+/* Responsividade para telas menores que 576px (celulares) */
+@media (max-width: 576px) {
+  .resumo-container {
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 40px; /* Reduz ainda mais o espaço superior em celulares */
+  }
+
+  .resumo-content1 {
+    width: 90%; /* Faz o conteúdo ocupar toda a largura */
+    padding: 50px; /* Ajusta o padding para manter o espaçamento interno */
+    text-align: center;
+    gap: 12px;
+  }
+
+  .resumo-content1 h1 {
+    font-size: 30px;
+  }
+
+  .resumo-content1 p {
+    font-size: 20px;
+    max-width: 100%; /* Permite que o texto ocupe toda a largura */
+  }
+
+  .btnUltraViolet {
+    padding: 8px 16px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 1050px) {
+  .resumo-mulher-container{
+  flex: 1 1 60%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  min-width: 0;
+  max-width: 80%;
+  height: 600px !important;
   }
 }

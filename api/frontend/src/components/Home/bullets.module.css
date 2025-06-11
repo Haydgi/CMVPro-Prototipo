@@ -73,6 +73,10 @@
   .passo-a-passo-max-width {
     flex-direction: column;
   }
+  .passo-a-passo-section-header {
+    position: static;
+    margin-bottom: var(--dl-layout-space-twounits);
+  }
 }
  
 @media(max-width: 767px) {
@@ -95,5 +99,92 @@
   }
   .passo-a-passo-container7 {
     width: 100%;
+  }
+}
+
+/* Responsividade para telas menores que 1400px */
+@media (max-width: 1400px) {
+  .passo-a-passo-container1 {
+    margin-bottom: 100px; /* Reduz o espaçamento inferior */
+  }
+
+  .passo-a-passo-max-width {
+    gap: var(--dl-layout-space-threeunits); /* Reduz o espaçamento entre os elementos */
+  }
+
+  .passo-a-passo-image {
+    width: 450px; /* Reduz a largura da imagem */
+    height: 400px; /* Reduz a altura da imagem */
+  }
+}
+
+/* Responsividade para telas menores que 1100px */
+@media (max-width: 1100px) {
+  .passo-a-passo-section-header {
+    position: static;
+    margin-bottom: var(--dl-layout-space-twounits);
+  }
+  .passo-a-passo-container1 {
+    padding: 0 20px; /* Adiciona padding lateral */
+  }
+
+  .passo-a-passo-max-width {
+    flex-direction: column; /* Empilha os elementos verticalmente */
+    align-items: center;
+  }
+
+  .passo-a-passo-image {
+    width: 400px; /* Reduz ainda mais a largura da imagem */
+    height: 400px; /* Reduz ainda mais a altura da imagem */
+  }
+
+  .list {
+    font-size: 22px; /* Reduz o tamanho da fonte da lista */
+  }
+}
+
+/* Responsividade para telas menores que 900px */
+@media (max-width: 900px) {
+  .passo-a-passo-container1 {
+    margin-bottom: 80px; /* Reduz o espaçamento inferior */
+  }
+
+  .passo-a-passo-image {
+    width: 350px; /* Ajusta a largura da imagem */
+    height: 350px; /* Ajusta a altura da imagem */
+  }
+
+  .passo-a-passo-section-header {
+    text-align: center; /* Centraliza o cabeçalho */
+  }
+
+  .list {
+    font-size: 20px; /* Reduz ainda mais o tamanho da fonte da lista */
+  }
+}
+
+/* Responsividade para telas menores que 576px */
+@media (max-width: 576px) {
+  .passo-a-passo-container1 {
+    padding: 0 10px; /* Reduz o padding lateral */
+    margin-bottom: 50px; /* Reduz o espaçamento inferior */
+  }
+
+  .passo-a-passo-image {
+    width: 100%; /* Faz a imagem ocupar toda a largura disponível */
+    height: auto; /* Ajusta a altura proporcionalmente */
+  }
+
+  .passo-a-passo-section-header {
+    text-align: center; /* Centraliza o cabeçalho */
+    margin-bottom: var(--dl-layout-space-unit); /* Reduz o espaçamento inferior */
+  }
+
+  .list {
+    font-size: 18px; /* Reduz o tamanho da fonte da lista */
+  }
+
+  .appeal {
+    font-size: 12px; /* Reduz o tamanho da fonte do texto de apelo */
   }
 }
