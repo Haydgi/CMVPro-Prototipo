@@ -11,6 +11,29 @@ function Receitas() {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [mostrarModalEditar, setMostrarModalEditar] = useState(false);
   const [receitaSelecionada, setReceitaSelecionada] = useState(null);
+  const [itensPorPagina, setItensPorPagina] = useState(8); // Padrão: 8 itens por página
+
+  // Detecta a largura da tela e ajusta o número de itens por página
+  useEffect(() => {
+    const ajustarItensPorPagina = () => {
+      if (window.innerWidth <= 576) {
+        setItensPorPagina(2); // Mobile: 2 itens por página
+      } else if (window.innerWidth <= 768 && window.innerWidth > 576) {
+        setItensPorPagina(4);
+      } else if (window.innerWidth <= 991 && window.innerWidth > 768) {
+        setItensPorPagina(6);
+      } else {
+        setItensPorPagina(8); // Padrão: 8 itens por página
+      }
+    };
+
+    ajustarItensPorPagina(); // Ajusta ao carregar a página
+    window.addEventListener('resize', ajustarItensPorPagina); // Ajusta ao redimensionar a janela
+
+    return () => {
+      window.removeEventListener('resize', ajustarItensPorPagina); // Remove o listener ao desmontar
+    };
+  }, []);
 
   const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
   const apiUrl = `${baseUrl}/api/receitas`;
@@ -115,6 +138,85 @@ function Receitas() {
       Swal.fire('Erro', 'Não foi possível remover a receita.', 'error');
     }
   };
+
+  const renderCard = (receita) => (
+    <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" key={receita.id}>
+      <div
+        className={styles.cardReceita}
+        onClick={() => {
+          setReceitaSelecionada(receita);
+          setMostrarModalEditar(true);
+        }}
+        style={{ cursor: "pointer" }}
+      >
+        {receita.imagem ? (
+          <div
+            className="rounded mb-2 border"
+            style={{
+              width: "170px",
+              height: "170px",
+              backgroundImage: `url(${receita.imagem})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+          />
+        ) : (
+          <div
+            className="rounded bg-light d-flex align-items-center justify-content-center mb-2 border"
+            style={{
+              width: "170px",
+              height: "170px",
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+          >
+            <span className="text-muted">Sem imagem</span>
+          </div>
+        )}
+
+        <h5 className="fw-bold mb-1">{receita.nome}</h5>
+        <p className="mb-1 fs-6">{receita.categoria}</p>
+
+        <div className="d-flex justify-content-between fs-6 mb-1">
+          <span>⏱ {receita.tempoDePreparo} min</span>
+          <span>Lucro: {receita.porcentagemDeLucro}%</span>
+        </div>
+
+        <div className="d-flex justify-content-between align-items-center">
+          <p className="fw-bold mb-0">
+            Custo: R$ {Number(receita.custoTotalIngredientes).toFixed(2)} Uni.
+          </p>
+          <i
+            className={styles.Trash}
+            style={{ cursor: "pointer" }}
+            onClick={(e) => {
+              e.stopPropagation();
+              Swal.fire({
+                title: 'Tem certeza?',
+                text: 'Você deseja excluir esta receita?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#EF4444',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sim, excluir',
+                cancelButtonText: 'Cancelar',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  removerReceita(receita.id);
+                  Swal.fire('Excluído!', 'A receita foi removida.', 'success');
+                }
+              });
+            }}
+            title="Excluir"
+          >
+            <FaTrash />
+          </i>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <ModelPage
@@ -221,6 +323,9 @@ function Receitas() {
         )
       }}
       itensPorPagina={8}
+
+      renderCard={renderCard}
+      itensPorPagina={itensPorPagina} // Dinamicamente ajustado
     />
   );
 }

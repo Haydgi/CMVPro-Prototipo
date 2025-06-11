@@ -21,33 +21,35 @@
  
 .passo-a-passo-section-header {
   gap: var(--dl-layout-space-oneandhalfunits);
-  top: 10%;
+  top: 0%;
   display: flex;
   position: sticky;
   align-items: flex-start;
   flex-direction: column;
+  scroll-margin-top: 25px;
 }
- 
+
 .passo-a-passo-actions {
   gap: var(--dl-layout-space-unit);
   display: flex;
   align-items: flex-start;
 }
- 
+
 .passo-a-passo-container3 {
   grid-area: span 1/span 1/span 1/span 1;
 }
  
 .passo-a-passo-container4 {
-  top: 10%;
+  top: 0%;
   position: sticky;
   transform: rotate(-2deg);
   margin-bottom: var(--dl-layout-space-twounits);
-  background-color: var(--dl-color-theme-accent1);
+  background-color: var(--ultra-violet);
 }
  
 .passo-a-passo-text12 {
   text-align: center;
+  color: var(--white-smoke);
 }
  
 .passo-a-passo-text13 {
@@ -57,6 +59,7 @@
   font-size: 40px;
   font-style: normal;
   font-weight: 700;
+  color: var(--white-smoke);
 }
  
 .passo-a-passo-container5 {
@@ -65,6 +68,10 @@
   transform: rotate(2deg);
   margin-bottom: var(--dl-layout-space-twounits);
   background-color: var(--dl-color-theme-accent2);
+}
+
+.card-roxo {
+  color: var(--white-smoke);
 }
  
 .passo-a-passo-text15 {
@@ -77,7 +84,7 @@
   position: absolute;
   font-size: 40px;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 700;  
 }
  
 .passo-a-passo-container6 {
@@ -85,11 +92,12 @@
   position: sticky;
   transform: rotate(-2deg);
   margin-bottom: var(--dl-layout-space-twounits);
-  background-color: var(--dl-color-theme-accent1);
+  background-color: var(--ultra-violet);
 }
  
 .passo-a-passo-text18 {
   text-align: center;
+  color: var(--white-smoke);
 }
  
 .passo-a-passo-text19 {
@@ -99,6 +107,7 @@
   font-size: 40px;
   font-style: normal;
   font-weight: 700;
+  color: var(--white-smoke);
 }
  
 .passo-a-passo-container7 {
@@ -122,29 +131,35 @@
 }
  
 .passo-a-passo-image {
-  width: 496px;
-  height: 438px;
+  margin-top: 30px;
+  image-rendering: auto;
+  width: 510px;
+  height: 470px;
   object-fit: cover;
 }
  
 .passo-a-passo-text23 {
   display: inline-block;
+  font-size: 18px;
 }
  
 .passo-a-passo-text24 {
   display: inline-block;
+  font-size: 18px;
 }
- 
+
 .passo-a-passo-text25 {
   display: inline-block;
 }
  
 .passo-a-passo-text26 {
   display: inline-block;
+  font-size: 18px;
 }
  
 .passo-a-passo-text27 {
   display: inline-block;
+  color: var(--white-smoke)
 }
  
 .passo-a-passo-text28 {
@@ -158,8 +173,6 @@
 .passo-a-passo-text30 {
   display: inline-block;
 }
- 
-
  
 @media(max-width: 991px) {
   .passo-a-passo-max-width {
@@ -188,4 +201,11 @@
   .passo-a-passo-container7 {
     width: 100%;
   }
+
+ .passo-a-passo-image {
+  width: 75% !important;
+  height: 75% !important;
+  display: block; /* Garante que a imagem seja tratada como um bloco */
+  margin: 0 auto; /* Centraliza horizontalmente */
+}
 }

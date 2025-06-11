@@ -13,6 +13,29 @@ function Despesas() {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [mostrarModalEditar, setMostrarModalEditar] = useState(false);
   const [despesaSelecionada, setDespesaSelecionada] = useState(null);
+  const [itensPorPagina, setItensPorPagina] = useState(12); // Padrão: 12 itens por página
+
+  // Ajusta o número de itens por página dinamicamente
+ useEffect(() => {
+    const ajustarItensPorTamanho = () => {
+      const largura = window.innerWidth;
+
+      if (largura < 577) {
+        setItensPorPagina(4);
+      } else if (largura < 761) {
+        setItensPorPagina(4);
+      } else if (largura < 992) {
+        setItensPorPagina(6);
+      } else {
+        setItensPorPagina(8);
+      }
+    };
+
+    ajustarItensPorTamanho();
+    window.addEventListener('resize', ajustarItensPorTamanho);
+
+    return () => window.removeEventListener('resize', ajustarItensPorTamanho);
+  }, []);
 
   useEffect(() => {
     const fetchDespesas = async () => {
@@ -68,6 +91,17 @@ function Despesas() {
 
   const removerDespesa = (id) => {
     setDespesas((prev) => prev.filter((d) => d.id !== id));
+  };
+
+  // Função para adicionar uma despesa genérica
+  const adicionarDespesaGenerica = () => {
+    const despesaGenerica = {
+      id: despesas.length + 1,
+      nome: "Despesa Genérica",
+      custoMensal: 100.0,
+      tempoOperacional: 10,
+    };
+    setDespesas((prev) => [...prev, despesaGenerica]);
   };
 
   const renderCard = (despesa) => (
@@ -126,7 +160,14 @@ function Despesas() {
 
   return (
     <ModelPage
-      titulo="Despesas cadastradas"
+      titulo={
+        <span
+          onClick={adicionarDespesaGenerica}
+          style={{ cursor: "pointer", textDecoration: "underline" }}
+        >
+          Despesas cadastradas
+        </span>
+      }
       dados={despesas}
       salvarItem={salvarDespesa}
       removerItem={removerDespesa}
@@ -150,7 +191,7 @@ function Despesas() {
         )
       }
       renderCard={renderCard}
-      itensPorPagina={12}
+      itensPorPagina={itensPorPagina} // Dinamicamente ajustado
     />
   );
 }

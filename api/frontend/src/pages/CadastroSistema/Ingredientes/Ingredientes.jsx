@@ -16,8 +16,30 @@ function Ingredientes() {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [mostrarModalEditar, setMostrarModalEditar] = useState(false);
   const [ingredienteSelecionado, setIngredienteSelecionado] = useState(null);
+  const [itensPorPagina, setItensPorPagina] = useState(12); 
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+
+  useEffect(() => {
+    const ajustarItensPorTamanho = () => {
+      const largura = window.innerWidth;
+
+      if (largura < 577) {
+        setItensPorPagina(4);
+      } else if (largura < 761) {
+        setItensPorPagina(6);
+      } else if (largura < 992) {
+        setItensPorPagina(9);
+      } else {
+        setItensPorPagina(12);
+      }
+    };
+
+    ajustarItensPorTamanho();
+    window.addEventListener('resize', ajustarItensPorTamanho);
+
+    return () => window.removeEventListener('resize', ajustarItensPorTamanho);
+  }, []);
 
   const iconesCategorias = {
     Carnes: <GiMeat />,
@@ -236,7 +258,7 @@ function Ingredientes() {
         )
       }
       renderCard={renderCard}
-      itensPorPagina={8}
+      itensPorPagina={itensPorPagina}
     />
   );
 }

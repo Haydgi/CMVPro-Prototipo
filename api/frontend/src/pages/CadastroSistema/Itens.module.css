@@ -1,17 +1,17 @@
 /* Centralizar o título e alinhar a barra de pesquisa à direita */
 .title {
-  font-size: 3.2rem;
+  font-size: 2.5rem;
   font-family: "Lobster Two", cursive; /* Cor preta */
   white-space: nowrap; /* Impede que o texto quebre em várias linhas */
   text-decoration-line: underline;
+  margin-right: 20px; /* Espaçamento entre o título e os elementos ao lado */
 }
 
 /* Estilo para o container da barra de pesquisa */
 .searchBarContainer {
-  position: relative; /* Necessário para posicionar o botão da lupa */
   display: flex;
   align-items: center;
-  width: auto; /* Ajusta a largura para ser pequena */
+  margin-right: 10px; /* Espaçamento entre a barra de pesquisa e o botão */
 }
 
 /* Estilo para o campo de pesquisa */
@@ -42,28 +42,6 @@
   box-shadow: 0 0 8px var(--sunset) !important; /* Sombra verde ao focar */
 }
 
-/* Estilo para o botão de pesquisa */
-.searchButton {
-  position: absolute; /* Posiciona o botão dentro do campo */
-  right: 10px; /* Alinha à direita dentro do campo */
-  top: 50%; /* Centraliza verticalmente */
-  transform: translateY(-50%);
-  background: none; /* Fundo transparente */
-  border: none; /* Remove borda */
-  color: var(--ultra-violet); /* Cor do ícone */
-  font-size: 1.2rem; /* Tamanho do ícone */
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.3s ease;
-}
-
-.searchButton:hover {
-  color: var(--rich-black); /* Cor verde ao passar o mouse */
-}
-
 /* Botão de adicionar */
 .addBtn {
   background-color: var(--ultra-violet);
@@ -79,6 +57,54 @@
   cursor: pointer !important;
   transition: background-color 0.3s ease-in-out !important;
   padding: 0 !important; /* Remove padding extra que pode empurrar o ícone */
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  font-weight: bold;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  margin-bottom: 20px;
+  position: fixed; /* Fixa a paginação na parte inferior */
+  bottom: 20px; /* Alinha na parte inferior da tela */
+  left: 0;
+  width: 100%; /* Garante que ocupe toda a largura da tela */
+  z-index: 10; /* Garante que fique acima de outros elementos */
+}
+
+/* Botão de adicionar - versão mobile */
+@media (max-width: 576px) {
+  .addBtn {
+    display: none !important; /* Esconde o botão na barra */
+  }
+
+  .floatingAddBtn {
+    display: flex !important; /* Mostra o botão flutuante */
+    position: fixed !important;
+    bottom: 40px !important; /* Alinha ao canto inferior */
+    right: 20px !important; /* Alinha à direita */
+    background-color: var(--ultra-violet) !important;
+    color: var(--white) !important;
+    border: none !important;
+    border-radius: 50% !important; /* Botão circular */
+    width: 60px !important;
+    height: 60px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.5rem !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2) !important;
+    
+    cursor: pointer !important;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out !important;
+  }
+
+  .floatingAddBtn:hover {
+    background-color: var(--sunset) !important; /* Cor ao passar o mouse */
+    transform: scale(1.1) !important; /* Leve aumento no hover */
+  }
 }
 
 .emptyState {
@@ -302,17 +328,20 @@
 .pagination {
   display: flex;
   justify-content: center;
+  list-style: none;
+  font-weight: bold;
   align-items: center;
   list-style: none;
   gap: 8px;
-  padding: 3px 0;
+  padding: 0;
   margin-bottom: 20px;
   position: absolute; /* Fixa a paginação dentro do container */
-  bottom: 0; /* Alinha na parte inferior do container */
+  bottom: 40; /* Alinha na parte inferior do container */
   left: 0;
   width: 100%; /* Garante que ocupe toda a largura do container */
-  z-index: 1000; /* Garante que fique acima de outros elementos */
+  
 }
+
 
 .pageItem {
   border: 1px solid var(--ultra-violet); /* Borda roxa */
@@ -326,6 +355,8 @@
   color: var(--ultra-violet); /* Cor do texto */
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+  background-color: var(--ultra-violet-transparent); 
+  
 }
 
 .pageItem:hover {
@@ -335,8 +366,10 @@
 }
 
 .pageLink {
-  text-decoration: none; /* Remove sublinhado */
-  color: inherit; /* Herda a cor do item */
+    display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: var(--rich-black);
 }
 
 .active {
@@ -430,60 +463,208 @@
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
 }
 
-.searchBarContainer {
-  position: relative; /* Necessário para posicionar o botão da lupa */
-  display: flex;
-  align-items: center;
-  width: auto; /* Ajusta a largura para ser pequena */
+.searchButton {
+  background-color: var(--ultra-violet);
+  color: var(--white);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 5px !important;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
 }
 
-/* Estilo para o campo de pesquisa */
-.searchBar {
-  width: 200px; /* Define uma largura pequena */
-  padding: 0.5rem 1rem; /* Espaçamento interno */
-  padding-right: 2.5rem; /* Espaço para o botão da lupa */
-  border: 2px solid var(--ultra-violet) !important; /* Borda roxa */
-  border-radius: 8px; /* Bordas arredondadas */
-  font-size: 0.9rem; /* Tamanho da fonte */
-  color: var(--rich-black); /* Cor do texto */
-  background-color: var(--white); /* Fundo branco */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra leve */
+
+/* Barra de pesquisa flutuante no mobile */
+.floatingSearchInput {
+  position: fixed;
+  top: 170px !important;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  width: 90%;
+  max-width: 4500px !important;
+  background-color: var(--white);
+  border: 2px solid var(--ultra-violet) !important;
+  border-radius: 10px;
+  padding: 6px !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Sombra padrão */
+  animation: fadeIn 0.2s ease-out;
+}
+
+
+/* Destaque ao focar */
+.floatingSearchInput:focus-within {
+  box-shadow: 0 0 8px var(--sunset) !important; /* Alterado para a cor sunset */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1100px) {
+  .productContainer,
+  #container-produtos {
+    grid-template-columns: repeat(3, 1fr); /* 3 colunas */
+  }
+
+  #container-receitas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 800px) {
+  .productContainer,
+  #container-produtos {
+    grid-template-columns: repeat(2, 1fr); /* 2 colunas */
+  }
+
+  #container-receitas {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .title {
+    font-size: 2.1rem !important;
+    text-align: center;
+  }
+
+ 
+
+  .addBtn {
+    width: 50px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .productContainer,
+  #container-produtos {
+    grid-template-columns: 1fr; /* 1 coluna em celulares */
+  }
+
+  .searchBarContainer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    display: none !important;
+  }
+
+  .searchBar {
+    display: none !important;
+  }
+
+  .searchBarMobile {
+  width: 200px;
+  padding: 0.5rem 1rem; 
+  padding-right: 2.5rem; 
+  border: none !important;
+  border-radius: 8px;
+  font-size: 0.9rem; 
+  color: var(--rich-black); 
+  background-color: var(--white); 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
   transition: box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
   margin-right: 10px;
 }
 
-/* Sem mudanças ao passar o mouse */
-.searchBar:hover {
-  border-color: var(--ultra-violet); /* Mantém a borda roxa */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Mantém a sombra padrão */
-}
-
-/* Destaque ao focar na barra de pesquisa */
-.searchBar:focus {
+.searchBarMobile:focus {
   outline: none;
-  border-color: var(--ultra-violet); /* Mantém a borda roxa */
-  box-shadow: 0 0 8px var(--sunset) !important; /* Sombra verde ao focar */
+  border-color: none; 
+  box-shadow: 0 0 8px var(--ultra-violet-transparent) !important;
 }
+  
 
-/* Estilo para o botão de pesquisa */
-.searchButton {
-  position: absolute; /* Posiciona o botão dentro do campo */
-  right: 10px; /* Alinha à direita dentro do campo */
-  top: 50%; /* Centraliza verticalmente */
-  transform: translateY(-50%);
-  background: none; /* Fundo transparente */
-  border: none; /* Remove borda */
-  color: var(--ultra-violet); /* Cor do ícone */
-  font-size: 1.2rem; /* Tamanho do ícone */
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.3s ease;
-}
+  .addBtn {
+    width: 100%;
+    max-width: 45px;
+    height: 45px;
+    justify-content: center;
+    font-size: 1.1rem;
+  }
 
-.searchButton:hover {
-  color: var(--rich-black); /* Cor verde ao passar o mouse */
+  .cardProduto {
+    padding: 2px;
+    width: 100%;
+    max-width: 280px;
+    max-height: 140px;
+    margin: 0 auto;
+  }
+
+
+
+  .active {
+    background-color: var(--sunset); /* Fundo para o item ativo */
+    color: var(--ultra-violet); /* Texto */
+    font-weight: bold;
+    transform: scale(1.1); /* Leve aumento para destacar */
+  }
+
+  .floatingSearchInput {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    width: 90%;
+    max-width: 300px;
+    background-color: var(--white);
+    border: 2px solid var(--ultra-violet) !important;
+    border-radius: 10px;
+    padding: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  
+
+  .title {
+    font-size: 25px;
+    text-align: center;
+    white-space: nowrap; /* Impede que o texto quebre em várias linhas */
+    
+  }
+
+  .mobileSearchIcon {
+    display: inline-flex;
+    font-size: 1.3rem;
+    color: var(--ultra-violet);
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
   
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@media (max-width: 577px) {
+  .mobileSearchIcon {
+    display: none !important;
+  }
+
+ 
+}
+
+
+
+
