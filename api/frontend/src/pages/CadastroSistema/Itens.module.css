@@ -657,7 +657,7 @@
   }
 }
 
-@media (min-width: 577px) {
+@media (max-width: 577px) {
   .mobileSearchIcon {
     display: none !important;
   }

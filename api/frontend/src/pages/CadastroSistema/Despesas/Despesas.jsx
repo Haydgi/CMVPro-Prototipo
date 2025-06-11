@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ModalCadastroDespesa from '../../../components/Modals/ModalCadastroDespesa/ModalCadastroDespesa';
 import ModalEditaDespesa from '../../../components/Modals/ModalCadastroDespesa/ModalEditaDespesa';
 import ModelPage from '../ModelPage';
@@ -12,6 +12,29 @@ function Despesas() {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [mostrarModalEditar, setMostrarModalEditar] = useState(false);
   const [despesaSelecionada, setDespesaSelecionada] = useState(null);
+  const [itensPorPagina, setItensPorPagina] = useState(12); // Padrão: 12 itens por página
+
+  // Ajusta o número de itens por página dinamicamente
+ useEffect(() => {
+    const ajustarItensPorTamanho = () => {
+      const largura = window.innerWidth;
+
+      if (largura < 577) {
+        setItensPorPagina(4);
+      } else if (largura < 761) {
+        setItensPorPagina(4);
+      } else if (largura < 992) {
+        setItensPorPagina(6);
+      } else {
+        setItensPorPagina(8);
+      }
+    };
+
+    ajustarItensPorTamanho();
+    window.addEventListener('resize', ajustarItensPorTamanho);
+
+    return () => window.removeEventListener('resize', ajustarItensPorTamanho);
+  }, []);
 
   const salvarDespesa = (nova) => {
     setDespesas((prev) => [
@@ -36,6 +59,17 @@ function Despesas() {
     setDespesas((prev) => prev.filter((d) => d.id !== id));
   };
 
+  // Função para adicionar uma despesa genérica
+  const adicionarDespesaGenerica = () => {
+    const despesaGenerica = {
+      id: despesas.length + 1,
+      nome: "Despesa Genérica",
+      custoMensal: 100.0,
+      tempoOperacional: 10,
+    };
+    setDespesas((prev) => [...prev, despesaGenerica]);
+  };
+
   const renderCard = (despesa) => (
     <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" key={despesa.id}>
       <div
@@ -46,8 +80,6 @@ function Despesas() {
         }}
         style={{ cursor: "pointer" }}
       >
-        
-
         <h3 className="fw-bold mb-5 mt-3">{despesa.nome}</h3>
 
         <div className="d-flex justify-content-between text-white fs-5">
@@ -94,7 +126,14 @@ function Despesas() {
 
   return (
     <ModelPage
-      titulo="Despesas cadastradas"
+      titulo={
+        <span
+          onClick={adicionarDespesaGenerica}
+          style={{ cursor: "pointer", textDecoration: "underline" }}
+        >
+          Despesas cadastradas
+        </span>
+      }
       dados={despesas}
       salvarItem={salvarDespesa}
       removerItem={removerDespesa}
@@ -106,19 +145,19 @@ function Despesas() {
       mostrarModalEditar={mostrarModalEditar}
       ModalCadastro={ModalCadastroDespesa}
       ModalEditar={() =>
-  despesaSelecionada && (
-    <ModalEditaDespesa
-      despesa={despesaSelecionada}
-      onClose={() => {
-        setMostrarModalEditar(false);
-        setDespesaSelecionada(null);
-      }}
-      onSave={atualizarDespesa}
-    />
-  )
-}
+        despesaSelecionada && (
+          <ModalEditaDespesa
+            despesa={despesaSelecionada}
+            onClose={() => {
+              setMostrarModalEditar(false);
+              setDespesaSelecionada(null);
+            }}
+            onSave={atualizarDespesa}
+          />
+        )
+      }
       renderCard={renderCard}
-      itensPorPagina={12}
+      itensPorPagina={itensPorPagina} // Dinamicamente ajustado
     />
   );
 }

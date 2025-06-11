@@ -24,8 +24,10 @@ function Ingredientes() {
     const ajustarItensPorTamanho = () => {
       const largura = window.innerWidth;
 
-      if (largura < 576) {
+      if (largura < 577) {
         setItensPorPagina(4);
+      } else if (largura < 761) {
+        setItensPorPagina(6);
       } else if (largura < 992) {
         setItensPorPagina(9);
       } else {

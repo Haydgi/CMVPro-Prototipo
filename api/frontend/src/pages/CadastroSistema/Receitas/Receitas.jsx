@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ModalCadastroReceita from '../../../components/Modals/ModalCadastroReceita/ModalCadastroReceita';
 import ModalEditaReceita from '../../../components/Modals/ModalCadastroReceita/ModalEditaReceita';
 import ModelPage from '../ModelPage';
@@ -11,6 +11,29 @@ function Receitas() {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [mostrarModalEditar, setMostrarModalEditar] = useState(false);
   const [receitaSelecionada, setReceitaSelecionada] = useState(null);
+  const [itensPorPagina, setItensPorPagina] = useState(8); // Padrão: 8 itens por página
+
+  // Detecta a largura da tela e ajusta o número de itens por página
+  useEffect(() => {
+    const ajustarItensPorPagina = () => {
+      if (window.innerWidth <= 576) {
+        setItensPorPagina(2); // Mobile: 2 itens por página
+      } else if (window.innerWidth <= 768 && window.innerWidth > 576) {
+        setItensPorPagina(4);
+      } else if (window.innerWidth <= 991 && window.innerWidth > 768) {
+        setItensPorPagina(6);
+      } else {
+        setItensPorPagina(8); // Padrão: 8 itens por página
+      }
+    };
+
+    ajustarItensPorPagina(); // Ajusta ao carregar a página
+    window.addEventListener('resize', ajustarItensPorPagina); // Ajusta ao redimensionar a janela
+
+    return () => {
+      window.removeEventListener('resize', ajustarItensPorPagina); // Remove o listener ao desmontar
+    };
+  }, []);
 
   const salvarReceita = (novaReceita) => {
     setReceitas((prev) => [
@@ -61,12 +84,12 @@ function Receitas() {
         ) : (
           <div
             className="rounded bg-light d-flex align-items-center justify-content-center mb-2 border"
-            style={{ 
+            style={{
               width: "170px",
               height: "170px",
               marginLeft: "auto",
               marginRight: "auto",
-             }}
+            }}
           >
             <span className="text-muted">Sem imagem</span>
           </div>
@@ -138,7 +161,7 @@ function Receitas() {
         />
       )}
       renderCard={renderCard}
-      itensPorPagina={8}
+      itensPorPagina={itensPorPagina} // Dinamicamente ajustado
     />
   );
 }

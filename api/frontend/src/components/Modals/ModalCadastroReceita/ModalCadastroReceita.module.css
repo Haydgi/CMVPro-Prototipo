@@ -161,6 +161,11 @@
 .formGroup {
   display: flex;
   flex-direction: column;
+  
+}
+
+textarea {
+  resize: none !important; /* Impede o redimensionamento do campo */
 }
 
 .hiddenFileInput {
@@ -262,6 +267,55 @@
   margin-left: 10px;
 }
 
+/* Estilo para o cabeçalho da tabela */
+.tabelaCabecalho {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 0.5fr; /* Adiciona uma quarta coluna para os ícones */
+  text-align: center; /* Centraliza o texto dentro de cada coluna */
+  font-weight: bold;
+  padding: 10px 0; /* Adiciona espaçamento interno */
+  border-bottom: 1px solid var(--gray); /* Linha separadora */
+}
+
+/* Estilo para os itens da tabela */
+.ingredienteItem {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 0.5fr; /* Adiciona uma quarta coluna para os ícones */
+  align-items: center; /* Centraliza verticalmente os itens */
+  text-align: center; /* Centraliza horizontalmente os itens */
+  padding: 8px 0; /* Adiciona espaçamento interno */
+  border-bottom: 1px solid var(--light-gray); /* Linha separadora */
+}
+
+/* Ajuste para o nome do ingrediente */
+.nomeIngrediente {
+  text-align: left; /* Alinha o nome do ingrediente à esquerda */
+  padding-left: 10px; /* Adiciona espaçamento à esquerda */
+}
+
+/* Ajuste para o input de quantidade */
+.inputQuantidade {
+  width: 80%; /* Ajusta a largura do input */
+  margin: 0 auto; /* Centraliza o input dentro da coluna */
+  text-align: center; /* Centraliza o texto dentro do input */
+}
+
+/* Ajuste para o botão de remover ingrediente */
+.btnRemoveIngrediente {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto; /* Centraliza o botão dentro da coluna */
+  font-size: 1.2rem; /* Ajusta o tamanho do ícone */
+  color: var(--imperial-red);
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.btnRemoveIngrediente:hover {
+  color: var(--dark-red); /* Cor ao passar o mouse */
+}
+
 .inputQuantidade {
   border-radius: 6px;
   border: 1px solid var(--ultra-violet);
@@ -286,3 +340,15 @@
 .linhaBege {
   background-color: rgba(235, 235, 235, 0.87); /* tom de bege claro */
 }
+
+/* Responsividade para telas menores que 600px */
+@media (max-width: 600px) {
+  
+
+.tabelaCabecalho{
+  font-size: calc(100% - 2px) !important; /* Reduz o tamanho da fonte em 2px */
+  text-align: center !important;
+}
+  
+}
+

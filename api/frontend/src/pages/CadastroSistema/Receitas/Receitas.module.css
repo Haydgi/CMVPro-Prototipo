@@ -2,7 +2,7 @@
   background-color: var(--ultra-violet); /* Fundo roxo */
   color: var(--white-smoke); /* Texto branco */
   border-radius: 12px;
-  padding: 20px;
+  padding: 10px;
   text-align: center;
   position: relative;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
