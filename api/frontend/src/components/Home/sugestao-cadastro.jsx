@@ -1,10 +1,13 @@
 import React, { Fragment } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 import PropTypes from 'prop-types'
 
 import './sugestao-cadastro.css'
 
 const SugestaoCadastro = (props) => {
+  const navigate = useNavigate();
+
   return (
     <div className="thq-section-padding">
       <div className="thq-section-max-width">
@@ -16,7 +19,7 @@ const SugestaoCadastro = (props) => {
                   {props.heading1 ?? (
                     <Fragment>
                       <span className="sugestao-cadastro-text4">
-                        Ready to Cook?
+                        Pronto para experimentar as capacidades do Caderno?
                       </span>
                     </Fragment>
                   )}
@@ -25,8 +28,7 @@ const SugestaoCadastro = (props) => {
                   {props.content1 ?? (
                     <Fragment>
                       <span className="sugestao-cadastro-text5">
-                        Explore our collection of delicious recipes and start
-                        cooking like a pro!
+                        Cadastre-se hoje e comece a desfrutar da experiência de uma ótima gestão de preços como você nunca viu antes!
                       </span>
                     </Fragment>
                   )}
@@ -35,13 +37,14 @@ const SugestaoCadastro = (props) => {
               <div className="sugestao-cadastro-actions">
                 <button
                   type="button"
-                  className="thq-button-filled sugestao-cadastro-button"
+                  className="sugestao-cadastro-button"
+                  onClick={() => navigate('/sign-up')}
                 >
                   <span>
                     {props.action1 ?? (
                       <Fragment>
                         <span className="sugestao-cadastro-text6">
-                          Get Cooking
+                          Quero o meu Caderno!
                         </span>
                       </Fragment>
                     )}

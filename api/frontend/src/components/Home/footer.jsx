@@ -1,73 +1,30 @@
-import React, { Fragment } from 'react'
-
-import PropTypes from 'prop-types'
-
-import './footer.css'
+import React from 'react';
+import styles from './footer.module.css';
 
 const Footer = (props) => {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <footer className="footer-footer7 thq-section-padding">
-      <div className="footer-max-width thq-section-max-width">
-        <div className="footer-content">
-          <div className="footer-logo1">
-            <img
-              alt={props.logoAlt}
-              src={props.logoSrc}
-              className="footer-logo2"
-            />
-          </div>
-          <div className="footer-links"></div>
-        </div>
-        <div className="footer-credits">
-          <div className="thq-divider-horizontal"></div>
-          <div className="footer-row">
-            <div className="footer-container">
-              <span className="thq-body-small">© 2024 TeleportHQ</span>
-            </div>
-            <div className="footer-footer-links">
-              <span className="footer-text2 thq-body-small">
-                {props.privacyLink ?? (
-                  <Fragment>
-                    <span className="footer-text7">Privacy Policy</span>
-                  </Fragment>
-                )}
-              </span>
-              <span className="thq-body-small">
-                {props.termsLink ?? (
-                  <Fragment>
-                    <span className="footer-text5">Terms of Use</span>
-                  </Fragment>
-                )}
-              </span>
-              <span className="thq-body-small">
-                {props.cookiesLink ?? (
-                  <Fragment>
-                    <span className="footer-text6">Cookies Policy</span>
-                  </Fragment>
-                )}
-              </span>
-            </div>
+    <footer className={styles['footer-footer7']}>
+      <button
+        className={`btnUltraViolet ${styles['btnUltraViolet']}`}
+        onClick={scrollToTop}
+      >
+        Voltar ao topo
+      </button>
+      <div className={styles['footer-max-width']}>
+        <div className={styles['footer-content']}></div>
+        <div className={styles['footer-row']}>
+          <div className={styles['footer-container']}>
+            <div className={styles['footer-divider']}></div> {/* Linha divisória */}
+            <span className={styles.caderno}>© 2025 Caderno do Chef</span>
           </div>
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-Footer.defaultProps = {
-  termsLink: undefined,
-  logoAlt: 'Caderno do Chef Logo',
-  cookiesLink: undefined,
-  logoSrc: 'https://presentation-website-assets.teleporthq.io/logos/logo.png',
-  privacyLink: undefined,
-}
-
-Footer.propTypes = {
-  termsLink: PropTypes.element,
-  logoAlt: PropTypes.string,
-  cookiesLink: PropTypes.element,
-  logoSrc: PropTypes.string,
-  privacyLink: PropTypes.element,
-}
-
-export default Footer
+export default Footer;

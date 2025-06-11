@@ -41,8 +41,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
-  background-color: var(--dl-color-theme-neutral-light);
+  background-color: #f9f9f9;
 }
 
 .home-text10 {
@@ -199,34 +198,34 @@
  
 .thq-heading-1 {
   font-size: 48px;
-  font-family: STIX Two Text;
+  font-family: Lato, sans-serif;
   font-weight: 700;
   line-height: 1.5;
 }
  
 .thq-heading-2 {
   font-size: 35px;
-  font-family: STIX Two Text;
+  font-family: Lato, sans-serif;
   font-weight: 600;
   line-height: 1.5;
 }
  
 .thq-heading-3 {
   font-size: 26px;
-  font-family: STIX Two Text;
+  font-family: Lato, sans-serif;
   font-weight: 600;
   line-height: 1.5;
 }
  
 .thq-body-large {
   font-size: 18px;
-  font-family: Noto Sans;
+  font-family: Lato, sans-serif;
   line-height: 1.5;
 }
  
 .thq-body-small {
   font-size: 16px;
-  font-family: Noto Sans;
+  font-family: Lato, sans-serif;
   line-height: 1.5;
 }
  
@@ -645,19 +644,6 @@
   .thq-grid-auto-300 {
     grid-template-columns: 1fr;
   }
-}
-
-
-
-
-
-
-.home-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: #f9f9f9;
 }
  
 .home-text10 {

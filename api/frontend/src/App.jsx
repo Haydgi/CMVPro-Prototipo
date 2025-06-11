@@ -7,12 +7,12 @@ import Ingredientes from './pages/CadastroSistema/Ingredientes/Ingredientes';
 import Home from './pages/Home/Home';
 import Receitas from './pages/CadastroSistema/Receitas/Receitas';
 import Despesas from './pages/CadastroSistema/Despesas/Despesas';
+import Relatorios from './pages/CadastroSistema/Relatorios/Relatorios';
 import Sobre from './features/Auth/LoginUsuario/Login';
 import Cadastro from './features/Auth/CadastroUsuarios/CadastroUsuarios';
 import AuthUser from './features/Auth/AuthUser/AuthUser';
 import EsqueciSenha from './features/Auth/ForgotPasswordEmail/ForgotPswdEmail';
 import RedefinirSenha from './features/Auth/ForgotPassword/ForgotPswd';
-import NavegacaoTemporaria from './pages/NavegacaoTemporaria/NavegacaoTemp';
 
 function App() {
   const [logado, setLogado] = useState(false);
@@ -49,7 +49,7 @@ function App() {
         />
         <Route 
           path="/" 
-          element={<NavegacaoTemporaria />}
+          element={<Home />}
         />
         <Route
           path="/forgot-password-email"
@@ -76,8 +76,8 @@ function App() {
           element={<Despesas />}
         />
         <Route
-          path="/home"
-          element={<Home />}
+          path="/relatorios"
+          element={<Relatorios />}
         />
       </Routes>
     </>

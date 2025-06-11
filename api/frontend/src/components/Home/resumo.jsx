@@ -1,71 +1,57 @@
-import React, { Fragment } from 'react'
-import './resumo.css'
-import ChefInvestido from './ChefInvestido.png' // Importando a imagem
+import React from 'react';
+import styles from './resumo.module.css';
 
 const Resumo = () => {
+  const scrollToSection = () => {
+    const section = document.getElementById('bullets');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <div className="thq-section-padding">
-      <div className="resumo-container2 thq-section-max-width">
-        <div className="resumo-image-container">
-          <img
-            alt="Chef Investido"
-            src={ChefInvestido}
-            className="resumo-image1 thq-img-ratio-16-9"
-          />
-        </div>
-        <div className="resumo-tabs-menu">
-          <div className="resumo-tab-horizontal1">
-            <div className="resumo-content1">
-              <h2 className="thq-heading-2">
-                <Fragment>
-                  <span className="resumo-text4">Inspiring Recipes</span>
-                </Fragment>
-              </h2>
-              <span className="thq-body-small">
-                <Fragment>
-                  <span className="resumo-text5">
-                    Explore a variety of mouth-watering recipes
-                  </span>
-                </Fragment>
-              </span>
+    <div className={styles['container']}>
+      <div className={styles['thq-section-padding']}>
+        <div className={`${styles['resumo-container']} ${styles['thq-section-max-width']}`}>
+          
+          {/* Conteúdo à direita ocupando 2/3 */}
+          <div className={styles['resumo-image-container']}>
+            <div className={styles['resumo-content1']}>
+              <h1>Já pensou em lucrar mais <br/> no seu restaurante?</h1>
+              <p>Nós temos uma solução prática e eficiente para o seu negócio que poderá lhe proporcionar maiores lucros e um posicionamento mais assertivo no mercado gastronômico.</p>
+              <button
+                className={`btnUltraViolet ${styles['btnUltraViolet']}`}
+                onClick={scrollToSection}
+              >
+                Descubra como!
+              </button>
             </div>
           </div>
-          <div className="resumo-tab-horizontal2">
-            <div className="resumo-content2">
-              <h2 className="thq-heading-2">
-                <Fragment>
-                  <span className="resumo-text6">Guided Cooking Instructions</span>
-                </Fragment>
-              </h2>
-              <span className="thq-body-small">
-                <Fragment>
-                  <span className="resumo-text3">
-                    Step-by-step guides for perfect dishes
-                  </span>
-                </Fragment>
-              </span>
-            </div>
-          </div>
-          <div className="resumo-tab-horizontal3">
-            <div className="resumo-content3">
-              <h2 className="thq-heading-2">
-                <Fragment>
-                  <span className="resumo-text2">Cooking Tips &amp; Tricks</span>
-                </Fragment>
-              </h2>
-              <span className="thq-body-small">
-                <Fragment>
-                  <span className="resumo-text1">
-                    Discover new cooking techniques and skills
-                  </span>
-                </Fragment>
-              </span>
-            </div>
+          {/* Imagem à esquerda ocupando 1/3 */}
+          <div className={styles['resumo-mulher-container']}>
+            <img
+              src="/midia/muié.png"
+              alt="Mulher chef"
+              className={styles['resumo-mulher-img']}
+            />
           </div>
         </div>
       </div>
+      <div className={styles['wave']}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1440 240"
+          preserveAspectRatio="none"
+        >
+          <path
+            fill="#FAFAFA"
+            fillOpacity="1"
+            d="M0,224L48,213.3C96,203,192,181,288,154.7C384,128,480,96,576,101.3C672,107,768,149,864,176C960,203,1056,213,1152,186.7C1248,160,1344,96,1392,64L1440,32L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+          ></path>
+        </svg>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Resumo
+export default Resumo;

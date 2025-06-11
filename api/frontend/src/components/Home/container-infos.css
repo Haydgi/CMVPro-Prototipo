@@ -4,6 +4,7 @@
   grid-gap: var(--dl-layout-space-fiveunits);
   position: relative;
   grid-template-columns: 1fr 1fr;
+  
 }
  
 .container-infos-tabs-menu {
@@ -13,6 +14,7 @@
   align-items: flex-start;
   flex-direction: column;
   justify-content: center;
+  border: 1px solid red;
 }
  
 .container-infos-tab-horizontal1 {
@@ -130,6 +132,8 @@
   animation-direction: normal;
   animation-iteration-count: 1;
   animation-timing-function: ease;
+  width: 470px;
+  height: 470px;
 }
  
 .container-infos-image2 {

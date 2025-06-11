@@ -1,0 +1,217 @@
+:root {
+  --primary: #67477A;
+  --primary-light: #8E6A9B;
+  --primary-dark: #4A3257;
+  --secondary: #FCD18A;
+  --secondary-light: #FDE4B5;
+  --secondary-dark: #F9C060;
+  --accent: #D4A5A5;
+  --gray: #F5F5F5;
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+.row {
+  display: flex;
+  gap: 1rem;
+  min-height: 300px;
+}
+
+.row.compact {
+  min-height: 240px;
+}
+
+.chart-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  flex: 1;
+}
+
+.chart-card.compact {
+  width: 593px;
+}
+
+.chart-card h3 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #555;
+  display: flex;
+  justify-content: center;
+}
+
+/* Gráficos responsivos */
+.recharts-wrapper {
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Tooltip personalizado */
+.recharts-tooltip {
+  background: white !important;
+  border: none !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+/* Adicione ao arquivo existente */
+.list-card ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.list-card li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+}
+
+.ing-name {
+  font-weight: 500;
+}
+
+.ing-category {
+  color: #666;
+  font-size: 0.8rem;
+}
+
+.metric-value {
+  font-size: 3.5rem;
+  font-weight: 600;
+  color: #2f3542;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.metric-value.large {
+  font-size: 3.5rem;
+}
+
+.metric-subtext {
+  color: #666;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.metric-label {
+  display: block;
+  font-size: 2rem;
+  color: #666;
+  font-weight: normal;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.chart-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+  min-height: 3.5rem; /* garante espaço para o título */
+}
+
+.chart-header h3 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
+  color: var(--primary-dark);
+  font-size: 2rem;
+  pointer-events: none; /* permite clicar no select */
+  z-index: 1;
+}
+
+.list-card ul {
+  max-height: 395px; /* ajuste conforme necessário */
+  overflow-y: auto;
+  padding-right: 8px;
+  margin: 0;
+}
+
+.ingredient-select {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background-color: white;
+  font-size: 1.4rem;
+  min-width: 200px;
+}
+
+.metric-card {
+  background: var(--primary);
+  color: white;
+}
+
+.chart-card {
+  border: 1px solid var(--secondary-light);
+}
+
+.chart-card h3 {
+  color: var(--primary-dark);
+}
+
+.ingredient-select {
+  border-color: var(--primary-light);
+}
+
+.list-card ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.list-card li {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--secondary-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ing-name {
+  font-weight: 600;
+  color: var(--primary-dark);
+  font-size: 2rem;
+}
+
+.ing-category {
+  background-color: var(--secondary-light);
+  color: var(--primary);
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  font-size: 2rem;
+}
+
+.no-data-message {
+  color: var(--primary-light);
+  text-align: center;
+  padding: 1rem;
+  font-style: italic;
+}
+
+
+
+@media (max-width: 1200px) {
+  .row {
+    flex-direction: column;
+  }
+  
+  .chart-card.compact {
+    flex: 1 0 auto;
+  }
+}

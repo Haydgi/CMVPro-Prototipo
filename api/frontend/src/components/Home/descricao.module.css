@@ -1,0 +1,51 @@
+.textotopo h2 {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.textotopo p {
+    margin-top: 15px;
+    margin-bottom: 30px;
+    font-size: 20px;
+    text-align: justify;
+}
+
+.imagemchef {
+    display: flex;
+    justify-content: center;
+}
+
+.imagem {
+    display: block;
+    height: 500px;
+    width: 500px;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.descricao-flex-container {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.passo-a-passo-section-header {
+    flex: 0 0 auto;
+}
+
+.textotopo {
+    flex: 1 1 0;
+    min-width: 280px;
+}
+
+@media (max-width: 900px) {
+    .descricao-flex-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .passo-a-passo-section-header,
+    .textotopo {
+        width: 100%;
+    }
+}
