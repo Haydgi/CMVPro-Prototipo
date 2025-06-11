@@ -1,18 +1,26 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
 import "../../../Styles/global.css";
 import styles from "./ModalCadastroReceita.module.css";
 import { FaTrash } from 'react-icons/fa';
+import axios from "axios";
 
 function ModalCadastroReceita({ onClose, onSave, }) {
+
+  const fileInputRef = useRef(null); // <-- aqui
+
+
   const [form, setForm] = useState({
-    imagem: null,
-    nome: "",
-    categoria: "",
-    tempoDePreparo: "",
-    porcentagemDeLucro: "",
-    descricao: "",
-    custoTotalIngredientes: "49.99",
+
+    ID_Usuario: "", // ou o id do usuário logado
+    Nome_Receita: "",
+    Descricao: "",
+    Tempo_Preparo: "",
+    Custo_Total_Ingredientes: "",
+    Porcentagem_De_Lucro: "",
+    Categoria: "",
+    imagem_URL: null,
+    Data_Receita: "", // pode ser preenchido automaticamente no backend
   });
 
   const [isClosing, setIsClosing] = useState(false);
@@ -27,34 +35,34 @@ function ModalCadastroReceita({ onClose, onSave, }) {
   ];
 
   const [ingredientesDisponiveis, setIngredientesDisponiveis] = useState([
-  { nome: "Farinha de trigo", unidade: "g" },
-  { nome: "Açúcar", unidade: "g" },
-  { nome: "Sal", unidade: "g" },
-  { nome: "Fermento em pó", unidade: "g" },
-  { nome: "Manteiga", unidade: "g" },
-  { nome: "Leite", unidade: "ml" },
-  { nome: "Água", unidade: "ml" },
-  { nome: "Óleo de soja", unidade: "ml" },
-  { nome: "Essência de baunilha", unidade: "ml" },
-  { nome: "Vinagre", unidade: "ml" },
-  { nome: "Ovo", unidade: "unid." },
-  { nome: "Tomate", unidade: "unid." },
-  { nome: "Cebola", unidade: "unid." },
-  { nome: "Alho", unidade: "unid." },
-  { nome: "Batata", unidade: "unid." },
-  { nome: "Cenoura", unidade: "unid." },
-  { nome: "Queijo mussarela", unidade: "g" },
-  { nome: "Presunto", unidade: "g" },
-  { nome: "Frango desfiado", unidade: "g" },
-  { nome: "Carne moída", unidade: "g" },
-  { nome: "Molho de tomate", unidade: "ml" },
-  { nome: "Creme de leite", unidade: "ml" },
-  { nome: "Requeijão", unidade: "g" },
-  { nome: "Chocolate em pó", unidade: "g" },
-  { nome: "Coco ralado", unidade: "g" },
-  { nome: "Fermento biológico", unidade: "g" },
-  { nome: "Leite condensado", unidade: "ml" }
-]);
+    { nome: "Farinha de trigo", unidade: "g" },
+    { nome: "Açúcar", unidade: "g" },
+    { nome: "Sal", unidade: "g" },
+    { nome: "Fermento em pó", unidade: "g" },
+    { nome: "Manteiga", unidade: "g" },
+    { nome: "Leite", unidade: "ml" },
+    { nome: "Água", unidade: "ml" },
+    { nome: "Óleo de soja", unidade: "ml" },
+    { nome: "Essência de baunilha", unidade: "ml" },
+    { nome: "Vinagre", unidade: "ml" },
+    { nome: "Ovo", unidade: "unid." },
+    { nome: "Tomate", unidade: "unid." },
+    { nome: "Cebola", unidade: "unid." },
+    { nome: "Alho", unidade: "unid." },
+    { nome: "Batata", unidade: "unid." },
+    { nome: "Cenoura", unidade: "unid." },
+    { nome: "Queijo mussarela", unidade: "g" },
+    { nome: "Presunto", unidade: "g" },
+    { nome: "Frango desfiado", unidade: "g" },
+    { nome: "Carne moída", unidade: "g" },
+    { nome: "Molho de tomate", unidade: "ml" },
+    { nome: "Creme de leite", unidade: "ml" },
+    { nome: "Requeijão", unidade: "g" },
+    { nome: "Chocolate em pó", unidade: "g" },
+    { nome: "Coco ralado", unidade: "g" },
+    { nome: "Fermento biológico", unidade: "g" },
+    { nome: "Leite condensado", unidade: "ml" }
+  ]);
 
 
   const handleClose = () => setIsClosing(true);
@@ -68,15 +76,8 @@ function ModalCadastroReceita({ onClose, onSave, }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    let newValue = value;
+    setForm((prev) => ({ ...prev, [name]: value }));
 
-    if (name === "tempoDePreparo" || name === "porcentagemDeLucro") {
-      newValue = value.replace(/[^\d,]/g, "").replace(/(,.*?),/g, "$1");
-    }
-
-    setForm((prev) => ({ ...prev, [name]: newValue }));
-
-    // Remove o erro ao digitar
     if (camposInvalidos[name]) {
       setCamposInvalidos((prev) => {
         const novo = { ...prev };
@@ -91,20 +92,20 @@ function ModalCadastroReceita({ onClose, onSave, }) {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setForm((prev) => ({ ...prev, imagem: URL.createObjectURL(file) }));
+      setForm((prev) => ({ ...prev, imagem_URL: file }));
     }
   };
 
   const handleSelectIngrediente = (ingrediente) => {
-  setIngredientesSelecionados((prev) => [
-    ...prev,
-    { nome: ingrediente.nome, unidade: ingrediente.unidade, quantidade: "" }
-  ]);
-  setIngredientesDisponiveis((prev) =>
-    prev.filter((i) => i.nome !== ingrediente.nome)
-  );
-  setIngredienteBusca("");
-};
+    setIngredientesSelecionados((prev) => [
+      ...prev,
+      { nome: ingrediente.nome, unidade: ingrediente.unidade, quantidade: "" }
+    ]);
+    setIngredientesDisponiveis((prev) =>
+      prev.filter((i) => i.nome !== ingrediente.nome)
+    );
+    setIngredienteBusca("");
+  };
 
   const handleIngredienteChange = (index, field, value) => {
     const novos = [...ingredientesSelecionados];
@@ -122,77 +123,87 @@ function ModalCadastroReceita({ onClose, onSave, }) {
 
 
   const handleRemoverIngrediente = (index) => {
-  setIngredientesSelecionados((prevSelecionados) => {
-    const ingredienteRemovido = prevSelecionados[index];
+    setIngredientesSelecionados((prevSelecionados) => {
+      const ingredienteRemovido = prevSelecionados[index];
 
-    setIngredientesDisponiveis((prevDisponiveis) => {
-      const jaExiste = prevDisponiveis.some(
-        (i) => i.nome === ingredienteRemovido.nome
-      );
-      if (jaExiste) return prevDisponiveis; // já está lá, não adiciona de novo
+      setIngredientesDisponiveis((prevDisponiveis) => {
+        const jaExiste = prevDisponiveis.some(
+          (i) => i.nome === ingredienteRemovido.nome
+        );
+        if (jaExiste) return prevDisponiveis; // já está lá, não adiciona de novo
 
-      return [...prevDisponiveis, {
-        nome: ingredienteRemovido.nome,
-        unidade: ingredienteRemovido.unidade,
-      }];
+        return [...prevDisponiveis, {
+          nome: ingredienteRemovido.nome,
+          unidade: ingredienteRemovido.unidade,
+        }];
+      });
+
+      return prevSelecionados.filter((_, i) => i !== index);
     });
-
-    return prevSelecionados.filter((_, i) => i !== index);
-  });
-};
-
-  const handleSubmit = () => {
-    const campos = {};
-
-    // 1. Validação dos campos obrigatórios
-    if (!form.nome) campos.nome = true;
-    if (!form.categoria) campos.categoria = true;
-    if (!form.tempoDePreparo) campos.tempoDePreparo = true;
-    if (!form.porcentagemDeLucro) campos.porcentagemDeLucro = true;
-
-    if (Object.keys(campos).length > 0) {
-      setCamposInvalidos(campos);
-      toast.error("Preencha todos os campos obrigatórios!");
-      return;
-    }
-
-    // 2. Validação das quantidades dos ingredientes
-    const errosIngredientes = {};
-    ingredientesSelecionados.forEach((ingrediente, index) => {
-      if (!ingrediente.quantidade || isNaN(ingrediente.quantidade)) {
-        errosIngredientes[`ingrediente_${index}`] = true;
-      }
-    });
-
-    if (Object.keys(errosIngredientes).length > 0) {
-      setCamposInvalidos(errosIngredientes);
-      toast.error("Preencha a quantidade de todos os ingredientes!");
-      return;
-    }
-
-    // 3. Validação da quantidade de ingredientes adicionados
-    if (ingredientesSelecionados.length < 2) {
-      toast.error("Adicione pelo menos 2 ingredientes!");
-      return;
-    }
-
-    // Se tudo estiver ok, salva
-    setCamposInvalidos({});
-    const receitaFormatado = {
-      ...form,
-      ingredientes: ingredientesSelecionados,
-    };
-
-    if (onSave) {
-      onSave(receitaFormatado);
-      toast.success("Receita cadastrada com sucesso!");
-    }
-
-    handleClose();
   };
 
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
+  // Converter para número — se for vazio ou inválido, usar 0
+  const custoTotal = Number(form.Custo_Total_Ingredientes);
+  const custoParaEnvio = isNaN(custoTotal) || custoTotal < 0 ? 0 : custoTotal;
 
+  console.log("Valor convertido de Custo_Total_Ingredientes:", custoParaEnvio);
+
+  const formData = new FormData();
+  formData.append('Nome_Receita', form.Nome_Receita);
+  formData.append('Descricao', form.Descricao);
+  formData.append('Tempo_Preparo', form.Tempo_Preparo);
+  formData.append('Custo_Total_Ingredientes', custoParaEnvio);
+  formData.append('Porcentagem_De_Lucro', form.Porcentagem_De_Lucro);
+  formData.append('Categoria', form.Categoria);
+
+  if (fileInputRef.current?.files?.[0]) {
+    formData.append('imagem_URL', fileInputRef.current.files[0]);
+  } else {
+    console.error("Nenhuma imagem selecionada.");
+    toast.error("Por favor, selecione uma imagem.");
+    return;
+  }
+
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await fetch("http://localhost:3001/api/receitas", {
+      method: "POST",
+      body: formData,
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        // Não defina 'Content-Type' aqui, o navegador cuida disso para FormData
+      },
+    });
+
+    const responseText = await response.text();
+
+    if (!response.ok) {
+      try {
+        const errorData = JSON.parse(responseText);
+        throw new Error(`Erro ${response.status}: ${errorData.message || JSON.stringify(errorData)}`);
+      } catch {
+        throw new Error(`Erro ${response.status}: ${responseText}`);
+      }
+    }
+
+    try {
+      const data = JSON.parse(responseText);
+      console.log("✅ Receita salva com sucesso!", data);
+      toast.success("Receita salva com sucesso!");
+      onSave && onSave(data);
+      onClose && onClose();
+    } catch (parseError) {
+      throw new Error("Resposta do servidor não é um JSON válido");
+    }
+  } catch (err) {
+    console.error("❌ Erro ao salvar receita:", err.message);
+    toast.error(`Erro ao salvar receita: ${err.message}`);
+  }
+};
 
 
 
@@ -214,7 +225,7 @@ function ModalCadastroReceita({ onClose, onSave, }) {
 
                 <div className="col-6">
 
-                  {/* IMAGEM */}
+                  {/* imagem */}
                   <div className={`${styles.formGroup} align-items-center`}>
                     <input
                       type="file"
@@ -222,6 +233,7 @@ function ModalCadastroReceita({ onClose, onSave, }) {
                       accept="image/png, image/jpeg, image/jpg, image/webp"
                       onChange={handleImageChange}
                       className={styles.hiddenFileInput}
+                      ref={fileInputRef}  // <-- aqui, pra acessar o arquivo depois
                     />
 
                     <label htmlFor="imagemInput" className={styles.imagePreviewBox}
@@ -229,18 +241,18 @@ function ModalCadastroReceita({ onClose, onSave, }) {
                         backgroundImage: form.imagem ? `url(${form.imagem})` : 'none',
                       }}
                     >
-                      {!form.imagem && <span>Selecione uma Imagem</span>}
+                      {!form.imagem && <span>Selecione uma imagem</span>}
                     </label>
                   </div>
                   {/* Tempo de Preparo */}
                   <div className={`${styles.formGroup} mt-4`}>
                     <label>Tempo de Preparo (Min.)</label>
                     <input
-                      name="tempoDePreparo"
+                      name="Tempo_Preparo"
                       autoComplete="off"
-                      className={`form-control ${camposInvalidos.tempoDePreparo ? styles.erroInput : ""}`}
+                      className={`form-control ${camposInvalidos.Tempo_Preparo ? styles.erroInput : ""}`}
                       inputMode="decimal"
-                      value={form.tempoDePreparo}
+                      value={form.Tempo_Preparo}
                       onChange={handleChange}
                       placeholder="Ex: 120"
                     />
@@ -253,10 +265,10 @@ function ModalCadastroReceita({ onClose, onSave, }) {
                   <div className={styles.formGroup}>
                     <label>Nome Da Receita</label>
                     <input
-                      name="nome"
+                      name="Nome_Receita"
                       autoComplete="off"
-                      className={`form-control ${camposInvalidos.nome ? styles.erroInput : ""}`}
-                      value={form.nome}
+                      className={`form-control ${camposInvalidos.Nome_Receita ? styles.erroInput : ""}`}
+                      value={form.Nome_Receita}
                       onChange={handleChange}
                       placeholder="Ex: Bolo de Chocolate"
                     />
@@ -266,7 +278,7 @@ function ModalCadastroReceita({ onClose, onSave, }) {
                   <div className={`${styles.formGroup} mt-4`}>
                     <label>Categoria</label>
                     <select
-                      name="categoria"
+                      name="Categoria"
                       className={`form-control ${camposInvalidos.categoria ? styles.erroInput : ""}`}
                       value={form.categoria}
                       onChange={handleChange}
@@ -282,7 +294,7 @@ function ModalCadastroReceita({ onClose, onSave, }) {
                   <div className={`${styles.formGroup} mt-4`}>
                     <label>Porcentagem de Lucro (%)</label>
                     <input
-                      name="porcentagemDeLucro"
+                      name="Porcentagem_De_Lucro"
                       autoComplete="off"
                       className={`form-control ${camposInvalidos.porcentagemDeLucro ? styles.erroInput : ""}`}
                       inputMode="decimal"
@@ -297,7 +309,7 @@ function ModalCadastroReceita({ onClose, onSave, }) {
               <div className={`${styles.formGroup} mt-3`}>
                 <label>Descrição</label>
                 <textarea
-                  name="descricao"
+                  name="Descricao"
                   className="form-control"
                   value={form.descricao}
                   onChange={handleChange}
@@ -345,7 +357,7 @@ function ModalCadastroReceita({ onClose, onSave, }) {
                   {ingredientesSelecionados.map((ingrediente, index) => (
                     <div
                       key={index}
-                      className={`${styles.ingredienteItem} ${index % 2 === 0 ? styles.linhaBege : "" }`}
+                      className={`${styles.ingredienteItem} ${index % 2 === 0 ? styles.linhaBege : ""}`}
                     >
                       <span className="ml-1">{ingrediente.nome}</span>
                       <input

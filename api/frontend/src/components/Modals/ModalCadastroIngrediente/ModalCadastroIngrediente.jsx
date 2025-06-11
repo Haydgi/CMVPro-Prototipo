@@ -62,14 +62,14 @@ function ModalCadastroIngrediente({ onClose, onSave }) {
     }
   };
 
-const handleSubmit = async () => {
+const handleSubmit = () => {
   const campos = {};
 
   if (!form.nome) campos.nome = true;
-  if (!form.custo) campos.custo = true;
   if (!form.categoria) campos.categoria = true;
-  if (!form.unidade) campos.unidade = true;
-  if (!form.taxaDesperdicio) campos.taxaDesperdicio = true;
+  if (!form.tempoDePreparo) campos.tempoDePreparo = true;
+  if (!form.porcentagemDeLucro) campos.porcentagemDeLucro = true;
+  if (!form.descricao) campos.descricao = true;  // agora obrigatório também
 
   if (Object.keys(campos).length > 0) {
     setCamposInvalidos(campos);
@@ -77,46 +77,71 @@ const handleSubmit = async () => {
     return;
   }
 
-  const token = localStorage.getItem("token");
-  if (!token) {
-    toast.error("Usuário não autenticado.");
+  const errosIngredientes = {};
+  ingredientesSelecionados.forEach((ingrediente, index) => {
+    if (!ingrediente.quantidade || isNaN(ingrediente.quantidade)) {
+      errosIngredientes[`ingrediente_${index}`] = true;
+    }
+  });
+
+  if (Object.keys(errosIngredientes).length > 0) {
+    setCamposInvalidos(errosIngredientes);
+    toast.error("Preencha a quantidade de todos os ingredientes!");
     return;
   }
 
-  const ingredienteFormatado = {
-  nome: form.nome,
-  unidadeDeMedida: form.unidade,
-  custo: parseFloat(form.custo.replace(",", ".")),
-  indiceDeDesperdicio: parseFloat(form.taxaDesperdicio.replace(",", ".")),
-  categoria: form.categoria // se tiver
-};
-
-  try {
-  const response = await fetch('http://localhost:3001/api/ingredientes', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer ' + token,
-  },
-  body: JSON.stringify(ingredienteFormatado),  // <-- Use o objeto formatado aqui
-});
-
-    if (!response.ok) {
-      throw new Error("Erro ao salvar o ingrediente.");
-    }
-
-    const data = await response.json();
-
-    if (onSave) {
-      onSave(data);
-    }
-
-    toast.success("Ingrediente cadastrado com sucesso!");
-    handleClose();
-  } catch (error) {
-    console.error(error);
-    toast.error("Erro ao cadastrar ingrediente.");
+  if (ingredientesSelecionados.length < 2) {
+    toast.error("Adicione pelo menos 2 ingredientes!");
+    return;
   }
+
+  setCamposInvalidos({});
+
+  // Função para calcular custo total baseado nos ingredientes (exemplo)
+  const calcularCustoTotal = (ingredientes) => {
+    return ingredientes.reduce((total, ingr) => {
+      const preco = ingr.precoUnitario || 0;
+      const qtd = Number(ingr.quantidade) || 0;
+      return total + preco * qtd;
+    }, 0);
+  };
+
+  const custoTotal = calcularCustoTotal(ingredientesSelecionados);
+
+  const receitaFormatado = {
+    nome: form.nome,
+    descricao: form.descricao,
+    tempoPreparo: Number(form.tempoDePreparo),
+    custoTotalIngredientes: custoTotal,
+    porcentagemDeLucro: Number(form.porcentagemDeLucro),
+    categoria: form.categoria,
+    imagemURL: form.imagemURL || "",
+  };
+
+  const token = localStorage.getItem('token'); // onde seu token JWT está armazenado
+ console.log("Dados enviados:", receitaFormatado);
+
+  fetch("http://localhost:3001/api/receitas", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(receitaFormatado),
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error("Erro ao salvar receita");
+      return res.json();
+    })
+    .then((data) => {
+      toast.success("Receita cadastrada com sucesso!");
+      if (onSave) onSave(data);
+      handleClose();
+    })
+    .catch((err) => {
+      console.error(err);
+      toast.error("Erro ao salvar receita no servidor");
+    });
 };
 
 

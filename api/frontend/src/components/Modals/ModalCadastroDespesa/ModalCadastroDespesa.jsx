@@ -25,8 +25,6 @@ function ModalCadastroDespesa({ onClose, onSave }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    // Permitir apenas números e vírgulas nos campos numéricos
     const newValue =
       name === "custoMensal" || name === "tempoOperacional"
         ? value.replace(/[^\d,]/g, "").replace(/(,.*?),/g, "$1")
@@ -43,31 +41,63 @@ function ModalCadastroDespesa({ onClose, onSave }) {
     }
   };
 
-  const handleSubmit = () => {
-    const campos = {};
-    if (!form.nome.trim()) campos.nome = true;
-    if (!form.custoMensal) campos.custoMensal = true;
-    if (!form.tempoOperacional) campos.tempoOperacional = true;
+  const handleSubmit = async () => {
+  const campos = {};
+  if (!form.nome.trim()) campos.nome = true;
+  if (!form.custoMensal) campos.custoMensal = true;
+  if (!form.tempoOperacional) campos.tempoOperacional = true;
 
-    if (Object.keys(campos).length > 0) {
-      setCamposInvalidos(campos);
-      toast.error("Preencha todos os campos obrigatórios!");
+  if (Object.keys(campos).length > 0) {
+    setCamposInvalidos(campos);
+    toast.error("Preencha todos os campos obrigatórios!");
+    return;
+  }
+
+  const despesa = {
+    nome: form.nome.trim(),
+    custoMensal: parseFloat(form.custoMensal.replace(",", ".")),
+    tempoOperacional: parseFloat(form.tempoOperacional.replace(",", ".")),
+  };
+
+  try {
+    // Pegue o token onde você armazena (localStorage, context, etc)
+    const token = localStorage.getItem("token"); // ajuste conforme seu sistema
+
+    if (!token) {
+      toast.error("Usuário não autenticado");
       return;
     }
 
-    const despesa = {
-      nome: form.nome.trim(),
-      custoMensal: parseFloat(form.custoMensal.replace(",", ".")),
-      tempoOperacional: parseFloat(form.tempoOperacional.replace(",", ".")),
-    };
+    const response = await fetch("http://localhost:3001/api/despesas", {  // <--- Corrigido aqui
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(despesa),
+    });
 
-    onSave?.(despesa);
-    toast.success("Despesa cadastrada com sucesso!");
-    handleClose();
-  };
+    if (response.ok) {
+      const data = await response.json();
+      toast.success("Despesa cadastrada com sucesso!");
+      onSave?.(data);
+      handleClose();
+    } else {
+      const errorData = await response.json();
+      toast.error(errorData.error || "Erro ao cadastrar despesa");
+    }
+  } catch (error) {
+    toast.error("Erro de conexão com o servidor");
+    console.error(error);
+  }
+};
 
   return (
-    <div className={`${styles.modalOverlay} ${isClosing ? styles.modalExit : styles.modalEnter}`}>
+    <div
+      className={`${styles.modalOverlay} ${
+        isClosing ? styles.modalExit : styles.modalEnter
+      }`}
+    >
       <div className={`${styles.modalContainer} shadow`}>
         <div className={styles.modalHeader}>
           <div className={styles.headerIconTitle}>
@@ -86,7 +116,9 @@ function ModalCadastroDespesa({ onClose, onSave }) {
               <input
                 name="nome"
                 autoComplete="off"
-                className={`form-control ${camposInvalidos.nome ? styles.erroInput : ""}`}
+                className={`form-control ${
+                  camposInvalidos.nome ? styles.erroInput : ""
+                }`}
                 value={form.nome}
                 onChange={handleChange}
               />
@@ -97,7 +129,9 @@ function ModalCadastroDespesa({ onClose, onSave }) {
               <input
                 name="custoMensal"
                 autoComplete="off"
-                className={`form-control ${camposInvalidos.custoMensal ? styles.erroInput : ""}`}
+                className={`form-control ${
+                  camposInvalidos.custoMensal ? styles.erroInput : ""
+                }`}
                 inputMode="decimal"
                 value={form.custoMensal}
                 onChange={handleChange}
@@ -109,7 +143,9 @@ function ModalCadastroDespesa({ onClose, onSave }) {
               <input
                 name="tempoOperacional"
                 autoComplete="off"
-                className={`form-control ${camposInvalidos.tempoOperacional ? styles.erroInput : ""}`}
+                className={`form-control ${
+                  camposInvalidos.tempoOperacional ? styles.erroInput : ""
+                }`}
                 inputMode="decimal"
                 value={form.tempoOperacional}
                 onChange={handleChange}

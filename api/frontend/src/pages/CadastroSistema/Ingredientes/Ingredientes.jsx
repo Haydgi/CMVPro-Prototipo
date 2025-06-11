@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { useEffect, useState } from 'react';
-=======
-import { useState } from 'react';
->>>>>>> 94f17d7dd1a7abc482e2b6b11f9472114f7bedff
 import ModalCadastroIngrediente from '../../../components/Modals/ModalCadastroIngrediente/ModalCadastroIngrediente';
 import ModalEditaIngrediente from '../../../components/Modals/ModalCadastroIngrediente/ModalEditaIngrediente';
 import ModelPage from '../ModelPage';
@@ -14,10 +10,6 @@ import { LuMilk } from "react-icons/lu";
 import { TbSalt } from "react-icons/tb";
 import { FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
-<<<<<<< HEAD
-=======
-import { FaTrash } from 'react-icons/fa';
->>>>>>> 94f17d7dd1a7abc482e2b6b11f9472114f7bedff
 
 function Ingredientes() {
   const [ingredientes, setIngredientes] = useState([]);
@@ -52,7 +44,7 @@ function Ingredientes() {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json' 
           }
         });
 
@@ -231,11 +223,7 @@ function Ingredientes() {
       mostrarModal={mostrarModal}
       mostrarModalEditar={mostrarModalEditar}
       ModalCadastro={ModalCadastroIngrediente}
-<<<<<<< HEAD
       ModalEditar={() =>
-=======
-      ModalEditar={() => (
->>>>>>> 94f17d7dd1a7abc482e2b6b11f9472114f7bedff
         ingredienteSelecionado && (
           <ModalEditaIngrediente
             ingrediente={ingredienteSelecionado}

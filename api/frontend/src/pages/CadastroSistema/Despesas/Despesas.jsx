@@ -1,17 +1,51 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ModalCadastroDespesa from '../../../components/Modals/ModalCadastroDespesa/ModalCadastroDespesa';
 import ModalEditaDespesa from '../../../components/Modals/ModalCadastroDespesa/ModalEditaDespesa';
 import ModelPage from '../ModelPage';
 import styles from './Despesas.module.css';
 import { FaMoneyBillWave, FaTrash, FaRegClock } from 'react-icons/fa';
 import Swal from 'sweetalert2';
-import { MdOutlineCalendarMonth } from "react-icons/md";
+import { MdOutlineCalendarMonth } from 'react-icons/md';
+import axios from 'axios';
 
 function Despesas() {
   const [despesas, setDespesas] = useState([]);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [mostrarModalEditar, setMostrarModalEditar] = useState(false);
   const [despesaSelecionada, setDespesaSelecionada] = useState(null);
+
+  useEffect(() => {
+    const fetchDespesas = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          throw new Error('Token não encontrado. Usuário não autenticado.');
+        }
+
+        const response = await axios.get('http://localhost:3001/api/despesas', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        // Normalização dos campos para o formato esperado pelo frontend
+        const despesasNormalizadas = response.data.map((d) => ({
+          id: d.ID_Despesa,
+          nome: d.Nome_Despesa,
+          custoMensal: d.Custo_Mensal,
+          tempoOperacional: d.Tempo_Operacional,
+          data: d.Data_Despesa,
+        }));
+
+        setDespesas(despesasNormalizadas);
+      } catch (error) {
+        console.error('Erro ao buscar despesas:', error);
+        Swal.fire('Erro', 'Erro ao buscar despesas. Verifique sua autenticação.', 'error');
+      }
+    };
+
+    fetchDespesas();
+  }, []);
 
   const salvarDespesa = (nova) => {
     setDespesas((prev) => [
@@ -44,10 +78,8 @@ function Despesas() {
           setDespesaSelecionada(despesa);
           setMostrarModalEditar(true);
         }}
-        style={{ cursor: "pointer" }}
+        style={{ cursor: 'pointer' }}
       >
-        
-
         <h3 className="fw-bold mb-5 mt-3">{despesa.nome}</h3>
 
         <div className="d-flex justify-content-between text-white fs-5">
@@ -64,7 +96,7 @@ function Despesas() {
         <div className="d-flex justify-content-end mt-2">
           <i
             className={styles.Trash}
-            style={{ cursor: "pointer" }}
+            style={{ cursor: 'pointer' }}
             onClick={(e) => {
               e.stopPropagation();
               Swal.fire({
@@ -106,17 +138,17 @@ function Despesas() {
       mostrarModalEditar={mostrarModalEditar}
       ModalCadastro={ModalCadastroDespesa}
       ModalEditar={() =>
-  despesaSelecionada && (
-    <ModalEditaDespesa
-      despesa={despesaSelecionada}
-      onClose={() => {
-        setMostrarModalEditar(false);
-        setDespesaSelecionada(null);
-      }}
-      onSave={atualizarDespesa}
-    />
-  )
-}
+        despesaSelecionada && (
+          <ModalEditaDespesa
+            despesa={despesaSelecionada}
+            onClose={() => {
+              setMostrarModalEditar(false);
+              setDespesaSelecionada(null);
+            }}
+            onSave={atualizarDespesa}
+          />
+        )
+      }
       renderCard={renderCard}
       itensPorPagina={12}
     />

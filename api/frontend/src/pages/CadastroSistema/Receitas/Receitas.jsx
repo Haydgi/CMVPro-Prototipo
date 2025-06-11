@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ModalCadastroReceita from '../../../components/Modals/ModalCadastroReceita/ModalCadastroReceita';
 import ModalEditaReceita from '../../../components/Modals/ModalCadastroReceita/ModalEditaReceita';
 import ModelPage from '../ModelPage';
@@ -12,107 +12,109 @@ function Receitas() {
   const [mostrarModalEditar, setMostrarModalEditar] = useState(false);
   const [receitaSelecionada, setReceitaSelecionada] = useState(null);
 
-  const salvarReceita = (novaReceita) => {
-    setReceitas((prev) => [
-      ...prev,
-      {
-        ...novaReceita,
-        id: prev.length + 1,
-      },
-    ]);
-    setMostrarModal(false);
+  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+  const apiUrl = `${baseUrl}/api/receitas`;
+
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    fetch(apiUrl, {
+      headers: {
+        'Authorization': token ? `Bearer ${token}` : '',
+      }
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('Erro ao buscar receitas');
+        return res.json();
+      })
+      .then(data => {
+        const receitasFormatadas = Array.isArray(data)
+          ? data.map(r => ({ ...r, id: r.ID_Receita })) // Aqui converte ID_Receita para id
+          : Array.isArray(data.receitas)
+            ? data.receitas.map(r => ({ ...r, id: r.ID_Receita }))
+            : [];
+
+        setReceitas(receitasFormatadas);
+      })
+      .catch(err => {
+        console.error(err);
+        setReceitas([]);
+      });
+  }, [apiUrl, token]);
+
+  const salvarReceita = async (novaReceita) => {
+    try {
+      const res = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token ? `Bearer ${token}` : '',
+        },
+        body: JSON.stringify(novaReceita),
+      });
+
+      if (!res.ok) throw new Error('Erro ao salvar receita');
+
+      const receitaSalva = await res.json();
+      setReceitas(prev => [...prev, { ...receitaSalva, id: receitaSalva.ID_Receita }]); // idem aqui
+      setMostrarModal(false);
+      Swal.fire('Sucesso', 'Receita criada com sucesso!', 'success');
+    } catch (error) {
+      console.error(error);
+      Swal.fire('Erro', 'Não foi possível salvar a receita.', 'error');
+    }
   };
 
-  const atualizarReceita = (receitaAtualizada) => {
-    setReceitas((prev) =>
-      prev.map((r) => (r.id === receitaAtualizada.id ? receitaAtualizada : r))
-    );
-    setMostrarModalEditar(false);
-    setReceitaSelecionada(null);
+  const atualizarReceita = async (receitaAtualizada) => {
+    try {
+      const res = await fetch(`${apiUrl}/${receitaAtualizada.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token ? `Bearer ${token}` : '',
+        },
+        body: JSON.stringify(receitaAtualizada),
+      });
+
+      if (!res.ok) throw new Error('Erro ao atualizar receita');
+
+      const receitaAtual = await res.json();
+      setReceitas(prev =>
+        prev.map(r => (r.id === receitaAtual.ID_Receita ? { ...receitaAtual, id: receitaAtual.ID_Receita } : r))
+      );
+      setMostrarModalEditar(false);
+      setReceitaSelecionada(null);
+      Swal.fire('Sucesso', 'Receita atualizada com sucesso!', 'success');
+    } catch (error) {
+      console.error(error);
+      Swal.fire('Erro', 'Não foi possível atualizar a receita.', 'error');
+    }
   };
 
-  const removerReceita = (id) => {
-    setReceitas((prev) => prev.filter((r) => r.id !== id));
+  const removerReceita = async (id) => {
+    console.log('removerReceita chamada com id:', id);
+    if (!id) {
+      console.error('ID inválido para remover receita');
+      Swal.fire('Erro', 'ID inválido para remover receita.', 'error');
+      return;
+    }
+    try {
+      const res = await fetch(`${apiUrl}/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': token ? `Bearer ${token}` : '',
+        }
+      });
+
+      if (!res.ok) throw new Error('Erro ao excluir receita');
+
+      setReceitas(prev => prev.filter(r => r.id !== id));
+      Swal.fire('Excluído!', 'A receita foi removida.', 'success');
+    } catch (error) {
+      console.error(error);
+      Swal.fire('Erro', 'Não foi possível remover a receita.', 'error');
+    }
   };
-
-  const renderCard = (receita) => (
-    <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" key={receita.id}>
-      <div
-        className={styles.cardReceita}
-        onClick={() => {
-          setReceitaSelecionada(receita);
-          setMostrarModalEditar(true);
-        }}
-        style={{ cursor: "pointer" }}
-      >
-        {receita.imagem ? (
-          <div
-            className="rounded mb-2 border"
-            style={{
-              width: "170px",
-              height: "170px",
-              backgroundImage: `url(${receita.imagem})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              marginLeft: "auto",
-              marginRight: "auto",
-            }}
-          />
-        ) : (
-          <div
-            className="rounded bg-light d-flex align-items-center justify-content-center mb-2 border"
-            style={{ 
-              width: "170px",
-              height: "170px",
-              marginLeft: "auto",
-              marginRight: "auto",
-             }}
-          >
-            <span className="text-muted">Sem imagem</span>
-          </div>
-        )}
-
-        <h5 className="fw-bold mb-1">{receita.nome}</h5>
-        <p className="mb-1 fs-6">{receita.categoria}</p>
-
-        <div className="d-flex justify-content-between fs-6 mb-1">
-          <span>⏱ {receita.tempoDePreparo} min</span>
-          <span>Lucro: {receita.porcentagemDeLucro}%</span>
-        </div>
-
-        <div className="d-flex justify-content-between align-items-center">
-          <p className="fw-bold mb-0">
-            Custo: R$ {Number(receita.custoTotalIngredientes).toFixed(2)} Uni.
-          </p>
-          <i
-            className={styles.Trash}
-            style={{ cursor: "pointer" }}
-            onClick={(e) => {
-              e.stopPropagation();
-              Swal.fire({
-                title: 'Tem certeza?',
-                text: 'Você deseja excluir esta receita?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#EF4444',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Sim, excluir',
-                cancelButtonText: 'Cancelar',
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  removerReceita(receita.id);
-                  Swal.fire('Excluído!', 'A receita foi removida.', 'success');
-                }
-              });
-            }}
-            title="Excluir"
-          >
-            <FaTrash />
-          </i>
-        </div>
-      </div>
-    </div>
-  );
 
   return (
     <ModelPage
@@ -137,7 +139,87 @@ function Receitas() {
           onSave={atualizarReceita}
         />
       )}
-      renderCard={renderCard}
+      renderCard={(receita) => {
+        console.log('Receita no renderCard:', receita);
+        return (
+          <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" key={receita.id}>
+            <div
+              className={styles.cardReceita}
+              onClick={() => {
+                setReceitaSelecionada(receita);
+                setMostrarModalEditar(true);
+              }}
+              style={{ cursor: "pointer" }}
+            >
+              {receita.Imagem_URL ? (
+                <div
+                  className="rounded mb-2 border"
+                  style={{
+                    width: "170px",
+                    height: "170px",
+                    backgroundImage: `url(${receita.Imagem_URL})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                  }}
+                />
+              ) : (
+                <div
+                  className="rounded bg-light d-flex align-items-center justify-content-center mb-2 border"
+                  style={{
+                    width: "170px",
+                    height: "170px",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                  }}
+                >
+                  <span className="text-muted">Sem imagem</span>
+                </div>
+              )}
+
+              <h5 className="fw-bold mb-1">{receita.nome}</h5>
+              <p className="mb-1 fs-6">{receita.categoria}</p>
+
+              <div className="d-flex justify-content-between fs-6 mb-1">
+                <span>⏱ {receita.Tempo_Preparo} min</span>
+                <span>Lucro: {receita.Porcentagem_De_Lucro}%</span>
+              </div>
+
+              <div className="d-flex justify-content-between align-items-center">
+                <p className="fw-bold mb-0">
+                  Custo: R$ {Number(receita.Custo_Total_Ingredientes).toFixed(2)} Uni.
+                </p>
+                <i
+                  className={styles.Trash}
+                  style={{ cursor: "pointer" }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    console.log("removerReceita chamada com id:", receita.id, receita.ID_Receita);
+                    Swal.fire({
+                      title: 'Tem certeza?',
+                      text: 'Você deseja excluir esta receita?',
+                      icon: 'warning',
+                      showCancelButton: true,
+                      confirmButtonColor: '#EF4444',
+                      cancelButtonColor: '#3085d6',
+                      confirmButtonText: 'Sim, excluir',
+                      cancelButtonText: 'Cancelar',
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        removerReceita(receita.id);
+                      }
+                    });
+                  }}
+                  title="Excluir"
+                >
+                  <FaTrash />
+                </i>
+              </div>
+            </div>
+          </div>
+        )
+      }}
       itensPorPagina={8}
     />
   );
