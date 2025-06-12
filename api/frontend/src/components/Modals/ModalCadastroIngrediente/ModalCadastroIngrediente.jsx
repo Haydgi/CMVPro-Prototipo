@@ -149,7 +149,7 @@ function ModalCadastroIngrediente({ onClose, onSave }) {
                 </select>
               </div>
               <div className={styles.formGroup}>
-                <label>Unidade de Compra</label>
+                <label>Unidade de Medida</label>
                 <select
                   name="unidade"
                   className={`form-control ${camposInvalidos.unidade ? styles.erroInput : ""}`}

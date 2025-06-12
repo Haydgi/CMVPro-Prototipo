@@ -161,10 +161,6 @@ function ModalCadastroReceita({ onClose, onSave, }) {
 
   if (fileInputRef.current?.files?.[0]) {
     formData.append('imagem_URL', fileInputRef.current.files[0]);
-  } else {
-    console.error("Nenhuma imagem selecionada.");
-    toast.error("Por favor, selecione uma imagem.");
-    return;
   }
 
   const token = localStorage.getItem("token");
@@ -174,6 +170,7 @@ function ModalCadastroReceita({ onClose, onSave, }) {
       method: "POST",
       body: formData,
       headers: {
+        
         "Authorization": `Bearer ${token}`,
         // Não defina 'Content-Type' aqui, o navegador cuida disso para FormData
       },
@@ -311,12 +308,15 @@ function ModalCadastroReceita({ onClose, onSave, }) {
                 <textarea
                   name="Descricao"
                   className="form-control"
-                  value={form.descricao}
+                  value={form.Descricao}
                   onChange={handleChange}
                   rows={7}
                   placeholder="Descreva a receita..."
-                  maxLength={245}
+                  maxLength={500}
                 />
+                <div className="text-end" style={{ fontSize: "0.9em", color: "#888" }}>
+                  {form.Descricao.length}/500 caracteres
+                </div>
               </div>
             </div>
 
@@ -350,8 +350,8 @@ function ModalCadastroReceita({ onClose, onSave, }) {
                 <label className="mt-4">Ingredientes da Receita</label>
                 <div className={styles.ingredientesBox}>
                   <div className={`${styles.tabelaCabecalho}`}>
-                    <span className={`${styles.nomeIngrediente}`}>Nome</span>
-                    <span>Quantidade</span>
+                    <span className={`${styles.nomeIngrediente} text-center`}>Nome</span>
+                    <span className="text-center">Quantidade</span>
                     <span className="d-flex justify-content-center">Unidade</span>
                   </div>
                   {ingredientesSelecionados.map((ingrediente, index) => (

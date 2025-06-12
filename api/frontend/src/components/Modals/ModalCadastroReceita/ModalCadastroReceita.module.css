@@ -346,9 +346,28 @@ textarea {
   
 
 .tabelaCabecalho{
-  font-size: calc(100% - 2px) !important; /* Reduz o tamanho da fonte em 2px */
+  font-size: calc(100% - 3px) !important; /* Reduz o tamanho da fonte em 2px */
   text-align: center !important;
 }
   
 }
 
+@media (max-width: 600px) {
+  
+
+.tabelaCabecalho{
+  font-size: calc(100% - 3px) !important; /* Reduz o tamanho da fonte em 2px */
+  text-align: center !important;
+}
+  
+}
+
+@media (max-width: 500px) {
+  
+
+.tabelaCabecalho{
+  font-size: calc(100% - 3px) !important; /* Reduz o tamanho da fonte em 2px */
+  text-align: center !important;
+}
+  
+}
