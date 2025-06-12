@@ -9,7 +9,9 @@ import { CiWheat, CiDroplet } from "react-icons/ci";
 import { LuMilk } from "react-icons/lu";
 import { TbSalt } from "react-icons/tb";
 import { FaTrash } from "react-icons/fa";
+import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
 
 function Ingredientes() {
   const [ingredientes, setIngredientes] = useState([]);
@@ -56,44 +58,45 @@ function Ingredientes() {
 
   const getToken = () => localStorage.getItem('token');
 
-  useEffect(() => {
-    async function fetchIngredientes() {
-      const token = getToken();
-      if (!token) return;
+  const fetchIngredientes = async () => {
+    const token = getToken();
+    if (!token) return;
 
-      try {
-        const res = await fetch(`${API_URL}/api/ingredientes`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json' 
-          }
-        });
+    try {
+      const res = await fetch(`${API_URL}/api/ingredientes`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json' 
+        }
+      });
 
-        if (!res.ok) throw new Error('Erro ao buscar ingredientes');
-        const data = await res.json();
+      if (!res.ok) throw new Error('Erro ao buscar ingredientes');
+      const data = await res.json();
 
-        const formatados = data.map(item => ({
-          ...item,
-          id: item.ID_Ingredientes,
-          nome: item.Nome_Ingrediente,
-          preco: item.Custo_Ingrediente,
-          unidadeCompra: item.Unidade_Compra,
-          categoria: item.Categoria,
-          icone: iconesCategorias[item.Categoria] || "❓",
-        }));
+      const formatados = data.map(item => ({
+        ...item,
+        id: item.ID_Ingredientes,
+        nome: item.Nome_Ingrediente,
+        preco: item.Custo_Ingrediente,
+        unidadeCompra: item.Unidade_Compra,
+        categoria: item.Categoria,
+        icone: iconesCategorias[item.Categoria] || "❓",
+      }));
 
-        setIngredientes(formatados);
-      } catch (error) {
-        console.error('Erro:', error);
-        Swal.fire('Erro', 'Falha ao buscar ingredientes.', 'error');
-      }
+      setIngredientes(formatados);
+    } catch (error) {
+      console.error('Erro:', error);
+      toast.error('Falha ao buscar ingredientes.');
     }
+  };
 
+  useEffect(() => {
     fetchIngredientes();
   }, [API_URL]);
 
   const salvarIngrediente = async (novoIngrediente) => {
+    // Faz apenas o POST para criar novo ingrediente
     const token = getToken();
     if (!token) return;
 
@@ -108,25 +111,12 @@ function Ingredientes() {
       });
 
       if (!res.ok) throw new Error('Erro ao salvar ingrediente');
-      const salvo = await res.json();
 
-      setIngredientes(prev => [
-        ...prev,
-        {
-          ...salvo,
-          id: salvo.ID_Ingredientes,
-          nome: salvo.Nome_Ingrediente,
-          preco: salvo.Custo_Ingrediente,
-          unidadeCompra: salvo.Unidade_Compra,
-          categoria: salvo.Categoria,
-          icone: iconesCategorias[salvo.Categoria] || "❓"
-        }
-      ]);
-
-      setMostrarModal(false);
-      Swal.fire('Sucesso', 'Ingrediente cadastrado!', 'success');
+      await fetchIngredientes(); // Recarrega a lista de ingredientes
+      toast.success('Ingrediente cadastrado com sucesso!');
     } catch (err) {
-      Swal.fire('Erro', 'Erro ao cadastrar ingrediente.', 'error');
+      console.error(err);
+      toast.error('Erro ao cadastrar ingrediente.');
     }
   };
 
@@ -144,29 +134,17 @@ function Ingredientes() {
         body: JSON.stringify(ingredienteAtualizado)
       });
 
-      if (!res.ok) throw new Error('Erro ao atualizar ingrediente');
+      const atualizado = await res.json();
 
-      setIngredientes(prev =>
-        prev.map(i =>
-          i.id === ingredienteAtualizado.ID_Ingredientes
-            ? {
-                ...ingredienteAtualizado,
-                id: ingredienteAtualizado.ID_Ingredientes,
-                nome: ingredienteAtualizado.Nome_Ingrediente,
-                preco: ingredienteAtualizado.Custo_Ingrediente,
-                unidadeCompra: ingredienteAtualizado.Unidade_Compra,
-                categoria: ingredienteAtualizado.Categoria,
-                icone: iconesCategorias[ingredienteAtualizado.Categoria] || "❓"
-              }
-            : i
-        )
-      );
+      // Recarrega todos os ingredientes após editar
+      await fetchIngredientes();
 
       setMostrarModalEditar(false);
       setIngredienteSelecionado(null);
-      Swal.fire('Sucesso', 'Ingrediente atualizado!', 'success');
+      toast.success('Ingrediente atualizado com sucesso!');
     } catch (err) {
-      Swal.fire('Erro', 'Erro ao atualizar ingrediente.', 'error');
+      console.error(err);
+      toast.error('Erro ao atualizar ingrediente.');
     }
   };
 
@@ -183,9 +161,9 @@ function Ingredientes() {
       if (!res.ok) throw new Error('Erro ao remover ingrediente');
 
       setIngredientes(prev => prev.filter(i => i.id !== id));
-      Swal.fire('Excluído!', 'Ingrediente removido com sucesso.', 'success');
+      toast.success('Ingrediente removido com sucesso!');
     } catch (err) {
-      Swal.fire('Erro', 'Erro ao remover ingrediente.', 'error');
+      toast.error('Erro ao remover ingrediente.');
     }
   };
 
@@ -209,18 +187,25 @@ function Ingredientes() {
             className={styles.Trash}
             onClick={(e) => {
               e.stopPropagation();
+
+              // SweetAlert para confirmação
               Swal.fire({
                 title: 'Tem certeza?',
                 text: 'Você deseja excluir este ingrediente?',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#EF4444',
+                confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
                 confirmButtonText: 'Sim, excluir',
                 cancelButtonText: 'Cancelar',
               }).then((result) => {
                 if (result.isConfirmed) {
                   removerIngrediente(ingrediente.id);
+                  Swal.fire(
+                    'Excluído!',
+                    'O ingrediente foi removido com sucesso.',
+                    'success'
+                  );
                 }
               });
             }}
@@ -231,6 +216,20 @@ function Ingredientes() {
       </div>
     </div>
   );
+
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // Previne o comportamento padrão do formulário
+
+    const novoIngrediente = {
+      nome: form.nome,
+      unidadeDeMedida: form.unidade,
+      custo: parseFloat(form.custo.replace(",", ".")),
+      indiceDeDesperdicio: parseFloat(form.taxaDesperdicio.replace(",", ".")),
+      categoria: form.categoria,
+    };
+
+    await salvarIngrediente(novoIngrediente);
+  };
 
   return (
     <ModelPage
