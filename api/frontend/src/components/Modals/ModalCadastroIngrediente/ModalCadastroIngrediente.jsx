@@ -2,10 +2,6 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "../../../Styles/global.css";
 import styles from "./ModalCadastroIngrediente.module.css";
-import { FaTrash } from "react-icons/fa";
-import axios from "axios";
-
-
 
 function ModalCadastroIngrediente({ onClose, onSave }) {
   const [form, setForm] = useState({
@@ -17,8 +13,7 @@ function ModalCadastroIngrediente({ onClose, onSave }) {
   });
 
   const [isClosing, setIsClosing] = useState(false);
-  const [ingredienteBusca, setIngredienteBusca] = useState("");
-  const [ingredientesRelacionados, setIngredientesRelacionados] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false); // Novo estado para controlar o envio
   const [camposInvalidos, setCamposInvalidos] = useState({});
 
   const categorias = [
@@ -62,168 +57,135 @@ function ModalCadastroIngrediente({ onClose, onSave }) {
     }
   };
 
-const handleSubmit = () => {
-  const campos = {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (!form.nome) campos.nome = true;
-  if (!form.categoria) campos.categoria = true;
-  if (!form.tempoDePreparo) campos.tempoDePreparo = true;
-  if (!form.porcentagemDeLucro) campos.porcentagemDeLucro = true;
-  if (!form.descricao) campos.descricao = true;  // agora obrigatório também
+    if (isSubmitting) return;
 
-  if (Object.keys(campos).length > 0) {
-    setCamposInvalidos(campos);
-    toast.error("Preencha todos os campos obrigatórios!");
-    return;
-  }
+    setIsSubmitting(true);
 
-  const errosIngredientes = {};
-  ingredientesSelecionados.forEach((ingrediente, index) => {
-    if (!ingrediente.quantidade || isNaN(ingrediente.quantidade)) {
-      errosIngredientes[`ingrediente_${index}`] = true;
+    const campos = {};
+    if (!form.nome) campos.nome = true;
+    if (!form.custo) campos.custo = true;
+    if (!form.categoria) campos.categoria = true;
+    if (!form.unidade) campos.unidade = true;
+    if (!form.taxaDesperdicio) campos.taxaDesperdicio = true;
+
+    if (Object.keys(campos).length > 0) {
+      setCamposInvalidos(campos);
+      toast.error("Preencha todos os campos obrigatórios!");
+      setIsSubmitting(false);
+      return;
     }
-  });
 
-  if (Object.keys(errosIngredientes).length > 0) {
-    setCamposInvalidos(errosIngredientes);
-    toast.error("Preencha a quantidade de todos os ingredientes!");
-    return;
-  }
+    const ingredienteFormatado = {
+      nome: form.nome,
+      unidadeDeMedida: form.unidade,
+      custo: parseFloat(form.custo.replace(",", ".")),
+      indiceDeDesperdicio: parseFloat(form.taxaDesperdicio.replace(",", ".")),
+      categoria: form.categoria,
+    };
 
-  if (ingredientesSelecionados.length < 2) {
-    toast.error("Adicione pelo menos 2 ingredientes!");
-    return;
-  }
-
-  setCamposInvalidos({});
-
-  // Função para calcular custo total baseado nos ingredientes (exemplo)
-  const calcularCustoTotal = (ingredientes) => {
-    return ingredientes.reduce((total, ingr) => {
-      const preco = ingr.precoUnitario || 0;
-      const qtd = Number(ingr.quantidade) || 0;
-      return total + preco * qtd;
-    }, 0);
-  };
-
-  const custoTotal = calcularCustoTotal(ingredientesSelecionados);
-
-  const receitaFormatado = {
-    nome: form.nome,
-    descricao: form.descricao,
-    tempoPreparo: Number(form.tempoDePreparo),
-    custoTotalIngredientes: custoTotal,
-    porcentagemDeLucro: Number(form.porcentagemDeLucro),
-    categoria: form.categoria,
-    imagemURL: form.imagemURL || "",
-  };
-
-  const token = localStorage.getItem('token'); // onde seu token JWT está armazenado
- console.log("Dados enviados:", receitaFormatado);
-
-  fetch("http://localhost:3001/api/receitas", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(receitaFormatado),
-  })
-    .then((res) => {
-      if (!res.ok) throw new Error("Erro ao salvar receita");
-      return res.json();
-    })
-    .then((data) => {
-      toast.success("Receita cadastrada com sucesso!");
-      if (onSave) onSave(data);
+    try {
+      if (onSave) {
+        await onSave(ingredienteFormatado); // O pai faz o fetch!
+      }
       handleClose();
-    })
-    .catch((err) => {
-      console.error(err);
-      toast.error("Erro ao salvar receita no servidor");
-    });
-};
-
+    } catch (error) {
+      toast.error("Erro ao cadastrar ingrediente.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className={`${styles.modalOverlay} ${isClosing ? styles.modalExit : styles.modalEnter}`}>
       <div className={`${styles.modalContainer} shadow`}>
         <div className={styles.modalHeader}>
           <h5>Cadastrar Ingrediente</h5>
-          <button onClick={handleClose} className={styles.btnClose}>&times;</button>
+          <button onClick={handleClose} className={styles.btnClose}>
+            &times;
+          </button>
         </div>
 
         <div className={styles.modalBody}>
-          <div className={styles.formGrid}>
-            <div className={`${styles.formGroup} ${styles.colSpan2}`}>
-              <label>Nome do Ingrediente</label>
-              <input
-                name="nome"
-                autoComplete="off"
-                className={`form-control ${camposInvalidos.nome ? styles.erroInput : ""}`}
-                value={form.nome}
-                onChange={handleChange}
-              />
+          <form onSubmit={handleSubmit}>
+            <div className={styles.formGrid}>
+              <div className={`${styles.formGroup} ${styles.colSpan2}`}>
+                <label>Nome do Ingrediente</label>
+                <input
+                  name="nome"
+                  autoComplete="off"
+                  className={`form-control ${camposInvalidos.nome ? styles.erroInput : ""}`}
+                  value={form.nome}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label>Custo de Compra (R$)</label>
+                <input
+                  name="custo"
+                  autoComplete="off"
+                  className={`form-control ${camposInvalidos.custo ? styles.erroInput : ""}`}
+                  inputMode="decimal"
+                  value={form.custo}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label>Categoria</label>
+                <select
+                  name="categoria"
+                  className={`form-control ${camposInvalidos.categoria ? styles.erroInput : ""}`}
+                  value={form.categoria}
+                  onChange={handleChange}
+                >
+                  <option value="">Selecione...</option>
+                  {categorias.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className={styles.formGroup}>
+                <label>Unidade de Medida</label>
+                <select
+                  name="unidade"
+                  className={`form-control ${camposInvalidos.unidade ? styles.erroInput : ""}`}
+                  value={form.unidade}
+                  onChange={handleChange}
+                >
+                  <option value="">Selecione...</option>
+                  <option value="kg">Quilo (kg)</option>
+                  <option value="g">Grama (g)</option>
+                  <option value="mg">Miligrama (mg)</option>
+                  <option value="L">Litro (L)</option>
+                  <option value="ml">Mililitro (ml)</option>
+                  <option value="un">Unidade (un.)</option>
+                </select>
+              </div>
+              <div className={styles.formGroup}>
+                <label>Taxa de Desperdício (%)</label>
+                <input
+                  name="taxaDesperdicio"
+                  autoComplete="off"
+                  className={`form-control ${camposInvalidos.taxaDesperdicio ? styles.erroInput : ""}`}
+                  inputMode="decimal"
+                  value={form.taxaDesperdicio}
+                  onChange={handleChange}
+                />
+              </div>
             </div>
-            <div className={styles.formGroup}>
-              <label>Custo de Compra (R$)</label>
-              <input
-                name="custo"
-                autoComplete="off"
-                className={`form-control ${camposInvalidos.custo ? styles.erroInput : ""}`}
-                inputMode="decimal"
-                value={form.custo}
-                onChange={handleChange}
-              />
+            <div className={styles.modalFooter}>
+              <button className={styles.btnCancel} onClick={handleClose}>
+                Cancelar
+              </button>
+              <button type="submit" className={styles.btnSave} disabled={isSubmitting}>
+                {isSubmitting ? "Salvando..." : "Salvar"}
+              </button>
             </div>
-            <div className={styles.formGroup}>
-              <label>Categoria</label>
-              <select
-                name="categoria"
-                className={`form-control ${camposInvalidos.categoria ? styles.erroInput : ""}`}
-                value={form.categoria}
-                onChange={handleChange}
-              >
-                <option value="">Selecione...</option>
-                {categorias.map((cat) => (
-                  <option key={cat} value={cat}>{cat}</option>
-                ))}
-              </select>
-            </div>
-            <div className={styles.formGroup}>
-              <label>Unidade de Compra</label>
-              <select
-                name="unidade"
-                className={`form-control ${camposInvalidos.unidade ? styles.erroInput : ""}`}
-                value={form.unidade}
-                onChange={handleChange}
-              >
-                <option value="">Selecione...</option>
-                <option value="kg">Quilo (kg)</option>
-                <option value="g">Grama (g)</option>
-                <option value="mg">Miligrama (mg)</option>
-                <option value="L">Litro (L)</option>
-                <option value="ml">Mililitro (ml)</option>
-                <option value="un">Unidade (un.)</option>
-              </select>
-            </div>
-            <div className={styles.formGroup}>
-              <label>Taxa de Desperdício (%)</label>
-              <input
-                name="taxaDesperdicio"
-                autoComplete="off"
-                className={`form-control ${camposInvalidos.taxaDesperdicio ? styles.erroInput : ""}`}
-                inputMode="decimal"
-                value={form.taxaDesperdicio}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.modalFooter}>
-          <button className={styles.btnCancel} onClick={handleClose}>Cancelar</button>
-          <button className={styles.btnSave} onClick={handleSubmit}>Salvar</button>
+          </form>
         </div>
       </div>
     </div>

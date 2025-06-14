@@ -41,56 +41,62 @@ function ModalCadastroDespesa({ onClose, onSave }) {
     }
   };
 
-  const handleSubmit = async () => {
-  const campos = {};
-  if (!form.nome.trim()) campos.nome = true;
-  if (!form.custoMensal) campos.custoMensal = true;
-  if (!form.tempoOperacional) campos.tempoOperacional = true;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (Object.keys(campos).length > 0) {
-    setCamposInvalidos(campos);
-    toast.error("Preencha todos os campos obrigatórios!");
-    return;
-  }
+    const campos = {};
+    if (!form.nome.trim()) campos.nome = true;
+    if (!form.custoMensal) campos.custoMensal = true;
+    if (!form.tempoOperacional) campos.tempoOperacional = true;
 
-  const despesa = {
-    nome: form.nome.trim(),
-    custoMensal: parseFloat(form.custoMensal.replace(",", ".")),
-    tempoOperacional: parseFloat(form.tempoOperacional.replace(",", ".")),
-  };
-
-  try {
-    // Pegue o token onde você armazena (localStorage, context, etc)
-    const token = localStorage.getItem("token"); // ajuste conforme seu sistema
-
-    if (!token) {
-      toast.error("Usuário não autenticado");
+    if (Object.keys(campos).length > 0) {
+      setCamposInvalidos(campos);
+      toast.error("Preencha todos os campos obrigatórios!");
       return;
     }
 
-    const response = await fetch("http://localhost:3001/api/despesas", {  // <--- Corrigido aqui
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(despesa),
-    });
+    const despesa = {
+      nome: form.nome.trim(),
+      custoMensal: parseFloat(form.custoMensal.replace(",", ".")),
+      tempoOperacional: parseFloat(form.tempoOperacional.replace(",", ".")),
+    };
 
-    if (response.ok) {
-      const data = await response.json();
-      toast.success("Despesa cadastrada com sucesso!");
-      onSave?.(data);
-      handleClose();
-    } else {
-      const errorData = await response.json();
-      toast.error(errorData.error || "Erro ao cadastrar despesa");
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        toast.error("Usuário não autenticado");
+        return;
+      }
+
+      const response = await fetch("http://localhost:3001/api/despesas", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(despesa),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        toast.success("Despesa cadastrada com sucesso!");
+        onSave?.(data);
+        handleClose();
+      } else {
+        let errorData = {};
+        try {
+          errorData = await response.json();
+        } catch {
+          // resposta não é JSON, ignora
+        }
+        toast.error(errorData.error || "Erro ao cadastrar despesa");
+      }
+    } catch (error) {
+      toast.error("Erro de conexão com o servidor");
+      console.error(error);
     }
-  } catch (error) {
-    toast.error("Erro de conexão com o servidor");
-    console.error(error);
-  }
-};
+  };
 
   return (
     <div
@@ -109,7 +115,7 @@ function ModalCadastroDespesa({ onClose, onSave }) {
           </button>
         </div>
 
-        <div className={styles.modalBody}>
+        <form className={styles.modalBody} onSubmit={handleSubmit}>
           <div className={styles.formGrid}>
             <div className={`${styles.formGroup} ${styles.colSpan2}`}>
               <label>Nome da Despesa</label>
@@ -152,16 +158,20 @@ function ModalCadastroDespesa({ onClose, onSave }) {
               />
             </div>
           </div>
-        </div>
 
-        <div className={styles.modalFooter}>
-          <button className={styles.btnCancel} onClick={handleClose}>
-            Cancelar
-          </button>
-          <button className={styles.btnSave} onClick={handleSubmit}>
-            Salvar
-          </button>
-        </div>
+          <div className={styles.modalFooter}>
+            <button
+              type="button"
+              className={styles.btnCancel}
+              onClick={handleClose}
+            >
+              Cancelar
+            </button>
+            <button type="submit" className={styles.btnSave}>
+              Salvar
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

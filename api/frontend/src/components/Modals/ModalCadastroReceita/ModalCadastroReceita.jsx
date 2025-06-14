@@ -280,7 +280,7 @@ function ModalCadastroReceita({ onClose, onSave, }) {
                     <select
                       name="Categoria"
                       className={`form-control ${camposInvalidos.categoria ? styles.erroInput : ""}`}
-                      value={form.categoria}
+                      value={form.Categoria}
                       onChange={handleChange}
                     >
                       <option value="">Selecione...</option>
@@ -298,7 +298,7 @@ function ModalCadastroReceita({ onClose, onSave, }) {
                       autoComplete="off"
                       className={`form-control ${camposInvalidos.porcentagemDeLucro ? styles.erroInput : ""}`}
                       inputMode="decimal"
-                      value={form.porcentagemDeLucro}
+                      value={form.Porcentagem_De_Lucro}
                       onChange={handleChange}
                       placeholder="Ex: 20"
                     />
@@ -311,7 +311,7 @@ function ModalCadastroReceita({ onClose, onSave, }) {
                 <textarea
                   name="Descricao"
                   className="form-control"
-                  value={form.descricao}
+                  value={form.Descricao}
                   onChange={handleChange}
                   rows={7}
                   placeholder="Descreva a receita..."

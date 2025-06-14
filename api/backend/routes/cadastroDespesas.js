@@ -1,158 +1,183 @@
-import { useState, useEffect } from 'react';
-import ModalCadastroDespesa from '../../../components/Modals/ModalCadastroDespesa/ModalCadastroDespesa';
-import ModalEditaDespesa from '../../../components/Modals/ModalCadastroDespesa/ModalEditaDespesa';
-import ModelPage from '../ModelPage';
-import styles from './Despesas.module.css';
-import { FaMoneyBillWave, FaTrash, FaRegClock } from 'react-icons/fa';
-import Swal from 'sweetalert2';
-import { MdOutlineCalendarMonth } from 'react-icons/md';
-import axios from 'axios';
+import express from 'express';
+import jwt from 'jsonwebtoken';
+import db from '../database/connection.js';
+import multer from 'multer';
 
-function Despesas() {
-  const [despesas, setDespesas] = useState([]);
-  const [mostrarModal, setMostrarModal] = useState(false);
-  const [mostrarModalEditar, setMostrarModalEditar] = useState(false);
-  const [despesaSelecionada, setDespesaSelecionada] = useState(null);
+const router = express.Router();
+const upload = multer();
 
-  useEffect(() => {
-    const fetchDespesas = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          throw new Error('Token não encontrado. Usuário não autenticado.');
-        }
+const MSGS = {
+  camposFaltando: 'Campos obrigatórios faltando ou inválidos',
+  erroCadastro: 'Erro ao cadastrar despesa',
+  erroAtualizar: 'Erro ao atualizar despesa',
+  erroExcluir: 'Erro ao excluir despesa',
+  erroBuscar: 'Erro ao buscar despesas',
+  despesaNaoEncontrada: 'Despesa não encontrada',
+  naoAutorizado: 'Não autorizado a alterar esta despesa',
+  tokenNaoFornecido: 'Token não fornecido',
+  tokenInvalido: 'Token inválido',
+  idInvalido: 'ID inválido',
+};
 
-        const response = await axios.get('http://localhost:3001/api/despesas', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+// Middleware de autenticação JWT
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
 
-        // Normalização dos campos para o formato esperado pelo frontend
-        const despesasNormalizadas = response.data.map((d) => ({
-          id: d.ID_Despesa,
-          nome: d.Nome_Despesa,
-          custoMensal: d.Custo_Mensal,
-          tempoOperacional: d.Tempo_Operacional,
-          data: d.Data_Despesa,
-        }));
+  if (!token) {
+    return res.status(401).json({ error: MSGS.tokenNaoFornecido });
+  }
 
-        setDespesas(despesasNormalizadas);
-      } catch (error) {
-        console.error('Erro ao buscar despesas:', error);
-        Swal.fire('Erro', 'Erro ao buscar despesas. Verifique sua autenticação.', 'error');
-      }
-    };
-
-    fetchDespesas();
-  }, []);
-
-  const salvarDespesa = (nova) => {
-    setDespesas((prev) => [
-      ...prev,
-      {
-        ...nova,
-        id: prev.length + 1,
-      },
-    ]);
-    setMostrarModal(false);
-  };
-
-  const atualizarDespesa = (atualizada) => {
-    setDespesas((prev) =>
-      prev.map((d) => (d.id === atualizada.id ? atualizada : d))
-    );
-    setMostrarModalEditar(false);
-    setDespesaSelecionada(null);
-  };
-
-  const removerDespesa = (id) => {
-    setDespesas((prev) => prev.filter((d) => d.id !== id));
-  };
-
-  const renderCard = (despesa) => (
-    <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" key={despesa.id}>
-      <div
-        className={styles.cardDespesa}
-        onClick={() => {
-          setDespesaSelecionada(despesa);
-          setMostrarModalEditar(true);
-        }}
-        style={{ cursor: 'pointer' }}
-      >
-        <h3 className="fw-bold mb-5 mt-3">{despesa.nome}</h3>
-
-        <div className="d-flex justify-content-between text-white fs-5">
-          <span className="d-flex align-items-center">
-            <MdOutlineCalendarMonth className="me-2" />
-            R$ {Number(despesa.custoMensal).toFixed(2)}
-          </span>
-          <span className="d-flex align-items-center">
-            <FaRegClock className="me-2" />
-            {despesa.tempoOperacional}h
-          </span>
-        </div>
-
-        <div className="d-flex justify-content-end mt-2">
-          <i
-            className={styles.Trash}
-            style={{ cursor: 'pointer' }}
-            onClick={(e) => {
-              e.stopPropagation();
-              Swal.fire({
-                title: 'Tem certeza?',
-                text: 'Você deseja excluir esta despesa?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#EF4444',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Sim, excluir',
-                cancelButtonText: 'Cancelar',
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  removerDespesa(despesa.id);
-                  Swal.fire('Excluída!', 'A despesa foi removida.', 'success');
-                }
-              });
-            }}
-            title="Excluir"
-          >
-            <FaTrash />
-          </i>
-        </div>
-      </div>
-    </div>
-  );
-
-  return (
-    <ModelPage
-      titulo="Despesas cadastradas"
-      dados={despesas}
-      salvarItem={salvarDespesa}
-      removerItem={removerDespesa}
-      abrirModal={() => setMostrarModal(true)}
-      fecharModal={() => setMostrarModal(false)}
-      abrirModalEditar={() => setMostrarModalEditar(true)}
-      fecharModalEditar={() => setMostrarModalEditar(false)}
-      mostrarModal={mostrarModal}
-      mostrarModalEditar={mostrarModalEditar}
-      ModalCadastro={ModalCadastroDespesa}
-      ModalEditar={() =>
-        despesaSelecionada && (
-          <ModalEditaDespesa
-            despesa={despesaSelecionada}
-            onClose={() => {
-              setMostrarModalEditar(false);
-              setDespesaSelecionada(null);
-            }}
-            onSave={atualizarDespesa}
-          />
-        )
-      }
-      renderCard={renderCard}
-      itensPorPagina={12}
-    />
-  );
+  jwt.verify(token, process.env.SECRET_JWT, (err, usuario) => {
+    if (err) {
+      return res.status(403).json({ error: MSGS.tokenInvalido });
+    }
+    req.usuario = usuario;
+    next();
+  });
 }
 
-export default Despesas;
+// Função auxiliar de validação
+function validarCampos(nome, custoMensal, tempoOperacional) {
+  nome = nome?.trim();
+  if (!nome || typeof nome !== 'string' || nome.length < 2) return false;
+  if (isNaN(custoMensal) || custoMensal <= 0) return false;
+  if (isNaN(tempoOperacional) || tempoOperacional <= 0) return false;
+  return true;
+}
+
+// POST - Cadastrar despesa
+router.post('/', authenticateToken, upload.none(), async (req, res) => {
+  let { nome, custoMensal, tempoOperacional } = req.body;
+  const ID_Usuario = req.usuario.ID_Usuario;
+
+  if (!validarCampos(nome, custoMensal, tempoOperacional)) {
+    return res.status(400).json({ error: MSGS.camposFaltando });
+  }
+
+  try {
+    const [result] = await db.query(
+      `INSERT INTO despesas
+       (Nome_Despesa, Custo_Mensal, Tempo_Operacional, ID_Usuario, Data_Despesa)
+       VALUES (?, ?, ?, ?, NOW())`,
+      [nome.trim(), custoMensal, tempoOperacional, ID_Usuario]
+    );
+
+    res.status(201).json({
+      id: result.insertId,
+      nome,
+      custoMensal,
+      tempoOperacional,
+    });
+  } catch (error) {
+    console.error('Erro ao cadastrar despesa:', error);
+    res.status(500).json({ error: MSGS.erroCadastro });
+  }
+});
+
+// GET - Listar despesas com paginação
+router.get('/', authenticateToken, async (req, res) => {
+  const ID_Usuario = req.usuario.ID_Usuario;
+  const { page = 1, limit = 10 } = req.query;
+  const offset = (page - 1) * limit;
+
+  try {
+    const [rows] = await db.query(
+      `SELECT ID_Despesa, Nome_Despesa, Custo_Mensal, Tempo_Operacional, Data_Despesa
+       FROM despesas
+       WHERE ID_Usuario = ?
+       ORDER BY Data_Despesa DESC
+       LIMIT ? OFFSET ?`,
+      [ID_Usuario, Number(limit), Number(offset)]
+    );
+
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error('Erro ao buscar despesas:', error);
+    res.status(500).json({ error: MSGS.erroBuscar });
+  }
+});
+
+// PUT - Atualizar despesa
+router.put('/:id', authenticateToken, upload.none(), async (req, res) => {
+  let { nome, custoMensal, tempoOperacional } = req.body;
+  const { id } = req.params;
+  const ID_Usuario = req.usuario.ID_Usuario;
+
+  const idNum = Number(id);
+  if (isNaN(idNum)) {
+    return res.status(400).json({ error: MSGS.idInvalido });
+  }
+
+  if (!validarCampos(nome, custoMensal, tempoOperacional)) {
+    return res.status(400).json({ error: MSGS.camposFaltando });
+  }
+
+  try {
+    const [rows] = await db.query(
+      `SELECT ID_Usuario FROM despesas WHERE ID_Despesa = ?`,
+      [idNum]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: MSGS.despesaNaoEncontrada });
+    }
+
+    if (rows[0].ID_Usuario !== ID_Usuario) {
+      return res.status(403).json({ error: MSGS.naoAutorizado });
+    }
+
+    await db.query(
+      `UPDATE despesas
+       SET Nome_Despesa = ?, Custo_Mensal = ?, Tempo_Operacional = ?
+       WHERE ID_Despesa = ?`,
+      [nome.trim(), custoMensal, tempoOperacional, idNum]
+    );
+
+    res.status(200).json({
+      id: idNum,
+      nome,
+      custoMensal,
+      tempoOperacional,
+      message: 'Despesa atualizada com sucesso',
+    });
+  } catch (error) {
+    console.error('Erro ao atualizar despesa:', error);
+    res.status(500).json({ error: MSGS.erroAtualizar });
+  }
+});
+
+// DELETE - Excluir despesa
+router.delete('/:id', authenticateToken, async (req, res) => {
+  const { id } = req.params;
+  const ID_Usuario = req.usuario.ID_Usuario;
+
+  const idNum = Number(id);
+  if (isNaN(idNum)) {
+    return res.status(400).json({ error: MSGS.idInvalido });
+  }
+
+  try {
+    const [rows] = await db.query(
+      `SELECT ID_Usuario FROM despesas WHERE ID_Despesa = ?`,
+      [idNum]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: MSGS.despesaNaoEncontrada });
+    }
+
+    if (rows[0].ID_Usuario !== ID_Usuario) {
+      return res.status(403).json({ error: MSGS.naoAutorizado });
+    }
+
+    await db.query(`DELETE FROM despesas WHERE ID_Despesa = ?`, [idNum]);
+
+    res.status(200).json({ message: 'Despesa excluída com sucesso' });
+  } catch (error) {
+    console.error('Erro ao excluir despesa:', error);
+    res.status(500).json({ error: MSGS.erroExcluir });
+  }
+});
+
+export default router;

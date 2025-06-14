@@ -44,7 +44,7 @@ const Equipe = (props) => {
                 <div className="equipe-content3">
                   <div className="equipe-title1">
                     <span className="equipe-text14 thq-body-small">
-                      Andress Cooooleeeegaaaa
+                      Andress, O nosso herói cabeludo
                     </span>
                     <span className="equipe-text15 thq-body-small">
                       Desenvolvedor Back-end

@@ -7,6 +7,9 @@
   position: relative;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
 }
 
 .cardDespesa:hover {
@@ -14,10 +17,73 @@
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35); /* Sombra mais intensa */
 }
 
-.Trash{
-    font-size: 25px;
+.cardTitle {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.cardValue {
+  font-size: 1rem;
+  color: var(--floral-white);
+  margin-bottom: 10px;
+}
+
+.cardAction {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 1.0rem;
+  color: var(--floral-white);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.Trash {
+  font-size: 25px;
 }
 
 .Trash:hover {
   color: var(--imperial-red); /* Cor laranja ao passar o mouse */
+}
+
+/* Container dos cards de despesas */
+.despesasContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  width: 90%;
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Responsividade */
+@media (max-width: 1100px) {
+  .despesasContainer {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 800px) {
+  .despesasContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .cardDespesa {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .despesasContainer {
+    grid-template-columns: 1fr;
+  }
+  .cardDespesa {
+    padding: 2px;
+    width: 100%;
+    max-width: 280px;
+    max-height: 140px;
+    margin: 0 auto;
+  }
 }

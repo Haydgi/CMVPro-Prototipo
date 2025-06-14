@@ -89,8 +89,20 @@ function Despesas() {
     setDespesaSelecionada(null);
   };
 
-  const removerDespesa = (id) => {
-    setDespesas((prev) => prev.filter((d) => d.id !== id));
+  const removerDespesa = async (id) => {
+    const token = localStorage.getItem('token');
+    try {
+      await axios.delete(`http://localhost:3001/api/despesas/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setDespesas((prev) => prev.filter((d) => d.id !== id));
+      Swal.fire('Excluída!', 'A despesa foi removida.', 'success');
+    } catch (error) {
+      console.error('Erro ao excluir despesa:', error);
+      Swal.fire('Erro', 'Não foi possível remover a despesa.', 'error');
+    }
   };
 
   // Função para adicionar uma despesa genérica
