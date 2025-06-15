@@ -25,11 +25,11 @@
 }
 
 .resumo-mulher-img {
-  width: 700px;
+  width: 520px;
   height: 770px;
   object-fit: contain;
   display: block;
-margin-top: 200px;
+margin-top: 0px;
 
 }
 
@@ -148,7 +148,7 @@ margin-top: 200px;
   
   .resumo-content1 {
     width: 90%; /* Faz o conteúdo ocupar toda a largura */
-    padding: 50px; /* Ajusta o padding para manter o espaçamento interno */
+    padding: 20px; /* Ajusta o padding para manter o espaçamento interno */
     text-align: center;
     gap: 22px;
   }
@@ -219,5 +219,10 @@ margin-top: 200px;
   min-width: 0;
   max-width: 80%;
   height: 600px !important;
+  }
+}
+@media (max-width: 1200px) {
+  .resumo-mulher-img {
+    margin-top: 100px !important;
   }
 }

@@ -30,7 +30,7 @@ const Resumo = () => {
           {/* Imagem à esquerda ocupando 1/3 */}
           <div className={styles['resumo-mulher-container']}>
             <img
-              src="/midia/muié.png"
+              src="/midia/MulherChef.png"
               alt="Mulher chef"
               className={styles['resumo-mulher-img']}
             />

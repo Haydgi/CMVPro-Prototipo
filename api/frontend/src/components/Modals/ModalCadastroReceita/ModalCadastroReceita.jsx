@@ -76,7 +76,15 @@ function ModalCadastroReceita({ onClose, onSave, }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+
+    // Impede letras nos campos Tempo_Preparo e Porcentagem_De_Lucro
+    if (name === "Tempo_Preparo" || name === "Porcentagem_De_Lucro") {
+      // Permite apenas números e ponto ou vírgula
+      const onlyNumbers = value.replace(/[^0-9.,]/g, "");
+      setForm((prev) => ({ ...prev, [name]: onlyNumbers }));
+    } else {
+      setForm((prev) => ({ ...prev, [name]: value }));
+    }
 
     if (camposInvalidos[name]) {
       setCamposInvalidos((prev) => {
@@ -145,26 +153,30 @@ function ModalCadastroReceita({ onClose, onSave, }) {
  const handleSubmit = async (e) => {
   e.preventDefault();
 
+  // Validação: Categoria obrigatória
+  if (!form.Categoria) {
+    setCamposInvalidos((prev) => ({ ...prev, categoria: true }));
+    toast.error("Selecione uma categoria para a receita.");
+    return;
+  }
+
+  // Não faz validação para Descricao, permitindo que fique vazio
+
   // Converter para número — se for vazio ou inválido, usar 0
   const custoTotal = Number(form.Custo_Total_Ingredientes);
   const custoParaEnvio = isNaN(custoTotal) || custoTotal < 0 ? 0 : custoTotal;
 
-  console.log("Valor convertido de Custo_Total_Ingredientes:", custoParaEnvio);
-
   const formData = new FormData();
   formData.append('Nome_Receita', form.Nome_Receita);
-  formData.append('Descricao', form.Descricao);
+  formData.append('Descricao', form.Descricao || ""); // Permite vazio
   formData.append('Tempo_Preparo', form.Tempo_Preparo);
   formData.append('Custo_Total_Ingredientes', custoParaEnvio);
   formData.append('Porcentagem_De_Lucro', form.Porcentagem_De_Lucro);
   formData.append('Categoria', form.Categoria);
 
+  // Agora a imagem é opcional
   if (fileInputRef.current?.files?.[0]) {
     formData.append('imagem_URL', fileInputRef.current.files[0]);
-  } else {
-    console.error("Nenhuma imagem selecionada.");
-    toast.error("Por favor, selecione uma imagem.");
-    return;
   }
 
   const token = localStorage.getItem("token");

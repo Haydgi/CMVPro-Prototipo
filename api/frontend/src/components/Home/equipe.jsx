@@ -44,7 +44,7 @@ const Equipe = (props) => {
                 <div className="equipe-content3">
                   <div className="equipe-title1">
                     <span className="equipe-text14 thq-body-small">
-                      Andress, O nosso herói cabeludo
+                      Andress Mota
                     </span>
                     <span className="equipe-text15 thq-body-small">
                       Desenvolvedor Back-end
@@ -74,7 +74,7 @@ const Equipe = (props) => {
                       Desenvolvedor Back-end
                     </span>
                     <div className="link-container">
-                      <a href="https://github.com/amatoshdev" className="link-styles1"><ImGithub />Github</a>
+                      <a href="https://github.com/brunoFreitaas" className="link-styles1"><ImGithub />Github</a>
                       <a href="https://www.linkedin.com/in/bruno-freitas-7a5902288/" className="link-styles2"><FaLinkedin />Linkedin</a>
                     </div>
                   </div>
