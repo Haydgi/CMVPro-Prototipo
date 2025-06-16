@@ -1,10 +1,15 @@
-.textotopo h2 {
+.texto {
+  padding-top: 70px; ;
+  scroll-margin-top: 70px;
+}
+
+.texto h2 {
     display: flex;
     width: 100%;
     justify-content: center;
 }
 
-.textotopo p {
+.texto p {
     margin-top: 15px;
     margin-bottom: 30px;
     font-size: 20px;
@@ -32,11 +37,6 @@
 
 .passo-a-passo-section-header {
     flex: 0 0 auto;
-}
-
-.textotopo {
-    flex: 1 1 0;
-    min-width: 280px;
 }
 
 /* Botão para revelar o texto */
