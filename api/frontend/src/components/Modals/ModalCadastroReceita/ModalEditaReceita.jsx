@@ -21,6 +21,7 @@ function ModalEditaReceita({ onClose, onSave, receita }) {
   const [ingredientesDisponiveis, setIngredientesDisponiveis] = useState([]);
   const [isClosing, setIsClosing] = useState(false);
   const [camposInvalidos, setCamposInvalidos] = useState({});
+  const [despesas, setDespesas] = useState([]);
 
   const categorias = [
     "Carnes", "Aves", "Peixes e Frutos do Mar", "Massas", "Arroz e Grãos",
@@ -28,54 +29,48 @@ function ModalEditaReceita({ onClose, onSave, receita }) {
     "Molhos e Pastas", "Bebidas", "Vegano", "Vegetariano", "Sem Glúten", "Sem Lactose"
   ];
 
-  const TODOS_INGREDIENTES = [
-    { nome: "Farinha de trigo", unidade: "g" },
-    { nome: "Açúcar", unidade: "g" },
-    { nome: "Sal", unidade: "g" },
-    { nome: "Fermento em pó", unidade: "g" },
-    { nome: "Manteiga", unidade: "g" },
-    { nome: "Leite", unidade: "ml" },
-    { nome: "Água", unidade: "ml" },
-    { nome: "Óleo de soja", unidade: "ml" },
-    { nome: "Essência de baunilha", unidade: "ml" },
-    { nome: "Vinagre", unidade: "ml" },
-    { nome: "Ovo", unidade: "unid." },
-    { nome: "Tomate", unidade: "unid." },
-    { nome: "Cebola", unidade: "unid." },
-    { nome: "Alho", unidade: "unid." },
-    { nome: "Batata", unidade: "unid." },
-    { nome: "Cenoura", unidade: "unid." },
-    { nome: "Queijo mussarela", unidade: "g" },
-    { nome: "Presunto", unidade: "g" },
-    { nome: "Frango desfiado", unidade: "g" },
-    { nome: "Carne moída", unidade: "g" },
-    { nome: "Molho de tomate", unidade: "ml" },
-    { nome: "Creme de leite", unidade: "ml" },
-    { nome: "Requeijão", unidade: "g" },
-    { nome: "Chocolate em pó", unidade: "g" },
-    { nome: "Coco ralado", unidade: "g" },
-    { nome: "Fermento biológico", unidade: "g" },
-    { nome: "Leite condensado", unidade: "ml" }
-  ];
+  // Busque ingredientes do banco ao montar o modal
+  useEffect(() => {
+    async function fetchIngredientes() {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch("http://localhost:3001/api/ingredientes", {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+        });
+        const data = await res.json();
+        setIngredientesDisponiveis(data);
+      } catch (err) {
+        toast.error("Erro ao buscar ingredientes do banco!");
+      }
+    }
+    fetchIngredientes();
+  }, []);
 
   useEffect(() => {
     if (receita) {
       setForm({
-        imagem: receita.imagem || null,
-        nome: receita.nome || "",
-        categoria: receita.categoria || "",
-        tempoDePreparo: receita.tempoDePreparo || "",
-        porcentagemDeLucro: receita.porcentagemDeLucro || "",
-        descricao: receita.descricao || "",
-        custoTotalIngredientes: receita.custoTotalIngredientes || "0.00",
-        id: receita.id,
+        imagem: receita.Imagem_URL || null,
+        nome: receita.Nome_Receita || "",
+        categoria: receita.Categoria || "",
+        tempoDePreparo: receita.Tempo_Preparo || "",
+        porcentagemDeLucro: receita.Porcentagem_De_Lucro || "",
+        descricao: receita.Descricao || "",
+        custoTotalIngredientes: receita.Custo_Total_Ingredientes || "0.00",
+        id: receita.ID_Receita || receita.id || null,
       });
 
-      setIngredientesSelecionados(receita.ingredientes || []);
-
-      const nomesSelecionados = (receita.ingredientes || []).map(i => i.nome);
-      const disponiveis = TODOS_INGREDIENTES.filter(i => !nomesSelecionados.includes(i.nome));
-      setIngredientesDisponiveis(disponiveis);
+      setIngredientesSelecionados(
+        (receita.ingredientes || []).map(i => ({
+          nome: i.nome || i.Nome_Ingrediente,
+          unidade: i.unidade || i.Unidade_De_Medida || i.Unidade,
+          quantidade: i.quantidade || i.Quantidade_Usada || "",
+          quantidade_total: i.quantidade_total || i.Quantidade_Total || 1,
+          custo_ingrediente: i.custo_ingrediente || i.Custo_Ingrediente || 0,
+          Indice_de_Desperdicio: i.Indice_de_Desperdicio || 0,
+        }))
+      );
     }
   }, [receita]);
 
@@ -110,20 +105,62 @@ function ModalEditaReceita({ onClose, onSave, receita }) {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setForm((prev) => ({ ...prev, imagem: URL.createObjectURL(file) }));
+      setForm((prev) => ({ ...prev, imagem: file }));
+    } else {
+      setForm((prev) => ({ ...prev, imagem: [] }));
     }
   };
 
   const handleSelectIngrediente = (ingrediente) => {
-    setIngredientesSelecionados((prev) => [
-      ...prev,
-      { nome: ingrediente.nome, unidade: ingrediente.unidade, quantidade: "" }
-    ]);
-    setIngredientesDisponiveis((prev) =>
-      prev.filter((i) => i.nome !== ingrediente.nome)
-    );
-    setIngredienteBusca("");
-  };
+  setIngredientesSelecionados((prev) => [
+    ...prev,
+    {
+      nome: ingrediente.Nome_Ingrediente || ingrediente.nome,
+      unidade: ingrediente.Unidade_De_Medida || ingrediente.unidade,
+      quantidade: "", // o usuário irá preencher depois
+      quantidade_total:
+        ingrediente.Quantidade_Total ??
+        ingrediente.quantidade_total ??
+        (() => {
+          const u = (
+            ingrediente.Unidade_De_Medida ||
+            ingrediente.unidade ||
+            ingrediente.Unidade ||
+            ""
+          )
+            .toLowerCase()
+            .trim();
+
+          // MASSA → gramas
+          if (u === "kg") return 1000;
+          if (u === "hg") return 100;
+          if (u === "dag") return 10;
+          if (u === "g") return 1;
+          if (u === "dg") return 0.1;
+          if (u === "cg") return 0.01;
+          if (u === "mg") return 0.001;
+
+          // VOLUME → mililitros
+          if (u === "kl") return 1000000;
+          if (u === "hl") return 100000;
+          if (u === "dal") return 10000;
+          if (u === "l") return 1000;
+          if (u === "dl") return 100;
+          if (u === "cl") return 10;
+          if (u === "ml") return 1;
+
+          // CONTÁVEIS → unidades
+          if (u === "un" || u === "unidade" || u === "unidades") return 30;
+
+          return 1; // fallback padrão
+        })(),
+      custo_ingrediente: ingrediente.Custo_Ingrediente ?? ingrediente.custo_ingrediente,
+      Indice_de_Desperdicio: ingrediente.Indice_de_Desperdicio ?? 0,
+    },
+  ]);
+
+  setIngredienteBusca("");
+};
 
   const handleIngredienteChange = (index, field, value) => {
     const novos = [...ingredientesSelecionados];
@@ -159,47 +196,189 @@ function ModalEditaReceita({ onClose, onSave, receita }) {
     });
   };
 
-  const handleSubmit = () => {
-    const campos = {};
+  useEffect(() => {
+    async function fetchDespesas() {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch("http://localhost:3001/api/despesas", {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+        });
+        const data = await res.json();
+        setDespesas(data);
+      } catch (err) {
+        toast.error("Erro ao buscar despesas do banco!");
+      }
+    }
+    fetchDespesas();
+  }, []);
 
-    if (!form.nome) campos.nome = true;
-    if (!form.categoria) campos.categoria = true;
-    if (!form.tempoDePreparo) campos.tempoDePreparo = true;
-    if (!form.porcentagemDeLucro) campos.porcentagemDeLucro = true;
+  const calcularCustoPorMinutoDespesa = (despesa) => {
+    const diasNoMes = 30;
+    const custoMensal = Number(despesa.Custo_Mensal);
+    const tempoDia = Number(despesa.Tempo_Operacional);
 
-    if (Object.keys(campos).length > 0) {
-      setCamposInvalidos(campos);
-      toast.error("Preencha todos os campos obrigatórios!");
+    if (!custoMensal || !tempoDia) return 0;
+
+    const custoDiario = custoMensal / diasNoMes;
+    const custoPorHora = custoDiario / tempoDia;
+    return custoPorHora / 60;
+  };
+
+  const calcularCustoIngrediente = (quantidadeUsada, quantidadeTotal, custoIngrediente, indiceDesperdicio = 0) => {
+    if (!quantidadeUsada || !quantidadeTotal || !custoIngrediente) return 0;
+    const proporcao = Number(quantidadeUsada) / Number(quantidadeTotal);
+    const custoBase = proporcao * Number(custoIngrediente);
+    const custoFinal = custoBase * (1 + Number(indiceDesperdicio) / 100);
+    return custoFinal;
+  };
+
+  const calcularCustoTotalReceita = ({ ingredientes, tempo_preparo_min, despesas }) => {
+    const custoIngredientes = ingredientes.reduce((total, item) => total + item.custo_calculado, 0);
+    const custoOperacionalPorMinuto = despesas.reduce((total, despesa) => {
+      const custoMinuto = calcularCustoPorMinutoDespesa(despesa);
+      return total + (isNaN(custoMinuto) ? 0 : custoMinuto);
+    }, 0);
+    const custoOperacionalReceita = custoOperacionalPorMinuto * tempo_preparo_min;
+    const custoTotal = custoIngredientes + custoOperacionalReceita;
+
+    return {
+      custoIngredientes,
+      custoOperacionalReceita,
+      custoTotal
+    };
+  };
+
+  const calcularPrecoFinalComLucro = (custo, porcentagemLucro) => {
+    return Number(custo) + (Number(custo) * (Number(porcentagemLucro) / 100));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Carregue despesas do banco se ainda não estiverem carregadas
+    if (!despesas || despesas.length === 0) {
+      toast.error("Despesas não carregadas. Tente novamente.");
       return;
     }
 
-    const errosIngredientes = {};
-    ingredientesSelecionados.forEach((ingrediente, index) => {
-      if (!ingrediente.quantidade || isNaN(ingrediente.quantidade)) {
-        errosIngredientes[`ingrediente_${index}`] = true;
-      }
+    // Log ingredientes e despesas
+    console.log("==== Ingredientes selecionados ====");
+    console.table(ingredientesSelecionados);
+    console.log("==== Despesas carregadas do banco ====");
+    console.table(despesas);
+
+    // Log detalhado do cálculo dos ingredientes
+    ingredientesSelecionados.forEach((ing, idx) => {
+      const quantidadeUsada = Number(ing.quantidade);
+      const quantidadeTotal = Number(ing.quantidade_total);
+      const custoIngrediente = Number(ing.custo_ingrediente);
+      const indiceDesperdicio = Number(ing.Indice_de_Desperdicio) || 0;
+
+      const proporcao = quantidadeUsada / quantidadeTotal;
+      const custoBase = proporcao * custoIngrediente;
+      const fatorDesperdicio = 1 + (indiceDesperdicio / 100);
+      const custoFinal = custoBase * fatorDesperdicio;
+
+      console.log(`--- Ingrediente #${idx + 1}: ${ing.nome} ---`);
+      console.log(`Qtd usada: ${quantidadeUsada}`);
+      console.log(`Qtd total: ${quantidadeTotal}`);
+      console.log(`Custo ingrediente: ${custoIngrediente}`);
+      console.log(`Índice de desperdício: ${indiceDesperdicio}%`);
+      console.log(`Cálculo base: (${quantidadeUsada} / ${quantidadeTotal}) * ${custoIngrediente} = ${custoBase}`);
+      console.log(`Aplicando desperdício: ${custoBase} * ${fatorDesperdicio} = ${custoFinal}`);
+      console.log(`Custo calculado final: ${custoFinal}`);
     });
 
-    if (Object.keys(errosIngredientes).length > 0) {
-      setCamposInvalidos(errosIngredientes);
-      toast.error("Preencha a quantidade de todos os ingredientes!");
-      return;
+    // Log detalhado do cálculo operacional
+    despesas.forEach((desp, idx) => {
+      const custoMinuto = calcularCustoPorMinutoDespesa(desp);
+      console.log(
+        `Despesa #${idx + 1}:`,
+        `Nome: ${desp.Nome_Despesa}`,
+        `Custo mensal: ${desp.Custo_Mensal}`,
+        `Tempo operacional: ${desp.Tempo_Operacional}`,
+        `Custo por minuto: ${custoMinuto}`
+      );
+    });
+
+    const tempo_preparo_min = Number(form.tempoDePreparo);
+
+    const resultado = calcularCustoTotalReceita({
+      ingredientes: ingredientesSelecionados.map(i => ({
+        ...i,
+        custo_calculado: calcularCustoIngrediente(
+          i.quantidade,
+          i.quantidade_total,
+          i.custo_ingrediente,
+          i.Indice_de_Desperdicio
+        )
+      })),
+      tempo_preparo_min,
+      despesas
+    });
+
+    console.log("==== Resultado final do cálculo ====");
+    console.log("Custo ingredientes:", resultado.custoIngredientes);
+    console.log("Custo operacional:", resultado.custoOperacionalReceita);
+    console.log("Custo total:", resultado.custoTotal);
+
+    const precoFinal = calcularPrecoFinalComLucro(resultado.custoTotal, form.porcentagemDeLucro);
+    console.log("Preço final com lucro:", precoFinal);
+
+    try {
+      const token = localStorage.getItem("token");
+      const formData = new FormData();
+      formData.append('Nome_Receita', form.nome || "");
+      formData.append('Descricao', form.descricao || "");
+      formData.append('Tempo_Preparo', Number(form.tempoDePreparo) || 0);
+      formData.append('Custo_Total_Ingredientes', Number(precoFinal));
+      formData.append('Porcentagem_De_Lucro', Number(form.porcentagemDeLucro) || 0);
+      formData.append('Categoria', form.categoria || "");
+      if (form.imagem instanceof File) {
+        formData.append('imagem_URL', form.imagem);
+      } else if (typeof form.imagem === "string" && form.imagem.trim() !== "") {
+        formData.append('imagem_URL', form.imagem);
+      }
+      const ingredientesCorrigidos = ingredientesSelecionados.map(i => ({
+        nome: i.nome,
+        unidade: i.unidade,
+        quantidade: Number(i.quantidade),
+        quantidade_total: Number(i.quantidade_total),
+        custo_ingrediente: Number(i.custo_ingrediente),
+        Indice_de_Desperdicio: Number(i.Indice_de_Desperdicio)
+      }));
+      formData.append('ingredientes', JSON.stringify(ingredientesCorrigidos));
+
+      const res = await fetch(`http://localhost:3001/api/receitas/${form.id}`, {
+        method: "PUT",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      // Log dos dados enviados
+      for (let pair of formData.entries()) {
+        console.log(`${pair[0]}: ${pair[1]}`);
+      }
+
+      if (!res.ok) {
+        let msg = "Erro ao atualizar receita!";
+        try {
+          const data = await res.json();
+          if (data?.error) msg = data.error;
+        } catch {}
+        throw new Error(msg);
+      }
+
+      toast.success("Receita atualizada com sucesso!");
+      onSave();
+      handleClose();
+    } catch (err) {
+      toast.error(err.message || "Erro ao atualizar receita!");
     }
-
-    if (ingredientesSelecionados.length < 2) {
-      toast.error("Adicione pelo menos 2 ingredientes!");
-      return;
-    }
-
-    setCamposInvalidos({});
-    const receitaFormatada = {
-      ...form,
-      ingredientes: ingredientesSelecionados,
-    };
-
-    onSave(receitaFormatada);
-    toast.success("Receita atualizada com sucesso!");
-    handleClose();
   };
 
   return (
@@ -311,15 +490,33 @@ function ModalEditaReceita({ onClose, onSave, receita }) {
                     className="form-control"
                     value={ingredienteBusca}
                     onChange={(e) => setIngredienteBusca(e.target.value)}
+                    onFocus={async () => {
+                      try {
+                        const token = localStorage.getItem("token");
+                        const res = await fetch("http://localhost:3001/api/ingredientes", {
+                          headers: {
+                            "Authorization": `Bearer ${token}`,
+                          },
+                        });
+                        const data = await res.json();
+                        setIngredientesDisponiveis(data);
+                      } catch (err) {
+                        toast.error("Erro ao buscar ingredientes do banco!");
+                      }
+                    }}
                     placeholder="Digite para buscar..."
                   />
                   {ingredienteBusca && (
                     <ul className={styles.suggestionsList}>
                       {ingredientesDisponiveis
-                        .filter(i => i.nome.toLowerCase().includes(ingredienteBusca.toLowerCase()))
+                        .filter(i =>
+                          i.Nome_Ingrediente &&
+                          i.Nome_Ingrediente.toLowerCase().includes(ingredienteBusca.toLowerCase()) &&
+                          !ingredientesSelecionados.some(sel => sel.nome === i.Nome_Ingrediente)
+                        )
                         .map(i => (
-                          <li key={i.nome} onClick={() => handleSelectIngrediente(i)}>
-                            {i.nome}
+                          <li key={i.ID_Ingredientes} onClick={() => handleSelectIngrediente(i)}>
+                            {i.Nome_Ingrediente} <span className="text-muted">({i.Unidade_De_Medida})</span>
                           </li>
                         ))}
                     </ul>
@@ -370,5 +567,6 @@ function ModalEditaReceita({ onClose, onSave, receita }) {
     </div>
   );
 }
+
 
 export default ModalEditaReceita;

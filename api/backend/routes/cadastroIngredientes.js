@@ -1,8 +1,10 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import db from "../database/connection.js";
+import multer from 'multer';
 
 const router = express.Router();
+const upload = multer(); // Para processar multipart/form-data
 
 const MSGS = {
   camposFaltando: 'Campos obrigatórios faltando',
@@ -35,7 +37,7 @@ function authenticateToken(req, res, next) {
 }
 
 // POST - Cadastrar ingrediente (protegida)
-router.post('/', authenticateToken, async (req, res) => {
+router.post('/', authenticateToken, upload.none(), async (req, res) => {
   const {
     nome = null,
     unidadeDeMedida = null,
@@ -96,7 +98,7 @@ router.get('/', authenticateToken, async (req, res) => {
 });
 
 // PUT - Atualizar ingrediente (protegida)
-router.put('/:id', authenticateToken, async (req, res) => {
+router.put('/:id', authenticateToken, upload.none(), async (req, res) => {
   const {
     nome = null,
     unidadeDeMedida = null,

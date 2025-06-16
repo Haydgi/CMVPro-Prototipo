@@ -1,6 +1,6 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
-import db from "../database/connection.js";
+import db from '../database/connection.js';
 import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -35,22 +35,18 @@ function authenticateToken(req, res, next) {
   if (!token) return res.status(401).json({ error: MSGS.tokenNaoFornecido });
 
   jwt.verify(token, process.env.SECRET_JWT, (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ error: MSGS.tokenInvalido });
-    }
-    if (!decoded || !decoded.ID_Usuario) {
+    if (err) return res.status(403).json({ error: MSGS.tokenInvalido });
+    if (!decoded || !decoded.ID_Usuario)
       return res.status(403).json({ error: 'Token malformado - ID_Usuario não encontrado' });
-    }
+
     req.usuario = { ID_Usuario: decoded.ID_Usuario };
     next();
   });
 }
 
-// Configuração do multer para upload de imagens
+// Configuração multer para upload de imagens
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, '../uploads'));
-  },
+  destination: (req, file, cb) => cb(null, path.join(__dirname, '../uploads')),
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname);
     const nomeArquivo = `${Date.now()}_${file.originalname.replace(/\s+/g, '_')}`;
@@ -65,62 +61,72 @@ const upload = multer({
     const allowedTypes = /jpeg|jpg|png/;
     const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = allowedTypes.test(file.mimetype);
-    if (extname && mimetype) {
-      cb(null, true);
-    } else {
-      cb(new Error(MSGS.arquivoInvalido));
-    }
+    if (extname && mimetype) cb(null, true);
+    else cb(new Error(MSGS.arquivoInvalido));
   }
 });
 
-// Rota POST para cadastrar receita
+// POST / - Cadastrar receita
 router.post('/', authenticateToken, upload.single('imagem_URL'), async (req, res) => {
-  let {
-    Nome_Receita,
-    Descricao,
-    Tempo_Preparo,
-    Custo_Total_Ingredientes,
-    Porcentagem_De_Lucro,
-    Categoria
-  } = req.body;
+  try {
+    let {
+      Nome_Receita,
+      Descricao,
+      Tempo_Preparo,
+      Custo_Total_Ingredientes,
+      Porcentagem_De_Lucro,
+      Categoria
+    } = req.body;
 
-  const ID_Usuario = req.usuario.ID_Usuario;
+    const ID_Usuario = req.usuario.ID_Usuario;
 
-  // Validação campos obrigatórios
-  if (!Nome_Receita || !Descricao || Tempo_Preparo === undefined || 
+    // Validação campos obrigatórios
+    if (!Nome_Receita || !Descricao || Tempo_Preparo === undefined ||
       Custo_Total_Ingredientes === undefined || Porcentagem_De_Lucro === undefined) {
-    return res.status(400).json({ 
-      error: MSGS.camposFaltando,
-      details: {
+
+      const details = {
         Nome_Receita: !Nome_Receita ? 'Campo obrigatório' : undefined,
         Descricao: !Descricao ? 'Campo obrigatório' : undefined,
         Tempo_Preparo: Tempo_Preparo === undefined ? 'Campo obrigatório' : undefined,
         Custo_Total_Ingredientes: Custo_Total_Ingredientes === undefined ? 'Campo obrigatório' : undefined,
         Porcentagem_De_Lucro: Porcentagem_De_Lucro === undefined ? 'Campo obrigatório' : undefined
-      }
-    });
-  }
+      };
 
-  // Tratar custo vazio string
-  if (Custo_Total_Ingredientes === '') Custo_Total_Ingredientes = '0';
+      // Gera mensagem amigável
+      const camposFaltando = Object.entries(details)
+        .filter(([_, v]) => v)
+        .map(([k, _]) => k)
+        .join(', ');
 
-  // Conversão e validação numérica
-  Tempo_Preparo = parseInt(Tempo_Preparo);
-  Custo_Total_Ingredientes = parseFloat(Custo_Total_Ingredientes);
-  Porcentagem_De_Lucro = parseFloat(Porcentagem_De_Lucro);
+      // LOG NO TERMINAL
+      console.error(
+        `[ERRO CADASTRO RECEITA] Campos obrigatórios faltando: ${camposFaltando || 'nenhum'}, detalhes:`,
+        details
+      );
 
-  if (isNaN(Tempo_Preparo) || Tempo_Preparo <= 0) 
-    return res.status(400).json({ error: MSGS.tempoInvalido });
+      return res.status(400).json({
+        error: MSGS.camposFaltando,
+        message: camposFaltando
+          ? `Os seguintes campos obrigatórios estão faltando ou inválidos: ${camposFaltando}`
+          : MSGS.camposFaltando,
+        details
+      });
+    }
 
-  if (isNaN(Custo_Total_Ingredientes) || Custo_Total_Ingredientes < 0) 
-    return res.status(400).json({ error: MSGS.custoInvalido });
+    // Tratar custo vazio string
+    if (Custo_Total_Ingredientes === '') Custo_Total_Ingredientes = '0';
 
-  if (isNaN(Porcentagem_De_Lucro) || Porcentagem_De_Lucro < 0) 
-    return res.status(400).json({ error: MSGS.porcentagemInvalida });
+    // Conversão e validação numérica
+    Tempo_Preparo = parseInt(Tempo_Preparo);
+    Custo_Total_Ingredientes = parseFloat(Custo_Total_Ingredientes);
+    Porcentagem_De_Lucro = parseFloat(Porcentagem_De_Lucro);
 
-  let imagem_URL = req.file ? req.file.filename : null;
+    if (isNaN(Tempo_Preparo) || Tempo_Preparo <= 0) return res.status(400).json({ error: MSGS.tempoInvalido });
+    if (isNaN(Custo_Total_Ingredientes) || Custo_Total_Ingredientes < 0) return res.status(400).json({ error: MSGS.custoInvalido });
+    if (isNaN(Porcentagem_De_Lucro) || Porcentagem_De_Lucro < 0) return res.status(400).json({ error: MSGS.porcentagemInvalida });
 
-  try {
+    const imagem_URL = req.file ? req.file.filename : '';
+
     const [result] = await db.query(`
       INSERT INTO receitas (
         ID_Usuario, Nome_Receita, Descricao, Tempo_Preparo,
@@ -150,16 +156,15 @@ router.post('/', authenticateToken, upload.single('imagem_URL'), async (req, res
         imagem_URL,
         message: 'Receita cadastrada com sucesso'
       });
-    } else {
-      return res.status(500).json({ error: MSGS.erroCadastro });
     }
+    return res.status(500).json({ error: MSGS.erroCadastro });
   } catch (error) {
     console.error('Erro ao cadastrar receita:', error);
     return res.status(500).json({ error: MSGS.erroCadastro, details: error.message });
   }
 });
 
-// Rota GET para obter receitas do usuário
+// GET / - Buscar receitas do usuário
 router.get('/', authenticateToken, async (req, res) => {
   const ID_Usuario = req.usuario.ID_Usuario;
 
@@ -185,24 +190,20 @@ router.get('/', authenticateToken, async (req, res) => {
   }
 });
 
-// Rota DELETE para excluir receita
+// DELETE /:id - Excluir receita
 router.delete('/:id', authenticateToken, async (req, res) => {
   const { id } = req.params;
   const ID_Usuario = req.usuario.ID_Usuario;
-
   const idNum = Number(id);
-  if (isNaN(idNum) || idNum <= 0) {
-    return res.status(400).json({ error: MSGS.idInvalido });
-  }
+
+  if (isNaN(idNum) || idNum <= 0) return res.status(400).json({ error: MSGS.idInvalido });
 
   try {
-    // Verifica se receita existe e pertence ao usuário
     const [rows] = await db.query(`SELECT ID_Usuario, imagem_URL FROM receitas WHERE ID_Receita = ?`, [idNum]);
 
     if (rows.length === 0) return res.status(404).json({ error: MSGS.receitaNaoEncontrada });
     if (rows[0].ID_Usuario !== ID_Usuario) return res.status(403).json({ error: MSGS.naoAutorizado });
 
-    // Excluir imagem associada se houver
     if (rows[0].imagem_URL) {
       const caminhoImagem = path.join(__dirname, '../uploads', rows[0].imagem_URL);
       try {
@@ -213,29 +214,25 @@ router.delete('/:id', authenticateToken, async (req, res) => {
       }
     }
 
-    // Excluir receita
     const [result] = await db.query(`DELETE FROM receitas WHERE ID_Receita = ?`, [idNum]);
 
     if (result.affectedRows === 1) {
       return res.status(200).json({ message: 'Receita excluída com sucesso', ID_Receita: idNum });
-    } else {
-      return res.status(500).json({ error: MSGS.erroExcluir });
     }
+    return res.status(500).json({ error: MSGS.erroExcluir });
   } catch (error) {
     console.error('Erro ao excluir receita:', error);
     return res.status(500).json({ error: MSGS.erroExcluir, details: error.message });
   }
 });
 
-// Rota PUT para atualizar receita
+// PUT /:id - Atualizar receita
 router.put('/:id', authenticateToken, upload.single('imagem_URL'), async (req, res) => {
   const { id } = req.params;
   const ID_Usuario = req.usuario.ID_Usuario;
-
   const idNum = Number(id);
-  if (isNaN(idNum) || idNum <= 0) {
-    return res.status(400).json({ error: MSGS.idInvalido });
-  }
+
+  if (isNaN(idNum) || idNum <= 0) return res.status(400).json({ error: MSGS.idInvalido });
 
   let {
     Nome_Receita,
@@ -246,37 +243,28 @@ router.put('/:id', authenticateToken, upload.single('imagem_URL'), async (req, r
     Categoria
   } = req.body;
 
-  // Validação campos obrigatórios
-  if (!Nome_Receita || !Descricao || Tempo_Preparo === undefined || 
+  if (!Nome_Receita || !Descricao || Tempo_Preparo === undefined ||
       Custo_Total_Ingredientes === undefined || Porcentagem_De_Lucro === undefined) {
     return res.status(400).json({ error: MSGS.camposFaltando });
   }
 
-  // Conversão numérica
   Tempo_Preparo = parseInt(Tempo_Preparo);
   Custo_Total_Ingredientes = parseFloat(Custo_Total_Ingredientes);
   Porcentagem_De_Lucro = parseFloat(Porcentagem_De_Lucro);
 
-  if (isNaN(Tempo_Preparo) || Tempo_Preparo <= 0) 
-    return res.status(400).json({ error: MSGS.tempoInvalido });
-
-  if (isNaN(Custo_Total_Ingredientes) || Custo_Total_Ingredientes < 0) 
-    return res.status(400).json({ error: MSGS.custoInvalido });
-
-  if (isNaN(Porcentagem_De_Lucro) || Porcentagem_De_Lucro < 0) 
-    return res.status(400).json({ error: MSGS.porcentagemInvalida });
+  if (isNaN(Tempo_Preparo) || Tempo_Preparo <= 0) return res.status(400).json({ error: MSGS.tempoInvalido });
+  if (isNaN(Custo_Total_Ingredientes) || Custo_Total_Ingredientes < 0) return res.status(400).json({ error: MSGS.custoInvalido });
+  if (isNaN(Porcentagem_De_Lucro) || Porcentagem_De_Lucro < 0) return res.status(400).json({ error: MSGS.porcentagemInvalida });
 
   try {
-    // Verifica se receita existe e pertence ao usuário
     const [rows] = await db.query(`SELECT ID_Usuario, imagem_URL FROM receitas WHERE ID_Receita = ?`, [idNum]);
 
     if (rows.length === 0) return res.status(404).json({ error: MSGS.receitaNaoEncontrada });
     if (rows[0].ID_Usuario !== ID_Usuario) return res.status(403).json({ error: MSGS.naoAutorizado });
 
-    let imagem_URL = rows[0].imagem_URL;
+    let imagem_URL = rows[0].imagem_URL || '';
 
     if (req.file) {
-      // Apaga a imagem antiga se existir
       if (imagem_URL) {
         const caminhoImagemAntiga = path.join(__dirname, '../uploads', imagem_URL);
         try {
@@ -288,7 +276,6 @@ router.put('/:id', authenticateToken, upload.single('imagem_URL'), async (req, r
       imagem_URL = req.file.filename;
     }
 
-    // Atualiza a receita
     const [result] = await db.query(`
       UPDATE receitas SET 
         Nome_Receita = ?, 
@@ -312,9 +299,8 @@ router.put('/:id', authenticateToken, upload.single('imagem_URL'), async (req, r
 
     if (result.affectedRows === 1) {
       return res.status(200).json({ message: 'Receita atualizada com sucesso' });
-    } else {
-      return res.status(500).json({ error: MSGS.erroAtualizar });
     }
+    return res.status(500).json({ error: MSGS.erroAtualizar });
   } catch (error) {
     console.error('Erro ao atualizar receita:', error);
     return res.status(500).json({ error: MSGS.erroAtualizar, details: error.message });
