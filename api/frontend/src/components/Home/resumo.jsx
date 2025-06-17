@@ -13,9 +13,8 @@ const Resumo = () => {
     <div className={styles['container']}>
       <div className={styles['thq-section-padding']}>
         <div className={`${styles['resumo-container']} ${styles['thq-section-max-width']}`}>
-          
-          {/* Conteúdo à direita ocupando 2/3 */}
-          <div className={styles['resumo-image-container']}>
+          <div className={styles['resumo-card-container']}>
+            {/* Card */}
             <div className={styles['resumo-content1']}>
               <h1>Já pensou em lucrar mais <br/> no seu restaurante?</h1>
               <p>Nós temos uma solução prática e eficiente para o seu negócio que poderá lhe proporcionar maiores lucros e um posicionamento mais assertivo no mercado gastronômico.</p>
@@ -27,10 +26,10 @@ const Resumo = () => {
               </button>
             </div>
           </div>
-          {/* Imagem à esquerda ocupando 1/3 */}
-          <div className={styles['resumo-mulher-container']}>
+          <div className={styles['resumo-image-container']}>
+            {/* Imagem da mulher */}
             <img
-              src="/midia/muié.png"
+              src="/midia/MulherChef.png"
               alt="Mulher chef"
               className={styles['resumo-mulher-img']}
             />
