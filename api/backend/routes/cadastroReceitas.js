@@ -164,19 +164,35 @@ router.post('/', authenticateToken, upload.single('imagem_URL'), async (req, res
   }
 });
 
-// GET / - Buscar receitas do usuário
+// GET /?search= - Buscar receitas do usuário com filtro de pesquisa
 router.get('/', authenticateToken, async (req, res) => {
   const ID_Usuario = req.usuario.ID_Usuario;
+  const search = req.query.search ? `%${req.query.search.toLowerCase()}%` : null;
 
   try {
-    const [rows] = await db.query(`
+    let query = `
       SELECT ID_Receita, Nome_Receita, Descricao, Tempo_Preparo,
              Custo_Total_Ingredientes, Porcentagem_De_Lucro,
              Categoria, imagem_URL, Data_Receita
       FROM receitas
       WHERE ID_Usuario = ?
-      ORDER BY Data_Receita DESC
-    `, [ID_Usuario]);
+    `;
+    let params = [ID_Usuario];
+
+    if (search) {
+      console.log("Aplicando filtro de busca:", search);
+      query += ` AND (LOWER(Nome_Receita) LIKE ? OR LOWER(Descricao) LIKE ?)`;
+      params.push(search, search);
+    } else {
+      console.log("Sem filtro de busca, trazendo tudo.");
+    }
+
+    console.log("Query final:", query);
+    console.log("Parâmetros:", params);
+
+    query += ` ORDER BY Data_Receita DESC`;
+
+    const [rows] = await db.query(query, params);
 
     const receitasComPreco = rows.map(receita => ({
       ...receita,

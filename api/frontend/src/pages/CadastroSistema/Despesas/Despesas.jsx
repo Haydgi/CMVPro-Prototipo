@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import ModalCadastroDespesa from '../../../components/Modals/ModalCadastroDespesa/ModalCadastroDespesa';
 import ModalEditaDespesa from '../../../components/Modals/ModalCadastroDespesa/ModalEditaDespesa';
 import ModelPage from '../ModelPage';
@@ -13,13 +13,12 @@ function Despesas() {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [mostrarModalEditar, setMostrarModalEditar] = useState(false);
   const [despesaSelecionada, setDespesaSelecionada] = useState(null);
-  const [itensPorPagina, setItensPorPagina] = useState(12); // Padrão: 12 itens por página
+  const [itensPorPagina, setItensPorPagina] = useState(12);
+  const [termoBusca, setTermoBusca] = useState('');
 
-  // Ajusta o número de itens por página dinamicamente
- useEffect(() => {
+  useEffect(() => {
     const ajustarItensPorTamanho = () => {
       const largura = window.innerWidth;
-
       if (largura < 577) {
         setItensPorPagina(4);
       } else if (largura < 761) {
@@ -33,42 +32,42 @@ function Despesas() {
 
     ajustarItensPorTamanho();
     window.addEventListener('resize', ajustarItensPorTamanho);
-
     return () => window.removeEventListener('resize', ajustarItensPorTamanho);
   }, []);
 
-  useEffect(() => {
-    const fetchDespesas = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          throw new Error('Token não encontrado. Usuário não autenticado.');
-        }
-
-        const response = await axios.get('http://localhost:3001/api/despesas', {
+  // 🔧 Função para buscar despesas (com ou sem filtro)
+  const fetchDespesas = async (termo = "") => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(
+        `http://localhost:3001/api/despesas?search=${encodeURIComponent(termo)}`,
+        {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        });
+        }
+      );
+      if (!res.ok) throw new Error("Erro ao buscar despesas");
 
-        // Normalização dos campos para o formato esperado pelo frontend
-        const despesasNormalizadas = response.data.map((d) => ({
-          id: d.ID_Despesa,
-          nome: d.Nome_Despesa,
-          custoMensal: d.Custo_Mensal,
-          tempoOperacional: d.Tempo_Operacional,
-          data: d.Data_Despesa,
-        }));
+      const dados = await res.json();
+      const despesasNormalizadas = dados.map((d) => ({
+        id: d.ID_Despesa,
+        nome: d.Nome_Despesa,
+        custoMensal: d.Custo_Mensal,
+        tempoOperacional: d.Tempo_Operacional,
+        data: d.Data_Despesa,
+      }));
+      setDespesas(despesasNormalizadas);
+    } catch (error) {
+      console.error("Erro ao buscar despesas:", error);
+      Swal.fire('Erro', 'Erro ao buscar despesas. Verifique sua autenticação.', 'error');
+    }
+  };
 
-        setDespesas(despesasNormalizadas);
-      } catch (error) {
-        console.error('Erro ao buscar despesas:', error);
-        Swal.fire('Erro', 'Erro ao buscar despesas. Verifique sua autenticação.', 'error');
-      }
-    };
-
-    fetchDespesas();
-  }, []);
+  // 🔁 Buscar ao carregar ou quando o termoBusca mudar
+  useEffect(() => {
+    fetchDespesas(termoBusca);
+  }, [termoBusca]);
 
   const salvarDespesa = (nova) => {
     setDespesas((prev) => [
@@ -105,7 +104,6 @@ function Despesas() {
     }
   };
 
-  // Função para adicionar uma despesa genérica
   const adicionarDespesaGenerica = () => {
     const despesaGenerica = {
       id: despesas.length + 1,
@@ -142,7 +140,6 @@ function Despesas() {
         <div className="d-flex justify-content-end mt-2">
           <i
             className={styles.Trash}
-            style={{ cursor: 'pointer' }}
             onClick={(e) => {
               e.stopPropagation();
               Swal.fire({
@@ -157,7 +154,6 @@ function Despesas() {
               }).then((result) => {
                 if (result.isConfirmed) {
                   removerDespesa(despesa.id);
-                  Swal.fire('Excluída!', 'A despesa foi removida.', 'success');
                 }
               });
             }}
@@ -203,7 +199,9 @@ function Despesas() {
         )
       }
       renderCard={renderCard}
-      itensPorPagina={itensPorPagina} // Dinamicamente ajustado
+      itensPorPagina={itensPorPagina}
+      termoBusca={termoBusca}
+      setTermoBusca={setTermoBusca}
     />
   );
 }

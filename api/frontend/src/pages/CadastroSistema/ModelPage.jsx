@@ -3,6 +3,7 @@ import Navbar from '../../components/Navbar/Navbar';
 import styles from './Itens.module.css';
 import ReactPaginate from "react-paginate";
 
+
 function ModelPage({
   titulo,
   dados,
@@ -18,13 +19,15 @@ function ModelPage({
   ModalEditar,
   renderCard,
   itensPorPagina,
+  termoBusca,
+  setTermoBusca,
 }) {
   const [paginaAtual, setPaginaAtual] = useState(0);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 576);
   const floatingSearchRef = useRef(null);
-  const prevTotalPaginas = useRef(0); // Adicionado aqui
+  const prevTotalPaginas = useRef(0);
+  
 
   const totalPaginas = Math.ceil(dados.length / itensPorPagina);
 
@@ -115,8 +118,8 @@ function ModelPage({
                     type="text"
                     className={`form-control ${styles.searchBar} me-2`}
                     placeholder="Pesquise aqui..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    value={termoBusca}
+                    onChange={(e) => setTermoBusca(e.target.value)}
                   />
                 </div>
               )}
@@ -139,8 +142,8 @@ function ModelPage({
                 type="text"
                 className={`form-control ${styles.searchBarMobile}`}
                 placeholder="Pesquise aqui..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                value={termoBusca}
+                onChange={(e) => setTermoBusca(e.target.value)}
               />
             </div>
           )}
@@ -161,7 +164,7 @@ function ModelPage({
               </div>
             ) : (
               <div className="row">
-                {dadosExibidos.map(renderCard)}
+                {dados.slice(paginaAtual * itensPorPagina, (paginaAtual + 1) * itensPorPagina).map(renderCard)}
               </div>
             )}
           </div>

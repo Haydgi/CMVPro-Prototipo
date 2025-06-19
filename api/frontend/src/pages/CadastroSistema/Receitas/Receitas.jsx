@@ -12,6 +12,7 @@ function Receitas() {
   const [mostrarModalEditar, setMostrarModalEditar] = useState(false);
   const [receitaSelecionada, setReceitaSelecionada] = useState(null);
   const [itensPorPagina, setItensPorPagina] = useState(8);
+  const [termoBusca, setTermoBusca] = useState('');
 
   const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
   const apiUrl = `${baseUrl}/api/receitas`;
@@ -41,16 +42,34 @@ function Receitas() {
     fetchReceitas();
   }, []);
 
-  const fetchReceitas = async () => {
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      fetchReceitas(termoBusca);
+    }, 400); // debounce para evitar requisições excessivas
+
+    return () => clearTimeout(delayDebounce);
+  }, [termoBusca]);
+
+  const fetchReceitas = async (busca = '') => {
     try {
-      const res = await fetch(apiUrl, {
+      const url = busca ? `${apiUrl}?search=${encodeURIComponent(busca)}` : apiUrl;
+      console.log("URL de busca:", url);
+
+      const res = await fetch(url, {
         headers: {
           'Authorization': token ? `Bearer ${token}` : '',
         }
       });
 
-      if (!res.ok) throw new Error('Erro ao buscar receitas');
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error("Erro na requisição:", res.status, errorText);
+        throw new Error('Erro ao buscar receitas');
+      }
+
       const data = await res.json();
+      console.log("Receitas recebidas:", data);
+
       const receitasFormatadas = Array.isArray(data)
         ? data.map(r => ({ ...r, id: r.ID_Receita }))
         : Array.isArray(data.receitas)
@@ -59,7 +78,7 @@ function Receitas() {
 
       setReceitas(receitasFormatadas);
     } catch (err) {
-      console.error(err);
+      console.error("Erro no fetchReceitas:", err);
       setReceitas([]);
     }
   };
@@ -202,7 +221,7 @@ function Receitas() {
           <p className="mb-1 fs-6">{receita.Categoria || "Sem Categoria"}</p>
 
           <div className="d-flex justify-content-between fs-6 mb-1">
-            <span>⏱ {receita.Tempo_Preparo ?? 0} min</span>
+            <span> {receita.Tempo_Preparo ?? 0} min</span>
             <span>Lucro: {receita.Porcentagem_De_Lucro ?? 0}%</span>
           </div>
 
@@ -245,6 +264,8 @@ function Receitas() {
     <ModelPage
       titulo="Receitas cadastradas"
       dados={receitas}
+      termoBusca={termoBusca}
+      setTermoBusca={setTermoBusca}
       removerItem={removerReceita}
       abrirModal={() => setMostrarModal(true)}
       fecharModal={() => setMostrarModal(false)}
@@ -267,7 +288,8 @@ function Receitas() {
             setReceitaSelecionada(null);
           }}
         />
-      )}
+      )
+      }
       renderCard={renderCard}
       itensPorPagina={itensPorPagina}
     />

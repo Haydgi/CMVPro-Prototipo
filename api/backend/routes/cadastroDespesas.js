@@ -75,21 +75,29 @@ router.post('/', authenticateToken, upload.none(), async (req, res) => {
   }
 });
 
-// GET - Listar despesas com paginação
+// GET - Listar despesas com paginação e filtro de busca
 router.get('/', authenticateToken, async (req, res) => {
   const ID_Usuario = req.usuario.ID_Usuario;
-  const { page = 1, limit = 10 } = req.query;
+  const { page = 1, limit = 10, search = '' } = req.query;
   const offset = (page - 1) * limit;
 
   try {
-    const [rows] = await db.query(
-      `SELECT ID_Despesa, Nome_Despesa, Custo_Mensal, Tempo_Operacional, Data_Despesa
-       FROM despesas
-       WHERE ID_Usuario = ?
-       ORDER BY Data_Despesa DESC
-       LIMIT ? OFFSET ?`,
-      [ID_Usuario, Number(limit), Number(offset)]
-    );
+    let sql = `
+      SELECT ID_Despesa, Nome_Despesa, Custo_Mensal, Tempo_Operacional, Data_Despesa
+      FROM despesas
+      WHERE ID_Usuario = ?
+    `;
+    const params = [ID_Usuario];
+
+    if (search.trim()) {
+      sql += ` AND Nome_Despesa LIKE ?`;
+      params.push(`%${search.trim()}%`);
+    }
+
+    sql += ` ORDER BY Data_Despesa DESC LIMIT ? OFFSET ?`;
+    params.push(Number(limit), Number(offset));
+
+    const [rows] = await db.query(sql, params);
 
     res.status(200).json(rows);
   } catch (error) {

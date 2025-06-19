@@ -78,17 +78,29 @@ router.post('/', authenticateToken, upload.none(), async (req, res) => {
   }
 });
 
-// GET - Listar ingredientes do usuário logado (protegida)
+// GET - Listar ingredientes do usuário logado com paginação e filtro de busca (protegida)
 router.get('/', authenticateToken, async (req, res) => {
   const ID_Usuario = req.usuario.ID_Usuario;
+  const { page = 1, limit = 10, search = '' } = req.query;
+  const offset = (page - 1) * limit;
 
   try {
-    const [rows] = await db.query(
-      `SELECT ID_Ingredientes, Nome_Ingrediente, Unidade_De_Medida, Custo_Ingrediente, Indice_de_Desperdicio, Categoria, Data_Ingrediente
-       FROM ingredientes
-       WHERE ID_Usuario = ?`,
-      [ID_Usuario]
-    );
+    let sql = `
+      SELECT ID_Ingredientes, Nome_Ingrediente, Unidade_De_Medida, Custo_Ingrediente, Indice_de_Desperdicio, Categoria, Data_Ingrediente
+      FROM ingredientes
+      WHERE ID_Usuario = ?
+    `;
+    const params = [ID_Usuario];
+
+    if (search.trim()) {
+      sql += ` AND Nome_Ingrediente LIKE ?`;
+      params.push(`%${search.trim()}%`);
+    }
+
+    sql += ` ORDER BY Data_Ingrediente DESC LIMIT ? OFFSET ?`;
+    params.push(Number(limit), Number(offset));
+
+    const [rows] = await db.query(sql, params);
 
     res.status(200).json(rows);
   } catch (error) {
@@ -155,8 +167,6 @@ router.delete('/:id', authenticateToken, async (req, res) => {
   const ID_Usuario = req.usuario.ID_Usuario;
 
   const idNum = Number(id);
-  console.log('ID recebido para exclusão:', idNum);
-
   if (isNaN(idNum)) {
     return res.status(400).json({ error: MSGS.idInvalido });
   }

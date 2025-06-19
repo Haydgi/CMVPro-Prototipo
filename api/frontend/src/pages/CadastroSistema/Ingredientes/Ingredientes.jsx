@@ -1,26 +1,28 @@
-import { useEffect, useState } from 'react';
-import ModalCadastroIngrediente from '../../../components/Modals/ModalCadastroIngrediente/ModalCadastroIngrediente';
-import ModalEditaIngrediente from '../../../components/Modals/ModalCadastroIngrediente/ModalEditaIngrediente';
-import ModelPage from '../ModelPage';
-import styles from '../itens.module.css';
+import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
+import ModelPage from "../ModelPage";
+import ModalCadastroIngrediente from "../../../components/Modals/ModalCadastroIngrediente/ModalCadastroIngrediente";
+import ModalEditaIngrediente from "../../../components/Modals/ModalCadastroIngrediente/ModalEditaIngrediente";
+import styles from "../itens.module.css";
 
 import { GiMeat, GiFruitBowl, GiPumpkin, GiPeanut, GiWrappedSweet } from "react-icons/gi";
 import { CiWheat, CiDroplet } from "react-icons/ci";
 import { LuMilk } from "react-icons/lu";
 import { TbSalt } from "react-icons/tb";
 import { FaTrash } from "react-icons/fa";
-import { toast } from "react-toastify";
-import Swal from "sweetalert2";
-import "sweetalert2/dist/sweetalert2.min.css";
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
 function Ingredientes() {
+  // 1. Estado do termo de busca e ingredientes
+  const [termoBusca, setTermoBusca] = useState('');
   const [ingredientes, setIngredientes] = useState([]);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [mostrarModalEditar, setMostrarModalEditar] = useState(false);
   const [ingredienteSelecionado, setIngredienteSelecionado] = useState(null);
   const [itensPorPagina, setItensPorPagina] = useState(12); 
-
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
   useEffect(() => {
     const ajustarItensPorTamanho = () => {
@@ -58,23 +60,24 @@ function Ingredientes() {
 
   const getToken = () => localStorage.getItem('token');
 
-  const fetchIngredientes = async () => {
+  const fetchIngredientes = async (termo = '') => {
     const token = getToken();
     if (!token) return;
 
     try {
-      const res = await fetch(`${API_URL}/api/ingredientes`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json' 
+      const res = await fetch(
+        `${API_URL}/api/ingredientes?search=${encodeURIComponent(termo)}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
         }
-      });
-
+      );
       if (!res.ok) throw new Error('Erro ao buscar ingredientes');
       const data = await res.json();
-
-      const formatados = data.map(item => ({
+      // Normaliza os dados
+      setIngredientes(data.map(item => ({
         ...item,
         id: item.ID_Ingredientes,
         nome: item.Nome_Ingrediente,
@@ -82,18 +85,17 @@ function Ingredientes() {
         unidadeCompra: item.Unidade_Compra,
         categoria: item.Categoria,
         icone: iconesCategorias[item.Categoria] || "❓",
-      }));
-
-      setIngredientes(formatados);
+      })));
     } catch (error) {
+      setIngredientes([]);
       console.error('Erro:', error);
       toast.error('Falha ao buscar ingredientes.');
     }
   };
 
   useEffect(() => {
-    fetchIngredientes();
-  }, [API_URL]);
+    fetchIngredientes(termoBusca);
+  }, [API_URL, termoBusca]);
 
   const salvarIngrediente = async (novoIngrediente) => {
     // Faz apenas o POST para criar novo ingrediente
@@ -258,6 +260,8 @@ function Ingredientes() {
       }
       renderCard={renderCard}
       itensPorPagina={itensPorPagina}
+      termoBusca={termoBusca}
+      setTermoBusca={setTermoBusca}
     />
   );
 }
