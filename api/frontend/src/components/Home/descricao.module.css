@@ -1,6 +1,6 @@
 .texto {
-  padding-top: 70px; ;
-  scroll-margin-top: 70px;
+  padding-top: 30px; ;
+  scroll-margin-top: 120px;
 }
 
 .texto h2 {
@@ -79,7 +79,7 @@
 @media (max-width: 1200px) {
   .descricao-text {
     max-height: 600px; /* Limita a altura do texto */
-    overflow: auto; /* Adiciona rolagem se o conteúdo exceder a altura */
+/* Adiciona rolagem se o conteúdo exceder a altura */
     padding-right: 20px;
   }
 }

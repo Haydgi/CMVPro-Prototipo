@@ -19,21 +19,20 @@
 
 .resumo-mulher-img {
   position: relative; /* Permite usar top e left */
-  top: -30px; /* Move a imagem para cima */
-  right: 230px; /* Move a imagem para a direita */
+  top: 0px; /* Move a imagem para cima */
+  right: 250px; /* Move a imagem para a direita */
   width: auto; /* Mantém o tamanho original */
   max-width: 100%; /* Garante que a imagem não ultrapasse o container */
-  height: 770px;
+  height: 680px;
   object-fit: contain;
   display: block;
 }
 
 .resumo-card-container {
   position: relative; /* Permite posicionamento mais preciso */
-  top: 60px; /* Move o card para cima */
-  left: 300px; /* Move o card para a direita */
+  top: 80px; /* Move o card para cima */
+  left: 150px; /* Move o card para a direita */
   margin: 0; /* Remove margens padrão */
-   /* Adiciona espaçamento interno */
 }
 
 .resumo-image-container {
@@ -47,9 +46,10 @@
   align-items: center;
   background-color: white;
   text-align: center;
-  padding: 40px;
+  padding: 30px;
   border-radius: 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  max-width: 65%;
 }
 
 .resumo-content1 h1 {
@@ -57,15 +57,17 @@
   font-weight: bold;
   display: flex;
   font-size: 40px;
+  max-width: 100%;
 }
 
 .resumo-content1 p {
-  max-width: 400px;
+  font-size: 18px;
+  max-width: 100%;
 }
 
 .btnUltraViolet {
-  padding: 12px 24px;
-  margin-top: 20px;
+  padding: 18px 32px;
+  margin-top: 10px;
   scroll-behavior: smooth;
 }
 
