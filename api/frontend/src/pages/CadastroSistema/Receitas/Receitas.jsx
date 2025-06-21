@@ -206,15 +206,16 @@ function Receitas() {
             />
           ) : (
             <div
-              className="rounded bg-light d-flex align-items-center justify-content-center mb-2 border"
+              className={`rounded mb-2 border ${styles.semImagem}`}
               style={{
                 width: "170px",
                 height: "170px",
+                backgroundImage: `url(/midia/garfoFaca.png)`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
                 margin: "0 auto",
               }}
-            >
-              <span className="text-muted">Sem imagem </span>
-            </div>
+            />
           )}
 
           <h5 className="fw-bold mb-1">{receita.Nome_Receita || "Sem Nome"}</h5>
