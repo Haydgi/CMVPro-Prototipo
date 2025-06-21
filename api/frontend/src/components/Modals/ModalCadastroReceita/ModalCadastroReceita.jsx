@@ -211,6 +211,18 @@ const handleSubmit = async (e) => {
     if (form.imagem_URL && form.imagem_URL instanceof File) {
       formData.append('imagem_URL', form.imagem_URL);
     }
+      // ADICIONE NA LINHA 214:
+
+    formData.append('ingredientes', JSON.stringify(
+      ingredientesSelecionados.map(i => ({
+        nome: i.nome,
+        unidade: i.unidade,
+        quantidade: Number(i.quantidade),
+        quantidade_total: Number(i.quantidade_total),
+        custo_ingrediente: Number(i.custo_ingrediente),
+        Indice_de_Desperdicio: Number(i.Indice_de_Desperdicio)
+      }))
+    ));
 
     await fetch("http://localhost:3001/api/receitas", {
       method: "POST",
