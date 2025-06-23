@@ -72,7 +72,7 @@
   bottom: 20px; /* Alinha na parte inferior da tela */
   left: 0;
   width: 100%; /* Garante que ocupe toda a largura da tela */
-  z-index: 10; /* Garante que fique acima de outros elementos */
+  
 }
 
 /* Botão de adicionar - versão mobile */
@@ -629,8 +629,9 @@
 
   .title {
     font-size: 25px;
-    text-align: center;
-    white-space: nowrap; /* Impede que o texto quebre em várias linhas */
+    text-align: left;
+    white-space: nowrap;
+    margin-left: 24px; /* Adiciona margem maior à esquerda */
     
   }
 

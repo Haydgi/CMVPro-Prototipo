@@ -66,29 +66,40 @@ export default function Navbar() {
           <i className="MdMenu"><MdMenu /></i>
         </button>
 
-        {menuAberto && (
-          <div ref={menuRef} className="mobile-bootstrap-menu w-100 mt-2 bg-white rounded shadow-sm p-3">
-            <ul className="navbar-nav flex-column">
-              <li className="nav-item">
-                <NavLink to="/receitas" className="nav-link" onClick={() => setMenuAberto(false)}>Receitas</NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink to="/relatorios" className="nav-link" onClick={() => setMenuAberto(false)}>Relatórios</NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink to="/ingredientes" className="nav-link" activeClassName="active" onClick={() => setMenuAberto(false)}>Ingredientes</NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink to="/despesas" className="nav-link" onClick={() => setMenuAberto(false)}>Despesas</NavLink>
-              </li>
-              <li className="nav-item mt-2">
-                <button className="btnLogoutCelular" onClick={handleLogout}>
-                  Sair <i className="bi bi-box-arrow-right"></i> 
-                </button>
-              </li>
-            </ul>
+        {/* Sidebar lateral mobile */}
+        <div
+          ref={menuRef}
+          className={`mobile-sidebar ${menuAberto ? "open" : ""}`}
+          tabIndex={-1}
+        >
+          <div className="mobile-sidebar-header d-flex align-items-center justify-content-between px-3 py-2">
+            <img src={`${import.meta.env.BASE_URL}midia/logo_caderno_do_che2.png`} alt="Logo" style={{ height: "36px" }} />
+            <button className="btn" onClick={() => setMenuAberto(false)}>
+              <MdMenu size={28} />
+            </button>
           </div>
-        )}
+          <ul className="navbar-nav flex-column px-3">
+            <li className="nav-item">
+              <NavLink to="/receitas" className="nav-link" onClick={() => setMenuAberto(false)}>Receitas</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to="/relatorios" className="nav-link" onClick={() => setMenuAberto(false)}>Relatórios</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to="/ingredientes" className="nav-link" onClick={() => setMenuAberto(false)}>Ingredientes</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to="/despesas" className="nav-link" onClick={() => setMenuAberto(false)}>Despesas</NavLink>
+            </li>
+            <li className="nav-item mt-2">
+              <button className="btnLogoutCelular" onClick={handleLogout}>
+                Sair <i className="bi bi-box-arrow-right"></i>
+              </button>
+            </li>
+          </ul>
+        </div>
+        {/* Overlay para fechar ao clicar fora */}
+        {menuAberto && <div className="mobile-sidebar-overlay" onClick={() => setMenuAberto(false)} />}
       </nav>
     </div>
   );
