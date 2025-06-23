@@ -2,15 +2,16 @@
   background-color: var(--ultra-violet); /* Fundo roxo */
   color: var(--white-smoke); /* Texto branco */
   border-radius: 12px;
-  padding: 10px;
+  padding: 8px;
   text-align: center;
   position: relative;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 0px !important;
 }
 
 .cardReceita:hover {
-  transform: scale(1.05); /* Leve aumento no hover */
+  transform: scale(1.02); /* Leve aumento no hover */
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35); /* Sombra mais intensa */
 }
 
@@ -32,4 +33,13 @@ background-color: var(--white-smoke);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media (max-width: 576px) {
+  .cardReceita {
+    max-width: 440px;
+    margin: 0 auto 16px auto;
+    margin-left: 40px !important;
+  }
+
 }
