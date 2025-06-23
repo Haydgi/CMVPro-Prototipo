@@ -75,58 +75,35 @@ router.post('/', authenticateToken, upload.single('imagem_URL'), async (req, res
       Tempo_Preparo,
       Custo_Total_Ingredientes,
       Porcentagem_De_Lucro,
-      Categoria
+      Categoria,
+      ingredientes // array esperado de ingredientes [{ID_Ingredientes, Quantidade_Utilizada, Unidade_De_Medida}, ...]
     } = req.body;
 
     const ID_Usuario = req.usuario.ID_Usuario;
 
-    // Validação campos obrigatórios
-    if (!Nome_Receita || !Descricao || Tempo_Preparo === undefined ||
-      Custo_Total_Ingredientes === undefined || Porcentagem_De_Lucro === undefined) {
-
-      const details = {
-        Nome_Receita: !Nome_Receita ? 'Campo obrigatório' : undefined,
-        Descricao: !Descricao ? 'Campo obrigatório' : undefined,
-        Tempo_Preparo: Tempo_Preparo === undefined ? 'Campo obrigatório' : undefined,
-        Custo_Total_Ingredientes: Custo_Total_Ingredientes === undefined ? 'Campo obrigatório' : undefined,
-        Porcentagem_De_Lucro: Porcentagem_De_Lucro === undefined ? 'Campo obrigatório' : undefined
-      };
-
-      // Gera mensagem amigável
-      const camposFaltando = Object.entries(details)
-        .filter(([_, v]) => v)
-        .map(([k, _]) => k)
-        .join(', ');
-
-      // LOG NO TERMINAL
-      console.error(
-        `[ERRO CADASTRO RECEITA] Campos obrigatórios faltando: ${camposFaltando || 'nenhum'}, detalhes:`,
-        details
-      );
-
-      return res.status(400).json({
-        error: MSGS.camposFaltando,
-        message: camposFaltando
-          ? `Os seguintes campos obrigatórios estão faltando ou inválidos: ${camposFaltando}`
-          : MSGS.camposFaltando,
-        details
-      });
+    // Parse ingredientes se vier como string (caso do multipart/form-data)
+    if (typeof ingredientes === "string") {
+      ingredientes = JSON.parse(ingredientes);
     }
 
-    // Tratar custo vazio string
-    if (Custo_Total_Ingredientes === '') Custo_Total_Ingredientes = '0';
+    // Validações
+    if (!Nome_Receita || !Descricao || Tempo_Preparo === undefined ||
+      Custo_Total_Ingredientes === undefined || Porcentagem_De_Lucro === undefined) {
+      return res.status(400).json({ error: "Campos obrigatórios faltando." });
+    }
 
-    // Conversão e validação numérica
+    // Conversões numéricas
     Tempo_Preparo = parseInt(Tempo_Preparo);
     Custo_Total_Ingredientes = parseFloat(Custo_Total_Ingredientes);
     Porcentagem_De_Lucro = parseFloat(Porcentagem_De_Lucro);
 
-    if (isNaN(Tempo_Preparo) || Tempo_Preparo <= 0) return res.status(400).json({ error: MSGS.tempoInvalido });
-    if (isNaN(Custo_Total_Ingredientes) || Custo_Total_Ingredientes < 0) return res.status(400).json({ error: MSGS.custoInvalido });
-    if (isNaN(Porcentagem_De_Lucro) || Porcentagem_De_Lucro < 0) return res.status(400).json({ error: MSGS.porcentagemInvalida });
+    if (isNaN(Tempo_Preparo) || Tempo_Preparo <= 0) return res.status(400).json({ error: "Tempo inválido." });
+    if (isNaN(Custo_Total_Ingredientes) || Custo_Total_Ingredientes < 0) return res.status(400).json({ error: "Custo inválido." });
+    if (isNaN(Porcentagem_De_Lucro) || Porcentagem_De_Lucro < 0) return res.status(400).json({ error: "Porcentagem inválida." });
 
     const imagem_URL = req.file ? req.file.filename : '';
 
+    // Inserir receita
     const [result] = await db.query(`
       INSERT INTO receitas (
         ID_Usuario, Nome_Receita, Descricao, Tempo_Preparo,
@@ -248,7 +225,7 @@ router.put('/:id', authenticateToken, upload.single('imagem_URL'), async (req, r
   const ID_Usuario = req.usuario.ID_Usuario;
   const idNum = Number(id);
 
-  if (isNaN(idNum) || idNum <= 0) return res.status(400).json({ error: MSGS.idInvalido });
+  if (isNaN(idNum) || idNum <= 0) return res.status(400).json({ error: "ID inválido." });
 
   let {
     Nome_Receita,
@@ -256,27 +233,33 @@ router.put('/:id', authenticateToken, upload.single('imagem_URL'), async (req, r
     Tempo_Preparo,
     Custo_Total_Ingredientes,
     Porcentagem_De_Lucro,
-    Categoria
+    Categoria,
+    ingredientes // array esperado
   } = req.body;
+
+  // Parse ingredientes se vier como string (caso de multipart/form-data)
+  if (typeof ingredientes === "string") {
+    ingredientes = JSON.parse(ingredientes);
+  }
 
   if (!Nome_Receita || !Descricao || Tempo_Preparo === undefined ||
       Custo_Total_Ingredientes === undefined || Porcentagem_De_Lucro === undefined) {
-    return res.status(400).json({ error: MSGS.camposFaltando });
+    return res.status(400).json({ error: "Campos obrigatórios faltando." });
   }
 
   Tempo_Preparo = parseInt(Tempo_Preparo);
   Custo_Total_Ingredientes = parseFloat(Custo_Total_Ingredientes);
   Porcentagem_De_Lucro = parseFloat(Porcentagem_De_Lucro);
 
-  if (isNaN(Tempo_Preparo) || Tempo_Preparo <= 0) return res.status(400).json({ error: MSGS.tempoInvalido });
-  if (isNaN(Custo_Total_Ingredientes) || Custo_Total_Ingredientes < 0) return res.status(400).json({ error: MSGS.custoInvalido });
-  if (isNaN(Porcentagem_De_Lucro) || Porcentagem_De_Lucro < 0) return res.status(400).json({ error: MSGS.porcentagemInvalida });
+  if (isNaN(Tempo_Preparo) || Tempo_Preparo <= 0) return res.status(400).json({ error: "Tempo inválido." });
+  if (isNaN(Custo_Total_Ingredientes) || Custo_Total_Ingredientes < 0) return res.status(400).json({ error: "Custo inválido." });
+  if (isNaN(Porcentagem_De_Lucro) || Porcentagem_De_Lucro < 0) return res.status(400).json({ error: "Porcentagem inválida." });
 
   try {
     const [rows] = await db.query(`SELECT ID_Usuario, imagem_URL FROM receitas WHERE ID_Receita = ?`, [idNum]);
 
-    if (rows.length === 0) return res.status(404).json({ error: MSGS.receitaNaoEncontrada });
-    if (rows[0].ID_Usuario !== ID_Usuario) return res.status(403).json({ error: MSGS.naoAutorizado });
+    if (rows.length === 0) return res.status(404).json({ error: "Receita não encontrada." });
+    if (rows[0].ID_Usuario !== ID_Usuario) return res.status(403).json({ error: "Não autorizado." });
 
     let imagem_URL = rows[0].imagem_URL || '';
 
@@ -292,6 +275,7 @@ router.put('/:id', authenticateToken, upload.single('imagem_URL'), async (req, r
       imagem_URL = req.file.filename;
     }
 
+    // Atualiza dados da receita
     const [result] = await db.query(`
       UPDATE receitas SET 
         Nome_Receita = ?, 
@@ -313,13 +297,33 @@ router.put('/:id', authenticateToken, upload.single('imagem_URL'), async (req, r
       idNum
     ]);
 
+    // Atualiza ingredientes associados:
+    if (Array.isArray(ingredientes)) {
+      // Apaga os antigos
+      await db.query('DELETE FROM ingredientes_receita WHERE ID_Receita = ?', [idNum]);
+
+      if (ingredientes.length > 0) {
+        const valores = ingredientes.map(i => [
+          idNum,
+          i.ID_Ingredientes,
+          parseFloat(i.Quantidade_Utilizada),
+          i.Unidade_De_Medida || null
+        ]);
+        await db.query(
+          'INSERT INTO ingredientes_receita (ID_Receita, ID_Ingredientes, Quantidade_Utilizada, Unidade_De_Medida) VALUES ?',
+          [valores]
+        );
+      }
+    }
+
     if (result.affectedRows === 1) {
       return res.status(200).json({ message: 'Receita atualizada com sucesso' });
     }
-    return res.status(500).json({ error: MSGS.erroAtualizar });
+    return res.status(500).json({ error: "Erro ao atualizar receita." });
+
   } catch (error) {
     console.error('Erro ao atualizar receita:', error);
-    return res.status(500).json({ error: MSGS.erroAtualizar, details: error.message });
+    return res.status(500).json({ error: "Erro ao atualizar receita.", details: error.message });
   }
 });
 

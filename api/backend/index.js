@@ -4,12 +4,21 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 
+
 // Rotas
+import CategoriaReceitas from "./routes/CategoriaReceitas.js";
+import ContaIngredientes from "./routes/ContaIngredientes.js"
+import ContaReceita from "./routes/ContaReceita.js";
+import Tempomedio from "./routes/Tempomedio.js"
+import DesperdicioMedio from "./routes/DesperdicioMedio.js";
+import IndiceDesperdicio from './routes/IndiceDesperdicio.js';
 import cadastroRoutes from "./routes/CadastroUsuario.js";
 import loginRoutes from "./routes/login.js";
 import ingredientesRoutes from "./routes/cadastroIngredientes.js";
 import cadastroReceitas from "./routes/cadastroReceitas.js";
 import cadastroDespesas from "./routes/cadastroDespesas.js";
+import LucroPorReceita from "./routes/LucroPorReceita.js";
+
 
 dotenv.config();
 const app = express();
@@ -37,6 +46,18 @@ app.use("/api", loginRoutes);
 app.use("/api/ingredientes", ingredientesRoutes);
 app.use("/api/receitas", cadastroReceitas);
 app.use("/api/despesas", cadastroDespesas);
+app.use("/api/receitas", LucroPorReceita);
+app.use('/api/ingredientes/indice', IndiceDesperdicio);
+app.use('/api/ingredientes',DesperdicioMedio);
+app.use('/api/receitas',Tempomedio);
+app.use('/api/receitas',ContaReceita);
+app.use('/api/ingredientes',ContaIngredientes);
+app.use('/api/receitas',CategoriaReceitas);
+
+
+
+
+
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);

@@ -1,43 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { FaFilter } from 'react-icons/fa';
 import styles from './Dashboard.module.css';
 
-const WasteChart = ({ ingredients }) => {
+const WasteChart = ({ userId }) => {
+    console.log("userId recebido no WasteChart:", userId);
+
+    
+  const [ingredients, setIngredients] = useState([]);
   const [filter, setFilter] = useState('maior');
-  const [showOptions, setShowOptions] = useState(false); // Controla a visibilidade das opções
-  const [menuAnimation, setMenuAnimation] = useState(''); // Controla a animação do menu
+  const [showOptions, setShowOptions] = useState(false);
+  const [menuAnimation, setMenuAnimation] = useState('');
+
+  useEffect(() => {
+    if (!userId) return;
+    axios.get(`http://localhost:3001/api/ingredientes/indice?usuario=${userId}`)
+      .then(res => {
+        console.log("Dados recebidos para o gráfico:", res.data);
+        setIngredients(res.data);
+      })
+      .catch(err => console.error('Erro ao carregar dados de desperdício:', err));
+  }, [userId]);
 
   const toggleMenu = () => {
     if (showOptions) {
-      setMenuAnimation('exit'); // Aplica a animação de saída
-      setTimeout(() => setShowOptions(false), 300); // Fecha o menu após a animação
+      setMenuAnimation('exit');
+      setTimeout(() => setShowOptions(false), 300);
     } else {
       setShowOptions(true);
-      setMenuAnimation('enter'); // Aplica a animação de entrada
+      setMenuAnimation('enter');
     }
   };
 
-  // Pega a versão mais recente de cada ingrediente
+  // Ordena ingredientes pela data de criação mais recente, trata datas inválidas corretamente
   const latestIngredients = [...ingredients]
-    .sort((a, b) => new Date(b.createdAt || '2024-01-01') - new Date(a.createdAt || '2024-01-01'))
+    .sort((a, b) => {
+      const timeA = new Date(a.createdAt).getTime();
+      const timeB = new Date(b.createdAt).getTime();
+      return (isNaN(timeB) ? 0 : timeB) - (isNaN(timeA) ? 0 : timeA);
+    })
+    // Pega só o ingrediente mais recente para cada nome (remove duplicatas)
     .filter((ing, index, self) =>
       index === self.findIndex(i => i.name === ing.name)
     );
 
-  // Ordena e filtra top 5 conforme filtro
+  // Ordena conforme filtro selecionado
   const sorted = [...latestIngredients].sort((a, b) =>
     filter === 'maior'
       ? b.wasteRate - a.wasteRate
       : a.wasteRate - b.wasteRate
   );
 
+  // Prepara dados para o gráfico, com nomes truncados se muito longos
   const data = sorted
+    .slice(0, 5)
     .map(ing => ({
-      name: ing.name,
-      desperdicio: ing.wasteRate
-    }))
-    .slice(0, 5);
+      name: ing.name.length > 15 ? `${ing.name.substring(0, 12)}...` : ing.name,
+      desperdicio: ing.wasteRate,
+    }));
 
   return (
     <div className={`${styles['chart-card']} ${styles['compact']}`}>
@@ -46,10 +67,7 @@ const WasteChart = ({ ingredients }) => {
           Desperdício de Ingrediente - <span className={styles['filter-marker']}>{filter === 'maior' ? 'Maior' : 'Menor'}</span>
         </h3>
         <div className={styles['select-container']}>
-          <button
-            className={styles['icon-button']}
-            onClick={toggleMenu}
-          >
+          <button className={styles['icon-button']} onClick={toggleMenu}>
             <FaFilter />
           </button>
           {showOptions && (
@@ -78,9 +96,9 @@ const WasteChart = ({ ingredients }) => {
       </div>
       <ResponsiveContainer width="100%" height={200}>
         <BarChart data={data}>
-          <XAxis dataKey="name" type="category" tick={{ fontSize: 12 }} />
+          <XAxis dataKey="name" tick={{ fontSize: 12 }} />
           <YAxis type="number" domain={[0, 100]} tick={{ fontSize: 12 }} />
-          <Tooltip formatter={(value) => [`${value}%`, 'Desperdício']} />
+          <Tooltip formatter={value => [`${value}%`, 'Desperdício']} />
           <Bar
             dataKey="desperdicio"
             fill="var(--primary-dark)"

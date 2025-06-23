@@ -1,24 +1,67 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import styles from './Dashboard.module.css';
 
-const AvgWaste = ({ ingredients }) => {
-  const latestIngredients = [...ingredients]
-    .sort((a, b) => new Date(b.createdAt || '2024-01-01') - new Date(a.createdAt || '2024-01-01'))
-    .filter((ing, index, self) => 
-      index === self.findIndex(i => i.name === ing.name)
-    );
+const AvgWaste = () => {
+  const [avgWaste, setAvgWaste] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const avgWaste = latestIngredients.length > 0
-    ? (latestIngredients.reduce((sum, ing) => sum + ing.wasteRate, 0) / latestIngredients.length).toFixed(1)
-    : 0;
+  useEffect(() => {
+    const idUsuario = localStorage.getItem('userId');
+    console.log('ID do usuário obtido do localStorage:', idUsuario);
+
+    if (!idUsuario) {
+      console.log('Usuário não está logado. ID não encontrado.');
+      setError('Usuário não logado');
+      setLoading(false);
+      return;
+    }
+
+    const fetchAverageWaste = async () => {
+      try {
+        console.log(`Buscando desperdício médio para o usuário ${idUsuario}...`);
+        const response = await axios.get(`http://localhost:3001/api/ingredientes/media?usuario=${idUsuario}`);
+        console.log('Resposta recebida do backend:', response.data);
+
+        const mediaRecebida = response.data.media;
+        if (mediaRecebida === undefined) {
+          console.log('Resposta não contém campo "media".');
+          setAvgWaste(0);
+        } else {
+          setAvgWaste(mediaRecebida);
+          console.log('Desperdício médio definido para:', mediaRecebida);
+        }
+      } catch (err) {
+        console.error('Erro ao buscar desperdício médio:', err);
+        setError('Erro ao buscar desperdício médio');
+        setAvgWaste(0);
+      } finally {
+        setLoading(false);
+        console.log('Busca finalizada.');
+      }
+    };
+
+    fetchAverageWaste();
+  }, []);
+
+  if (loading) {
+    return <div className={styles['chart-card']}>Carregando...</div>;
+  }
+
+  if (error) {
+    return <div className={styles['chart-card']}>Erro: {error}</div>;
+  }
 
   return (
-    <div className={styles['chart-card'] + ' ' + styles.compact}>
+    <div className={`${styles['chart-card']} ${styles['compact']}`}>
       <h3>Desperdício Médio</h3>
-      <div className={styles['metric-value'] + ' ' + styles.large}>
+      <div className={`${styles['metric-value']} ${styles['large']}`}>
         {avgWaste}%
       </div>
-      <div className={styles['metric-subtext']}>Média ponderada do sistema</div>
+      <div className={styles['metric-subtext']}>
+        Média ponderada do sistema
+      </div>
     </div>
   );
 };
