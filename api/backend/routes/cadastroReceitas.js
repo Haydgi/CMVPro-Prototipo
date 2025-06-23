@@ -83,8 +83,13 @@ router.post('/', authenticateToken, upload.single('imagem_URL'), async (req, res
 
     // Parse ingredientes se vier como string (caso do multipart/form-data)
     if (typeof ingredientes === "string") {
-      ingredientes = JSON.parse(ingredientes);
-    }
+  try {
+    ingredientes = JSON.parse(ingredientes);
+  } catch (error) {
+    console.error("Erro ao fazer parse dos ingredientes:", ingredientes);
+    return res.status(400).json({ error: "Erro ao interpretar os ingredientes enviados." });
+  }
+}
 
     // Validações
     if (!Nome_Receita || !Descricao || Tempo_Preparo === undefined ||
@@ -121,8 +126,24 @@ router.post('/', authenticateToken, upload.single('imagem_URL'), async (req, res
     ]);
 
     if (result.affectedRows === 1) {
+      const idReceita = result.insertId;
+
+      // INSERIR ingredientes na tabela intermediária
+      if (Array.isArray(ingredientes) && ingredientes.length > 0) {
+        const valores = ingredientes.map(i => [
+          idReceita,
+          i.ID_Ingredientes,
+          parseFloat(i.quantidade || i.Quantidade_Utilizada),
+          i.Unidade_De_Medida || null
+        ]);
+        await db.query(
+          'INSERT INTO ingredientes_receita (ID_Receita, ID_Ingredientes, Quantidade_Utilizada, Unidade_De_Medida) VALUES ?',
+          [valores]
+        );
+      }
+
       return res.status(201).json({
-        ID_Receita: result.insertId,
+        ID_Receita: idReceita,
         ID_Usuario,
         Nome_Receita,
         Descricao,
@@ -237,90 +258,118 @@ router.put('/:id', authenticateToken, upload.single('imagem_URL'), async (req, r
     ingredientes // array esperado
   } = req.body;
 
-  // Parse ingredientes se vier como string (caso de multipart/form-data)
-  if (typeof ingredientes === "string") {
-    ingredientes = JSON.parse(ingredientes);
-  }
-
-  if (!Nome_Receita || !Descricao || Tempo_Preparo === undefined ||
-      Custo_Total_Ingredientes === undefined || Porcentagem_De_Lucro === undefined) {
-    return res.status(400).json({ error: "Campos obrigatórios faltando." });
-  }
-
-  Tempo_Preparo = parseInt(Tempo_Preparo);
-  Custo_Total_Ingredientes = parseFloat(Custo_Total_Ingredientes);
-  Porcentagem_De_Lucro = parseFloat(Porcentagem_De_Lucro);
-
-  if (isNaN(Tempo_Preparo) || Tempo_Preparo <= 0) return res.status(400).json({ error: "Tempo inválido." });
-  if (isNaN(Custo_Total_Ingredientes) || Custo_Total_Ingredientes < 0) return res.status(400).json({ error: "Custo inválido." });
-  if (isNaN(Porcentagem_De_Lucro) || Porcentagem_De_Lucro < 0) return res.status(400).json({ error: "Porcentagem inválida." });
-
   try {
-    const [rows] = await db.query(`SELECT ID_Usuario, imagem_URL FROM receitas WHERE ID_Receita = ?`, [idNum]);
+    console.log("========== RECEBIDO NO PUT /api/receitas/:id ==========");
+    console.log("Body:", req.body);
+    console.log("Ingredientes (antes do parse):", req.body.ingredientes);
+    console.log("Imagem:", req.file?.filename);
 
-    if (rows.length === 0) return res.status(404).json({ error: "Receita não encontrada." });
-    if (rows[0].ID_Usuario !== ID_Usuario) return res.status(403).json({ error: "Não autorizado." });
+    // Parse ingredientes se vier como string (caso de multipart/form-data)
+    if (typeof ingredientes === "string") {
+      try {
+        ingredientes = JSON.parse(ingredientes);
+        console.log("Ingredientes (depois do parse):", ingredientes);
+      } catch (error) {
+        console.error("Erro ao fazer parse de ingredientes:", error.message);
+        return res.status(400).json({ error: "JSON malformado nos ingredientes." });
+      }
+    }
 
-    let imagem_URL = rows[0].imagem_URL || '';
+    // Valide o array após o parse
+    if (!Array.isArray(ingredientes) || ingredientes.length === 0) {
+      return res.status(400).json({ error: "Nenhum ingrediente recebido para atualizar." });
+    }
 
-    if (req.file) {
-      if (imagem_URL) {
-        const caminhoImagemAntiga = path.join(__dirname, '../uploads', imagem_URL);
-        try {
-          await fs.unlink(caminhoImagemAntiga);
-        } catch (err) {
-          console.warn('Falha ao excluir imagem antiga:', err.message);
+    if (!Nome_Receita || !Descricao || Tempo_Preparo === undefined ||
+      Custo_Total_Ingredientes === undefined || Porcentagem_De_Lucro === undefined) {
+      return res.status(400).json({ error: "Campos obrigatórios faltando." });
+    }
+
+    Tempo_Preparo = parseInt(Tempo_Preparo);
+    Custo_Total_Ingredientes = parseFloat(Custo_Total_Ingredientes);
+    Porcentagem_De_Lucro = parseFloat(Porcentagem_De_Lucro);
+
+    if (isNaN(Tempo_Preparo) || Tempo_Preparo <= 0) return res.status(400).json({ error: "Tempo inválido." });
+    if (isNaN(Custo_Total_Ingredientes) || Custo_Total_Ingredientes < 0) return res.status(400).json({ error: "Custo inválido." });
+    if (isNaN(Porcentagem_De_Lucro) || Porcentagem_De_Lucro < 0) return res.status(400).json({ error: "Porcentagem inválida." });
+
+    try {
+      const [rows] = await db.query(`SELECT ID_Usuario, imagem_URL FROM receitas WHERE ID_Receita = ?`, [idNum]);
+
+      if (rows.length === 0) return res.status(404).json({ error: "Receita não encontrada." });
+      if (rows[0].ID_Usuario !== ID_Usuario) return res.status(403).json({ error: "Não autorizado." });
+
+      let imagem_URL = rows[0].imagem_URL || '';
+
+      if (req.file) {
+        if (imagem_URL) {
+          const caminhoImagemAntiga = path.join(__dirname, '../uploads', imagem_URL);
+          try {
+            await fs.unlink(caminhoImagemAntiga);
+          } catch (err) {
+            console.warn('Falha ao excluir imagem antiga:', err.message);
+          }
+        }
+        imagem_URL = req.file.filename;
+      }
+
+      // Atualiza dados da receita
+      const [result] = await db.query(`
+        UPDATE receitas SET 
+          Nome_Receita = ?, 
+          Descricao = ?, 
+          Tempo_Preparo = ?, 
+          Custo_Total_Ingredientes = ?, 
+          Porcentagem_De_Lucro = ?, 
+          Categoria = ?, 
+          imagem_URL = ?
+        WHERE ID_Receita = ?
+      `, [
+        Nome_Receita,
+        Descricao,
+        Tempo_Preparo,
+        Custo_Total_Ingredientes,
+        Porcentagem_De_Lucro,
+        Categoria || null,
+        imagem_URL,
+        idNum
+      ]);
+
+      // Atualiza ingredientes associados:
+      if (Array.isArray(ingredientes)) {
+        // Apaga os antigos
+        await db.query('DELETE FROM ingredientes_receita WHERE ID_Receita = ?', [idNum]);
+
+        if (ingredientes.length > 0) {
+          const valores = ingredientes.map(i => [
+            idNum,
+            i.ID_Ingredientes,
+            parseFloat(i.quantidade || i.Quantidade_Utilizada),
+            i.Unidade_De_Medida || null
+          ]);
+          console.log("Valores para INSERT:", valores);
+
+          try {
+            await db.query(
+              'INSERT INTO ingredientes_receita (ID_Receita, ID_Ingredientes, Quantidade_Utilizada, Unidade_De_Medida) VALUES ?',
+              [valores]
+            );
+          } catch (err) {
+            console.error("Erro ao inserir ingredientes:", err.message);
+            return res.status(500).json({ error: "Erro ao inserir ingredientes.", sql: err.message });
+          }
         }
       }
-      imagem_URL = req.file.filename;
-    }
 
-    // Atualiza dados da receita
-    const [result] = await db.query(`
-      UPDATE receitas SET 
-        Nome_Receita = ?, 
-        Descricao = ?, 
-        Tempo_Preparo = ?, 
-        Custo_Total_Ingredientes = ?, 
-        Porcentagem_De_Lucro = ?, 
-        Categoria = ?, 
-        imagem_URL = ?
-      WHERE ID_Receita = ?
-    `, [
-      Nome_Receita,
-      Descricao,
-      Tempo_Preparo,
-      Custo_Total_Ingredientes,
-      Porcentagem_De_Lucro,
-      Categoria || null,
-      imagem_URL,
-      idNum
-    ]);
-
-    // Atualiza ingredientes associados:
-    if (Array.isArray(ingredientes)) {
-      // Apaga os antigos
-      await db.query('DELETE FROM ingredientes_receita WHERE ID_Receita = ?', [idNum]);
-
-      if (ingredientes.length > 0) {
-        const valores = ingredientes.map(i => [
-          idNum,
-          i.ID_Ingredientes,
-          parseFloat(i.Quantidade_Utilizada),
-          i.Unidade_De_Medida || null
-        ]);
-        await db.query(
-          'INSERT INTO ingredientes_receita (ID_Receita, ID_Ingredientes, Quantidade_Utilizada, Unidade_De_Medida) VALUES ?',
-          [valores]
-        );
+      if (result.affectedRows === 1) {
+        return res.status(200).json({ message: 'Receita atualizada com sucesso' });
       }
-    }
+      return res.status(500).json({ error: "Erro ao atualizar receita." });
 
-    if (result.affectedRows === 1) {
-      return res.status(200).json({ message: 'Receita atualizada com sucesso' });
+    } catch (error) {
+      console.error('Erro ao atualizar receita:', error);
+      return res.status(500).json({ error: "Erro ao atualizar receita.", details: error.message });
     }
-    return res.status(500).json({ error: "Erro ao atualizar receita." });
-
   } catch (error) {
     console.error('Erro ao atualizar receita:', error);
     return res.status(500).json({ error: "Erro ao atualizar receita.", details: error.message });

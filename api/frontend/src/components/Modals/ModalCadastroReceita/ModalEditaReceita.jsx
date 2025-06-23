@@ -49,29 +49,54 @@ function ModalEditaReceita({ onClose, onSave, receita }) {
   }, []);
 
   useEffect(() => {
-    if (receita) {
-      setForm({
-        imagem: receita.Imagem_URL || null,
-        nome: receita.Nome_Receita || "",
-        categoria: receita.Categoria || "",
-        tempoDePreparo: receita.Tempo_Preparo || "",
-        porcentagemDeLucro: receita.Porcentagem_De_Lucro || "",
-        descricao: receita.Descricao || "",
-        custoTotalIngredientes: receita.Custo_Total_Ingredientes || "0.00",
-        id: receita.ID_Receita || receita.id || null,
-      });
+    if (!receita?.ID_Receita && !receita?.id) return;
 
-      setIngredientesSelecionados(
-        (receita.ingredientes || []).map(i => ({
-          nome: i.nome || i.Nome_Ingrediente,
-          unidade: i.unidade || i.Unidade_De_Medida || i.Unidade,
-          quantidade: i.quantidade || i.Quantidade_Usada || "",
-          quantidade_total: i.quantidade_total || i.Quantidade_Total || 1,
-          custo_ingrediente: i.custo_ingrediente || i.Custo_Ingrediente || 0,
-          Indice_de_Desperdicio: i.Indice_de_Desperdicio || 0,
-        }))
-      );
+    async function fetchReceitaDetalhada() {
+      try {
+        const token = localStorage.getItem("token");
+        const id = receita.ID_Receita || receita.id;
+        const res = await fetch(`http://localhost:3001/api/receita-detalhada/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        const data = await res.json();
+        console.log("Receita detalhada recebida:", data);
+        // Atualize o estado com os dados detalhados
+        setForm({
+          imagem: data.imagem_URL || null,
+          nome: data.Nome_Receita || "",
+          categoria: data.Categoria || "",
+          tempoDePreparo: data.Tempo_Preparo || "",
+          porcentagemDeLucro: data.Porcentagem_De_Lucro || "",
+          descricao: data.Descricao || "",
+          custoTotalIngredientes: data.Custo_Total_Ingredientes || "0.00",
+          id: data.ID_Receita || data.id || null,
+        });
+        setIngredientesSelecionados(
+          (data.ingredientes || []).map(i => {
+            const unidade = i.unidade || i.Unidade_De_Medida || i.Unidade;
+
+            return {
+              ID_Ingredientes: i.ID_Ingredientes,
+              nome: i.nome || i.Nome_Ingrediente,
+              unidade,
+              quantidade: i.quantidade || i.Quantidade_Utilizada || "",
+              quantidade_total:
+                i.quantidade_total ||
+                i.Quantidade_Total ||
+                calcularQuantidadeTotalPadrao(unidade),
+              custo_ingrediente: i.custo_ingrediente || i.Custo_Ingrediente || 0,
+              Indice_de_Desperdicio: i.Indice_de_Desperdicio || 0,
+            };
+          })
+        );
+      } catch (err) {
+        toast.error("Erro ao buscar detalhes da receita!");
+      }
     }
+
+    fetchReceitaDetalhada();
   }, [receita]);
 
   const handleClose = () => setIsClosing(true);
@@ -112,59 +137,28 @@ function ModalEditaReceita({ onClose, onSave, receita }) {
   };
 
   const handleSelectIngrediente = (ingrediente) => {
-  setIngredientesSelecionados((prev) => [
-    ...prev,
-    {
-      nome: ingrediente.Nome_Ingrediente || ingrediente.nome,
-      unidade: ingrediente.Unidade_De_Medida || ingrediente.unidade,
-      quantidade: "", // o usuário irá preencher depois
-      quantidade_total:
-        ingrediente.Quantidade_Total ??
-        ingrediente.quantidade_total ??
-        (() => {
-          const u = (
-            ingrediente.Unidade_De_Medida ||
-            ingrediente.unidade ||
-            ingrediente.Unidade ||
-            ""
-          )
-            .toLowerCase()
-            .trim();
+    setIngredientesSelecionados((prev) => [
+      ...prev,
+      {
+        ID_Ingredientes: ingrediente.ID_Ingredientes, // <-- ESSENCIAL!
+        nome: ingrediente.Nome_Ingrediente || ingrediente.nome,
+        unidade: ingrediente.Unidade_De_Medida || ingrediente.unidade,
+        quantidade: "", // o usuário irá preencher depois
+        quantidade_total:
+          ingrediente.Quantidade_Total ??
+          ingrediente.quantidade_total ??
+          calcularQuantidadeTotalPadrao(ingrediente.Unidade_De_Medida || ingrediente.unidade),
+        custo_ingrediente: ingrediente.Custo_Ingrediente ?? ingrediente.custo_ingrediente,
+        Indice_de_Desperdicio: ingrediente.Indice_de_Desperdicio ?? 0,
+      },
+    ]);
 
-          // MASSA → gramas
-          if (u === "kg") return 1000;
-          if (u === "hg") return 100;
-          if (u === "dag") return 10;
-          if (u === "g") return 1;
-          if (u === "dg") return 0.1;
-          if (u === "cg") return 0.01;
-          if (u === "mg") return 0.001;
-
-          // VOLUME → mililitros
-          if (u === "kl") return 1000000;
-          if (u === "hl") return 100000;
-          if (u === "dal") return 10000;
-          if (u === "l") return 1000;
-          if (u === "dl") return 100;
-          if (u === "cl") return 10;
-          if (u === "ml") return 1;
-
-          // CONTÁVEIS → unidades
-          if (u === "un" || u === "unidade" || u === "unidades") return 30;
-
-          return 1; // fallback padrão
-        })(),
-      custo_ingrediente: ingrediente.Custo_Ingrediente ?? ingrediente.custo_ingrediente,
-      Indice_de_Desperdicio: ingrediente.Indice_de_Desperdicio ?? 0,
-    },
-  ]);
-
-  setIngredienteBusca("");
-};
+    setIngredienteBusca("");
+  };
 
   const handleIngredienteChange = (index, field, value) => {
     const novos = [...ingredientesSelecionados];
-    novos[index][field] = value;
+    novos[index][field] = value === "" ? 0 : value;
     setIngredientesSelecionados(novos);
 
     if (field === "quantidade" && camposInvalidos[`ingrediente_${index}`]) {
@@ -342,6 +336,7 @@ function ModalEditaReceita({ onClose, onSave, receita }) {
         formData.append('imagem_URL', form.imagem);
       }
       const ingredientesCorrigidos = ingredientesSelecionados.map(i => ({
+        ID_Ingredientes: i.ID_Ingredientes, // <-- ESSENCIAL!
         nome: i.nome,
         unidade: i.unidade,
         quantidade: Number(i.quantidade),
@@ -350,6 +345,7 @@ function ModalEditaReceita({ onClose, onSave, receita }) {
         Indice_de_Desperdicio: Number(i.Indice_de_Desperdicio)
       }));
       formData.append('ingredientes', JSON.stringify(ingredientesCorrigidos));
+      console.log('Dados para enviar no PUT:', ingredientesCorrigidos);
 
       const res = await fetch(`http://localhost:3001/api/receitas/${form.id}`, {
         method: "PUT",
@@ -373,12 +369,68 @@ function ModalEditaReceita({ onClose, onSave, receita }) {
         throw new Error(msg);
       }
 
+      // Atualiza os ingredientes da receita no banco
+      const ingredientesParaEnviar = ingredientesSelecionados.map(i => ({
+        ID_Ingredientes: i.ID_Ingredientes,
+        Quantidade_Utilizada: Number(i.quantidade),
+        Unidade_De_Medida: i.unidade
+      }));
+
+      // Validação antes do envio
+      for (const ing of ingredientesParaEnviar) {
+        if (
+          !ing.ID_Ingredientes ||
+          isNaN(ing.ID_Ingredientes) ||
+          !ing.Quantidade_Utilizada ||
+          isNaN(ing.Quantidade_Utilizada)
+        ) {
+          toast.error("Preencha todos os ingredientes corretamente!");
+          return;
+        }
+      }
+
+      console.log("Ingredientes para enviar:", ingredientesParaEnviar);
+
+      // Envio para o backend
+      await fetch(`http://localhost:3001/api/receita-detalhada/${form.id}/ingredientes`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ ingredientes: ingredientesParaEnviar }),
+      });
+
       toast.success("Receita atualizada com sucesso!");
       onSave();
       handleClose();
     } catch (err) {
       toast.error(err.message || "Erro ao atualizar receita!");
     }
+  };
+
+  const calcularQuantidadeTotalPadrao = (unidade) => {
+    const u = (unidade || "").toLowerCase().trim();
+
+    if (u === "kg") return 1000;
+    if (u === "hg") return 100;
+    if (u === "dag") return 10;
+    if (u === "g") return 1;
+    if (u === "dg") return 0.1;
+    if (u === "cg") return 0.01;
+    if (u === "mg") return 0.001;
+
+    if (u === "kl") return 1000000;
+    if (u === "hl") return 100000;
+    if (u === "dal") return 10000;
+    if (u === "l") return 1000;
+    if (u === "dl") return 100;
+    if (u === "cl") return 10;
+    if (u === "ml") return 1;
+
+    if (u === "un" || u === "unidade" || u === "unidades") return 30;
+
+    return 1;
   };
 
   return (
@@ -539,8 +591,8 @@ function ModalEditaReceita({ onClose, onSave, receita }) {
                       <input
                         type="number"
                         placeholder="Qtd"
-                        className={`${styles.inputQuantidade} ${camposInvalidos[`ingrediente_${index}`] ? styles.erroInput : ""}`}
                         value={ingrediente.quantidade}
+                        min={1}
                         onChange={(e) => handleIngredienteChange(index, "quantidade", e.target.value)}
                       />
                       <span className="d-flex justify-content-center">{ingrediente.unidade}</span>
