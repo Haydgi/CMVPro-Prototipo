@@ -25,3 +25,11 @@ background-color: var(--white-smoke);
 .Trash:hover {
   color: var(--imperial-red); /* Cor laranja ao passar o mouse */
 }
+.iconeReceitaVazia {
+  width: 80%;
+  height: 80%;
+  color: var(--white-smoke);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

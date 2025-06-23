@@ -3,6 +3,7 @@ import ModalCadastroReceita from '../../../components/Modals/ModalCadastroReceit
 import ModalEditaReceita from '../../../components/Modals/ModalCadastroReceita/ModalEditaReceita';
 import ModelPage from '../ModelPage';
 import { FaTrash } from 'react-icons/fa';
+import { GiKnifeFork } from "react-icons/gi";
 import Swal from "sweetalert2";
 import styles from './Receitas.module.css';
 
@@ -206,16 +207,16 @@ function Receitas() {
             />
           ) : (
             <div
-              className={`rounded mb-2 border ${styles.semImagem}`}
+              className={`rounded mb-2 d-flex align-items-center justify-content-center ${styles.semImagem}`}
               style={{
                 width: "170px",
                 height: "170px",
-                backgroundImage: `url(/midia/garfoFaca.png)`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
                 margin: "0 auto",
+                background: "transparent", // Fundo transparente
               }}
-            />
+            >
+              <GiKnifeFork className={styles.iconeReceitaVazia} />
+            </div>
           )}
 
           <h5 className="fw-bold mb-1">{receita.Nome_Receita || "Sem Nome"}</h5>
