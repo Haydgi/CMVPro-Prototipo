@@ -321,11 +321,13 @@ img {
   font-size: 1.1rem;
   border: none;
   background: none;
-  margin-top: auto; /* empurra para baixo */
+  
   width: 100%;
   text-align: left;
-  padding: 16px 0 16px 12px;
+  padding: 10px 0 10px 12px;
   transition: color 0.2s, background 0.2s;
+  border-radius: 12px; /* bordas arredondadas */
+  margin-top: 520px;
 }
 
 .mobile-sidebar .nav-link {
