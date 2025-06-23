@@ -79,11 +79,40 @@
   .despesasContainer {
     grid-template-columns: 1fr;
   }
+
   .cardDespesa {
     padding: 2px;
     width: 100%;
     max-width: 280px;
     max-height: 140px;
     margin: 0 auto;
+    position: relative;
+  }
+
+  .cardTitle {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+  }
+
+  .cardValue {
+    font-size: 0.92rem;
+    margin-bottom: 4px;
+    margin-top: 2px; /* Sobe o valor para perto do título */
+  }
+
+  /* Se houver outros textos, ajuste também */
+  .cardDespesa p,
+  .cardDespesa span,
+  .cardDespesa div:not(.cardTitle):not(.cardAction) {
+    font-size: 1.2rem;
+    margin-top: -8px;
+    margin-bottom: 2px;
+  }
+
+  .Trash {
+    font-size: 22px;
+    margin-top: -15px;
+    margin-right: 5px;
+    display: inline;
   }
 }
