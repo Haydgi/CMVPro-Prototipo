@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { ToastContainer } from 'react-toastify'; // Importando o ToastContainer
-import 'react-toastify/dist/ReactToastify.css'; // Estilos do Toastify
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/Navbar/Navbar';
 import Ingredientes from './pages/CadastroSistema/Ingredientes/Ingredientes';
 import Home from './pages/Home/Home';
@@ -23,21 +23,32 @@ function App() {
     navigate('/'); // Redireciona para a página inicial (Sobre)
   };
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+    try {
+      const res = await fetch("http://localhost:3001/api/receitas", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`
+          // NÃO coloque Content-Type aqui, o browser define para FormData!
+        },
+        body: formData
+      });
+      if (res.ok) {
+        toast.success("Receita cadastrada com sucesso!");
+        // ...outros comandos...
+      } else {
+        toast.error("Erro ao cadastrar receita!");
+      }
+    } catch (error) {
+      toast.error("Erro inesperado!");
+    }
+  }
+
   return (
     <>
       {logado && <Navbar onLogout={logout} />}
-      <ToastContainer
-        position="bottom-right" // Define a posição no canto inferior direito
-        autoClose={5000} // Fecha automaticamente após 5 segundos
-        hideProgressBar={false} // Exibe a barra de progresso
-        newestOnTop={false} // Notificações mais recentes no topo
-        closeOnClick // Fecha ao clicar
-        rtl={false} // Direção do texto (esquerda para direita)
-        pauseOnFocusLoss // Pausa ao perder o foco
-        draggable // Permite arrastar a notificação
-        pauseOnHover // Pausa ao passar o mouse
-        theme="colored" // Tema colorido
-      />
+      <ToastContainer />
       <Routes>
         <Route
           path="/sign-in"

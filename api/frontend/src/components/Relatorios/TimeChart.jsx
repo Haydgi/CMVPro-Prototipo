@@ -1,23 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import styles from './Dashboard.module.css';
 
-const TimeChart = ({ recipes }) => {
-  const categoryTimes = recipes.reduce((acc, recipe) => {
-    if (!acc[recipe.category]) {
-      acc[recipe.category] = { total: 0, count: 0 };
-    }
-    acc[recipe.category].total += recipe.tempoDePreparo;
-    acc[recipe.category].count++;
-    return acc;
-  }, {});
+const TimeChart = ({ userId }) => {
+  const [data, setData] = useState([]);
 
-  const data = Object.keys(categoryTimes)
-    .map(category => ({
-      name: category,
-      tempo: Math.round(categoryTimes[category].total / categoryTimes[category].count)
-    }))
-    .sort((a, b) => b.tempo - a.tempo);
+  useEffect(() => {
+    if (!userId) return;
+
+    const fetchAverageTime = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3001/api/receitas/Tempomedio?usuario=${userId}`);
+        setData(response.data);
+        console.log('Dados do tempo médio por categoria:', response.data);
+      } catch (error) {
+        console.error('Erro ao buscar tempo médio:', error);
+        setData([]);
+      }
+    };
+
+    fetchAverageTime();
+  }, [userId]);
 
   return (
     <div className={`${styles['chart-card']} ${styles['full-width']}`}>
@@ -25,7 +29,7 @@ const TimeChart = ({ recipes }) => {
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data}>
           <XAxis
-            dataKey="name"
+            dataKey="category"
             tick={{ fontSize: 12 }}
           />
           <YAxis
@@ -34,7 +38,7 @@ const TimeChart = ({ recipes }) => {
           />
           <Tooltip formatter={(value) => [`${value} min`, 'Tempo']} />
           <Bar
-            dataKey="tempo"
+            dataKey="avgTime"
             fill="var(--primary-light)"
             radius={[4, 4, 0, 0]}
           />

@@ -215,12 +215,9 @@ const handleSubmit = async (e) => {
 
     formData.append('ingredientes', JSON.stringify(
       ingredientesSelecionados.map(i => ({
-        nome: i.nome,
-        unidade: i.unidade,
-        quantidade: Number(i.quantidade),
-        quantidade_total: Number(i.quantidade_total),
-        custo_ingrediente: Number(i.custo_ingrediente),
-        Indice_de_Desperdicio: Number(i.Indice_de_Desperdicio)
+        ID_Ingredientes: Number(i.ID_Ingredientes ?? i.id_ingrediente ?? i.id),
+        Quantidade_Utilizada: Number(i.Quantidade_Utilizada ?? i.quantidade),
+        Unidade_De_Medida: i.Unidade_De_Medida ?? i.unidade ?? ""
       }))
     ));
 

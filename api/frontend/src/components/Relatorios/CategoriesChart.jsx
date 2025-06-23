@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
+import axios from 'axios';
 import styles from './Dashboard.module.css';
 
 const COLORS = [
@@ -10,16 +11,25 @@ const COLORS = [
   'var(--accent)'
 ];
 
-const CategoriesChart = ({ recipes }) => {
-  const categoryCount = recipes.reduce((acc, recipe) => {
-    acc[recipe.category] = (acc[recipe.category] || 0) + 1;
-    return acc;
-  }, {});
+const CategoriesChart = ({ userId }) => {
+  const [data, setData] = useState([]);
 
-  const data = Object.keys(categoryCount).map(category => ({
-    name: category,
-    value: categoryCount[category]
-  }));
+  useEffect(() => {
+    if (!userId) return;
+
+    const fetchCategoryData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3001/api/receitas/categorias?usuario=${userId}`);
+        setData(response.data);
+        console.log('Distribuição por categoria:', response.data);
+      } catch (error) {
+        console.error('Erro ao buscar dados de categorias:', error);
+        setData([]);
+      }
+    };
+
+    fetchCategoryData();
+  }, [userId]);
 
   return (
     <div className={`${styles['chart-card']} ${styles.compact}`}>

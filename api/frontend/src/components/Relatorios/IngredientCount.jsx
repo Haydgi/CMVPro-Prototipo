@@ -1,8 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import styles from './Dashboard.module.css';
 
-const IngredientCount = ({ ingredients }) => {
-  const uniqueIngredients = [...new Set(ingredients.map(i => i.name))].length;
+const IngredientCount = ({ userId }) => {
+  const [uniqueIngredients, setUniqueIngredients] = useState(0);
+
+  useEffect(() => {
+    if (!userId) return;
+
+    const fetchUniqueIngredients = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3001/api/ingredientes/ContaIngredientes?usuario=${userId}`);
+        setUniqueIngredients(response.data.count);
+        console.log('Quantidade de ingredientes únicos:', response.data.count);
+      } catch (error) {
+        console.error('Erro ao buscar ingredientes únicos:', error);
+        setUniqueIngredients(0);
+      }
+    };
+
+    fetchUniqueIngredients();
+  }, [userId]);
 
   return (
     <div className={`${styles['chart-card']} ${styles.compact}`}>
