@@ -56,7 +56,7 @@ const Dashboard = () => {
 
       {/* Linha 6 - Ingredientes Subutilizados: UnderusedIngredients recipes */}
       <div className={styles.row}>
-        <UnderusedIngredients recipes={recipes} ingredients={ingredients} />
+        <UnderusedIngredients userId={userId} ingredients={ingredients} />
       </div>
     </div>
   );

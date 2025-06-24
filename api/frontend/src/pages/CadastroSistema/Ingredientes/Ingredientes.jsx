@@ -22,7 +22,7 @@ function Ingredientes() {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [mostrarModalEditar, setMostrarModalEditar] = useState(false);
   const [ingredienteSelecionado, setIngredienteSelecionado] = useState(null);
-  const [itensPorPagina, setItensPorPagina] = useState(12); 
+  const [itensPorPagina, setItensPorPagina] = useState(8); 
 
   useEffect(() => {
     const ajustarItensPorTamanho = () => {

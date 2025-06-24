@@ -1,0 +1,24 @@
+{
+  "name": "caderno-do-chef",
+  "version": "1.0.0",
+  "description": "Este repositório contém o projeto **Caderno do Chef**, uma aplicação voltada para o controle de receitas e produtos no setor gastronômico. Ela faz parte de um sistema que auxilia pequenos empreendedores a organizarem seus custos, produção e lucros.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Haydgi/Caderno-do-Chef.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Haydgi/Caderno-do-Chef/issues"
+  },
+  "homepage": "https://github.com/Haydgi/Caderno-do-Chef#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
+}

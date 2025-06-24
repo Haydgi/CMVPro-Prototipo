@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 
 
 // Rotas
+import UnderusedController from './routes/UnderusedController.js';
 import CategoriaReceitas from "./routes/CategoriaReceitas.js";
 import ContaIngredientes from "./routes/ContaIngredientes.js"
 import ContaReceita from "./routes/ContaReceita.js";
@@ -19,6 +20,7 @@ import cadastroReceitas from "./routes/cadastroReceitas.js";
 import cadastroDespesas from "./routes/cadastroDespesas.js";
 import LucroPorReceita from "./routes/LucroPorReceita.js";
 import receitaDetalhadaRouter from './routes/receitaDetalhada.js';
+
 
 
 dotenv.config();
@@ -55,11 +57,7 @@ app.use('/api/receitas',ContaReceita);
 app.use('/api/ingredientes',ContaIngredientes);
 app.use('/api/receitas',CategoriaReceitas);
 app.use('/api/receita-detalhada', receitaDetalhadaRouter);
-
-
-
-
-
+app.use('/api/ingredientes', UnderusedController);
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
