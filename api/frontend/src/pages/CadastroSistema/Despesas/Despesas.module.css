@@ -8,8 +8,14 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   width: 100%;
-  max-width: 280px;
+  max-width: 300px ;
+  min-width: 300px ;        /* Igual ao cardProduto */
   margin: 0 auto;
+  max-height: 190px;
+  min-height: 190px;       /* Para manter altura mínima semelhante */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .cardDespesa:hover {
@@ -20,7 +26,7 @@
 .cardTitle {
   font-size: 1.2rem;
   font-weight: bold;
-  margin-bottom: 5px;
+
 }
 
 .cardValue {
@@ -84,9 +90,10 @@
     padding: 2px;
     width: 100%;
     max-width: 280px;
-    max-height: 140px;
+    min-height: 140px !important;
     margin: 0 auto;
     position: relative;
+    min-height: 120px;
   }
 
   .cardTitle {

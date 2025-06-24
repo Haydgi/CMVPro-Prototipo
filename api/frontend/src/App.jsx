@@ -48,7 +48,7 @@ function App() {
   return (
     <>
       {logado && <Navbar onLogout={logout} />}
-      <ToastContainer />
+      <ToastContainer position="bottom-right" />
       <Routes>
         <Route
           path="/sign-in"

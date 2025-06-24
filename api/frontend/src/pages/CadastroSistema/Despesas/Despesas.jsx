@@ -22,11 +22,11 @@ function Despesas() {
       if (largura < 577) {
         setItensPorPagina(4);
       } else if (largura < 761) {
-        setItensPorPagina(4);
-      } else if (largura < 992) {
         setItensPorPagina(6);
+      } else if (largura < 992) {
+        setItensPorPagina(9);
       } else {
-        setItensPorPagina(8);
+        setItensPorPagina(12);
       }
     };
 
@@ -40,7 +40,7 @@ function Despesas() {
     const token = localStorage.getItem("token");
     try {
       const res = await fetch(
-        `http://localhost:3001/api/despesas?search=${encodeURIComponent(termo)}`,
+        `http://localhost:3001/api/despesas?limit=10000&search=${encodeURIComponent(termo)}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -124,9 +124,9 @@ function Despesas() {
         }}
         style={{ cursor: 'pointer' }}
       >
-        <h3 className="fw-bold mb-5 mt-3">{despesa.nome}</h3>
+        <h3 className="fw-bold mb-4 mt-3">{despesa.nome}</h3>
 
-        <div className="d-flex justify-content-between text-white fs-5">
+        <div className="d-flex justify-content-between align-items-center text-white fs-5">
           <span className="d-flex align-items-center">
             <MdOutlineCalendarMonth className="me-2" />
             R$ {Number(despesa.custoMensal).toFixed(2)}
@@ -135,9 +135,6 @@ function Despesas() {
             <FaRegClock className="me-2" />
             {despesa.tempoOperacional}h
           </span>
-        </div>
-
-        <div className="d-flex justify-content-end mt-2">
           <i
             className={styles.Trash}
             onClick={(e) => {
@@ -158,6 +155,7 @@ function Despesas() {
               });
             }}
             title="Excluir"
+            style={{ marginLeft: -30, cursor: 'pointer' }}
           >
             <FaTrash />
           </i>
