@@ -127,6 +127,7 @@ function Ingredientes() {
     if (!token) return;
 
     try {
+      console.log('Enviando para atualização:', ingredienteAtualizado);
       const res = await fetch(`${API_URL}/api/ingredientes/${ingredienteAtualizado.ID_Ingredientes}`, {
         method: 'PUT',
         headers: {

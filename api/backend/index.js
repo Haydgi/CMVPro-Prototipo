@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 
 
 // Rotas
+import historicoIngredientesRoutes from './routes/historicoIngredientes.js';
 import UnderusedController from './routes/UnderusedController.js';
 import CategoriaReceitas from "./routes/CategoriaReceitas.js";
 import ContaIngredientes from "./routes/ContaIngredientes.js"
@@ -20,6 +21,8 @@ import cadastroReceitas from "./routes/cadastroReceitas.js";
 import cadastroDespesas from "./routes/cadastroDespesas.js";
 import LucroPorReceita from "./routes/LucroPorReceita.js";
 import receitaDetalhadaRouter from './routes/receitaDetalhada.js';
+import { atualizaReceitasPorIngrediente } from './routes/atualizaReceitas.js'; // ajuste o caminho conforme estrutura
+
 
 
 
@@ -58,6 +61,8 @@ app.use('/api/ingredientes',ContaIngredientes);
 app.use('/api/receitas',CategoriaReceitas);
 app.use('/api/receita-detalhada', receitaDetalhadaRouter);
 app.use('/api/ingredientes', UnderusedController);
+app.use('/api/historico-ingredientes', historicoIngredientesRoutes);
+
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);

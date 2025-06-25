@@ -2,6 +2,8 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import db from '../database/connection.js';
 import multer from 'multer';
+import { atualizaReceitasPorDespesa, limparCacheDespesas } from './atualizaReceitas.js'; // ajuste o caminho conforme seu projeto
+
 
 const router = express.Router();
 const upload = multer();
@@ -56,12 +58,17 @@ router.post('/', authenticateToken, upload.none(), async (req, res) => {
   }
 
   try {
-    const [result] = await db.query(
+    await db.query(
       `INSERT INTO despesas
        (Nome_Despesa, Custo_Mensal, Tempo_Operacional, ID_Usuario, Data_Despesa)
        VALUES (?, ?, ?, ?, NOW())`,
       [nome.trim(), custoMensal, tempoOperacional, ID_Usuario]
     );
+
+    limparCacheDespesas(ID_Usuario); // Limpa o cache antes de recalcular
+
+    console.log(`[POST] Despesa cadastrada para usuário ${ID_Usuario}. Recalculando receitas...`);
+    await atualizaReceitasPorDespesa(ID_Usuario);
 
     res.status(201).json({
       id: result.insertId,
@@ -107,7 +114,7 @@ router.get('/', authenticateToken, async (req, res) => {
 });
 
 // PUT - Atualizar despesa
-router.put('/:id', authenticateToken, upload.none(), async (req, res) => {
+router.put('/:id', authenticateToken, express.urlencoded({ extended: true }), async (req, res) => {
   let { nome, custoMensal, tempoOperacional } = req.body;
   const { id } = req.params;
   const ID_Usuario = req.usuario.ID_Usuario;
@@ -141,6 +148,11 @@ router.put('/:id', authenticateToken, upload.none(), async (req, res) => {
        WHERE ID_Despesa = ?`,
       [nome.trim(), custoMensal, tempoOperacional, idNum]
     );
+
+    limparCacheDespesas(ID_Usuario); // Limpa o cache antes de recalcular
+
+    console.log(`[PUT] Despesa atualizada para usuário ${ID_Usuario}. Recalculando receitas...`);
+    await atualizaReceitasPorDespesa(ID_Usuario);
 
     res.status(200).json({
       id: idNum,
@@ -180,6 +192,11 @@ router.delete('/:id', authenticateToken, async (req, res) => {
     }
 
     await db.query(`DELETE FROM despesas WHERE ID_Despesa = ?`, [idNum]);
+
+    limparCacheDespesas(ID_Usuario); // Limpa o cache antes de recalcular
+
+    console.log(`[DELETE] Despesa excluída para usuário ${ID_Usuario}. Recalculando receitas...`);
+    await atualizaReceitasPorDespesa(ID_Usuario);
 
     res.status(200).json({ message: 'Despesa excluída com sucesso' });
   } catch (error) {

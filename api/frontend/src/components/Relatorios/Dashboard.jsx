@@ -28,7 +28,7 @@ const Dashboard = () => {
     <div className={styles.dashboard}>
       {/* Linha 1 - Histórico IngredientHistory */}
       <div className={styles.row}>
-        <IngredientHistory ingredients={ingredients} />
+        <IngredientHistory usuarioId={userId} />
       </div>
 
       {/* Linha 2 - Lucro Por Receita: ProfitChart*/}

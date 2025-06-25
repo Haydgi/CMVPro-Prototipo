@@ -64,15 +64,40 @@ function ModalEditaDespesa({ despesa, onClose, onSave }) {
     }
 
     const despesaAtualizada = {
-      ...despesa,
+      id: despesa.id, // importante para o PUT
       nome: form.nome.trim(),
       custoMensal: parseFloat(form.custoMensal.replace(",", ".")),
       tempoOperacional: parseFloat(form.tempoOperacional.replace(",", ".")),
     };
 
-    onSave?.(despesaAtualizada);
-    toast.success("Despesa atualizada com sucesso!");
+    onSave?.(despesaAtualizada); // essa função externa deve fazer o PUT
     handleClose();
+  };
+
+  const salvarDespesa = async (despesaEditada) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`http://localhost:3001/api/despesas/${despesaEditada.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${token}`,
+        },
+        body: new URLSearchParams({
+          nome: despesaEditada.nome,
+          custoMensal: despesaEditada.custoMensal,
+          tempoOperacional: despesaEditada.tempoOperacional,
+        }),
+      });
+
+      if (!response.ok) throw new Error("Erro ao salvar despesa");
+
+      toast.success("Despesa atualizada com sucesso!");
+      // Atualize a lista de despesas aqui se necessário
+    } catch (err) {
+      console.error(err);
+      toast.error("Erro ao atualizar a despesa.");
+    }
   };
 
   return (

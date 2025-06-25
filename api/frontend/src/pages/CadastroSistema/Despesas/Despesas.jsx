@@ -80,13 +80,36 @@ function Despesas() {
     setMostrarModal(false);
   };
 
-  const atualizarDespesa = (atualizada) => {
-    setDespesas((prev) =>
-      prev.map((d) => (d.id === atualizada.id ? atualizada : d))
+  const atualizarDespesa = async (atualizada) => {
+  const token = localStorage.getItem("token");
+
+  try {
+    const params = new URLSearchParams();
+    params.append("nome", atualizada.nome);
+    params.append("custoMensal", atualizada.custoMensal.toString());
+    params.append("tempoOperacional", atualizada.tempoOperacional.toString());
+
+    await axios.put(
+      `http://localhost:3001/api/despesas/${atualizada.id}`,
+      params,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/x-www-form-urlencoded', // 👈 essencial
+        },
+      }
     );
+
+    await fetchDespesas(); // recarrega lista
+    Swal.fire("Sucesso", "Despesa atualizada com sucesso!", "success");
+  } catch (err) {
+    console.error("Erro ao atualizar despesa:", err);
+    Swal.fire("Erro", "Erro ao atualizar a despesa.", "error");
+  } finally {
     setMostrarModalEditar(false);
     setDespesaSelecionada(null);
-  };
+  }
+};
 
   const removerDespesa = async (id) => {
     const token = localStorage.getItem('token');
