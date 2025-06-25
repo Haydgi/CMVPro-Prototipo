@@ -5,7 +5,7 @@ import "sweetalert2/dist/sweetalert2.min.css";
 import ModelPage from "../ModelPage";
 import ModalCadastroIngrediente from "../../../components/Modals/ModalCadastroIngrediente/ModalCadastroIngrediente";
 import ModalEditaIngrediente from "../../../components/Modals/ModalCadastroIngrediente/ModalEditaIngrediente";
-import styles from "../itens.module.css";
+import styles from "../Itens.module.css";
 
 import { GiMeat, GiFruitBowl, GiPumpkin, GiPeanut, GiWrappedSweet } from "react-icons/gi";
 import { CiWheat, CiDroplet } from "react-icons/ci";
@@ -22,7 +22,7 @@ function Ingredientes() {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [mostrarModalEditar, setMostrarModalEditar] = useState(false);
   const [ingredienteSelecionado, setIngredienteSelecionado] = useState(null);
-  const [itensPorPagina, setItensPorPagina] = useState(8); 
+  const [itensPorPagina, setItensPorPagina] = useState(12); 
 
   useEffect(() => {
     const ajustarItensPorTamanho = () => {
@@ -66,7 +66,7 @@ function Ingredientes() {
 
     try {
       const res = await fetch(
-        `${API_URL}/api/ingredientes?search=${encodeURIComponent(termo)}`,
+        `${API_URL}/api/ingredientes?limit=10000&search=${encodeURIComponent(termo)}`,
         {
           headers: {
             'Authorization': `Bearer ${token}`,

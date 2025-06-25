@@ -152,13 +152,26 @@ function ModelPage({
           <div className="container mt-4">
             {dados.length === 0 ? (
               <div id="sem-dados" className={`${styles.emptyState}`}>
-                <p>Não há itens cadastrados</p>
+                <p>
+                  {termoBusca && termoBusca.trim() !== ""
+                    ? "Nenhum item encontrado para sua busca."
+                    : "Não há itens cadastrados"}
+                </p>
                 <button
                   className={`${styles.btnDetails} btnUltraViolet btn`}
                   onClick={abrirModal}
                 >
+                  
                   <p className={styles.btnText}>
-                    <i className="bi bi-plus-circle"></i> Criar o Primeiro Item
+                    <i className="bi bi-plus-circle me-2"></i> 
+                    {termoBusca && termoBusca.trim() !== ""
+                      ? "Criar Item"
+                      : (
+                        <>
+                            Criar o Primeiro Item
+                        </>
+                      )
+                    }
                   </p>
                 </button>
               </div>
