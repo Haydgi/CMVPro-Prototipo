@@ -149,17 +149,18 @@ export async function calculaPrecoReceitaCompleto(ID_Receita, ID_Usuario, porcen
         unidadePadrao
       );
 
-      // Se for ovo e unidade for "unidade", "un" ou "unidades", multiplica por 30
+      // Se for ovo e unidade for "unidade", "un" ou "unidades", multiplica por 30 (Provisóriamente, ASS:Andress) confia
+  
       if (
         ing.Nome_Ingrediente &&
         ing.Nome_Ingrediente.toLowerCase().includes('ovo') &&
         ['unidade', 'un', 'unidades'].includes(ing.Unidade_Usada?.toLowerCase())
       ) {
-        quantidade = quantidade / 30;
+        quantidade = quantidade / 30; //Apenas confie assinado Andress HEHEHEHEHEHEHEHEHEHEHE
         console.log(`[AJUSTE OVO] Ingrediente "${ing.Nome_Ingrediente}" em unidade: dividindo por 30. Nova quantidade: ${quantidade}`);
       }
 
-      // Se for volume, divide por 1000 (ex: ml para L)
+      // Se for volume, divide por 1000 (ex: ml para L) (Apenas confie, Assinado Andress)
       if (categoria === 'volume') {
         quantidade = quantidade / 1000;
         console.log(`[AJUSTE VOLUME] Ingrediente "${ing.Nome_Ingrediente}" relacionado a volume: dividindo por 1000. Nova quantidade: ${quantidade}`);
@@ -182,7 +183,7 @@ export async function calculaPrecoReceitaCompleto(ID_Receita, ID_Usuario, porcen
         custoUnitario = custoUnitario * 1000;
       }
 
-      // >>> Adicione a conversão especial para L → ml e ml → L <<<
+      // >>> Adicione a conversão especial para L → ml e ml → L <<<(Dá certo confia)
       if (ing.Unidade_Custo === 'l' && unidadePadrao === 'ml') {
         custoUnitario = custoUnitario / 1000;
       }
@@ -196,7 +197,7 @@ export async function calculaPrecoReceitaCompleto(ID_Receita, ID_Usuario, porcen
 
       custoIngredientes += custoFinal;
 
-      // Console detalhado por ingrediente
+      // Console detalhado por ingrediente (Aqui eu verifiquei umas mmil vezes o cálculo para ele dar certo)
       console.log('-------------------------------');
       console.log(`Ingrediente: ${ing.Nome_Ingrediente}`);
       console.log(`  Quantidade usada: ${ing.Quantidade_Utilizada} ${ing.Unidade_Usada}`);

@@ -433,6 +433,13 @@ function ModalEditaReceita({ onClose, onSave, receita }) {
     return 1;
   };
 
+  const unidadeCorrigida = (unidade) => {
+    if (!unidade) return "";
+    const u = unidade.toLowerCase();
+    if (u === "eu") return "ml"; // ou "g", conforme o caso
+    return unidade;
+  };
+
   return (
     <div className={`${styles.modalOverlay} ${isClosing ? styles.modalExit : styles.modalEnter}`}>
       <div className={`${styles.modalContainer} shadow`}>
@@ -595,7 +602,7 @@ function ModalEditaReceita({ onClose, onSave, receita }) {
                         min={1}
                         onChange={(e) => handleIngredienteChange(index, "quantidade", e.target.value)}
                       />
-                      <span className="d-flex justify-content-center">{ingrediente.unidade}</span>
+                      <span className="d-flex justify-content-center">{unidadeCorrigida(ingrediente.unidade)}</span>
                       <button
                         type="button"
                         className={styles.btnRemoveIngrediente}

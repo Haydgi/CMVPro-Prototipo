@@ -23,6 +23,12 @@ const Dashboard = () => {
     }
   }, []);
 
+  useEffect(() => {
+    console.log('userId mudou:', userId);
+  }, [userId]);
+
+  console.log('userId no render:', userId);
+
 
   return (
     <div className={styles.dashboard}>
@@ -48,11 +54,13 @@ const Dashboard = () => {
       </div>
 
       {/* Linha 5 - Receitas Cadastradas: RecipeCount recipes /// Ingredientes Cadastrados IngredientCount ingredients /// Distribuição Por Categoria: CategoriesChart recipes */}
-      <div className={styles.row}>
-        <RecipeCount userId={userId} />
-        <IngredientCount userId={userId} />
-        <CategoriesChart userId={userId} />
-      </div>
+      {userId && (
+  <div className={styles.row}>
+    <RecipeCount userId={userId} />
+    <IngredientCount userId={userId} />
+    <CategoriesChart userId={userId} />
+  </div>
+)}
 
       {/* Linha 6 - Ingredientes Subutilizados: UnderusedIngredients recipes */}
       <div className={styles.row}>

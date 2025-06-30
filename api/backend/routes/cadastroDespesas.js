@@ -58,7 +58,7 @@ router.post('/', authenticateToken, upload.none(), async (req, res) => {
   }
 
   try {
-    await db.query(
+    const [result] = await db.query(
       `INSERT INTO despesas
        (Nome_Despesa, Custo_Mensal, Tempo_Operacional, ID_Usuario, Data_Despesa)
        VALUES (?, ?, ?, ?, NOW())`,
