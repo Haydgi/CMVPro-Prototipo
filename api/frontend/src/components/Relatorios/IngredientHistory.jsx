@@ -1,22 +1,93 @@
-import React, { useState } from 'react';
-import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
 import styles from './Dashboard.module.css';
 
-const IngredientHistory = ({ ingredients }) => {
-  const [selectedIngredient, setSelectedIngredient] = useState('Arroz Arbóreo');
+const IngredientHistory = ({ usuarioId }) => {
+  const [ingredientes, setIngredientes] = useState([]);
+  const [selectedIngredient, setSelectedIngredient] = useState('');
+  const [historicalData, setHistoricalData] = useState([]);
 
-  // Agrupa todas as versões históricas do ingrediente selecionado
-  const historicalData = ingredients
-    .filter(ing => ing.name === selectedIngredient)
-    .sort((a, b) => new Date(a.createdAt || '2024-01-01') - new Date(b.createdAt || '2024-01-01'))
-    .map(ing => ({
-      date: ing.createdAt?.split('-').reverse().join('/') || 'N/A',
-      cost: ing.costPerUnit,
-      waste: ing.wasteRate
-    }));
+  // Buscar lista de ingredientes (únicos) do usuário
+  useEffect(() => {
+    if (!usuarioId) return;
 
-  // Lista de ingredientes únicos para o dropdown
-  const uniqueIngredients = [...new Set(ingredients.map(i => i.name))].sort();
+    const token = localStorage.getItem('token'); // ou o nome que você usa para o token
+
+    axios
+      .get(`http://localhost:3001/api/ingredientes?usuario=${usuarioId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log('🟢 Ingredientes recebidos do backend:', res.data);
+        const nomesUnicos = [
+          ...new Set(res.data.map((ing) => ing.Nome_Ingrediente)),
+        ].sort();
+        setIngredientes(nomesUnicos);
+        if (nomesUnicos.length > 0) setSelectedIngredient(nomesUnicos[0]);
+      })
+      .catch((err) => {
+        console.error('🔴 Erro ao carregar ingredientes:', err);
+        setIngredientes([]);
+        setSelectedIngredient('');
+      });
+  }, [usuarioId]);
+
+  // Buscar histórico do ingrediente selecionado
+  useEffect(() => {
+    if (!selectedIngredient || !usuarioId) return;
+
+    console.log(`🔎 Buscando histórico de "${selectedIngredient}" para o usuário ${usuarioId}`);
+    axios
+      .get(
+        `http://localhost:3001/api/historico-ingredientes/${encodeURIComponent(
+          selectedIngredient
+        )}/${usuarioId}`
+      )
+      .then((res) => {
+        console.log('🟢 Histórico recebido do backend:', res.data);
+        const dadosOrdenados = res.data
+          .sort(
+            (a, b) =>
+              new Date(a.createdAt || '2024-01-01') -
+              new Date(b.createdAt || '2024-01-01')
+          )
+          .map((ing) => ({
+            date: ing.createdAt?.split('-').reverse().join('/') || 'N/A',
+            cost: ing.costPerUnit,
+            waste: ing.wasteRate,
+          }));
+        console.log('🟡 Histórico formatado para o gráfico:', dadosOrdenados);
+        setHistoricalData(dadosOrdenados);
+      })
+      .catch((err) => {
+        console.error('🔴 Erro ao carregar histórico do ingrediente:', err);
+        setHistoricalData([]);
+      });
+  }, [selectedIngredient, usuarioId]);
+
+  if (!usuarioId) {
+    console.log('usuarioId não informado:', usuarioId);
+    return <p>Informe o usuário para carregar o histórico.</p>;
+  }
+  if (ingredientes.length === 0) {
+    console.log('Lista de ingredientes vazia:', ingredientes);
+    return <p>Carregando lista de ingredientes...</p>;
+  }
+  if (historicalData.length === 0) {
+    console.log('Histórico do ingrediente vazio:', historicalData);
+    return <p>Carregando histórico do ingrediente selecionado...</p>;
+  }
 
   return (
     <div className={`${styles['chart-card']} ${styles['full-width']}`}>
@@ -27,8 +98,10 @@ const IngredientHistory = ({ ingredients }) => {
           onChange={(e) => setSelectedIngredient(e.target.value)}
           className={styles['ingredient-select']}
         >
-          {uniqueIngredients.map(name => (
-            <option key={name} value={name}>{name}</option>
+          {ingredientes.map((name) => (
+            <option key={name} value={name}>
+              {name}
+            </option>
           ))}
         </select>
       </div>
@@ -49,7 +122,7 @@ const IngredientHistory = ({ ingredients }) => {
           />
           <Tooltip
             formatter={(value, name) =>
-              name === 'Custo'
+              name === 'Custo por Unidade'
                 ? [`R$ ${Number(value).toFixed(2)}`, name]
                 : [`${value}%`, name]
             }
@@ -81,3 +154,4 @@ const IngredientHistory = ({ ingredients }) => {
 };
 
 export default IngredientHistory;
+

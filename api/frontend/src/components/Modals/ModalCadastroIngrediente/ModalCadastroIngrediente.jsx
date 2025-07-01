@@ -158,10 +158,7 @@ function ModalCadastroIngrediente({ onClose, onSave }) {
                 >
                   <option value="">Selecione...</option>
                   <option value="kg">Quilo (kg)</option>
-                  <option value="g">Grama (g)</option>
-                  <option value="mg">Miligrama (mg)</option>
                   <option value="L">Litro (L)</option>
-                  <option value="ml">Mililitro (ml)</option>
                   <option value="un">Unidade (un.)</option>
                 </select>
               </div>

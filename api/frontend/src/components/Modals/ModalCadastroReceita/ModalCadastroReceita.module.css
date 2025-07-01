@@ -13,6 +13,11 @@
   z-index: 1000;
 }
 
+.iconeReceitaVazia {
+  font-size: 15rem;
+  color: var(--ultra-violet);
+}
+
 .modalContainer {
   background-color: var(--white-smoke);
   color: var(--rich-black);
