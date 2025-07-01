@@ -456,21 +456,21 @@ function ModalEditaReceita({ onClose, onSave, receita }) {
                 <div className="col-6">
                   <div className={`${styles.formGroup} align-items-center`}>
                     <label htmlFor="imagemInput" className={styles.imagePreviewBox}>
-  {form.imagem instanceof File ? (
-    <div
-      style={{
-        backgroundImage: `url(${URL.createObjectURL(form.imagem)})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        width: "100%",
-        height: "100%",
-        borderRadius: "10px"
-      }}
-    />
-  ) : (
-    <GiKnifeFork className={styles.iconeReceitaVazia} />
-  )}
-</label>
+                      {form.imagem instanceof File ? (
+                        <div
+                          style={{
+                            backgroundImage: `url(${URL.createObjectURL(form.imagem)})`,
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                            width: "100%",
+                            height: "100%",
+                            borderRadius: "10px"
+                          }}
+                        />
+                      ) : (
+                        <GiKnifeFork className={styles.iconeReceitaVazia} />
+                      )}
+                    </label>
                   </div>
                   <div className={`${styles.formGroup} mt-4`}>
                     <label>Tempo de Preparo (Min.)</label>

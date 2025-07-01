@@ -4,6 +4,7 @@ import "../../../Styles/global.css";
 import styles from "./ModalCadastroReceita.module.css";
 import { FaTrash } from 'react-icons/fa';
 import axios from "axios";
+import { GiKnifeFork } from "react-icons/gi";
 
 function ModalCadastroReceita({ onClose, onSave, }) {
 
@@ -437,22 +438,22 @@ const handleSubmit = async (e) => {
 
                   {/* imagem */}
                   <div className={`${styles.formGroup} align-items-center`}>
-                    <input
-                      type="file"
-                      id="imagemInput"
-                      accept="image/png, image/jpeg, image/jpg, image/webp"
-                      onChange={handleImageChange}
-                      className={styles.hiddenFileInput}
-                      ref={fileInputRef}  // <-- aqui, pra acessar o arquivo depois
-                    />
-
-                    <label htmlFor="imagemInput" className={styles.imagePreviewBox}
-                      style={{
-                        backgroundImage: form.imagem_preview ? `url(${form.imagem_URL})` : 'none',
-                      }}
-                    >
-                      {!form.imagem_URL && <span>Selecione uma imagem</span>}
-                    </label>
+                    <label htmlFor="imagemInput" className={styles.imagePreviewBox}>
+  {form.imagem_URL ? (
+    <div
+      style={{
+        backgroundImage: `url(${form.imagem_preview})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        width: "100%",
+        height: "100%",
+        borderRadius: "10px"
+      }}
+    />
+  ) : (
+    <GiKnifeFork className={styles.iconeReceitaVazia} />
+  )}
+</label>
                   </div>
                   
                   {/* Tempo de Preparo */}
