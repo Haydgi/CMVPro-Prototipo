@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import "../../../Styles/global.css";
 import styles from "./ModalCadastroReceita.module.css";
 import { FaTrash } from 'react-icons/fa';
+import { GiKnifeFork } from "react-icons/gi";
 
 function ModalEditaReceita({ onClose, onSave, receita }) {
   const [form, setForm] = useState({
@@ -365,7 +366,7 @@ function ModalEditaReceita({ onClose, onSave, receita }) {
         try {
           const data = await res.json();
           if (data?.error) msg = data.error;
-        } catch {}
+        } catch { }
         throw new Error(msg);
       }
 
@@ -454,20 +455,22 @@ function ModalEditaReceita({ onClose, onSave, receita }) {
               <div className="row">
                 <div className="col-6">
                   <div className={`${styles.formGroup} align-items-center`}>
-                    <input
-                      type="file"
-                      id="imagemInput"
-                      accept="image/png, image/jpeg, image/jpg, image/webp"
-                      onChange={handleImageChange}
-                      className={styles.hiddenFileInput}
-                    />
-                    <label htmlFor="imagemInput" className={styles.imagePreviewBox}
-                      style={{
-                        backgroundImage: form.imagem ? `url(${form.imagem})` : 'none',
-                      }}
-                    >
-                      {!form.imagem && <span>Selecione uma Imagem</span>}
-                    </label>
+                    <label htmlFor="imagemInput" className={styles.imagePreviewBox}>
+  {form.imagem instanceof File ? (
+    <div
+      style={{
+        backgroundImage: `url(${URL.createObjectURL(form.imagem)})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        width: "100%",
+        height: "100%",
+        borderRadius: "10px"
+      }}
+    />
+  ) : (
+    <GiKnifeFork className={styles.iconeReceitaVazia} />
+  )}
+</label>
                   </div>
                   <div className={`${styles.formGroup} mt-4`}>
                     <label>Tempo de Preparo (Min.)</label>
