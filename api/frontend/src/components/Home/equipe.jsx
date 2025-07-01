@@ -14,7 +14,7 @@ const Equipe = (props) => {
             <h2 className="thq-heading-2 equipe-text12">
               {props.heading1 ?? (
                 <Fragment>
-                  <span className="equipe-text30" id='equipe'>Conheça nossa equipe</span>
+                  <span className="equipe-text30" id='equipe'>Conheça nossa Equipe</span>
                 </Fragment>
               )}
             </h2>
@@ -25,7 +25,7 @@ const Equipe = (props) => {
                     Esse projeto foi desenvolvido por uma equipe de estudantes do curso de Análise
                     e Desenvolvimento de Sistemas da Faculdade de Tecnologia de Guaratinguetá (FATEC GTA).
                     <br/>Cada membro trouxe suas habilidades únicas para criar uma solução inovadora que ajuda
-                    chefs a gerenciar seus negócios de forma mais eficiente.
+                    chefs a gerenciarem seus negócios de forma mais eficiente.
                   </span>
                 </Fragment>
               )}
@@ -44,7 +44,7 @@ const Equipe = (props) => {
                 <div className="equipe-content3">
                   <div className="equipe-title1">
                     <span className="equipe-text14 thq-body-small">
-                      Andress, O nosso herói cabeludo
+                      Andress Mota
                     </span>
                     <span className="equipe-text15 thq-body-small">
                       Desenvolvedor Back-end
@@ -55,8 +55,7 @@ const Equipe = (props) => {
                     </div>
                   </div>
                   <span className="equipe-text25">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, excepturi. Laborum tempora, voluptate est quas placeat error neque nostrum voluptates?
-                  </span>
+                    Desenvolvedor fullstack focado em criação de soluções. Conhecimento em HTML, CSS, React, Node.js, Java, JavaScript e MySQL. Experiência com aplicações web escaláveis e seguras.                  </span>
                 </div>
               </div>
               <div className="equipe-card2">
@@ -79,8 +78,7 @@ const Equipe = (props) => {
                     </div>
                   </div>
                   <span className="equipe-text25">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, quam. Exercitationem dolorum esse eius, rerum assumenda laudantium asperiores nulla eum?
-                  </span>
+                    Database Developer com experiência na integração entre front-end e banco de dados, utilizando React, Node.js e MySQL. Atuei na modelagem de dados, criação de rotas e consumo de APIs existentes. Tenho como foco o desenvolvimento de sistemas bem estruturados, com alto desempenho e preparados para evoluir conforme as demandas do projeto.                  </span>
                 </div>
               </div>
             </div>
@@ -107,14 +105,14 @@ const Equipe = (props) => {
                     </div>
                   </div>
                   <span className="equipe-text25">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magnam quas saepe cum voluptas culpa aliquid eligendi facere et. Illum, distinctio?
+                    Desenvolvedor Fullstack com alta adaptabilidade e foco em eficiência. Atuou em todas as etapas do desenvolvimento do Caderno do Chef, com ênfase na identificação e solução de problemas. Possui sólida experiência em JavaScript, Java, Python e C, além de domínio na utilização da biblioteca React com Vite e no gerenciamento de dados com MySQL.
                   </span>
                 </div>
               </div>
               <div className="equipe-card4">
                 <img
                   alt="Joao Portes"
-                  src="/midia/joaoo.png"
+                  src="/midia/joao.png"
                   className="equipe-placeholder-image thq-img-round "
                 />
                 <div className="equipe-content6">
@@ -131,8 +129,7 @@ const Equipe = (props) => {
                     </div>
                   </div>
                   <span className="equipe-text25">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto ullam maxime nesciunt debitis. Possimus, minus excepturi. Quo nulla maiores voluptatum.
-                  </span>
+                      Desenvolvedor Front-end focado em criar interfaces modernas, performáticas e centradas no usuário. Atuação com React e Tailwind CSS, aplicando microinterações, responsividade e boas práticas de UI/UX. Conhecimento em Node.js e MySQL para integração eficiente e visão completa do produto.                  </span>
                 </div>
               </div>
               <div className="equipe-card5">
@@ -155,9 +152,8 @@ const Equipe = (props) => {
                     </div>
                   </div>
                   <span className="equipe-text25">
-                    Especialista em desenvolvimento front-end com foco em performance, usabilidade e consistência visual. Entrego soluções que equilibram forma e função.
+                    Desenvolvedor Fullstack com foco em performance, usabilidade e experiência do usuário. Crio soluções escaláveis com React, Java e Node.js, integrando bancos de dados MySQL e NoSQL. Tenho como prioridade criar interfaces modernas e fáceis de usar, sempre pensando na experiência do usuário e nas reais necessidades do negócio.
                   </span>
-
                 </div>
               </div>
             </div>

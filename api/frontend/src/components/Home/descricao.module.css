@@ -23,8 +23,8 @@
 
 .imagem {
     display: block;
-    height: 400px;
-    width: 400px;
+    height: 450px;
+    width: 450px;
     max-width: 100%;
     object-fit: contain;
 }
