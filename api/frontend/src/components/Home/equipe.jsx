@@ -152,7 +152,7 @@ const Equipe = (props) => {
                     </div>
                   </div>
                   <span className="equipe-text25">
-                    Desenvolvedor Fullstack com foco em performance, usabilidade e experiência do usuário. Crio soluções escaláveis com React, Java e Node.js, integrando bancos de dados MySQL e NoSQL. Tenho como prioridade criar interfaces modernas e fáceis de usar, sempre pensando na experiência do usuário e nas reais necessidades do negócio.
+                    Desenvolvedor Fullstack com foco em performance, usabilidade e experiência do usuário. Crio soluções escaláveis com React e Java, integrando bancos de dados MySQL e NoSQL. Tenho como prioridade criar interfaces modernas e fáceis de usar, sempre pensando na experiência do usuário e nas reais necessidades do negócio.
                   </span>
                 </div>
               </div>
