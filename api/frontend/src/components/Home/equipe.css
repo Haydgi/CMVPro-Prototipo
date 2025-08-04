@@ -305,6 +305,7 @@
   flex: 1;
   display: flex;
   flex-grow: 1;
+  max-height: 300px;
   max-width: 300px;
   align-items: center;
   flex-shrink: 0;

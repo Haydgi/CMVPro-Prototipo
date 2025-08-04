@@ -1,8 +1,8 @@
 {
-  "name": "cmvpro-react",
+  "name": "caderno-do-chef",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://Haydgi.github.io/CMVPro-Mockup",
+  "homepage": "https://Haydgi.github.io/Caderno-do-Chef/",
   "type": "module",
   "scripts": {
     "dev": "vite",

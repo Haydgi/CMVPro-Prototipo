@@ -19,7 +19,7 @@ const Footer = (props) => {
         <div className={styles['footer-row']}>
           <div className={styles['footer-container']}>
             <div className={styles['footer-divider']}></div> {/* Linha divisória */}
-            <span className={styles.caderno}>© 2025 Caderno do Chef</span>
+            <span className={styles.caderno}>© 2025 Caderno do Chef. Todos os direitos reservados.</span>
           </div>
         </div>
       </div>
