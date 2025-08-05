@@ -127,7 +127,12 @@
 
 /* Media Queries */
 @media (max-width: 1200px) {
+  .resumo-container {
+    
+  }
+
   .resumo-mulher-img {
+    right: 150px; /* Ajusta a posição para telas menores */
     margin-top: 100px;
   }
 }

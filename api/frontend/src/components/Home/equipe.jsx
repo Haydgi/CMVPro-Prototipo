@@ -14,7 +14,7 @@ const Equipe = (props) => {
               {props.heading1 ?? (
                 <Fragment>
                   <span className="equipe-text30" id="equipe">
-                    Conheça nossa Equipe
+                    Conheça os Desenvolvedores
                   </span>
                 </Fragment>
               )}
